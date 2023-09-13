@@ -1,0 +1,34 @@
+:root {
+    --bs-secondary: #63feda;
+    --bs-secondary-rgb: 99, 254, 218;
+    --bs-blue: #00a0a0;
+    --bs-black: #000000;
+}
+
+.navbar {
+    background: linear-gradient(to right, #133d93, #6ccfcf);
+}
+.nav-link {
+    font-size: 1.2em;
+}
+
+.nav-link .text-bg-secondary,  .nav-link .text-bg-primary {
+    color: var(--bs-black)!important;
+}
+.form-control:focus {
+    border-color: var(--bs-blue); /* Change this color to the desired focus color */
+    border-width: 2px; /* Change this value to the desired border width */
+}
+.custom-search:focus {
+    border-color: var(--bs-blue); /* Change this color to the desired focus color */
+    border-width: 2px; /* Change this value to the desired border width */
+}
+
+#search, #filter {
+    max-width: 75%;
+}
+
+.pictureRim {
+    padding: 15px;
+    border-radius: 10px !important;
+}
