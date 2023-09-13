@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agencia de Viajes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        .carousel-card {
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-card:hover {
+            transform: rotateY(180deg);
+        }
+
+        .carousel-card-info {
+            transform: rotateY(180deg);
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .carousel-card-info p {
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Agencia de Viajes </a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Bootstrap Container -->
+    <div class="container mt-4">
+        <!-- Carousel -->
+        <div id="destinationCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- First Set of 3 Cards -->
+                <div class="carousel-item active">
+                    <div class="row">
+                        <!-- Card 1 -->
+                        <div class="col-md-4">
+                            <div class="carousel-card card">
+                                <img src="image1.jpg" class="card-img-top" alt="Destination 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">Destination 1</h5>
+                                    <p class="card-text">Description of Destination 1.</p>
+                                    <a href="#" class="btn btn-primary">Ver Detalles</a>
+                                </div>
+                            </div>
+                            <!-- Hidden card for additional information -->
+                            <div class="carousel-card-info card">
+                                <div class="card-body">
+                                    <p>Additional Info for Destination 1</p>
+                                    <!-- Add more content here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="carousel-card card">
+                                <img src="image1.jpg" class="card-img-top" alt="Destination 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">Destination 1</h5>
+                                    <p class="card-text">Description of Destination 1.</p>
+                                    <a href="#" class="btn btn-primary">Ver Detalles</a>
+                                </div>
+                            </div>
+                            <!-- Hidden card for additional information -->
+                            <div class="carousel-card-info card">
+                                <div class="card-body">
+                                    <p>Additional Info for Destination 1</p>
+                                    <!-- Add more content here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="carousel-card card">
+                                <img src="image1.jpg" class="card-img-top" alt="Destination 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">Destination 1</h5>
+                                    <p class="card-text">Description of Destination 1.</p>
+                                    <a href="#" class="btn btn-primary">Ver Detalles</a>
+                                </div>
+                            </div>
+                            <!-- Hidden card for additional information -->
+                            <div class="carousel-card-info card">
+                                <div class="card-body">
+                                    <p>Additional Info for Destination 1</p>
+                                    <!-- Add more content here -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add Card 2 and Card 3 similarly -->
+                    </div>
+                </div>
+
+                <!-- Second Set of 3 Cards -->
+                <div class="carousel-item">
+                    <div class="row">
+                        <!-- Card 4, 5, 6 -->
+                        <!-- Add Card 4, Card 5, and Card 6 similarly -->
+                    </div>
+                </div>
+
+                <!-- Add more sets of 3 cards for additional destinations -->
+            </div>
+
+            <!-- Carousel Controls -->
+            <a class="carousel-control-prev" href="#destinationCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#destinationCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
+
+<!-- create a left side navbar that opens when mousing over its icon
+-->
