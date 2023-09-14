@@ -15,20 +15,19 @@
 .nav-link .text-bg-secondary,  .nav-link .text-bg-primary {
     color: var(--bs-black)!important;
 }
+
 .form-control:focus {
     border-color: var(--bs-blue); /* Change this color to the desired focus color */
     border-width: 2px; /* Change this value to the desired border width */
 }
+
+.form-range:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: var(--bs-blue); /* Change this color to the desired focus color */
+}
+
 .custom-search:focus {
     border-color: var(--bs-blue); /* Change this color to the desired focus color */
     border-width: 2px; /* Change this value to the desired border width */
-}
-
-#search, #filter {
-    max-width: 75%;
-}
-
-.pictureRim {
-    padding: 15px;
-    border-radius: 10px !important;
 }
