@@ -1,0 +1,27 @@
+.navbar-custom {
+    background-color: #00574B;  /* Insert your color here */
+}
+
+.navbar-custom .navbar-brand, .navbar-custom .nav-link {
+    color: #FFFAFA;  /* Insert your color here */
+}
+
+.hero-section{
+    padding: 100px 50px;
+    background-color: #6BA292;  /* Insert your color here */
+    color: #FFFAFA;  /* Insert your color here */
+}
+
+.btn-custom{
+    background-color: #444C5C;  /* Insert your color here */
+    color: #FFFAFA;  /* Insert your color here */
+}
+
+.card{
+    border-color: #444C5C;  /* Insert your color here */
+}
+
+.card .btn-custom{
+    background-color: #FFFAFA;  /* Insert your color here */
+    color: #444C5C;  /* Insert your color here */
+}
