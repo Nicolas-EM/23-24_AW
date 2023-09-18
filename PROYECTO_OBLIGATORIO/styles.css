@@ -1,3 +1,6 @@
+:root{
+    --customGreen: #00574B;
+}
 .navbar-custom {
     background-color: #00574B;  /* Insert your color here */
 }
@@ -25,3 +28,13 @@
     background-color: #FFFAFA;  /* Insert your color here */
     color: #444C5C;  /* Insert your color here */
 }
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #0ba26bda;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #00574b, #6BA292);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #00574b, #6BA292)
+    }
