@@ -28,6 +28,7 @@ Fecha de entrega: 2023-12-13
 - Fotografía / Icono
 
 ### Usuario
+- email (@ucm.es)
 - Nombre
 - Apellidos
 - Facultad
@@ -35,6 +36,7 @@ Fecha de entrega: 2023-12-13
 - Grupo
 - Contraseña
 - Imagen perfil
+- Validado
 
 ###  Funcionalidades
 #### Usuario Administrador
@@ -50,7 +52,7 @@ Fecha de entrega: 2023-12-13
    2. Roles
       1. Asignar roles de administrador a usuarios
 4. Estadísticas y Listados
-   1. Obtener estadísticas de reservas por usuario o por facultad.
+   1. Historial reservas (por usuario / instalación)
    2. Generar listados de usuarios por facultad
 5. Comunicación Interna
    1. Enviar mensaje a cualquier usuario
