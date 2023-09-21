@@ -2,14 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Reserva de Espacios -- Login</title>
+    <title>Reserva de Espacios -- Register</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://unpkg.com/@popperjs/core@2">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,200" />
     <link rel="stylesheet" href="styles.css">
+
 </head>
 
 <body>
@@ -25,23 +27,21 @@
                         <!-- Bootstrap card with a dark background and rounded corners. -->
                         <div class="card-body p-5 text-center">
                             <!-- Card body with padding and centered text. -->
-                            <h2 class="signin fw-bold mb-4 text-uppercase">Inicia Sesión</h2>
-                            <h2 class="register d-none fw-bold mb-4 text-uppercase">Registro</h2>
+                            <h2 class="fw-bold mb-4 text-uppercase">Registro</h2>
                             <!-- Heading with bold text and margin-bottom. -->
-                            <p class="text-white-50 mb-4">Por favor introduce tu email y contraseña</p>
+                            <p class="text-white-50 mb-4">Por favor introduce tus datos</p>
                             <!-- Paragraph with faded text and margin-bottom. -->
 
                             <form id="loginForm">
-                                <!-- Login form. -->
-                                <div class="register d-none mb-4">
+                                <div class="d-none mb-4">
                                     <!-- Margin-bottom for spacing. -->
                                     <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Nombre completo" data-bs-placement="right" data-bs-custom-class="warning-tooltip" data-bs-trigger="manual" data-bs-title="Introduce tu nombre completo">
                                     <!-- Email input with large size and form-control class. -->
                                 </div>
-
+                                <!-- Login form. -->
                                 <div class="mb-4">
                                     <!-- Margin-bottom for spacing. -->
-                                    <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email">
+                                    <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email" data-bs-placement="right" data-bs-custom-class="warning-tooltip" data-bs-trigger="manual" data-bs-title="Introduce un correo electrónico">
                                     <!-- Email input with large size and form-control class. -->
                                 </div>
 
@@ -49,22 +49,20 @@
                                     <!-- Margin-bottom for spacing. -->
                                     <div class="input-group">
                                         <!-- Input group for password input and "Show" button. -->
-                                        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password">
+                                        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" data-bs-placement="right" data-bs-custom-class="warning-tooltip" data-bs-trigger="manual" data-bs-title="La contraseña debe tener al menos 8 caracteres">
                                         <!-- Password input with large size and form-control class. -->
                                         <button class="btn btn-outline-light" type="button" id="showPassword">Mostrar</button>
                                         <!-- Button to show/hide password. -->
                                     </div>
                                 </div>
-                                <button class="signin btn btn-outline-light btn-lg px-5" type="submit">Entrar</button>
-                                <button class="register d-none btn btn-outline-light btn-lg px-5" type="submit">Registrar</button>
+                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Registrar</button>
                                 <!-- Login button with outlined style, large size, and custom width. -->
                             </form>
 
                             <div class="mt-4">
                                 <!-- Margin-top for spacing. -->
-                                <p class="signin mb-0">No tienes una cuenta? <a href="#" class="text-white-50 fw-bold">Registrar</a></p>
-                                <p class="register d-none mb-0">Ya estás registrado? <a href="#" class="text-white-50 fw-bold">Inicia sesión</a></p>
-                                <!-- Paragraph with a link for register d-noneing. -->
+                                <p class="mb-0">Ya estás registrado? <a href="login.html" class="text-white-50 fw-bold">Inicia sesión</a></p>
+                                <!-- Paragraph with a link for registering. -->
                             </div>
                         </div>
                     </div>
