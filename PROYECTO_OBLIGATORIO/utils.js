@@ -7,34 +7,66 @@ document.getElementById('showPassword').addEventListener('click', function () {
         passwordInput.type = 'password';
     }
 });
+$(document).ready(function() {
+    // Prevent form submission
+    $('form').on('submit', function(e) {
+        var email = $('#typeEmailX').val();
+        var password = $('#typePasswordX').val();
+        var validEmail = email.includes('@ucm.es');
+        var validPassword = password.length === 8;
 
-// JavaScript to validate email and password when submitting the form
-document.querySelector('form').addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent the form from submitting by default
+        if (!validEmail || !validPassword) {
+            e.preventDefault();
+        }
+    });
 
-    // Get the email and password input fields
-    var emailInput = document.getElementById('typeEmailX');
-    var passwordInput = document.getElementById('typePasswordX');
+    $('#typeEmailX, #typePasswordX').on('input', function () {
+        // Email validation
+        var email = $('#typeEmailX').val();
+        var validEmail = email.includes('@ucm.es');
 
-    // Get the values of the email and password fields
-    var emailValue = emailInput.value.trim(); // Trim removes leading/trailing white spaces
-    var passwordValue = passwordInput.value.trim();
+        // Password validation
+        var password = $('#typePasswordX').val();
+        var validPassword = password.length === 8;
 
-    // Regular expression to match valid email addresses ending with "@ucm.es"
-    var emailRegex = /^[a-zA-Z0-9._-]+@ucm\.es$/;
-
-    // Check if the email is valid and password is at least 8 characters long
-    const emailIn =  document.getElementById('typeEmailX');
-    if (!emailRegex.test(emailValue)) {
-        emailIn.setCustomValidity("Email no válido, debe usar la estructura: usuario@ucm.es");
-    } else {
-        emailIn.setCustomValidity("");
-    }
-const pwIn = document.getElementById('typePasswordX');
-    if (pwIn.length < 8) {
-       pwIn.setCustomValidity("La contraseña debe tener al menos 8 caracteres");
-    } else {
-        pwIn.setCustomValidity("");
-    }
+        // Apply styles based on validation result
+        $('#typeEmailX').css('background-color', validEmail ? 'lightgreen' : 'lightcoral');
+        $('#typePasswordX').css('background-color', validPassword ? 'lightgreen' : 'lightcoral');
+    });
 });
 
+// // JavaScript to validate email and password when submitting the form
+// var emailRegex = /^[a-zA-Z0-9._-]+@ucm\.es$/;
+
+// $('form').on('submit', function (e) {
+//     e.preventDefault(); // Prevent the form from submitting by default
+
+//     evaluateEmail();
+//     evaluatePassword();
+// });
+
+// function evaluateEmail() {
+//     var emailInput = $('typeEmailX');
+//     var emailValue = emailInput.val().trim();
+
+//     if (!emailRegex.test(emailValue)) {
+//         emailInput[0].setCustomValidity("Email no válido, debe usar la estructura: usuario@ucm.es");
+//         emailInput.css('backgroundColor', '#f8d7da'); //light red
+//     } else {
+//         emailInput[0].setCustomValidity("");
+//         emailInput.css('backgroundColor', '#d4edda'); //light green
+//     }
+// };
+
+// function evaluatePassword() {
+//     var passwordInput = $('typePasswordX');
+//     var passwordValue = passwordInput.val().trim();
+
+//     if (passwordValue.length < 8) {
+//         passwordInput[0].setCustomValidity("La contraseña debe tener al menos 8 caracteres");
+//         passwordInput.css('backgroundColor', '#f8d7da'); //light red
+//     } else {
+//         passwordInput[0].setCustomValidity("");
+//         passwordInput.css('backgroundColor', '#d4edda'); //light green
+//     }
+// };
