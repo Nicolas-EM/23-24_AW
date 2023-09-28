@@ -33,6 +33,7 @@
 
                             <form id="loginForm">
                                 <!-- Login form. -->
+                                <div id="alert" class="alert alert-danger d-none" role="alert"></div>
                                 <div class="register d-none mb-4">
                                     <!-- Margin-bottom for spacing. -->
                                     <input type="text" id="nameInput" class="form-control form-control-lg" minlength="2" maxlength="40" placeholder="Nombre completo" data-bs-placement="right" data-bs-custom-class="warning-tooltip" data-bs-trigger="manual" data-bs-title="Introduce tu nombre completo">
@@ -55,8 +56,8 @@
                                         <!-- Button to show/hide password. -->
                                     </div>
                                 </div>
-                                <button class="signin btn btn-outline-light btn-lg px-5" type="submit">Entrar</button>
-                                <button class="register d-none btn btn-outline-light btn-lg px-5" type="submit">Registrar</button>
+                                <button class="signin btn btn-outline-light btn-lg px-5" id="loginButton"type="submit">Entrar</button>
+                                <button class="register d-none btn btn-outline-light btn-lg px-5" id="registerButton" type="submit">Registrar</button>
                                 <!-- Login button with outlined style, large size, and custom width. -->
                             </form>
 

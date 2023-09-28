@@ -21,7 +21,7 @@ Proyecto Opcional AW
     <!-- Navbar -->
     <nav class="navbar navbar-expand-sm bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="./icons8-plane-ios-16-filled-32.png" alt="Logo" width="32" height="32" class="d-inline-block align-text-top"></a>
+            <a class="navbar-brand" href="index.html" target="_self"><img src="./icons8-plane-ios-16-filled-32.png" alt="Logo" width="32" height="32" class="d-inline-block align-text-top"></a>
             <!-- Hamburger menu -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -81,15 +81,16 @@ Proyecto Opcional AW
         <form class="form-inline">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Busca tu próximo destino..">
-                <!-- Searhch Btn -->
-                <button class="btn btn-primary" type="submit">
+                <!-- Search Btn -->
+                <button class="btn btn-success btn-rounded" type="submit">
                     <span class="material-symbols-outlined">search</span>
                 </button>
+                
+                <!-- Filter Button -->
+                <button class="btn btn-primary btn-rounded ml-2" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
+                    <span class="material-symbols-outlined">tune</span>
+                </button>
             </div>
-            <div class="input-group"> -->
-            <!-- Search Button -->
-             <button class="btn btn-primary mb-1 mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters"><span class="material-symbols-outlined">tune</span></button>
-            </div> 
         </form>
 
         <!-- Search filters --> 

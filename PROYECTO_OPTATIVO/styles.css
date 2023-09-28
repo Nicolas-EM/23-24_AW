@@ -21,6 +21,11 @@
     border-width: 2px; /* Change this value to the desired border width */
 }
 
+.btn-rounded {
+    border-radius: 20px; /* Adjust the border-radius to control button roundness */
+    padding: 10px 20px; /* Add padding to separate buttons */
+}
+
 .form-range:focus {
     outline: none;
     box-shadow: none;
@@ -31,3 +36,7 @@
     border-color: var(--bs-blue); /* Change this color to the desired focus color */
     border-width: 2px; /* Change this value to the desired border width */
 }
+
+.form-control {
+    width: 65%; /* Reduce the width by 15% */
+  }

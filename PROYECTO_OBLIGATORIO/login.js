@@ -1,3 +1,4 @@
+import { checkUserExists,registerUser } from "./DAOUsers";
 const _SIGN_IN = true;
 
 // JavaScript to toggle password visibility
@@ -75,9 +76,20 @@ function isNameValid(){
 }
 
 // Prevent form submission
-$('#loginForm').on('submit', function (e) {
+$('#registerButton').on('click', function (e) {
     if (!isNameValid() || !isEmailValid() || !isPasswordValid()) {
         e.preventDefault();
+    }
+    else {
+        let emailInput = $('#emailInput').val();
+        let pwdInput = $('#passwordInput').val();
+        let nameInput = $('#nameInput').val();
+        if (checkUserExists(emailInput)) {
+            $('#alert').html('El correo ya está registrado').removeClass('d-none');
+        } else {
+           registerUser(nameInput,emailInput,pwdInput);
+           $('#alert').html('Usuario registrado con exito').removeClass('d-none');
+        }
     }
 });
 
