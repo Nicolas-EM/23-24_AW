@@ -1,0 +1,6 @@
+.commentSection{
+    background-color: var(--airbnb-red);
+}
+.fa-star, .fa{
+    color: var(--google-yellow);
+}

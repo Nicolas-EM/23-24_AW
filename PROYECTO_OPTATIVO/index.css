@@ -1,0 +1,22 @@
+#searchForm .form-control{
+    max-width: max(60%, 550px);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--airbnb-red);
+    box-shadow: 0 1px 1px var(--airbnb-red-rgb);
+}
+
+.destinations .card {
+    border: 0;
+}
+
+.destinations img {
+    aspect-ratio: 1.05 / 1;
+    max-height: 400px;
+}
+
+a {
+    text-decoration: none;
+}

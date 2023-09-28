@@ -1,0 +1,32 @@
+:root {
+    --bs-secondary: #63feda;
+    --bs-secondary-rgb: 99, 254, 218;
+    --bs-blue: #00a0a0;
+    --bs-black: #000000;
+    --bs-grey: #6c757d;
+    --airbnb-red: #FF5A5F;
+    --airbnb-red-rgb: 255, 90, 95;
+    /* --bs-primary-rgb: var(--airbnb-red-rgb); */
+    --bs-primary-rgb: var(--airbnb-red-rgb);
+    --google-yellow: #F4B400;
+    --google-yellow-rgb: 244, 180, 0;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--airbnb-red);
+    --bs-btn-border-color: var(--airbnb-red);
+    --bs-btn-hover-bg: var(--airbnb-red);
+    --bs-btn-hover-border-color: var(--airbnb-red);
+    --bs-btn-active-bg: var(--airbnb-red);
+    --bs-btn-active-border-color: var(--airbnb-red);
+    --bs-btn-disabled-bg: var(--bs-grey);
+    --bs-btn-disabled-border-color: var(--bs-grey);
+}
+
+.navbar .navbar-brand .material-symbols-outlined {
+    color: var(--airbnb-red);
+}
+
+.nav-link {
+    font-size: 1.2em;
+}
