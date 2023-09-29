@@ -4,8 +4,9 @@
 
 .form-control:focus {
     outline: none;
-    border-color: var(--airbnb-red);
-    box-shadow: 0 1px 1px var(--airbnb-red-rgb);
+    border-color: var(--bs-grey);
+    border-right: 0;
+    box-shadow: none;
 }
 
 .destinations .card {
@@ -17,6 +18,10 @@
     max-height: 400px;
 }
 
-a {
+#content a {
+    text-decoration: none;
+}
+
+.modal a {
     text-decoration: none;
 }

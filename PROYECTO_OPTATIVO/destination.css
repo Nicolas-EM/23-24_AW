@@ -1,6 +1,30 @@
-.commentSection{
+.commentSection {
     background-color: var(--airbnb-red);
 }
-.fa-star, .fa{
+
+.fa-star,
+.fa {
     color: var(--google-yellow);
+}
+
+.container,
+.container-fluid {
+    margin: 0 auto;
+    /* this will center the page */
+    width: min(1120px, 100%);
+    /*  use your width here */
+}
+
+#calendar {
+    max-width: 350px;
+    margin: auto;
+}
+
+#calendar .col {
+    max-width: 14%;
+    text-align: center;
+}
+
+#comments .col {
+    max-width: 350px;
 }
