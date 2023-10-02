@@ -4,6 +4,8 @@
     --bs-grey: #6c757d;
     --airbnb-red: #FF5A5F;
     --airbnb-red-rgb: 255, 90, 95;
+    --hover-red: #d80765;
+    --hover-red-rgb: 216, 7, 101;
     /* --bs-primary-rgb: var(--airbnb-red-rgb); */
     --bs-primary-rgb: var(--airbnb-red-rgb);
     --google-yellow: #F4B400;
@@ -13,8 +15,8 @@
 .btn-primary {
     --bs-btn-bg: var(--airbnb-red);
     --bs-btn-border-color: var(--airbnb-red);
-    --bs-btn-hover-bg: var(--airbnb-red);
-    --bs-btn-hover-border-color: var(--airbnb-red);
+    --bs-btn-hover-bg: var(--hover-red);
+    --bs-btn-hover-border-color: var(--hover-red);
     --bs-btn-active-bg: var(--airbnb-red);
     --bs-btn-active-border-color: var(--airbnb-red);
     --bs-btn-disabled-bg: var(--bs-grey);
