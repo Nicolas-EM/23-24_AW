@@ -1,3 +1,11 @@
+.userBg {
+    background-color: #eee;
+}
+
+.avatar {
+    width: 150px;
+}
+
 #reservas img {
     height: 100%;
     width: auto;
