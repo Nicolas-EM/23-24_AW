@@ -10,7 +10,6 @@ export function checkUserExists(emailInput) {
         }
     });
 }
-//now create the registerUser function registerUser(nameInput,emailInput,pwdInput); with the database
 
 export function registerUser(nameInput, emailInput, pwdInput) {
     var sql = "INSERT INTO users (name, email, password) VALUES (?,?,?)";
