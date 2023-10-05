@@ -2,10 +2,14 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
-
+const mysql = require('mysql');
+import * as DAO from './DAO.js';//pending (!)
+const connection = mysql.createConnection({
+    host:"localhost",  
+    user:"admin_aw",  
+    password:"",  
+    database:"viajes" });
 const app = express();
-
-// Define a function to load an HTML file and its resources
 function loadHtmlFile(filePath) {
     // Read the HTML file into a buffer
     const htmlBuffer = fs.readFileSync(filePath);
@@ -33,47 +37,48 @@ function loadHtmlFile(filePath) {
     return htmlString;
 }
 
-// Define a function to load all the HTML files in a directory
 function loadHtmlDirectory(directoryPath) {
-    const htmlFiles = fs.readdirSync(directoryPath).filter((fileName) => {
-        return path.extname(fileName) === '.html';
-    });
-
     const htmlMap = new Map();
-    for (const htmlFile of htmlFiles) {
-        const htmlFilePath = path.join(directoryPath, htmlFile);
-        const htmlString = loadHtmlFile(htmlFilePath);
-        htmlMap.set(htmlFile, htmlString);
+
+    function loadHtmlFiles(directoryPath) {
+        const files = fs.readdirSync(directoryPath);
+
+        for (const file of files) {
+            const filePath = path.join(directoryPath, file);
+            const stat = fs.statSync(filePath);
+
+            if (stat.isDirectory()) {
+                loadHtmlFiles(filePath);
+            } else if (path.extname(file) === '.html') {
+                const htmlString = loadHtmlFile(filePath);
+                htmlMap.set(file, htmlString);
+            }
+        }
     }
+
+    loadHtmlFiles(directoryPath);
 
     return htmlMap;
 }
-
-// Serve the HTML files
-const htmlMap = loadHtmlDirectory('./');
+//get all pages inside public folder in one function which can be escalable
+let htmlMap = loadHtmlDirectory('./public');
 for (const [htmlFile, htmlString] of htmlMap) {
     app.get(`/${htmlFile}`, (req, res) => {
         res.send(htmlString);
     });
 }
 
+
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+// Start the server
 app.listen(3000, () => {
     console.log('Server listening on port 3000!');
 });
 
-// const fs = require('fs');
-
-// // Read the file into a buffer
-// const bitmap = fs.readFileSync('./vacation_1.jpg');
-
-// // Convert the buffer to a hexadecimal string
-// const hexadecimalImage = bitmap.toString('hex');
-// var formattedBinaryImage = '';
-// for (let i = 0; i < binaryImage.length; i += 100) {
-//   formattedBinaryImage += binaryImage.substr(i, 100) + '\n';
-// }
-// // Now, you have the image represented as a binary string in binaryImage.
-
-// // Let's now save this binary string into a new file
-// fs.writeFileSync('./binaries.txt', formattedBinaryImage);
-
+//jpg to hex converter:
+const bitmap = fs.readFileSync('./resources/vacation_1.jpg');
+const hexadecimalImage = bitmap.toString('hex');
+ fs.writeFileSync('./image1.txt', hexadecimalImage);
+ 
