@@ -2,10 +2,6 @@
     background-color: var(--airbnb-red);
 }
 
-.fa-star,
-.fa {
-    color: var(--google-yellow);
-}
 
 .container,
 .container-fluid {
@@ -27,4 +23,8 @@
 
 #comments .col {
     max-width: 350px;
+}
+
+.star {
+    color: var(--google-yellow);
 }
