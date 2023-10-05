@@ -16,8 +16,9 @@ async function getDestinos(con) {
     }
 }
 
-async function getDestinosById(id,con) {
+async function getDestinosById(id, con) {
     try {
+        
         con = await pool.getConnection();
         const row = await con.query('SELECT * FROM destinos WHERE id = ?', [id]);
         return row;
@@ -58,3 +59,5 @@ async function createReserve(res, con) {
         if (con) con.release();
     }
 }
+let name = 'nico';
+console.log(`hello ${name}`);

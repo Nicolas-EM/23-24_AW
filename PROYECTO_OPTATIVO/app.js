@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
 const mysql = require('mysql');
-import * as DAO from './DAO.js';//pending (!)
+//import * as DAO from './DAO.js';//pending (!)
 const connection = mysql.createConnection({
     host:"localhost",  
     user:"admin_aw",  
@@ -38,19 +38,19 @@ function loadHtmlFile(filePath) {
 }
 
 function loadHtmlDirectory(directoryPath) {
-    const htmlMap = new Map();
+    let htmlMap = new Map();
 
     function loadHtmlFiles(directoryPath) {
-        const files = fs.readdirSync(directoryPath);
+        let files = fs.readdirSync(directoryPath);
 
         for (const file of files) {
-            const filePath = path.join(directoryPath, file);
-            const stat = fs.statSync(filePath);
+            let filePath = path.join(directoryPath, file);
+            let stat = fs.statSync(filePath);
 
             if (stat.isDirectory()) {
                 loadHtmlFiles(filePath);
             } else if (path.extname(file) === '.html') {
-                const htmlString = loadHtmlFile(filePath);
+                let htmlString = loadHtmlFile(filePath);
                 htmlMap.set(file, htmlString);
             }
         }
