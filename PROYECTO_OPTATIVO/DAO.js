@@ -59,5 +59,3 @@ async function createReserve(res, con) {
         if (con) con.release();
     }
 }
-let name = 'nico';
-console.log(`hello ${name}`);
