@@ -3,13 +3,28 @@ const fs = require('fs');
 const path = require('path');
 const mime = require('mime');
 const mysql = require('mysql');
-//import * as DAO from './DAO.js';//pending (!)
+import * as DAO from './DAO.js';//pending (!)
 const connection = mysql.createConnection({
     host:"localhost",  
     user:"admin_aw",  
     password:"",  
     database:"viajes" });
+    
+try {
+    connection.connect((err) => {
+        if (err) {
+            console.error('Error connecting to database: ' + err.stack);
+            return;
+        }
+
+        console.log('Connected to database with connection id ' + connection.threadId);
+    });
+} catch (e) {
+    console.error('Error connecting to database: ' + e.message);
+}
 const app = express();
+app.set("view engine", "ejs");
+app.set("views", "./views");//pending review!! (!)
 function loadHtmlFile(filePath) {
     // Read the HTML file into a buffer
     const htmlBuffer = fs.readFileSync(filePath);
@@ -67,9 +82,14 @@ for (const [htmlFile, htmlString] of htmlMap) {
         res.send(htmlString);
     });
 }
+app.get('/index.html', (req, res) => {
+
+    let destinos = DAO.getDestinos(connection);
+
+    res.render('index.ejs', { destinos: destinos });
 
 
-
+});
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 // Start the server
@@ -78,7 +98,8 @@ app.listen(3000, () => {
 });
 
 //jpg to hex converter:
-const bitmap = fs.readFileSync('./resources/vacation_1.jpg');
-const hexadecimalImage = bitmap.toString('hex');
- fs.writeFileSync('./image1.txt', hexadecimalImage);
- 
+function imageToHex() {
+    const bitmap = fs.readFileSync('./resources/vacation_1.jpg');
+    const hexadecimalImage = bitmap.toString('hex');
+    fs.writeFileSync('./image1.txt', hexadecimalImage);
+}
