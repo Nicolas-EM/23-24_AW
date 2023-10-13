@@ -75,216 +75,59 @@ Proyecto Opcional AW
         <!-- Grid of destinations -->
         <div class="destinations container">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 gx-4">
-                <!-- Destino 1 -->
-                <a href="./destination.html" class="col card mt-2">
-                    <!-- Img row -->
-                    <div class="row align-items-center">
-                        <div id="destination2ImgCarousel" class="carousel slide mx-auto p-2 text-center">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#destination2ImgCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item rounded active">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
+                <!-- FILEPATH: /d:/#1_REPOS VS STUDIO/23-23_AW/PROYECTO_OPTATIVO/views/index.ejs -->
+
+                <!-- Grid of destinations -->
+                <div class="destinations container">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 gx-4">
+
+                        <% destinations.forEach(function(destination) { %>
+                            <!-- Destination card -->
+                            <a href="./destination.html" class="col card mt-2"  >
+                                <!-- Img row -->
+                                <div class="row align-items-center">
+                                    <div id="destination<%= destination.id %>ImgCarousel" class="carousel slide mx-auto p-2 text-center">
+                                        <div class="carousel-indicators">
+                                            <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                            <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                            <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                        </div>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item rounded active">
+                                                <img src="<%= destination.imagen %>" class="rounded d-block w-100" alt="...">
+                                            </div>
+                                            <div class="carousel-item rounded">
+                                                <img src="<%= destination.imagen %>" class="rounded d-block w-100" alt="...">
+                                            </div>
+                                            <div class="carousel-item rounded">
+                                                <img src="<%= destination.imagen %>" class="rounded d-block w-100" alt="...">
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
+                                <!-- Data row -->
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= destination.nombre %></h5>
+                                            <p class="card-text"><%= destination.descripcion %></p>
+                                            <p class="card-text mt-3"><small class="text-body-secondary"><%= destination.precio.toFixed(2) %>€ / noche</small></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#destination2ImgCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#destination2ImgCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
+                            </a>
+                        <% }); %>
+
                     </div>
-                    <!-- Data row -->
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="card-body">
-                                <h5 class="card-title">Destino #1</h5>
-                                <p class="card-text">Playita con sorbete de limón</p>
-                                <p class="card-text mt-3"><small class="text-body-secondary">347€ / noche</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <!-- Destino 2 -->
-                <a href="./destination.html" class="col card mt-2">
-                    <!-- Img row -->
-                    <div class="row align-items-center">
-                        <div id="destination2ImgCarousel2" class="carousel slide mx-auto p-2 text-center">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#destination2ImgCarousel2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel2" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel2" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item rounded active">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#destination2ImgCarousel2" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#destination2ImgCarousel2" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Data row -->
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="card-body">
-                                <h5 class="card-title">Destino #2</h5>
-                                <p class="card-text">Montaña con Brandy casero</p>
-                                <p class="card-text mt-3"><small class="text-body-secondary">560€ / noche</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <!-- Destino 3 -->
-                <a href="./destination.html" class="col card mt-2">
-                    <!-- Img row -->
-                    <div class="row align-items-center">
-                        <div id="destination2ImgCarousel3" class="carousel slide mx-auto p-2 text-center">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#destination2ImgCarousel3" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel3" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel3" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item rounded active">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#destination2ImgCarousel3" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#destination2ImgCarousel3" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Data row -->
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="card-body">
-                                <h5 class="card-title">Destino #3</h5>
-                                <p class="card-text">Viaje de ensueño a las islas caimán</p>
-                                <p class="card-text mt-3"><small class="text-body-secondary">1255€ / noche</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <!-- Destino 4 -->
-                <a href="./destination.html" class="col card mt-2">
-                    <!-- Img row -->
-                    <div class="row align-items-center">
-                        <div id="destination2ImgCarousel4" class="carousel slide mx-auto p-2 text-center">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#destination2ImgCarousel4" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel4" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel4" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item rounded active">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#destination2ImgCarousel4" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#destination2ImgCarousel4" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Data row -->
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="card-body">
-                                <h5 class="card-title">Destino #4</h5>
-                                <p class="card-text">Caminante no hay camino se hace camino al andar, la película</p>
-                                <p class="card-text mt-3"><small class="text-body-secondary">100€ / noche</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <!-- Destino 5 -->
-                <a href="./destination.html" class="col card mt-2">
-                    <!-- Img row -->
-                    <div class="row align-items-center">
-                        <div id="destination2ImgCarousel5" class="carousel slide mx-auto p-2 text-center">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#destination2ImgCarousel5" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel5" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#destination2ImgCarousel5" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item rounded active">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img src="https://picsum.photos/1920/1080" class="rounded d-block w-100" alt="...">
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#destination2ImgCarousel5" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#destination2ImgCarousel5" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Data row -->
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="card-body">
-                                <h5 class="card-title">Destino #5</h5>
-                                <p class="card-text">Inserte comentario jocoso jeje [kekw]</p>
-                                <p class="card-text mt-3"><small class="text-body-secondary">255€ / noche</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>
