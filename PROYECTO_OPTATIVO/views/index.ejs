@@ -15,8 +15,8 @@ Proyecto Opcional AW
     <!-- Google Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
     <!-- Custom CSS -->
-    <link type="text/css" rel="stylesheet" href="../public/navbar.css">
-    <link type="text/css" rel="stylesheet" href="../public/index.css">
+    <link type="text/css" rel="stylesheet" href="navbar.css" />
+    <link type="text/css" rel="stylesheet" href="index.css" />
     <title>CheapBnB</title>
 </head>
 
@@ -72,18 +72,13 @@ Proyecto Opcional AW
 
         </div>
 
-        <!-- Grid of destinations -->
-        <div class="destinations container">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 gx-4">
-                <!-- FILEPATH: /d:/#1_REPOS VS STUDIO/23-23_AW/PROYECTO_OPTATIVO/views/index.ejs -->
-
                 <!-- Grid of destinations -->
                 <div class="destinations container">
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 gx-4">
 
                         <% destinations.forEach(function(destination) { %>
                             <!-- Destination card -->
-                            <a href="./destination.html" class="col card mt-2"  >
+                            <a href="#" class="col card mt-2"  >
                                 <!-- Img row -->
                                 <div class="row align-items-center">
                                     <div id="destination<%= destination.id %>ImgCarousel" class="carousel slide mx-auto p-2 text-center">
@@ -129,8 +124,6 @@ Proyecto Opcional AW
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
     <!-- Login/Signup Modal -->
     <div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
