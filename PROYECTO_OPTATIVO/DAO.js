@@ -19,7 +19,26 @@ class DAO{
                     }
                 });
             }
-    })
+    });
+    
+}
+getDestinoById(id, callback) {
+    this.pool.getConnection(function(err, connection) {
+        if(err) {
+            callback(err);
+        }
+        else{
+            connection.query("SELECT * FROM destinos where id = ?", [id], function(err, row) {
+                if(err) {
+                    callback(err);
+                }
+                else{
+                    callback(null, row);
+                }
+            });
+        }
+    });
+
 }
     
     

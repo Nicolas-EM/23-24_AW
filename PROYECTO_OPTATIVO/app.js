@@ -15,11 +15,12 @@ const pool = mysql.createPool({
 const app = express();
 const Dao = new DAO(pool);
 app.set("view engine", "ejs");
+app.use(express.json()); // For handling JSON in request body
 app.set("views", path.join(__dirname, "views"));//pending review!! (!)
 /////////////
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
  /////////////
-
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname,"css")));
@@ -33,6 +34,7 @@ app.get('/',function(req, res) {
     Dao.getDestinos(function(err, destinos){
         if(err){
             console.log(err);
+            res.status(500).send('Server Error');
         }
         else{
             console.log(destinos);
@@ -40,6 +42,21 @@ app.get('/',function(req, res) {
         }
     });
  });
+ app.get("/destination", (req, res) => {
+    var destinationId = req.query.id;
+    console.log("Received destinationId:", destinationId);
+    // Find the destination object using id (for instance from a database)
+   Dao.getDestinoById(destinationId, function(err, des) {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+      } else {
+        res.render("destination", {data: des}); //des[0] because it's an array
+      }
+    });
+});
+  
+  
 //jpg to hex converter:
 function imageToHex() {
     const bitmap = fs.readFileSync('./resources/vacation_1.jpg');

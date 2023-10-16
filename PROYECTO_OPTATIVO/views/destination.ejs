@@ -15,8 +15,8 @@ Proyecto Opcional AW
   <!-- Google Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
   <!-- Custom CSS -->
-  <link type="text/css" rel="stylesheet" href="../public/navbar.css">
-  <link type="text/css" rel="stylesheet" href="../public/destination.css">
+    <link type="text/css" rel="stylesheet" href="navbar.css" />
+  <link type="text/css" rel="stylesheet" href="destination.css">
 
   <title>CheapBnB</title>
 </head>
@@ -42,14 +42,14 @@ Proyecto Opcional AW
 
   <!-- Content -->
   <div class="container">
-    <h2 class="mt-3">Destino #1</h2>
+    <h2 class="mt-3">Destino #<%= data[0].id %>: <%= data[0].nombre %></h2>
 
     <!-- Img carousel -->
     <div class="text-center">
       <div class="row row-cols-1 row-cols-lg-2 g-2">
         <!-- Main img -->
         <div class="col position-relative">
-          <img src="https://picsum.photos/1920/1080" class="rounded-start d-block w-100 h-100" alt="...">
+          <img src="<%= data[0].imagen %>" class="rounded-start d-block w-100 h-100" alt="...">
           <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
             <span class="d-inline-block align-text-top material-symbols-outlined">
               apps
@@ -61,16 +61,16 @@ Proyecto Opcional AW
         <div class="col d-none d-lg-block ps-0">
           <div class="row row-cols-2 g-1">
             <div class="col">
-              <img src="https://picsum.photos/1920/1080" class="d-block w-100" alt="...">
+              <img src="<%= data[0].imagen %>"  class="d-block w-100" alt="...">
             </div>
             <div class="col">
-              <img src="https://picsum.photos/1920/1080" class="rounded-end rounded-bottom-0 d-block w-100" alt="...">
+              <img src="<%= data[0].imagen %>"  class="rounded-end rounded-bottom-0 d-block w-100" alt="...">
             </div>
             <div class="col">
-              <img src="https://picsum.photos/1920/1080" class="d-block w-100" alt="...">
+              <img src="<%= data[0].imagen %>"  class="d-block w-100" alt="...">
             </div>
             <div class="col position-relative">
-              <img src="https://picsum.photos/1920/1080" class="rounded-bottom rounded-start-0 d-block w-100" alt="...">
+              <img src="<%= data[0].imagen %>"  class="rounded-bottom rounded-start-0 d-block w-100" alt="...">
               <button class="btn btn-primary position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
                 <span class="d-inline-block align-text-top material-symbols-outlined">
                   apps
@@ -88,10 +88,9 @@ Proyecto Opcional AW
       <div class="row row-cols-1 row-cols-md-2">
         <!-- Destination Info -->
         <div class="col">
-          <h3>Subtitulo!</h3>
-          <p>Descripción de destino lorem ipsum</p>
-          <p>Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.</p>
-          <p class="card-text mt-3"><small class="text-body-secondary">1000€ / noche</small></p>
+          <h3>Información sobre <%= data[0].nombre %></h3>
+          <p><%= data[0].descripcion %></p>
+          <p class="card-text mt-3"><small class="text-body-secondary"><%= data[0].precio %> € / noche</small></p>
           <form role="reserva" class="text-center">
             <!-- reservoir Btn -->
             <button class="btn btn-primary" type="submit">
@@ -280,20 +279,20 @@ Proyecto Opcional AW
         <div class="modal-body">
           <div class="row row-cols-1 w-75 m-auto g-2">
             <div class="col">
-              <img src="https://picsum.photos/1920/1080" class="w-100 h-auto" alt="...">
+              <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
             </div>
             <div class="col">
               <div class="row row-cols-1 row-cols-lg-2 g-2">
                 <div src="col">
-                  <img src="https://picsum.photos/1920/1080" class="w-100 h-auto" alt="...">
+                  <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
                 </div>
                 <div src="col">
-                  <img src="https://picsum.photos/1920/1080" class="w-100 h-auto" alt="...">
+                  <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
                 </div>
               </div>
             </div>
             <div class="col">
-              <img src="https://picsum.photos/1920/1080" class="w-100 h-auto" alt="...">
+              <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
             </div>
           </div>
         </div>
