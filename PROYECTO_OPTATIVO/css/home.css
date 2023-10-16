@@ -1,5 +1,5 @@
 #searchForm .form-control {
-    max-width: max(60%, 550px);
+    max-width: max(80%, 550px);
 }
 
 .form-control:focus {
@@ -20,8 +20,5 @@
 
 #content a {
     text-decoration: none;
-}
-
-.modal a {
-    text-decoration: none;
+    color: var(--bs-card-color);
 }

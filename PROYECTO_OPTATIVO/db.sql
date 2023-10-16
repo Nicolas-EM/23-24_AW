@@ -5,6 +5,9 @@ CREATE DATABASE viajes;
 
 USE viajes;
 
+CREATE USER IF NOT EXISTS 'admin_aw'@'localhost' IDENTIFIED BY '';
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'admin_aw'@'localhost' WITH GRANT OPTION;
+
 CREATE TABLE destinos (
  id INT AUTO_INCREMENT PRIMARY KEY,
  nombre VARCHAR(255) NOT NULL,
@@ -12,14 +15,14 @@ CREATE TABLE destinos (
  imagen TEXT,
  precio DECIMAL(10, 2)
 );
---insert id only on create, then hash the id AND password
+
 CREATE TABLE usuarios(
-id INT AUTO_INCREMENT,
-hash_id AS HASHBYTES('SHA1', CONVERT(VARCHAR(12), id)) PRIMARY KEY,
+id INT AUTO_INCREMENT PRIMARY KEY,
 nombre VARCHAR(255) NOT NULL,
 correo VARCHAR(255) NOT NULL,
 passwd VARCHAR(255) NOT NULL
 );
+
 CREATE TABLE reservas (
  id INT AUTO_INCREMENT PRIMARY KEY,
  destino_id INT,

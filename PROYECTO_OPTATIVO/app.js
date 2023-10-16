@@ -5,12 +5,13 @@ const mime = require('mime');
 const path = require('path');
 const mysql = require('mysql');
 const DAO = require('./DAO');
+
 const pool = mysql.createPool({
-    host:"localhost",  
-    user:"admin_aw",  
-    password:"",  
-    database:"viajes" });
-    
+    host: "localhost",
+    user: "admin_aw",
+    password: "",
+    database: "viajes"
+});
 
 const app = express();
 const Dao = new DAO(pool);
@@ -20,43 +21,45 @@ app.set("views", path.join(__dirname, "views"));//pending review!! (!)
 /////////////
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
- /////////////
+/////////////
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname,"css")));
-app.use(express.static(path.join(__dirname,"resources")));
+app.use(express.static(path.join(__dirname, "css")));
+app.use(express.static(path.join(__dirname, "resources")));
+
 // Start the server
 app.listen(3000, () => {
     console.log('Server listening on port 3000!');
 });
-console.log("pre get");
-app.get('/',function(req, res) {
-    Dao.getDestinos(function(err, destinos){
-        if(err){
+
+app.get('/', function (req, res) {
+    Dao.getDestinos(function (err, destinos) {
+        if (err) {
             console.log(err);
             res.status(500).send('Server Error');
         }
-        else{
+        else {
             console.log(destinos);
-            res.render("index", {destinations: destinos});
+            res.render("index", { destinations: destinos });
         }
     });
- });
- app.get("/destination", (req, res) => {
+});
+
+app.get("/destination", (req, res) => {
     var destinationId = req.query.id;
     console.log("Received destinationId:", destinationId);
     // Find the destination object using id (for instance from a database)
-   Dao.getDestinoById(destinationId, function(err, des) {
-      if (err) {
-        console.log(err);
-        res.status(500).send('Server Error');
-      } else {
-        res.render("destination", {data: des}); //des[0] because it's an array
-      }
+    Dao.getDestinoById(destinationId, function (err, des) {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Server Error');
+        } else {
+            res.render("destination", { data: des }); //des[0] because it's an array
+        }
     });
 });
-  
-  
+
+
 //jpg to hex converter:
 function imageToHex() {
     const bitmap = fs.readFileSync('./resources/vacation_1.jpg');
