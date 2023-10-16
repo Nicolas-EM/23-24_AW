@@ -1,50 +1,60 @@
-const mysql = require ('mysql');
-class DAO{
+const mysql = require('mysql');
+class DAO {
     pool;
+
     constructor(pool) {
         this.pool = pool;
     }
+
     getDestinos(callback) {
-        this.pool.getConnection(function(err, connection) {
-            if(err) {
+        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.imagen_name) AS imagen_names FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id GROUP BY d.id, d.nombre, d.descripcion, d.precio;", function (err, rows) {
+            if (err) {
                 callback(err);
             }
-            else{
-                connection.query("SELECT * FROM destinos", function(err, row) {
-                    if(err) {
-                        callback(err);
-                    }
-                    else{
-                        callback(null, row);
-                    }
-                });
+            else {
+                if (rows && rows.length > 0) {
+                    // Assuming you are working with multiple rows, you should iterate over the rows
+                    rows.forEach(row => {
+                        if (row.imagen_names) {
+                            row.imagen_names = row.imagen_names.split(',');
+                        } else {
+                            // Handle the case where imagen_ids is undefined (no matching records)
+                            row.imagen_names = [];
+                        }
+                    });
+                }
+                callback(null, rows);
             }
-    });
-    
-}
-getDestinoById(id, callback) {
-    this.pool.getConnection(function(err, connection) {
-        if(err) {
-            callback(err);
-        }
-        else{
-            connection.query("SELECT * FROM destinos where id = ?", [id], function(err, row) {
-                if(err) {
-                    callback(err);
-                }
-                else{
-                    callback(null, row);
-                }
-            });
-        }
-    });
+        });
+    }
 
-}
-    
-    
+    getDestinoById(id, callback) {
+        console.log(id);
+        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.imagen_name) AS imagen_names FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.id = ? GROUP BY d.id, d.nombre, d.descripcion, d.precio", [id], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                if (rows && rows.length > 0) {
+                    // Assuming you are working with multiple rows, you should iterate over the rows
+                    rows.forEach(row => {
+                        if (row.imagen_names) {
+                            row.imagen_names = row.imagen_names.split(',');
+                        } else {
+                            // Handle the case where imagen_ids is undefined (no matching records)
+                            row.imagen_names = [];
+                        }
+                    });
+                }
+                callback(null, rows);
+            }
+        });
+    }
+
+
     // async function getDestinosById(id, con) {
     //     try {
-            
+
     //         con = await pool.getConnection();
     //         const row = await con.query('SELECT * FROM destinos WHERE id = ?', [id]);
     //         return row;
@@ -54,7 +64,7 @@ getDestinoById(id, callback) {
     //         if (con) con.release();
     //     }
     // }
-    
+
     // async function createUser(user, con) {
     //     try {
     //         con = await pool.getConnection();

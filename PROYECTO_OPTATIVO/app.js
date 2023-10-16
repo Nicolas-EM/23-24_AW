@@ -33,6 +33,7 @@ app.listen(3000, () => {
 });
 
 app.get('/', function (req, res) {
+    console.log("GET INDEX");
     Dao.getDestinos(function (err, destinos) {
         if (err) {
             console.log(err);
@@ -49,12 +50,12 @@ app.get("/destination", (req, res) => {
     var destinationId = req.query.id;
     console.log("Received destinationId:", destinationId);
     // Find the destination object using id (for instance from a database)
-    Dao.getDestinoById(destinationId, function (err, des) {
+    Dao.getDestinoById(destinationId, function (err, dest) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
         } else {
-            res.render("destination", { data: des }); //des[0] because it's an array
+            res.render("destination", { dest: dest[0] }); //des[0] because it's an array
         }
     });
 });

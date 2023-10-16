@@ -11,46 +11,42 @@ Proyecto Opcional AW
   <!-- Shared head -->
   <%- include('fragments/head') %>
 
-  <!-- Custom -->
-  <title>CheapBnB</title>
-  <link type="text/css" rel="stylesheet" href="destination.css">
+    <!-- Custom -->
+    <title>CheapBnB</title>
+    <link type="text/css" rel="stylesheet" href="destination.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <%- include('fragments/navbar') %>
 
-  <!-- Content -->
-  <div class="container">
-    <h2 class="mt-3">Destino #<%= data[0].id %>: <%= data[0].nombre %></h2>
+    <!-- Content -->
+    <div class="container">
+      <h2 class="mt-3">Destino #<%= dest.id %>: <%= dest.nombre %>
+      </h2>
 
-    <!-- Images -->
-    <div id="images" class="text-center">
-      <div class="row row-cols-1 row-cols-lg-2 g-2">
-        <!-- Main img -->
-        <div class="col position-relative">
-          <img src="<%= data[0].imagen %>" class="rounded-start d-block w-100 h-100" alt="...">
-          <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
-            <span class="d-inline-block align-text-top material-symbols-outlined">
-              apps
-            </span>
-            Mostrar todas las fotos
-          </button>
-        </div>
-        <!-- Secondary imgs -->
-        <div class="col d-none d-lg-block ps-0">
-          <div class="row row-cols-2 g-1">
-            <div class="col">
-              <img src="<%= data[0].imagen %>"  class="d-block w-100" alt="...">
+      <!-- Images -->
+      <div id="images" class="text-center">
+        <div class="row row-cols-1 row-cols-lg-3 g-2">
+          <!-- Main img -->
+          <div class="col col-lg-6 position-relative">
+            <div class="row h-100 rounded-start">
+              <img id="primaryImg" src="<%= dest.imagen_names[0] %>" class="rounded-start" alt="...">
             </div>
-            <div class="col">
-              <img src="<%= data[0].imagen %>"  class="rounded-end rounded-bottom-0 d-block w-100" alt="...">
-            </div>
-            <div class="col">
-              <img src="<%= data[0].imagen %>"  class="d-block w-100" alt="...">
-            </div>
-            <div class="col position-relative">
-              <img src="<%= data[0].imagen %>"  class="rounded-bottom rounded-start-0 d-block w-100" alt="...">
+            <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
+              <span class="d-inline-block align-text-top material-symbols-outlined">
+                apps
+              </span>
+              Mostrar todas las fotos
+            </button>
+          </div>
+          <!-- Secondary imgs -->
+          <div class="col col-lg-6 d-none d-lg-block ps-0">
+            <div class="row row-cols-2 h-100 g-1 position-relative">
+              <img src="<%= dest.imagen_names[1] %>" class="img-fluid" alt="...">
+              <img src="<%= dest.imagen_names[3] %>" class="img-fluid" alt="...">
+              <img src="<%= dest.imagen_names[2] %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
+              <img src="<%= dest.imagen_names[4] %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
               <button class="btn btn-primary position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
                 <span class="d-inline-block align-text-top material-symbols-outlined">
                   apps
@@ -61,197 +57,201 @@ Proyecto Opcional AW
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Destination Info + Reservation -->
-    <div class="mt-3">
-      <div class="row row-cols-1 row-cols-md-2">
-        <!-- Destination Info -->
-        <div class="col">
-          <h3>Información sobre <%= data[0].nombre %></h3>
-          <p><%= data[0].descripcion %></p>
-          <p class="card-text mt-3"><small class="text-body-secondary"><%= data[0].precio %> € / noche</small></p>
-          <form role="reserva" class="text-center">
-            <!-- reservoir Btn -->
-            <button class="btn btn-primary" type="submit">
-              Reserva Ya!
-            </button>
-          </form>
-        </div>
-        <hr class="d-md-none my-3">
-        <!-- Calendar -->
-        <div class="col">
-          <div id="calendar">
-            <div class="row text-center">
-              <h3>Octubre</h3>
-            </div>
-            <div class="row text-secondary">
-              <div class="col">Lu</div>
-              <div class="col">Ma</div>
-              <div class="col">Mi</div>
-              <div class="col">Ju</div>
-              <div class="col">Vi</div>
-              <div class="col">Sa</div>
-              <div class="col">Do</div>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-              <div class="col"></div>
-              <div class="col">1</div>
-              <div class="col">2</div>
-              <div class="col">3</div>
-              <div class="col">4</div>
-              <div class="col">5</div>
-            </div>
-            <div class="row">
-              <div class="col">6</div>
-              <div class="col">7</div>
-              <div class="col">8</div>
-              <div class="col">9</div>
-              <div class="col">10</div>
-              <div class="col">11</div>
-              <div class="col">12</div>
-            </div>
-            <div class="row">
-              <div class="col">13</div>
-              <div class="col">14</div>
-              <div class="col">15</div>
-              <div class="col">16</div>
-              <div class="col">17</div>
-              <div class="col">18</div>
-              <div class="col">19</div>
-            </div>
-            <div class="row">
-              <div class="col">20</div>
-              <div class="col">21</div>
-              <div class="col">22</div>
-              <div class="col">23</div>
-              <div class="col">24</div>
-              <div class="col">25</div>
-              <div class="col">26</div>
-            </div>
-            <div class="row">
-              <div class="col">27</div>
-              <div class="col">28</div>
-              <div class="col">29</div>
-              <div class="col">30</div>
+      <!-- Destination Info + Reservation -->
+      <div class="mt-3">
+        <div class="row row-cols-1 row-cols-md-2">
+          <!-- Destination Info -->
+          <div class="col">
+            <h3>Información sobre <%= dest.nombre %>
+            </h3>
+            <p>
+              <%= dest.descripcion %>
+            </p>
+            <p class="card-text mt-3"><small class="text-body-secondary">
+                <%= dest.precio %> € / noche
+              </small></p>
+            <form role="reserva" class="text-center">
+              <!-- reservoir Btn -->
+              <button class="btn btn-primary" type="submit">
+                Reserva Ya!
+              </button>
+            </form>
+          </div>
+          <hr class="d-md-none my-3">
+          <!-- Calendar -->
+          <div class="col">
+            <div id="calendar">
+              <div class="row text-center">
+                <h3>Octubre</h3>
+              </div>
+              <div class="row text-secondary">
+                <div class="col">Lu</div>
+                <div class="col">Ma</div>
+                <div class="col">Mi</div>
+                <div class="col">Ju</div>
+                <div class="col">Vi</div>
+                <div class="col">Sa</div>
+                <div class="col">Do</div>
+              </div>
+              <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">1</div>
+                <div class="col">2</div>
+                <div class="col">3</div>
+                <div class="col">4</div>
+                <div class="col">5</div>
+              </div>
+              <div class="row">
+                <div class="col">6</div>
+                <div class="col">7</div>
+                <div class="col">8</div>
+                <div class="col">9</div>
+                <div class="col">10</div>
+                <div class="col">11</div>
+                <div class="col">12</div>
+              </div>
+              <div class="row">
+                <div class="col">13</div>
+                <div class="col">14</div>
+                <div class="col">15</div>
+                <div class="col">16</div>
+                <div class="col">17</div>
+                <div class="col">18</div>
+                <div class="col">19</div>
+              </div>
+              <div class="row">
+                <div class="col">20</div>
+                <div class="col">21</div>
+                <div class="col">22</div>
+                <div class="col">23</div>
+                <div class="col">24</div>
+                <div class="col">25</div>
+                <div class="col">26</div>
+              </div>
+              <div class="row">
+                <div class="col">27</div>
+                <div class="col">28</div>
+                <div class="col">29</div>
+                <div class="col">30</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--comment section-->
-    <div class="text-center mt-5">
-      <h3>Comentarios recientes: </h3>
+      <!--comment section-->
+      <div class="text-center mt-5">
+        <h3>Comentarios recientes: </h3>
 
-      <!-- placeholder for existing comments -->
-      <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
-        <!-- Comment 1 -->
-        <div class="col">
-          <div class="card mb-3 px-0">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                <div class="col-4">Usuario #1</div>
-                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-              </div>
-            </div>
-            <div class="card-body">
-              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-            </div>
-          </div>
-        </div>
-        <!-- Comment 2 -->
-        <div class="col">
-          <div class="card mb-3 px-0">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                <div class="col-4">Usuario #1</div>
-                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-              </div>
-            </div>
-            <div class="card-body">
-              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-            </div>
-          </div>
-        </div>
-        <!-- Comment 3 -->
-        <div class="col">
-          <div class="card mb-3 px-0">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                <div class="col-4">Usuario #1</div>
-                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-              </div>
-            </div>
-            <div class="card-body">
-              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-            </div>
-          </div>
-        </div>
-        <!-- Comment 4 -->
-        <div class="col">
-          <div class="card mb-3 px-0">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                <div class="col-4">Usuario #1</div>
-                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-              </div>
-            </div>
-            <div class="card-body">
-              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-            </div>
-          </div>
-        </div>
-
-
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Pictures Modal (fullscreen) -->
-  <div class="modal fade " id="picturesModal" tabindex="-1" aria-labelledby="picturesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="picturesModalLabel">Destination #1</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row row-cols-1 w-75 m-auto g-2">
-            <div class="col">
-              <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
-            </div>
-            <div class="col">
-              <div class="row row-cols-1 row-cols-lg-2 g-2">
-                <div src="col">
-                  <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
-                </div>
-                <div src="col">
-                  <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
+        <!-- placeholder for existing comments -->
+        <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
+          <!-- Comment 1 -->
+          <div class="col">
+            <div class="card mb-3 px-0">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                  <div class="col-4">Usuario #1</div>
+                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
                 </div>
               </div>
+              <div class="card-body">
+                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+              </div>
             </div>
-            <div class="col">
-              <img src="<%= data[0].imagen %>" class="w-100 h-auto" alt="...">
+          </div>
+          <!-- Comment 2 -->
+          <div class="col">
+            <div class="card mb-3 px-0">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                  <div class="col-4">Usuario #1</div>
+                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+              </div>
             </div>
+          </div>
+          <!-- Comment 3 -->
+          <div class="col">
+            <div class="card mb-3 px-0">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                  <div class="col-4">Usuario #1</div>
+                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+              </div>
+            </div>
+          </div>
+          <!-- Comment 4 -->
+          <div class="col">
+            <div class="card mb-3 px-0">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                  <div class="col-4">Usuario #1</div>
+                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Pictures Modal (fullscreen) -->
+    <div class="modal fade " id="picturesModal" tabindex="-1" aria-labelledby="picturesModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="picturesModalLabel">Destination #1</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row row-cols-1 w-75 m-auto g-2">
+              <% for(let i=0; i < dest.imagen_names.length; i++) { %>
+                <div class="col">
+                  <img src="<%= dest.imagen_names[i] %>" class="w-100 h-auto" alt="...">
+                </div>
+                <% if (i===0) { %>
+                  <div class="col">
+                    <div class="row row-cols-1 row-cols-lg-2 g-2">
+                      <% } else if (i===1 || i===2) { %>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <img src="<%= dest.imagen_names[i] %>" class="w-100 h-auto" alt="...">
+                  </div>
+                  <% } %>
+                    <% } %>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <%- include('fragments/footer') %>
+    <!-- Footer -->
+    <%- include('fragments/footer') %>
 </body>
 
 </html>
