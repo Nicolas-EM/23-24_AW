@@ -1,4 +1,6 @@
-
+.btn.btn-primary.position-absolute {
+    max-width: 220px;
+}
 
 #calendar {
     max-width: 350px;

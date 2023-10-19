@@ -31,7 +31,7 @@ Proyecto Opcional AW
           <!-- Main img -->
           <div class="col col-lg-6 position-relative">
             <div class="row h-100 rounded-start">
-              <img id="primaryImg" src="<%= dest.imagen_names[0] %>" class="rounded-start" alt="...">
+              <img id="primaryImg" src="<%= `${dest.image_ids[0]}.jpg` %>" class="rounded-start" alt="...">
             </div>
             <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
               <span class="d-inline-block align-text-top material-symbols-outlined">
@@ -43,11 +43,12 @@ Proyecto Opcional AW
           <!-- Secondary imgs -->
           <div class="col col-lg-6 d-none d-lg-block ps-0">
             <div class="row row-cols-2 h-100 g-1 position-relative">
-              <img src="<%= dest.imagen_names[1] %>" class="img-fluid" alt="...">
-              <img src="<%= dest.imagen_names[3] %>" class="img-fluid" alt="...">
-              <img src="<%= dest.imagen_names[2] %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
-              <img src="<%= dest.imagen_names[4] %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
-              <button class="btn btn-primary position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
+              <img src="<%= `${dest.image_ids[1]}.jpg` %>" class="img-fluid" alt="...">
+              <img src="<%= `${dest.image_ids[2]}.jpg` %>" class="img-fluid" alt="...">
+              <img src="<%= `${dest.image_ids[3]}.jpg` %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
+              <img src="<%= `${dest.image_ids[4]}.jpg` %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
+              <button class="btn btn-primary 
+              position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
                 <span class="d-inline-block align-text-top material-symbols-outlined">
                   apps
                 </span>
@@ -81,62 +82,7 @@ Proyecto Opcional AW
           <hr class="d-md-none my-3">
           <!-- Calendar -->
           <div class="col">
-            <div id="calendar">
-              <div class="row text-center">
-                <h3>Octubre</h3>
-              </div>
-              <div class="row text-secondary">
-                <div class="col">Lu</div>
-                <div class="col">Ma</div>
-                <div class="col">Mi</div>
-                <div class="col">Ju</div>
-                <div class="col">Vi</div>
-                <div class="col">Sa</div>
-                <div class="col">Do</div>
-              </div>
-              <div class="row">
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col">1</div>
-                <div class="col">2</div>
-                <div class="col">3</div>
-                <div class="col">4</div>
-                <div class="col">5</div>
-              </div>
-              <div class="row">
-                <div class="col">6</div>
-                <div class="col">7</div>
-                <div class="col">8</div>
-                <div class="col">9</div>
-                <div class="col">10</div>
-                <div class="col">11</div>
-                <div class="col">12</div>
-              </div>
-              <div class="row">
-                <div class="col">13</div>
-                <div class="col">14</div>
-                <div class="col">15</div>
-                <div class="col">16</div>
-                <div class="col">17</div>
-                <div class="col">18</div>
-                <div class="col">19</div>
-              </div>
-              <div class="row">
-                <div class="col">20</div>
-                <div class="col">21</div>
-                <div class="col">22</div>
-                <div class="col">23</div>
-                <div class="col">24</div>
-                <div class="col">25</div>
-                <div class="col">26</div>
-              </div>
-              <div class="row">
-                <div class="col">27</div>
-                <div class="col">28</div>
-                <div class="col">29</div>
-                <div class="col">30</div>
-              </div>
-            </div>
+            <%- include('fragments/calendar') %>
           </div>
         </div>
       </div>
@@ -228,23 +174,25 @@ Proyecto Opcional AW
           </div>
           <div class="modal-body">
             <div class="row row-cols-1 w-75 m-auto g-2">
-              <% for(let i=0; i < dest.imagen_names.length; i++) { %>
-                <div class="col">
-                  <img src="<%= dest.imagen_names[i] %>" class="w-100 h-auto" alt="...">
+              <% for(let i=0; i < dest.image_ids.length; i++) { %>
+                <!-- Single image -->
+                <% if(i % 3 === 0){ %>
+                  <div class="col-12">
+                    <img src="<%= `${dest.image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+                  </div>
+                  <!-- Last image and has no pair -->
+                <% } else if(i + 1 === dest.image_ids.length && i % 3 === 1){ %> 
+                  <div class="col-12">
+                    <img src="<%= `${dest.image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+                  </div>
+                  <!-- Pair image -->
+                <% } else{ %> 
+                <div class="col-6">
+                  <img src="<%= `${dest.image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
                 </div>
-                <% if (i===0) { %>
-                  <div class="col">
-                    <div class="row row-cols-1 row-cols-lg-2 g-2">
-                      <% } else if (i===1 || i===2) { %>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <img src="<%= dest.imagen_names[i] %>" class="w-100 h-auto" alt="...">
-                  </div>
-                  <% } %>
-                    <% } %>
+                <% } %>
+              <% } %>
             </div>
-
           </div>
         </div>
       </div>

@@ -16,10 +16,9 @@ CREATE TABLE destinos (
 );
 
 CREATE TABLE destino_imagenes (
- imagen_id INT AUTO_INCREMENT PRIMARY KEY,
+ image_id INT AUTO_INCREMENT PRIMARY KEY,
  destino_id INT,
- imagen_name TEXT,
- --TODO: añadir descripción de imagen para poner alt=""
+ img_description TEXT,
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
 
@@ -69,9 +68,9 @@ VALUES
 ('Perú', 'Visita la tierra de los incas, y disfruta de la cultura y la gastronomía de Perú.', 800);
 
 -- Generate random image filenames for each destination
-INSERT INTO destino_imagenes (destino_id, imagen_name)
+INSERT INTO destino_imagenes (destino_id, img_description)
 SELECT
   d.id AS destino_id,
-  CONCAT('vacation_', FLOOR(RAND() * 20) + 1, '.jpg') AS imagen_name
+  CONCAT('Image for destination', d.id) AS img_description
 FROM destinos d
-CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) AS rand_images;
+CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6) AS rand_images;

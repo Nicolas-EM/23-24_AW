@@ -7,7 +7,7 @@ class DAO {
     }
 
     getDestinos(callback) {
-        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.imagen_name) AS imagen_names FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id GROUP BY d.id, d.nombre, d.descripcion, d.precio;", function (err, rows) {
+        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id GROUP BY d.id, d.nombre, d.descripcion, d.precio;", function (err, rows) {
             if (err) {
                 callback(err);
             }
@@ -15,11 +15,11 @@ class DAO {
                 if (rows && rows.length > 0) {
                     // Assuming you are working with multiple rows, you should iterate over the rows
                     rows.forEach(row => {
-                        if (row.imagen_names) {
-                            row.imagen_names = row.imagen_names.split(',');
+                        if (row.image_ids) {
+                            row.image_ids = row.image_ids.split(',');
                         } else {
                             // Handle the case where imagen_ids is undefined (no matching records)
-                            row.imagen_names = [];
+                            row.image_ids = [];
                         }
                     });
                 }
@@ -30,7 +30,7 @@ class DAO {
 
     getDestinoById(id, callback) {
         console.log(id);
-        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.imagen_name) AS imagen_names FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.id = ? GROUP BY d.id, d.nombre, d.descripcion, d.precio", [id], function (err, rows) {
+        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.id = ? GROUP BY d.id, d.nombre, d.descripcion, d.precio", [id], function (err, rows) {
             if (err) {
                 callback(err);
             }
@@ -38,14 +38,15 @@ class DAO {
                 if (rows && rows.length > 0) {
                     // Assuming you are working with multiple rows, you should iterate over the rows
                     rows.forEach(row => {
-                        if (row.imagen_names) {
-                            row.imagen_names = row.imagen_names.split(',');
+                        if (row.image_ids) {
+                            row.image_ids = row.image_ids.split(',');
                         } else {
                             // Handle the case where imagen_ids is undefined (no matching records)
-                            row.imagen_names = [];
+                            row.image_ids = [];
                         }
                     });
                 }
+                console.log(rows);
                 callback(null, rows);
             }
         });

@@ -65,18 +65,18 @@ Proyecto Opcional AW
                                 <div id="destination<%= destination.id %>ImgCarousel" class="carousel slide">
                                     <div class="carousel-indicators">
                                         <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                        <% for(let i=1; i<destination.imagen_names.length; i++) {%>
+                                        <% for(let i=1; i<destination.image_ids.length; i++) {%>
                                         <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="<%= i %>" aria-label="Slide <%= i + 1 %>"></button>
                                         <% } %>
                                     </div>
                                     <div class="carousel-inner">
                                         <a href="/destination?id=<%= destination.id %>">
                                             <div class="carousel-item rounded active">
-                                                <img src="<%= destination.imagen_names[0] %>" class="rounded d-block w-100" alt="...">
+                                                <img src="<%= `${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="...">
                                             </div>
-                                            <% for(let i=1; i<destination.imagen_names.length; i++) {%>
+                                            <% for(let i=1; i<destination.image_ids.length; i++) {%>
                                                 <div class="carousel-item rounded">
-                                                <img src="<%= destination.imagen_names[i] %>" class="rounded d-block w-100" alt="...">
+                                                <img src="<%= `${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="...">
                                             </div>
                                              <% } %>
                                         </a>
