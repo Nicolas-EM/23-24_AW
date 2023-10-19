@@ -2,12 +2,15 @@
     max-width: 220px;
 }
 
-#calendar {
-    max-width: 350px;
-    margin: auto;
+#calendarCarousel {
+    min-height: 210px;
 }
 
-#calendar .col {
+#calendar {
+    max-width: 350px;
+}
+
+#calendarCarousel .col {
     max-width: 14%;
     text-align: center;
 }
