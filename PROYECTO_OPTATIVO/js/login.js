@@ -1,5 +1,4 @@
-import { checkUserExists,registerUser } from "../../PROYECTO_OBLIGATORIO/DAOUsers";
-const _SIGN_IN = true;
+
 
 // JavaScript to toggle password visibility
 $('#showPassword').on('click', function () {
@@ -14,16 +13,16 @@ $('#showPassword').on('click', function () {
     }
 });
 
-//switch login/register form page in html
-$("a").on("click", function () {
-    if(_SIGN_IN){
-        $(".signin").addClass("d-none");
-        $(".register").removeClass("d-none");
-    } else {
-        $(".signin").removeClass("d-none");
-        $(".register").addClass("d-none");
-    }
-});
+// //switch login/register form page in html
+// $("a").on("click", function () {
+//     if(_SIGN_IN){
+//         $(".signin").addClass("d-none");
+//         $(".register").removeClass("d-none");
+//     } else {
+//         $(".signin").removeClass("d-none");
+//         $(".register").addClass("d-none");
+//     }
+// });
 
 function isEmailValid() {
     const emailRegex = new RegExp('^[\\w-\\.]+@ucm\\.es$')

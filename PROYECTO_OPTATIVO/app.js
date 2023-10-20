@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "css")));
 app.use(express.static(path.join(__dirname, "resources")));
+app.use(express.static(path.join(__dirname, "js")));
 
 // Start the server
 app.listen(3000, () => {
@@ -45,7 +46,11 @@ app.get('/', function (req, res) {
         }
     });
 });
-
+app.get('/login', function (req, res) {
+    console.log("GET LOGIN");
+    let errorMsg = "";
+    res.render("login", { errorMsg: errorMsg });
+});
 app.get("/destination", (req, res) => {
     var destinationId = req.query.id;
     console.log("Received destinationId:", destinationId);
