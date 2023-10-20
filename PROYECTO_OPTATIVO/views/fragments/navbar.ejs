@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<!-- Signup Modal -->
+<!-- Sign up modal -->
 <div class="modal fade " id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -54,11 +54,24 @@
                 <h5 class="modal-title" id="signupModalLabel">Registro</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="signup">
+            <form id="signup" method="post" action="/signup"> <!-- Use your desired route for handling signup -->
                 <div class="modal-body">
+                    <% if (errorMsg) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= errorMsg %>
+                        </div>
+                    <% } else if (successMsg) { %>
+                        <div class="alert alert-success" role="alert">
+                            Sign up success!
+                        </div>
+                    <% } %>
                     <div class="mb-3">
                         <label for="displayName" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="displayName" name="Nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="displayUsername" class="form-label">Nombre de Usuario</label>
+                        <input type="text" class="form-control" id="displayUsername" name="Nombre de Usuario" required>
                     </div>
                     <div class="mb-3">
                         <label for="signupEmail" class="form-label">Correo</label>

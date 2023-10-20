@@ -1,4 +1,4 @@
-import { checkUserExists,registerUser } from "./DAOUsers";
+import { checkUserExists,registerUser } from "../../PROYECTO_OBLIGATORIO/DAOUsers";
 const _SIGN_IN = true;
 
 // JavaScript to toggle password visibility

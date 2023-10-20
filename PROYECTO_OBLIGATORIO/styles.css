@@ -1,6 +1,15 @@
 :root {
-    --customGreen: #00574B;
-    --customWhite: #FFFAFA;
+    --bs-blue: #00a0a0;
+    --bs-black: #000000;
+    --bs-grey: #6c757d;
+    --airbnb-red: #FF5A5F;
+    --airbnb-red-rgb: 255, 90, 95;
+    --hover-red: #d80765;
+    --hover-red-rgb: 216, 7, 101;
+    /* --bs-primary-rgb: var(--airbnb-red-rgb); */
+    --bs-primary-rgb: var(--airbnb-red-rgb);
+    --google-yellow: #F4B400;
+    --google-yellow-rgb: 244, 180, 0;
 }
 
 .navbar-custom {
@@ -43,13 +52,7 @@
 
 .gradient-custom {
     /* fallback for old browsers */
-    background: #0ba26bda;
-
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #00574b, #6BA292);
-
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #00574b, #6BA292)
+    background: var(--airbnb-red);
 }
 
 .warning-tooltip {

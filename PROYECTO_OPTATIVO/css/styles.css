@@ -34,3 +34,50 @@
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
+
+.navbar-custom {
+    background-color: #00574B;
+    /* Insert your color here */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: var(--white);
+    /* Insert your color here */
+}
+
+.hero-section {
+    padding: 100px 50px;
+    background-color: #6BA292;
+    /* Insert your color here */
+    color: var(--white);
+    /* Insert your color here */
+}
+
+.btn-custom {
+    background-color: #444C5C;
+    /* Insert your color here */
+    color: var(--white);
+    /* Insert your color here */
+}
+
+.card {
+    border-color: #444C5C;
+    /* Insert your color here */
+}
+
+.card .btn-custom {
+    background-color: var(--white);
+    /* Insert your color here */
+    color: #444C5C;
+    /* Insert your color here */
+}
+
+.gradient-custom {
+    /* fallback for old browsers */
+    background: var(--airbnb-red);
+}
+
+.warning-tooltip {
+    background-color: var(--bs-warning);
+}
