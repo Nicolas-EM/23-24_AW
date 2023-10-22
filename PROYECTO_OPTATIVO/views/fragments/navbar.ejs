@@ -8,45 +8,59 @@
         <!-- Account Icon -->
         <div class="navbar-nav ms-auto">
             <div class="nav-item">
-            <!-- esto estaba en la linea de debajo: data-bs-toggle="modal" data-bs-target="#loginModal" -->
-                <a class="nav-link" aria-current="page" href="/login">
-                    <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
-                </a>
+                <% if(!isAuthenticated) {%>
+                    <a class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
+                    </a>
+                    <% } else { %>
+                        <div class="nav-item btn-group dropend">
+                            <btn type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
+                            </btn>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/userPage">Mi Cuenta</a></li>
+                                <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                    <% } %>
             </div>
         </div>
     </div>
 </nav>
 
-<!-- Login Modal -->
-<div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<% if(!isAuthenticated) {%>
+    <!-- Login Modal -->
+    <div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="login" method="post" action="/login">
+                    <div class="modal-body">
+                        <input type="hidden" id="source" name="source" value="<%= source %>">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="************" required>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <button type="submit" class="btn btn-primary form-control">Continuar</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <p>¿Todavía no te has registrado? <a href="#" data-bs-target="#signupModal" data-bs-toggle="modal">Haz clic aquí</a></p>
+                    </div>
+                </form>
             </div>
-            <form id="login">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="************" required>
-                    </div>
-                    <div class="mt-3 text-center">
-                        <button type="submit" class="btn btn-primary form-control">Continuar</button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <p>¿Todavía no te has registrado? <a href="#" data-bs-target="#signupModal" data-bs-toggle="modal">Haz clic aquí</a></p>
-                </div>
-            </form>
         </div>
     </div>
-</div>
-<!-- sign up modal -->
+
+    <!-- sign up modal -->
     <div class="modal fade " id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -83,3 +97,4 @@
             </div>
         </div>
     </div>
+    <% } %>

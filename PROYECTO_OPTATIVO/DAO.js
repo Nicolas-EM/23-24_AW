@@ -46,7 +46,6 @@ class DAO {
                         }
                     });
                 }
-                console.log(rows);
                 callback(null, rows);
             }
         });
