@@ -51,6 +51,37 @@ class DAO {
         });
     }
 
+    authUser(user, callback){
+        console.log(user);
+        this.pool.query("SELECT * FROM usuarios u WHERE u.correo = ? AND u.passwd = ?;", [user.email, user.hashedPassword], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                console.log(rows);
+                if (rows && rows.length > 0) {
+                    callback(null, true);   
+                } else{
+                    callback(null, false);
+                }
+            }
+        });
+    }
+
+    createUser(user, callback){
+        this.pool.query("INSERT INTO usuarios (nombre, correo, passwd) VALUES (?, ?, ?);", [user.nombre, user.email, user.hashedPassword], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                if (rows && rows.length > 0) {
+                    callback(null, true);   
+                } else{
+                    callback(null, false);
+                }
+            }
+        });
+    }
 
     // async function getDestinosById(id, con) {
     //     try {

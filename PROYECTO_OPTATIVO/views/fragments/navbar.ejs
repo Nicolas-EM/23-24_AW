@@ -68,11 +68,12 @@
                     <h5 class="modal-title" id="signupModalLabel">Registro</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="signup">
+                <form id="signup" method="post" action="/register">
                     <div class="modal-body">
+                        <input type="hidden" id="source" name="source" value="<%= source %>">
                         <div class="mb-3">
                             <label for="displayName" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="displayName" name="Nombre" required>
+                            <input type="text" class="form-control" id="displayName" name="nombre" required>
                         </div>
                         <div class="mb-3">
                             <label for="signupEmail" class="form-label">Correo</label>

@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const bcrypt = require('bcrypt')
+
 const fs = require('fs');
 const mime = require('mime');
 
@@ -33,6 +35,10 @@ app.use(
     })
 )
 
+// Create hasher
+const saltRounds = 10
+const salt = bcrypt.genSaltSync(saltRounds)
+
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "css")));
 app.use(express.static(path.join(__dirname, "resources")));
@@ -57,16 +63,48 @@ app.get('/', function (req, res) {
 
 app.post('/login', (req, res) => {
     const { email, password, source } = req.body
-    console.log(email);
-    console.log(password);
+    const hashedPassword = bcrypt.hashSync(password, salt)
 
-    // Validate username and password (e.g., against a database)
-    // ...
+    Dao.authUser({ email, hashedPassword }, function (err, isAuthenticated) {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Server Error');
+        }
+        else {
+            if (isAuthenticated) {
+                console.log("Authenticated");
+                // If valid credentials, create a session
+                req.session.user = { email }
+                res.redirect(source);
+            }
+            else {
+                console.log("Denied");
+                res.status(401);
+            }
+        }
+    });
+})
 
-    // If valid credentials, create a session
-    req.session.user = { email }
-    console.log(source);
-    res.redirect(source);
+app.post('/register', (req, res) => {
+    const { nombre, email, password, source } = req.body
+    const hashedPassword = bcrypt.hashSync(password, salt)
+
+    Dao.createUser({ nombre, email, hashedPassword }, function (err, isAuthenticated) {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Server Error');
+        }
+        else {
+            if (isAuthenticated) {
+                // If valid credentials, create a session
+                req.session.user = { email }
+                res.redirect(source);
+            }
+            else {
+                res.status(401);
+            }
+        }
+    });
 })
 
 app.get("/destination", (req, res) => {
@@ -84,12 +122,16 @@ app.get("/destination", (req, res) => {
 });
 
 app.get("/userPage", (req, res) => {
-    res.render("userPage", { isAuthenticated: req.session.user !== undefined });
+    if (req.session.user === undefined) {
+        res.redirect("/");
+    } else {
+        res.render("userPage", { isAuthenticated: true });
+    }
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
-        res.redirect('/')
+        res.redirect('/');
     })
 })
 
