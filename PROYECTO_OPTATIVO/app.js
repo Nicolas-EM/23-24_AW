@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const bcrypt = require('bcrypt')
 
 const fs = require('fs');
 const mime = require('mime');
@@ -35,10 +34,6 @@ app.use(
     })
 )
 
-// Create hasher
-const saltRounds = 10
-const salt = bcrypt.genSaltSync(saltRounds)
-
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "css")));
 app.use(express.static(path.join(__dirname, "resources")));
@@ -63,9 +58,9 @@ app.get('/', function (req, res) {
 
 app.post('/login', (req, res) => {
     const { email, password, source } = req.body
-    const hashedPassword = bcrypt.hashSync(password, salt)
+    console.log(`Login from ${source}`);
 
-    Dao.authUser({ email, hashedPassword }, function (err, isAuthenticated) {
+    Dao.authUser({ email, password }, function (err, isAuthenticated) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
@@ -80,28 +75,31 @@ app.post('/login', (req, res) => {
             else {
                 console.log("Denied");
                 res.status(401);
+                res.redirect(source);
             }
         }
     });
 })
 
 app.post('/register', (req, res) => {
-    const { nombre, email, password, source } = req.body
-    const hashedPassword = bcrypt.hashSync(password, salt)
+    const { nombre, email, password, source } = req.body;
+    console.log(`Register from ${source}`);
 
-    Dao.createUser({ nombre, email, hashedPassword }, function (err, isAuthenticated) {
+    Dao.createUser({ nombre, email, password }, function (err, isAuthenticated) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
         }
         else {
             if (isAuthenticated) {
+                console.log("Registered");
                 // If valid credentials, create a session
                 req.session.user = { email }
-                res.redirect(source);
+                res.status(200).redirect(source);
             }
             else {
-                res.status(401);
+                console.log("Registration failed");
+                res.status(401).redirect(source);
             }
         }
     });

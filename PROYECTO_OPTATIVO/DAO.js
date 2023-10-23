@@ -1,4 +1,6 @@
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
+
 class DAO {
     pool;
 
@@ -53,14 +55,15 @@ class DAO {
 
     authUser(user, callback){
         console.log(user);
-        this.pool.query("SELECT * FROM usuarios u WHERE u.correo = ? AND u.passwd = ?;", [user.email, user.hashedPassword], function (err, rows) {
+        this.pool.query("SELECT * FROM usuarios u WHERE u.correo = ?;", [user.email], function (err, rows) {
             if (err) {
                 callback(err);
             }
             else {
                 console.log(rows);
                 if (rows && rows.length > 0) {
-                    callback(null, true);   
+                    const row = rows[0];
+                    bcrypt.compare(user.password, row.password, callback);
                 } else{
                     callback(null, false);
                 }
@@ -69,12 +72,18 @@ class DAO {
     }
 
     createUser(user, callback){
-        this.pool.query("INSERT INTO usuarios (nombre, correo, passwd) VALUES (?, ?, ?);", [user.nombre, user.email, user.hashedPassword], function (err, rows) {
+        // Create hasher
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(user.password, salt);
+
+        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.nombre, user.email, hashedPassword], function (err, OkPacket) {
             if (err) {
                 callback(err);
             }
             else {
-                if (rows && rows.length > 0) {
+                console.log(OkPacket);
+                if (OkPacket && OkPacket.insertId != undefined) {
                     callback(null, true);   
                 } else{
                     callback(null, false);
