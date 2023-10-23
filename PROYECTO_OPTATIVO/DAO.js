@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
 
 class DAO {
     pool;
@@ -53,31 +52,8 @@ class DAO {
         });
     }
 
-    authUser(user, callback){
-        console.log(user);
-        this.pool.query("SELECT * FROM usuarios u WHERE u.correo = ?;", [user.email], function (err, rows) {
-            if (err) {
-                callback(err);
-            }
-            else {
-                console.log(rows);
-                if (rows && rows.length > 0) {
-                    const row = rows[0];
-                    bcrypt.compare(user.password, row.password, callback);
-                } else{
-                    callback(null, false);
-                }
-            }
-        });
-    }
-
     createUser(user, callback){
-        // Create hasher
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(user.password, salt);
-
-        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.nombre, user.email, hashedPassword], function (err, OkPacket) {
+        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.nombre, user.email, user.hashedPassword], function (err, OkPacket) {
             if (err) {
                 callback(err);
             }
@@ -88,6 +64,21 @@ class DAO {
                 } else{
                     callback(null, false);
                 }
+            }
+        });
+    }
+
+    getSingleUser(email, callback){
+        console.log(email);
+        this.pool.query("SELECT * FROM usuarios u WHERE u.correo = ?;", [email], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                if(rows && rows.length == 1)
+                    callback(null, rows[0]);
+                else
+                    callback("getSingleUser: Multiple users found");
             }
         });
     }

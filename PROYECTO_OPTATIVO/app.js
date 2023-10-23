@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const fs = require('fs');
 const mime = require('mime');
@@ -60,13 +61,13 @@ app.post('/login', (req, res) => {
     const { email, password, source } = req.body
     console.log(`Login from ${source}`);
 
-    Dao.authUser({ email, password }, function (err, isAuthenticated) {
+    Dao.getSingleUser(email, function (err, userData) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
         }
         else {
-            if (isAuthenticated) {
+            if (bcrypt.compare(password, userData.password)) {
                 console.log("Authenticated");
                 // If valid credentials, create a session
                 req.session.user = { email }
@@ -84,8 +85,12 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
     const { nombre, email, password, source } = req.body;
     console.log(`Register from ${source}`);
+    // Create hasher
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
-    Dao.createUser({ nombre, email, password }, function (err, isAuthenticated) {
+    Dao.createUser({ nombre, email, hashedPassword }, function (err, isAuthenticated) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
@@ -123,7 +128,15 @@ app.get("/userPage", (req, res) => {
     if (req.session.user === undefined) {
         res.redirect("/");
     } else {
-        res.render("userPage", { isAuthenticated: true });
+        Dao.getSingleUser(req.session.user.email, function (err, userData) {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Server Error');
+            }
+            else {
+                res.render("userPage", { isAuthenticated: true, userData });
+            }
+        });
     }
 });
 
