@@ -11,14 +11,14 @@ GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on
 CREATE TABLE destinos (
  id INT AUTO_INCREMENT PRIMARY KEY,
  nombre VARCHAR(255) NOT NULL,
- descripcion TEXT,
- precio DECIMAL(10, 2)
+ descripcion TEXT NOT NULL,
+ precio DECIMAL(10, 2) NOT NULL
 );
 
 CREATE TABLE destino_imagenes (
  image_id INT AUTO_INCREMENT PRIMARY KEY,
- destino_id INT,
- img_description TEXT,
+ destino_id INT NOT NULL,
+ img_description TEXT NOT NULL,
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
 
@@ -34,16 +34,17 @@ UNIQUE (correo)
 
 CREATE TABLE reservas (
  id INT AUTO_INCREMENT PRIMARY KEY,
- destino_id INT,
- nombre_cliente VARCHAR(255) NOT NULL,
- correo_cliente VARCHAR(255) NOT NULL,
- fecha_reserva DATE NOT NULL,
+ destino_id INT NOT NULL,
+ cliente_id INT NOT NULL,
+ fecha_start DATE NOT NULL,
+ fecha_end DATE NOT NULL,
+ FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
 
 CREATE TABLE comentarios (
  id INT AUTO_INCREMENT PRIMARY KEY,
- destino_id INT,
+ destino_id INT NOT NULL,
  nombre_usuario VARCHAR(255) NOT NULL,
  comentario TEXT NOT NULL,
  fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

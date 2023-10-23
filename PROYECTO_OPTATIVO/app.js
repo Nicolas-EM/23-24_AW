@@ -57,6 +57,22 @@ app.get('/', function (req, res) {
     });
 });
 
+app.post('/search', (req, res) => {
+    const { query, maxPrice } = req.body;
+
+    Dao.getSearch(query, maxPrice, function (err, destinos) {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Server Error');
+        }
+        else {
+            console.log(destinos);
+            res.render('index', { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
+        }
+    });
+
+});
+
 app.post('/login', (req, res) => {
     const { email, password, source } = req.body
     console.log(`Login from ${source}`);
@@ -128,13 +144,21 @@ app.get("/userPage", (req, res) => {
     if (req.session.user === undefined) {
         res.redirect("/");
     } else {
-        Dao.getSingleUser(req.session.user.email, function (err, userData) {
+        const email = req.session.user.email;
+        Dao.getSingleUser(email, function (err, user) {
             if (err) {
                 console.log(err);
                 res.status(500).send('Server Error');
             }
             else {
-                res.render("userPage", { isAuthenticated: true, userData });
+                Dao.getReservas(email, function (err, reservas){
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send('Server Error');
+                    } else {
+                        res.render("userPage", { isAuthenticated: true, user, reservas});
+                    }
+                });
             }
         });
     }
@@ -144,7 +168,7 @@ app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
     })
-})
+});
 
 
 //jpg to hex converter:

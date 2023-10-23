@@ -11,140 +11,114 @@ Proyecto Opcional AW
   <!-- Shared head -->
   <%- include('fragments/head') %>
 
-  <!-- Custom -->
-  <title>CheapBnB - User</title>
-  <link type="text/css" rel="stylesheet" href="user.css">
+    <!-- Custom -->
+    <title>CheapBnB - User</title>
+    <link type="text/css" rel="stylesheet" href="user.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <%- include('fragments/navbar') %>
 
-  <!-- Datos del usuario -->
-  <div class="container-fluid p-0 mb-3">
-    <section class="userBg">
-      <div class="container py-5">
-        <div class="row g-2">
-          <div class="col-lg-4">
-            <div class="card rounded h-100">
-              <div class="card-body text-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="avatar rounded-circle img-fluid">
-                <h5 class="my-3">Pepe García</h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Nombre</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">Jose García</p>
-                  </div>
+    <!-- Datos del usuario -->
+    <div class="container-fluid p-0 mb-3">
+      <section class="userBg">
+        <div class="container py-5">
+          <div class="row g-2">
+            <div class="col-lg-4">
+              <div class="card rounded h-100">
+                <div class="card-body text-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="avatar rounded-circle img-fluid">
+                  <h5 class="my-3">
+                    <%= user.nombre %>
+                  </h5>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Email</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">PepeGlorioso@ucm.es</p>
-                  </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card h-100">
+                <div class="card-body">
+                  <form method="put" action="/updateUser">
+                    <!-- Datos usuario -->
+                    <!-- Nombre -->
+                    <div class="row row-cols-3 align-items-center g-0">
+                      <div class="col-3">
+                        <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" id="nombreInput" class="form-control" value="<%= user.nombre %>" required>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- Correo -->
+                    <div class="row row-cols-3 align-items-center g-0">
+                      <div class="col-3">
+                        <label for="emailInput" class="form-label mb-0">Correo</label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" id="emailInput" class="form-control" value="<%= user.correo %>" required>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <!-- Gestión contraseña -->
+                    <div class="row align-items-center">
+                      <div class="row align-items-center mb-1">
+                        <div class="col-3">
+                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                      <div class="row align-items-center mb-1">
+                        <div class="col-3">
+                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                      <div class="row align-items-center">
+                        <div class="col-3">
+                          <label for="currentPasswordInput" class="form-label mb-0">Confirmación</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col text-end">
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-
-                <hr>
-                <form>
-                  <div class="row mb-2 align-items-center">
-                    <div class="col-sm-3">
-                      <p class="mb-0">Contraseña</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control rounded" placeholder="contraseña"></input>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row align-items-center">
-                    <div class="col-sm-3">
-                      <p class="mb-0">Confirmar Contraseña</p>
-                    </div>
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control rounded" placeholder="contraseña"></input>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Reservas -->
-  <div class="container">
-    <div class="row justify-content-center">
-      <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
-    </div>
-    <div id="reservas" class="row row-cols-1 row-cols-lg-2">
-      <!-- Reserva #1 -->
-      <div class="col">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://picsum.photos/1920/1080" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Última Reserva nº1</h5>
-                <p class="card-text">Texto de prueba de tu ultima reserva como usuario de CheapBnB</p>
-                <p class="card-text"><small class="text-body-secondary">Actualizado por última vez hace 15 minutos</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Reserva #2 -->
-      <div class="col">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://picsum.photos/1920/1080" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Última Reserva nº2</h5>
-                <p class="card-text">Texto de prueba de tu ultima reserva como usuario de CheapBnB</p>
-                <p class="card-text"><small class="text-body-secondary">Actualizado por última vez hace 30 minutos</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Reserva #3 -->
-      <div class="col">
-        <div class="card mb-3">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://picsum.photos/1920/1080" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Última Reserva nº3</h5>
-                <p class="card-text">Texto de prueba de tu ultima reserva como usuario de CheapBnB</p>
-                <p class="card-text"><small class="text-body-secondary">Actualizado por última vez hace 14 horas</small></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
 
-  </div>
+    <!-- Reservas -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
+      </div>
+      <div id="reservas" class="row row-cols-1 row-cols-lg-2">
+        <% reservas.forEach(function(reserva) { %>
+          <%- include('fragments/reserva', {reserva}) %>
+        <% }); %>
+      </div>
 
-  <!-- Footer -->
-  <%- include('fragments/footer') %>
+    </div>
+
+    <!-- Footer -->
+    <%- include('fragments/footer') %>
 </body>
 
 </html>

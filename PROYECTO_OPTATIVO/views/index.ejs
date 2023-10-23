@@ -11,9 +11,9 @@ Proyecto Opcional AW
     <!-- Shared head -->
     <%- include('fragments/head') %>
 
-    <!-- Custom -->
-    <link type="text/css" rel="stylesheet" href="home.css" />
-    <title>CheapBnB</title>
+        <!-- Custom -->
+        <link type="text/css" rel="stylesheet" href="home.css" />
+        <title>CheapBnB</title>
 </head>
 
 <body>
@@ -25,32 +25,34 @@ Proyecto Opcional AW
             <!-- Search -->
             <div class="container text-center">
                 <!-- Search bar -->
-                <form id="searchForm">
+                <form id="searchForm" action="/search" method="post">
                     <div class="input-group justify-content-center">
-                        <input type="text" class="form-control" placeholder="Descubre tu próximo destino...">
+                        <input type="text" class="form-control" id="query" name="query" placeholder="Descubre tu próximo destino...">
                         <!-- Search Btn -->
-                        <button class="btn btn-primary btn-rounded ml-2" type="submit">
-                            <span class="material-symbols-outlined">search</span>
-                        </button>
+                        <div class="btn-group">
+                            <button class="btn btn-primary ml-2" type="submit">
+                                <span class="material-symbols-outlined">search</span>
+                            </button>
 
-                        <!-- Filter Button -->
-                        <!-- <button class="btn btn-primary btn-rounded ml-2" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
-                <span class="material-symbols-outlined">tune</span>
-            </button> -->
+                            <!-- Filter Button -->
+                            <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
+                                <span class="material-symbols-outlined">tune</span>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- Search filters -->
+                    <div class="row mt-3">
+                        <div class="collapse" id="searchFilters">
+                            <div class="card card-body">
+                                <label for="maxPrice" class="form-label">Filtrar por precio:</label>
+                                <input id="maxPrice" type="range" min="0" max="5000" value="2500" class="form-range custom-range" name="maxPrice">
+                                <span id="rangeValue">2500</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
-
-                <!-- Search filters -->
-                <!-- <div class="row mt-3">
-        <div class="collapse" id="searchFilters">
-            <div class="card card-body">
-                <label for="customRange1" class="form-label">Filter price:</label>
-                <input type="range" min="0" max="5000" value="2500" class="form-range" id="customRange1">
-                <span id="rangeValue">2500</span>
-            </div>
-        </div>
-    </div> -->
-
             </div>
 
             <!-- Grid of destinations -->
@@ -66,8 +68,8 @@ Proyecto Opcional AW
                                     <div class="carousel-indicators">
                                         <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                         <% for(let i=1; i<destination.image_ids.length; i++) {%>
-                                        <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="<%= i %>" aria-label="Slide <%= i + 1 %>"></button>
-                                        <% } %>
+                                            <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="<%= i %>" aria-label="Slide <%= i + 1 %>"></button>
+                                            <% } %>
                                     </div>
                                     <div class="carousel-inner">
                                         <a href="/destination?id=<%= destination.id %>">
@@ -76,9 +78,9 @@ Proyecto Opcional AW
                                             </div>
                                             <% for(let i=1; i<destination.image_ids.length; i++) {%>
                                                 <div class="carousel-item rounded">
-                                                <img src="<%= `${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="...">
-                                            </div>
-                                             <% } %>
+                                                    <img src="<%= `${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="...">
+                                                </div>
+                                                <% } %>
                                         </a>
                                     </div>
                                     <button class="carousel-control-prev" type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide="prev">
@@ -106,8 +108,7 @@ Proyecto Opcional AW
                                 </a>
                             </div>
                         </div>
-                        <% }); %>
-
+                    <% }); %>
                 </div>
             </div>
         </div>
