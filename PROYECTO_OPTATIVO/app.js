@@ -86,7 +86,7 @@ app.post('/login', (req, res) => {
             if (bcrypt.compare(password, userData.password)) {
                 console.log("Authenticated");
                 // If valid credentials, create a session
-                req.session.user = { email }
+                req.session.user = { email, id: userData.id };
                 res.redirect(source);
             }
             else {
@@ -106,16 +106,16 @@ app.post('/register', (req, res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    Dao.createUser({ nombre, email, hashedPassword }, function (err, isAuthenticated) {
+    Dao.createUser({ nombre, email, hashedPassword }, function (err, userId) {
         if (err) {
             console.log(err);
             res.status(500).send('Server Error');
         }
         else {
-            if (isAuthenticated) {
+            if (userId !== undefined) {
                 console.log("Registered");
                 // If valid credentials, create a session
-                req.session.user = { email }
+                req.session.user = { email, id: userId };
                 res.status(200).redirect(source);
             }
             else {
@@ -135,7 +135,14 @@ app.get("/destination", (req, res) => {
             console.log(err);
             res.status(500).send('Server Error');
         } else {
-            res.render("destination", { isAuthenticated: req.session.user !== undefined, source: "/destination", dest: dest[0] }); //des[0] because it's an array
+            Dao.getDestinoImages(destinationId, function(err, image_ids){
+                if(err){
+                    console.log(err);
+                    res.status(500).send('Server Error');
+                } else {
+                    res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids });
+                }
+            })
         }
     });
 });
@@ -151,12 +158,12 @@ app.get("/userPage", (req, res) => {
                 res.status(500).send('Server Error');
             }
             else {
-                Dao.getReservas(email, function (err, reservas){
+                Dao.getReservas(req.session.user.id, function (err, reservas){
                     if (err) {
                         console.log(err);
                         res.status(500).send('Server Error');
                     } else {
-                        res.render("userPage", { isAuthenticated: true, user, reservas});
+                        res.render("userPage", { isAuthenticated: true, user, reservas})
                     }
                 });
             }

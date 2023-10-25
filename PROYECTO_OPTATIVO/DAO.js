@@ -30,24 +30,26 @@ class DAO {
     }
 
     getDestinoById(id, callback) {
-        console.log(id);
-        this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.id = ? GROUP BY d.id, d.nombre, d.descripcion, d.precio", [id], function (err, rows) {
+        this.pool.query("SELECT * FROM destinos WHERE id = ?;", [id], function (err, rows) {
             if (err) {
                 callback(err);
             }
             else {
-                if (rows && rows.length > 0) {
-                    // Assuming you are working with multiple rows, you should iterate over the rows
-                    rows.forEach(row => {
-                        if (row.image_ids) {
-                            row.image_ids = row.image_ids.split(',');
-                        } else {
-                            // Handle the case where imagen_ids is undefined (no matching records)
-                            row.image_ids = [];
-                        }
-                    });
-                }
-                callback(null, rows);
+                let destino = rows[0];
+                callback(null, destino);
+            }
+        });
+    }
+
+    getDestinoImages(destino_id, callback) {
+        this.pool.query("SELECT d.id, GROUP_CONCAT(di.image_id) AS image_ids FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.id = ? GROUP BY d.id;", [destino_id], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                let image_ids = rows[0].image_ids;
+                image_ids = image_ids.split(',');
+                callback(null, image_ids);
             }
         });
     }
@@ -59,11 +61,7 @@ class DAO {
             }
             else {
                 console.log(OkPacket);
-                if (OkPacket && OkPacket.insertId != undefined) {
-                    callback(null, true);
-                } else {
-                    callback(null, false);
-                }
+                callback(null, OkPacket.insertId);
             }
         });
     }
@@ -107,25 +105,13 @@ class DAO {
             });
     }
     
-    getReservas(email, callback){
-        this.pool.query("SELECT d.nombre AS destino_nombre,d.descripcion AS destino_descripcion, di.image_id, di.img_description AS imagen_descripcion, r.fecha_start, r.fecha_end FROM reservas AS r INNER JOIN destinos AS d ON r.destino_id = d.id INNER JOIN destino_imagenes AS di ON d.id = di.destino_id INNER JOIN usuarios AS u ON r.cliente_id = u.id WHERE u.correo = ?;", [email], function (err, rows) {
+    getReservas(cliente_id, callback){
+        this.pool.query("SELECT r.id AS reserva_id, r.cliente_id, r.fecha_start, d.id AS destino_id, d.nombre AS destino_nombre, d.descripcion AS destino_descripcion, d.image_id AS destino_imagen_id, d.img_description AS destino_imagen_description FROM reservas r LEFT JOIN ( SELECT destinos.id, destinos.nombre, destinos.descripcion, destino_imagenes.image_id, destino_imagenes.img_description FROM destinos JOIN destino_imagenes ON destinos.id = destino_imagenes.destino_id WHERE destino_imagenes.image_id = (SELECT MIN(image_id) FROM destino_imagenes WHERE destino_id = destinos.id) ) d ON r.destino_id = d.id WHERE r.cliente_id = ?;", [cliente_id], function (err, rows) {
             if (err) {
                 callback(err);
             }
             else {
-                console.log(rows[0]);
-                if (rows && rows.length > 0) {
-                    // Assuming you are working with multiple rows, you should iterate over the rows
-                    rows.forEach(row => {
-                        if (row.image_ids) {
-                            row.image_ids = row.image_ids.split(',');
-                        } else {
-                            // Handle the case where imagen_ids is undefined (no matching records)
-                            row.image_ids = [];
-                        }
-                    });
-                }
-                callback(null, rows[0]);
+                callback(null, rows);
             }
         });
     }
