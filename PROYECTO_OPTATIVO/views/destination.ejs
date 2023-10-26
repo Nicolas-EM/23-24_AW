@@ -1,205 +1,229 @@
 <!DOCTYPE html>
 <html lang="es">
 <!--
-AUTORES:
-Proyecto Opcional AW
-    Nicolas Espinosa Mooser.
-    Santiago Moral Santorio.
--->
+  AUTORES:
+  Proyecto Opcional AW
+      Nicolas Espinosa Mooser.
+      Santiago Moral Santorio.
+  -->
 
 <head>
   <!-- Shared head -->
   <%- include('fragments/head') %>
 
-    <!-- Custom -->
-    <title>CheapBnB</title>
-    <link type="text/css" rel="stylesheet" href="destination.css">
+  <!-- Custom -->
+  <title>CheapBnB</title>
+  <link type="text/css" rel="stylesheet" href="destination.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <%- include('fragments/navbar') %>
 
-    <!-- Content -->
-    <div class="container">
-      <h2 class="mt-3">Destino #<%= dest.id %>: <%= dest.nombre %>
-      </h2>
+  <!-- Content -->
+  <div class="container">
+    <h2 class="mt-3">Destino #<%= dest.id %>: <%= dest.nombre %>
+    </h2>
 
-      <!-- Images -->
-      <div id="images" class="text-center">
-        <div class="row row-cols-1 row-cols-lg-3 g-2">
-          <!-- Main img -->
-          <div class="col col-lg-6 position-relative">
-            <div class="row h-100 rounded-start">
-              <img id="primaryImg" src="<%= `${image_ids[0]}.jpg` %>" class="rounded-start" alt="...">
-            </div>
-            <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
+    <!-- Images -->
+    <div id="images" class="text-center">
+      <div class="row row-cols-1 row-cols-lg-3 g-2">
+        <!-- Main img -->
+        <div class="col col-lg-6 position-relative">
+          <div class="row h-100 rounded-start">
+            <img id="primaryImg" src="<%= `${image_ids[0]}.jpg` %>" class="rounded-start" alt="...">
+          </div>
+          <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
+            <span class="d-inline-block align-text-top material-symbols-outlined">
+              apps
+            </span>
+            Mostrar todas las fotos
+          </button>
+        </div>
+        <!-- Secondary imgs -->
+        <div class="col col-lg-6 d-none d-lg-block ps-0">
+          <div class="row row-cols-2 h-100 g-1 position-relative">
+            <img src="<%= `${image_ids[1]}.jpg` %>" class="img-fluid" alt="...">
+            <img src="<%= `${image_ids[2]}.jpg` %>" class="img-fluid" alt="...">
+            <img src="<%= `${image_ids[3]}.jpg` %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
+            <img src="<%= `${image_ids[4]}.jpg` %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
+            <button class="btn btn-primary 
+                position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
               <span class="d-inline-block align-text-top material-symbols-outlined">
                 apps
               </span>
               Mostrar todas las fotos
             </button>
           </div>
-          <!-- Secondary imgs -->
-          <div class="col col-lg-6 d-none d-lg-block ps-0">
-            <div class="row row-cols-2 h-100 g-1 position-relative">
-              <img src="<%= `${image_ids[1]}.jpg` %>" class="img-fluid" alt="...">
-              <img src="<%= `${image_ids[2]}.jpg` %>" class="img-fluid" alt="...">
-              <img src="<%= `${image_ids[3]}.jpg` %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
-              <img src="<%= `${image_ids[4]}.jpg` %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
-              <button class="btn btn-primary 
-              position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
-                <span class="d-inline-block align-text-top material-symbols-outlined">
-                  apps
-                </span>
-                Mostrar todas las fotos
-              </button>
-            </div>
-          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Destination Info + Reservation -->
-      <div class="mt-3">
-        <div class="row row-cols-1 row-cols-md-2">
-          <!-- Destination Info -->
-          <div class="col">
-            <h3>Información sobre <%= dest.nombre %>
-            </h3>
-            <p>
-              <%= dest.descripcion %>
-            </p>
-            <p class="card-text mt-3"><small class="text-body-secondary">
-                <%= dest.precio %> € / noche
-              </small></p>
-            <form role="reserva" class="text-center">
+    <!-- Destination Info + Reservation -->
+    <div class="mt-3">
+      <div class="row row-cols-1 row-cols-md-2">
+        <!-- Destination Info -->
+        <div class="col">
+          <h3>Información sobre <%= dest.nombre %>
+          </h3>
+          <p>
+            <%= dest.descripcion %>
+          </p>
+          <p class="card-text mt-3"><small class="text-body-secondary">
+              <%= dest.precio %> € / noche
+            </small></p>
+            <% if(isAuthenticated) {%>
               <!-- reservoir Btn -->
-              <button class="btn btn-primary" type="submit">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservationModal">
                 Reserva Ya!
-              </button>
-            </form>
-          </div>
-          <hr class="d-md-none my-3">
-          <!-- Calendar -->
-          <div class="col">
-            <%- include('fragments/calendar') %>
-          </div>
+              </button>              
+              <% } else { %>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                  Reserva Ya!
+                </button>
+            <% } %>
         </div>
-      </div>
-
-      <!--comment section-->
-      <div class="text-center mt-5">
-        <h3>Comentarios recientes: </h3>
-
-        <!-- placeholder for existing comments -->
-        <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
-          <!-- Comment 1 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-          <!-- Comment 2 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-          <!-- Comment 3 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-          <!-- Comment 4 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-
-
-
+        <hr class="d-md-none my-3">
+        <!-- Calendar -->
+        <div class="col">
+          <%- include('fragments/calendar') %>
         </div>
       </div>
     </div>
 
-    <!-- Pictures Modal (fullscreen) -->
-    <div class="modal fade " id="picturesModal" tabindex="-1" aria-labelledby="picturesModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="picturesModalLabel">Destination #1</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!--comment section-->
+    <div class="text-center mt-5">
+      <h3>Comentarios recientes: </h3>
+
+      <!-- placeholder for existing comments -->
+      <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
+        <!-- Comment 1 -->
+        <div class="col">
+          <div class="card mb-3 px-0">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                <div class="col-4">Usuario #1</div>
+                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+            </div>
           </div>
-          <div class="modal-body">
-            <div class="row row-cols-1 w-75 m-auto g-2">
-              <% for(let i=0; i < image_ids.length; i++) { %>
-                <!-- Single image -->
-                <% if(i % 3 === 0){ %>
-                  <div class="col-12">
-                    <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
-                  </div>
-                  <!-- Last image and has no pair -->
-                <% } else if(i + 1 === image_ids.length && i % 3 === 1){ %> 
-                  <div class="col-12">
-                    <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
-                  </div>
-                  <!-- Pair image -->
-                <% } else{ %> 
-                <div class="col-6">
-                  <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
-                </div>
-                <% } %>
-              <% } %>
+        </div>
+        <!-- Comment 2 -->
+        <div class="col">
+          <div class="card mb-3 px-0">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                <div class="col-4">Usuario #1</div>
+                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+            </div>
+          </div>
+        </div>
+        <!-- Comment 3 -->
+        <div class="col">
+          <div class="card mb-3 px-0">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                <div class="col-4">Usuario #1</div>
+                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
+            </div>
+          </div>
+        </div>
+        <!-- Comment 4 -->
+        <div class="col">
+          <div class="card mb-3 px-0">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                <div class="col-4">Usuario #1</div>
+                <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
+              <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <%- include('fragments/footer') %>
+  <!-- Pictures Modal (fullscreen) -->
+  <div class="modal fade " id="picturesModal" tabindex="-1" aria-labelledby="picturesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="picturesModalLabel">Destination #1</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row row-cols-1 w-75 m-auto g-2">
+            <% for(let i=0; i < image_ids.length; i++) { %>
+            <!-- Single image -->
+            <% if(i % 3 === 0){ %>
+            <div class="col-12">
+              <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+            </div>
+            <!-- Last image and has no pair -->
+            <% } else if(i + 1 === image_ids.length && i % 3 === 1){ %>
+            <div class="col-12">
+              <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+            </div>
+            <!-- Pair image -->
+            <% } else{ %>
+            <div class="col-6">
+              <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+            </div>
+            <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Reservation Modal -->
+  <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reservationModalLabel">Reserva Ya!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="reservar" method="post">
+            <div class="mb-3">
+              <label for="fecha" class="form-label">Fecha de reserva</label>
+              <div type="date" class="form-control" id="fecha">
+            </div>
+            <div class="mb-3">
+              <label for="personas" class="form-label">Cantidad de personas</label>
+              <input type="number" class="form-control" id="personas" placeholder="Ingrese la cantidad de personas">
+            </div>
+            <button type="submit" class="btn btn-primary">Reservar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <%- include('fragments/footer') %>
 </body>
 
 </html>

@@ -125,6 +125,35 @@ app.post('/register', (req, res) => {
         }
     });
 })
+//pending //TODO!!c
+app.post('/reservar', (req, res) => {
+    if (req.session.user === undefined) {
+        res.redirect("/");
+    } else {
+        let fecha = req.body.fecha;
+        let personas = req.body.personas;
+        // Process reservation request
+        // activar toast del ejs : (no con esto) res.send('Reservation received!');
+        res.render("index", { isAuthenticated: true, source: "/", success: "Reservation received!" });
+    }
+});
+        let email = req.session.user.email;
+        Dao.getSingleUser(email, function (err, user) {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Server Error');
+            }
+            else {
+                Dao.getReservas(req.session.user.id, function (err, reservas){
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send('Server Error');
+                    } else {
+                        res.render("userPage", { isAuthenticated: true, user, reservas})
+                    }
+                });
+            }
+        });
 
 app.get("/destination", (req, res) => {
     var destinationId = req.query.id;
