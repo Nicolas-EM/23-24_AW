@@ -8,6 +8,7 @@
     --hover-red-rgb: 216, 7, 101;
     /* --bs-primary-rgb: var(--airbnb-red-rgb); */
     --bs-primary-rgb: var(--airbnb-red-rgb);
+    
     --google-yellow: #F4B400;
     --google-yellow-rgb: 244, 180, 0;
     --bs-dropdown-link-active-bg: var(--airbnb-red);
@@ -81,17 +82,4 @@
 
 .warning-tooltip {
     background-color: var(--bs-warning);
-}
-.custom-range .custom-range-thumb {
-    background-color: var(--airbnb-red);
-    border-color: var(--airbnb-red);
-}
-
-.custom-range .custom-range-thumb:focus, .custom-range .custom-range-thumb:hover {
-    background-color: var(--airbnb-red);
-    border-color: var(--airbnb-red);
-}
-
-.custom-range .custom-range-track {
-    background-color: var(--airbnb-red);
 }

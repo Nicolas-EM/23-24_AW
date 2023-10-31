@@ -9,6 +9,11 @@
     box-shadow: none;
 }
 
+#searchFilters > * {
+    background-color: var(--airbnb-red);
+    border-color: var(--airbnb-red);
+}
+
 .destinations .card {
     border: 0;
 }
