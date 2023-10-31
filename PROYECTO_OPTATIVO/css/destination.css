@@ -2,17 +2,11 @@
     max-width: 220px;
 }
 
-#calendarCarousel {
-    min-height: 210px;
-}
-
-#calendar {
-    max-width: 350px;
-}
-
-#calendarCarousel .col {
-    max-width: 14%;
-    text-align: center;
+#calendar .daterangepicker td.active :not(off),
+#calendar .daterangepicker td.active:hover :not(off) {
+    background-color: var(--airbnb-red) !important;
+    border-color: transparent;
+    color: #fff;
 }
 
 .commentSection {
