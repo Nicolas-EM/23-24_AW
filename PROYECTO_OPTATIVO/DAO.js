@@ -28,6 +28,16 @@ class DAO {
             }
         });
     }
+    getComments(destino_id, callback) {
+        this.pool.query("SELECT * FROM comentarios WHERE destino_id = ?;", [destino_id], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                callback(null, rows);
+            }
+        });
+    }
 
     getDestinoById(id, callback) {
         this.pool.query("SELECT * FROM destinos WHERE id = ?;", [id], function (err, rows) {

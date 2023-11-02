@@ -137,23 +137,7 @@ app.post('/reservar', (req, res) => {
         res.render("index", { isAuthenticated: true, source: "/", success: "Reservation received!" });
     }
 });
-        let email = req.session.user.email;
-        Dao.getSingleUser(email, function (err, user) {
-            if (err) {
-                console.log(err);
-                res.status(500).send('Server Error');
-            }
-            else {
-                Dao.getReservas(req.session.user.id, function (err, reservas){
-                    if (err) {
-                        console.log(err);
-                        res.status(500).send('Server Error');
-                    } else {
-                        res.render("userPage", { isAuthenticated: true, user, reservas})
-                    }
-                });
-            }
-        });
+
 
 app.get("/destination", (req, res) => {
     var destinationId = req.query.id;
@@ -169,9 +153,16 @@ app.get("/destination", (req, res) => {
                     console.log(err);
                     res.status(500).send('Server Error');
                 } else {
-                    res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids });
+                    Dao.getComments(destinationId, function(err, comments){
+                        if(err){
+                            console.log(err);
+                            res.status(500).send('Server Error');
+                        } else {
+                            res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids, comments });
+                        }
+                    });
                 }
-            })
+            });
         }
     });
 });
@@ -199,6 +190,7 @@ app.get("/userPage", (req, res) => {
         });
     }
 });
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {

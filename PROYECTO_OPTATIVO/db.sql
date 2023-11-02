@@ -38,6 +38,7 @@ CREATE TABLE reservas (
  cliente_id INT NOT NULL,
  fecha_start DATE NOT NULL,
  fecha_end DATE NOT NULL,
+ puntuacion INT NOT NULL,
  FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
@@ -47,9 +48,11 @@ CREATE TABLE comentarios (
  destino_id INT NOT NULL,
  nombre_usuario VARCHAR(255) NOT NULL,
  comentario TEXT NOT NULL,
+ puntuacion INT NOT NULL,
  fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
+
 
 INSERT INTO destinos (nombre, descripcion, precio) 
 VALUES 
@@ -76,3 +79,36 @@ SELECT
   CONCAT('Image for destination', d.id) AS img_description
 FROM destinos d
 CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6) AS rand_images;
+-- un poco bruto, pero es solamente para testear
+INSERT INTO comentarios (destino_id, nombre_usuario, comentario, puntuacion)
+VALUES
+  (1, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (2, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (3, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (4, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2), 
+  (5, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
+  (6, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (7, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (8, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (9, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
+  (10, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
+  (11, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (12, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (13, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (14, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
+  (15, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
+  (1, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (2, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (3, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (4, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2), 
+  (5, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
+  (6, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (7, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (8, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (9, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
+  (10, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
+  (11, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
+  (12, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
+  (13, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
+  (14, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
+  (15, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1);

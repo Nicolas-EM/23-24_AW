@@ -93,73 +93,28 @@
 
         <!-- placeholder for existing comments -->
         <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
-          <!-- Comment 1 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
+          <% comments.forEach(function(comment) { %>
+            <div class="col">
+              <div class="card mb-3 px-0">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
+                    <div class="col-4"><%= comment.usuario %></div>
+                    <div class="col">
+                      <% for(var i=0; i<comment.puntuacion; i++) { %>
+                        <span class="material-symbols-outlined star">star</span>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p class="card-text text-start"><%= comment.comentario %></p>
+                  <small class="text-muted position-absolute bottom-0 end-0"><%= comment.fecha %></small>
                 </div>
               </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
             </div>
-          </div>
-          <!-- Comment 2 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-          <!-- Comment 3 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-          <!-- Comment 4 -->
-          <div class="col">
-            <div class="card mb-3 px-0">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                  <div class="col-4">Usuario #1</div>
-                  <div class="col"><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span><span class="material-symbols-outlined star">star</span></div>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="card-text text-start">Que gran idea fue reservar nuestras vacaciones aquí!</p>
-                <small class="text-muted position-absolute bottom-0 end-0">Septiembre 28, 2023</small>
-              </div>
-            </div>
-          </div>
-
-
-
+          <% }); %>
+        </div>
         </div>
       </div>
     </div>
