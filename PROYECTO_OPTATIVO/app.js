@@ -131,11 +131,12 @@ app.post('/reservar', (req, res) => {
     if (req.session.user === undefined) {
         res.redirect("/");
     } else {
-        let fecha = req.body.fecha;
-        let personas = req.body.personas;
+        console.log(req.body);
+        const { numPersonas, startDate, endDate } = req.body
         // Process reservation request
         // activar toast del ejs : (no con esto) res.send('Reservation received!');
-        res.render("index", { isAuthenticated: true, source: "/", success: "Reservation received!" });
+        console.log("success");
+        res.redirect("/");
     }
 });
 

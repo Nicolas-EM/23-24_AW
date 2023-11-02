@@ -32,6 +32,8 @@ password VARCHAR(255) NOT NULL,
 UNIQUE (correo)
 );
 
+INSERT INTO usuarios VALUES (1, "Prueba", "test@ucm.es", "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS");
+
 CREATE TABLE reservas (
  id INT AUTO_INCREMENT PRIMARY KEY,
  destino_id INT NOT NULL,

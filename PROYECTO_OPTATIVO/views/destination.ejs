@@ -142,22 +142,26 @@
           <!-- Reserva -->
           <div class="col">
             <h3>Reserva</h3>
-            <form role="reserva" class="pt-2">
+            <form role="reserva" class="pt-2" method="post" action="/reservar">
               <!-- Num personas -->
               <div class="mb-3">
                 <label for="numPersonas" class="form-label">Número de Personas</label>
-                <input type="number" min="1" max="10" class="form-control" id="numPersonas" value="1" required>
+                <input type="number" min="1" max="10" class="form-control" id="numPersonas" value="1" name="numPersonas" required>
               </div>
               <!-- DatePicker -->
               <div class="mb-3">
                 <label for="calendar" class="form-label">Fechas</label>
                 <input id="calendar" class="form-control w-100" type="text" value="" placeholder="Selecciona tus fechas" required>
-                <input class="d-none" type="text" id="startDate">
-                <input class="d-none" type="text" id="endDate">
+                <input class="d-none" type="text" id="startDate" name="startDate">
+                <input class="d-none" type="text" id="endDate" name="endDate">
               </div>
               <!-- reservoir Btn -->
               <div class="mb-3 text-center">
-                <button id="reservaBtn" class="btn btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-title="¡Selecciona tus fechas!">Reserva Ya!</button>
+                <% if(!isAuthenticated) {%>
+                  <button id="reservaBtn" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Reserva Ya!</button>
+                  <% } else { %>
+                    <button id="reservaBtn" class="btn btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-title="¡Selecciona tus fechas!">Reserva Ya!</button>
+                  <% } %>
               </div>
             </form>
           </div>
