@@ -69,20 +69,97 @@
             <p>
               <%= dest.descripcion %>
             </p>
+            <!-- Categories -->
+            <div class="row row-cols-4 text-center g-3">
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Bosque">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">forest</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Piscina">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">pool</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Senderismo">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">hiking</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Mascotas">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">pets</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Verificado">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">verified</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Tren">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">train</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Aparcamiento Local">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">local_parking</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Aire Acondicionado">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">ac_unit</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Reciclaje">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">recycling</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Wi-Fi">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">wifi</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Restaurante">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">restaurant</span>
+                </button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-title="Apto para Niños">
+                  <span class="material-symbols-outlined d-inline-block align-text-top">child_friendly</span>
+                </button>
+              </div>
+              
+            </div>
+            <!-- Price -->  
             <p class="card-text mt-3"><small class="text-body-secondary">
-                <%= dest.precio %> € / noche
-              </small></p>
-            <form role="reserva" class="text-center">
-              <!-- reservoir Btn -->
-              <button class="btn btn-primary" type="submit">
-                Reserva Ya!
-              </button>
-            </form>
+              <%= dest.precio %> € / día
+            </small></p>
           </div>
           <hr class="d-md-none my-3">
-          <!-- Calendar -->
+          <!-- Reserva -->
           <div class="col">
-            <%- include('fragments/calendar') %>
+            <h3>Reserva</h3>
+            <form role="reserva" class="pt-2">
+              <!-- Num personas -->
+              <div class="mb-3">
+                <label for="numPersonas" class="form-label">Número de Personas</label>
+                <input type="number" min="1" max="10" class="form-control" id="numPersonas" value="1" required>
+              </div>
+              <!-- DatePicker -->
+              <div class="mb-3">
+                <label for="calendar" class="form-label">Fechas</label>
+                <input id="calendar" class="form-control w-100" type="text" value="" placeholder="Selecciona tus fechas" required>
+                <input class="d-none" type="text" id="startDate">
+                <input class="d-none" type="text" id="endDate">
+              </div>
+              <!-- reservoir Btn -->
+              <div class="mb-3 text-center">
+                <button id="reservaBtn" class="btn btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-title="¡Selecciona tus fechas!">Reserva Ya!</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -92,29 +169,30 @@
       <h3>Comentarios recientes: </h3>
 
         <!-- placeholder for existing comments -->
-        <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 justify-content-center">
+        <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 justify-content-center">
           <% comments.forEach(function(comment) { %>
             <div class="col">
               <div class="card mb-3 px-0">
                 <div class="card-header">
                   <div class="row">
                     <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                    <div class="col-4"><%= comment.usuario %></div>
+                    <div class="col-4"><%= comment.nombre_usuario %></div>
                     <div class="col">
-                      <% for(var i=0; i<comment.puntuacion; i++) { %>
-                        <span class="material-symbols-outlined star">star</span>
+                      <% for (var i = 0; i < 5; i++) { %>
+                        <span class="material-symbols-outlined star <% if (i < comment.puntuacion) { %>colored<% } else { %>grey<% } %>">star</span>
                       <% } %>
                     </div>
                   </div>
                 </div>
                 <div class="card-body">
                   <p class="card-text text-start"><%= comment.comentario %></p>
-                  <small class="text-muted position-absolute bottom-0 end-0"><%= comment.fecha %></small>
+                  <small class="text-muted position-absolute bottom-0 mr-2"><%= comment.fecha_comentario %></small>
                 </div>
               </div>
             </div>
           <% }); %>
         </div>
+        
         </div>
       </div>
     </div>
@@ -155,6 +233,7 @@
 
     <!-- Footer -->
     <%- include('fragments/footer') %>
+    <script src="destino.js"></script>
 </body>
 
 </html>

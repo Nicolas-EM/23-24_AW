@@ -82,33 +82,43 @@ CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SEL
 -- un poco bruto, pero es solamente para testear
 INSERT INTO comentarios (destino_id, nombre_usuario, comentario, puntuacion)
 VALUES
-  (1, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (2, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (3, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (4, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2), 
-  (5, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
-  (6, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (7, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (8, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (9, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
-  (10, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
-  (11, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (12, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (13, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (14, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
-  (15, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
-  (1, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (2, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (3, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (4, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2), 
-  (5, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
-  (6, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (7, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (8, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (9, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
-  (10, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1),
-  (11, 'Mr Cáceres', '¡Este destino es increíble! ¡Me encantó!', 5),
-  (12, 'Mr Cáceres', 'Este destino es muy bueno, lo recomiendo.', 4),
-  (13, 'Mr Cáceres', 'Este destino es aceptable, pero podría mejorar.', 3),
-  (14, 'Mr Cáceres', 'Este destino no me gustó mucho, hay mejores opciones.', 2),
-  (15, 'Mr Cáceres', 'Este destino fue una decepción total, no lo recomiendo.', 1);
+  (1, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN '¡Este destino es increíble! ¡Me encantó!' ELSE 'Este destino es una decepción total, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (1, 'Jesus, el señor', CASE WHEN RAND() < 0.5 THEN 'Muy mal destino, no lo recomiendo.' ELSE '¡Maravilloso lugar para unas vacaciones inolvidables!' END, FLOOR(1 + RAND() * 5)),
+  (1, 'Otro Usuario', CASE WHEN RAND() < 0.5 THEN 'Nada especial, mejor busca otro destino.' ELSE 'Me quedé impresionado por la belleza de este lugar.' END, FLOOR(1 + RAND() * 5)),
+  (2, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Noruega es asombrosa, una experiencia única.' ELSE 'Decepcionante viaje, no vale la pena.' END, FLOOR(1 + RAND() * 5)),
+  (2, 'Jesus, el señor', CASE WHEN RAND() < 0.5 THEN 'Recomiendo Noruega a todos, es mágica.' ELSE 'No cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (3, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Puerto Rico es un paraíso terrenal.' ELSE 'Puerto Rico no es lo que esperaba, me decepcionó.' END, FLOOR(1 + RAND() * 5)),
+  (4, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Arizona, EEUU, es un lugar impresionante.' ELSE 'Me aburrí en Arizona, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (4, 'Jesus, el señor', CASE WHEN RAND() < 0.5 THEN 'Increíbles paisajes en Arizona.' ELSE 'No disfruté mi viaje a Arizona, esperaba más.' END, FLOOR(1 + RAND() * 5)),
+  (5, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Extremadura tiene su encanto, pero hay opciones mejores.' ELSE 'Gran decepción en Extremadura, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (6, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Irlanda es un lugar mágico.' ELSE 'Irlanda no cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (7, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Nueva York, la ciudad que nunca duerme.' ELSE 'Nueva York me pareció caótico, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (8, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Nueva Zelanda, un destino de ensueño.' ELSE 'No disfruté mi viaje a Nueva Zelanda, esperaba más.' END, FLOOR(1 + RAND() * 5)),
+  (8, 'Jesus, el señor', CASE WHEN RAND() < 0.5 THEN 'Nueva Zelanda es un paraíso natural.' ELSE 'Nueva Zelanda no cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (9, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Tailandia es un viaje inolvidable.' ELSE 'Tailandia no me impresionó, hay mejores opciones.' END, FLOOR(1 + RAND() * 5)),
+  (10, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'La Toscana es un lugar encantador.' ELSE 'Me decepcionó la Toscana, esperaba más.' END, FLOOR(1 + RAND() * 5)),
+  (11, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Venecia, la ciudad de los canales.' ELSE 'Venecia no cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (12, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Vietnam es un destino fascinante.' ELSE 'Vietnam no me impresionó, hay mejores opciones.' END, FLOOR(1 + RAND() * 5)),
+  (12, 'Jesus, el señor', CASE WHEN RAND() < 0.5 THEN 'Vietnam es una experiencia única.' ELSE 'Me aburrí en Vietnam, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (13, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'El Himalaya es un lugar espiritual.' ELSE 'El Himalaya no cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
+  (14, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Escandinavia es un viaje cultural.' ELSE 'Me decepcionó Escandinavia, esperaba más.' END, FLOOR(1 + RAND() * 5)),
+  (15, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Perú, tierra de los incas.' ELSE 'Perú no me impresionó, hay mejores opciones.' END, FLOOR(1 + RAND() * 5));
+/*
+INSERT INTO comentarios (destino_id, nombre_usuario, comentario, puntuacion)
+SELECT
+  d.id AS destino_id,
+  CASE
+    WHEN u.nombre = 'Mr Cáceres' THEN '¡Este destino es increíble! ¡Me encantó!'
+    WHEN u.nombre = 'Jesus, el señor' THEN '¡Una experiencia increíble, sin duda volveré!'
+    ELSE 'Buena elección para unas vacaciones.'
+  END AS comentario,
+  FLOOR(1 + RAND() * 5) AS puntuacion
+FROM destinos d
+CROSS JOIN (
+  SELECT 'Mr Cáceres' AS nombre
+  UNION SELECT 'Jesus, el señor'
+  UNION SELECT 'Otro Usuario'
+  -- Add more user names here
+) AS u
+CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) AS rand_comments;
+*/

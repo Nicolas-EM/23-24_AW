@@ -1,14 +1,37 @@
+$('#calendar').attr("value", "");
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
 $('#calendar').daterangepicker({
     autoUpdateInput: false,
     locale: {
         cancelLabel: 'Clear'
     },
     "minDate": new Date(),
-}, function (start, end, label) {
-    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-    //Handle price locally:
-    // let days = start.diff(b,'days')+1;
-    // console.log(days);
-    // $('#precioTotal').text(($('#precioTotal').text()) * days);
+}, function (start, end) {
+    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     
+    $('#calendar').attr("placeholder", `De ${start.format('DD-MM-YYYY')} a ${end.format('DD-MM-YYYY')}`);
+    $('#calendar').attr("value", `De ${start.format('DD-MM-YYYY')} a ${end.format('DD-MM-YYYY')}`);
+    $('#startDate').attr("value", start.format('YYYY-MM-DD'));
+    $('#endDate').attr("value", end.format('YYYY-MM-DD'));
+    $('#precioTotal').data("days", end.diff(start, 'days') + 1);
+
+    calcTotalPrice();
 });
+
+function calcTotalPrice(){
+    const numPersonas = $('#numPersonas').val();
+    const days = $('#precioTotal').data("days");
+    const precioPorNoche = $('#precioTotal').data("precio");
+
+    if(days === undefined)
+        return;
+
+    // TODO
+    $('#reservaBtn').data("bs-title", `${precioPorNoche * days * numPersonas}€`)
+}
+
+$('#numPersonas').on("change", e => {
+    calcTotalPrice();
+})

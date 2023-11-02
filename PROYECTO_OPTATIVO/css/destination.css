@@ -2,11 +2,18 @@
     max-width: 220px;
 }
 
-#calendar .daterangepicker td.active :not(off),
-#calendar .daterangepicker td.active:hover :not(off) {
+/* .daterangepicker td.active:not(.off),
+.daterangepicker td.available:hover {
     background-color: var(--airbnb-red) !important;
     border-color: transparent;
     color: #fff;
+} */
+
+.daterangepicker td.active:not(.off),
+.daterangepicker td.active:hover  {
+    background-color: var(--airbnb-red) !important;
+    border-color: transparent;
+    color: #fff !important;
 }
 
 .commentSection {
@@ -17,6 +24,10 @@
     max-width: 350px;
 }
 
-.star {
+.star.colored {
     color: var(--google-yellow);
+}
+
+.star.grey {
+    color: grey;
 }

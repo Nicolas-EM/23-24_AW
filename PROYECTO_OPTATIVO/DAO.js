@@ -30,14 +30,18 @@ class DAO {
     }
     getComments(destino_id, callback) {
         this.pool.query("SELECT * FROM comentarios WHERE destino_id = ?;", [destino_id], function (err, rows) {
-            if (err) {
-                callback(err);
+          if (err) {
+            callback(err);
+          } else {
+            for (const row of rows) {
+              const fechaComentario = new Date(row.fecha_comentario);
+              const options = { year: 'numeric', month: 'long', day: 'numeric' };
+              row.fecha_comentario = fechaComentario.toLocaleDateString('es-ES', options);
             }
-            else {
-                callback(null, rows);
-            }
+            callback(null, rows);
+          }
         });
-    }
+      }
 
     getDestinoById(id, callback) {
         this.pool.query("SELECT * FROM destinos WHERE id = ?;", [id], function (err, rows) {

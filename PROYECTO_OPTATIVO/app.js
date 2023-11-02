@@ -125,6 +125,7 @@ app.post('/register', (req, res) => {
         }
     });
 })
+
 //pending //TODO!!c
 app.post('/reservar', (req, res) => {
     if (req.session.user === undefined) {
@@ -138,10 +139,8 @@ app.post('/reservar', (req, res) => {
     }
 });
 
-
 app.get("/destination", (req, res) => {
-    var destinationId = req.query.id;
-    console.log("Received destinationId:", destinationId);
+    const destinationId = req.query.id;
     // Find the destination object using id (for instance from a database)
     Dao.getDestinoById(destinationId, function (err, dest) {
         if (err) {
@@ -153,12 +152,14 @@ app.get("/destination", (req, res) => {
                     console.log(err);
                     res.status(500).send('Server Error');
                 } else {
+                    console.log("getting comments for: ",destinationId);
                     Dao.getComments(destinationId, function(err, comments){
                         if(err){
                             console.log(err);
                             res.status(500).send('Server Error');
                         } else {
-                            res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids, comments });
+                            console.log(comments);
+                            res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids, comments : comments });
                         }
                     });
                 }
@@ -200,8 +201,19 @@ app.get('/logout', (req, res) => {
 
 
 //jpg to hex converter:
-function imageToHex() {
-    const bitmap = fs.readFileSync('./resources/vacation_1.jpg');
-    const hexadecimalImage = bitmap.toString('hex');
-    fs.writeFileSync('./image1.txt', hexadecimalImage);
-}
+// function imageToHex(imgName) {
+//     const bitmap = fs.readFileSync(`./resources/${imgName}.jpg`);
+//     const hexadecimalImage = bitmap.toString('hex');
+//     fs.writeFileSync(`./hexes/${imgName}.txt`, hexadecimalImage);
+// }
+// function hexToImage(hexFileName, outputFileName) {
+//     const hexData = fs.readFileSync(`./hexes/${hexFileName}.txt`, 'utf8');
+//     const buffer = Buffer.from(hexData, 'hex');
+//     fs.writeFileSync(`./testingPhotos/${outputFileName}.jpg`, buffer);
+//   }
+// for(let i = 1; i <= 90; i++){
+//     const hexData = fs.readFileSync(`./hexes/${i}.txt`, 'utf8');
+//     const buffer = Buffer.from(hexData, 'hex');
+//     fs.writeFileSync(`./testingPhotos/${i}.jpg`, buffer);
+// }
+

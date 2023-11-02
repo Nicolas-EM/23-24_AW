@@ -4,11 +4,15 @@
     --bs-grey: #6c757d;
     --airbnb-red: #FF5A5F;
     --airbnb-red-rgb: 255, 90, 95;
+
     --hover-red: #d80765;
     --hover-red-rgb: 216, 7, 101;
     /* --bs-primary-rgb: var(--airbnb-red-rgb); */
     --bs-primary-rgb: var(--airbnb-red-rgb);
-    
+
+    --dark-grey: #989898;
+    --dark-grey-rgb: 152, 152, 152;
+
     --google-yellow: #F4B400;
     --google-yellow-rgb: 244, 180, 0;
     --bs-dropdown-link-active-bg: var(--airbnb-red);
@@ -35,11 +39,6 @@
 
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-
-.navbar-custom {
-    background-color: #00574B;
-    /* Insert your color here */
 }
 
 .navbar-custom .navbar-brand,
