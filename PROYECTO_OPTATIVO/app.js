@@ -131,12 +131,30 @@ app.post('/reservar', (req, res) => {
     if (req.session.user === undefined) {
         res.redirect("/");
     } else {
-        console.log(req.body);
-        const { numPersonas, startDate, endDate } = req.body
-        // Process reservation request
-        // activar toast del ejs : (no con esto) res.send('Reservation received!');
-        console.log("success");
-        res.redirect("/");
+        const userId = req.session.user.id;
+        const { destinoId, numPersonas, startDate, endDate } = req.body
+        
+        Dao.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function(err, isAvailable){
+            if (err) {
+                console.log(err);
+                res.status(500).send('Server Error');
+            } else {
+                if(isAvailable){
+                    Dao.createReserva({ destinoId, numPersonas, startDate, endDate,  userId}, function(err, reservaId){
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send('Server Error');
+                        } else {
+                            console.log(`Reserva con ID ${reservaId} creada`);
+                            res.redirect('/userPage');
+                        }
+                    })
+                }
+                else{
+                    res.status(500).send('Dates not available');
+                }
+            }
+        })
     }
 });
 
@@ -153,13 +171,11 @@ app.get("/destination", (req, res) => {
                     console.log(err);
                     res.status(500).send('Server Error');
                 } else {
-                    console.log("getting comments for: ",destinationId);
                     Dao.getComments(destinationId, function(err, comments){
                         if(err){
                             console.log(err);
                             res.status(500).send('Server Error');
                         } else {
-                            console.log(comments);
                             res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination?id=${destinationId}`, dest, image_ids, comments : comments });
                         }
                     });

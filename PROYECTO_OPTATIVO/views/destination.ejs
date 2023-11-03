@@ -143,6 +143,8 @@
           <div class="col">
             <h3>Reserva</h3>
             <form role="reserva" class="pt-2" method="post" action="/reservar">
+              <!-- Destino ID -->
+              <input class="d-none" type="number" id="destinoId" name="destinoId" value="<%= dest.id %>">
               <!-- Num personas -->
               <div class="mb-3">
                 <label for="numPersonas" class="form-label">Número de Personas</label>
@@ -176,11 +178,9 @@
         <div id="comments" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 justify-content-center">
           <% comments.forEach(function(comment) { %>
             <div class="col">
-              <div class="card mb-3 px-0">
+              <div class="card mb-3 px-0 h-100">
                 <div class="card-header">
-                  <div class="row">
-                    <div class="col-2"><span class="material-symbols-outlined"> account_circle</span></div>
-                    <div class="col-4"><%= comment.nombre_usuario %></div>
+                  <div class="row row-cols-1">
                     <div class="col">
                       <% for (var i = 0; i < 5; i++) { %>
                         <span class="material-symbols-outlined star <% if (i < comment.puntuacion) { %>colored<% } else { %>grey<% } %>">star</span>
@@ -190,7 +190,8 @@
                 </div>
                 <div class="card-body">
                   <p class="card-text text-start"><%= comment.comentario %></p>
-                  <small class="text-muted position-absolute bottom-0 mr-2"><%= comment.fecha_comentario %></small>
+                  <p class="card-text text-end m-0">- <%= comment.nombre_usuario %></p>
+                  <small class="text-nowrap text-muted position-absolute bottom-0 mb-2"><%= comment.fecha_comentario %></small>
                 </div>
               </div>
             </div>
