@@ -43,16 +43,6 @@ CREATE TABLE reservas (
  FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
-INSERT INTO reservas (destino_id, cliente_id, fecha_start, fecha_end)
-VALUES
-  (1, 1, '2020-07-01', '2020-07-07'),
-  (5, 1, '2020-08-15', '2020-08-22'),
-  (10, 1, '2020-09-10', '2020-09-15'),
-  (15, 1, '2020-10-20', '2020-10-25'),
-  (2, 1, '2024-07-01', '2024-07-07'),
-  (6, 1, '2024-08-15', '2024-08-22'),
-  (11, 1, '2024-09-10', '2024-09-15'),
-  (14, 1, '2024-10-20', '2024-10-25');
 
 CREATE TABLE comentarios (
  id INT AUTO_INCREMENT PRIMARY KEY,
@@ -82,6 +72,17 @@ VALUES
 ('Himalaya', 'Visita la tierra de los monjes, y disfruta de la cultura y la gastronomía del Himalaya.', 1200),
 ('Escandinavia', 'Visita la tierra de los vikingos, y disfruta de la cultura y la gastronomía de Escandinavia.', 1000),
 ('Perú', 'Visita la tierra de los incas, y disfruta de la cultura y la gastronomía de Perú.', 800);
+
+INSERT INTO reservas (destino_id, cliente_id, fecha_start, fecha_end)
+VALUES
+  (1, 1, '2020-07-01', '2020-07-07'),
+  (5, 1, '2020-08-15', '2020-08-22'),
+  (10, 1, '2020-09-10', '2020-09-15'),
+  (15, 1, '2020-10-20', '2020-10-25'),
+  (2, 1, '2024-07-01', '2024-07-07'),
+  (6, 1, '2024-08-15', '2024-08-22'),
+  (11, 1, '2024-09-10', '2024-09-15'),
+  (14, 1, '2024-10-20', '2024-10-25');
 
 -- Generate random image filenames for each destination
 INSERT INTO destino_imagenes (destino_id, img_description)
