@@ -40,10 +40,19 @@ CREATE TABLE reservas (
  cliente_id INT NOT NULL,
  fecha_start DATE NOT NULL,
  fecha_end DATE NOT NULL,
- puntuacion INT NOT NULL,
  FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
+INSERT INTO reservas (destino_id, cliente_id, fecha_start, fecha_end)
+VALUES
+  (1, 1, '2020-07-01', '2020-07-07'),
+  (5, 1, '2020-08-15', '2020-08-22'),
+  (10, 1, '2020-09-10', '2020-09-15'),
+  (15, 1, '2020-10-20', '2020-10-25'),
+  (2, 1, '2024-07-01', '2024-07-07'),
+  (6, 1, '2024-08-15', '2024-08-22'),
+  (11, 1, '2024-09-10', '2024-09-15'),
+  (14, 1, '2024-10-20', '2024-10-25');
 
 CREATE TABLE comentarios (
  id INT AUTO_INCREMENT PRIMARY KEY,

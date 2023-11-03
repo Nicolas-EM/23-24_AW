@@ -1,12 +1,15 @@
-.userBg {
-    background-color: #eee;
+.reseniaBtn {
+    
+    color: rgb(255, 255, 255);
+    --bs-btn-bg: var(--google-yellow);
+    --bs-btn-border-color: var(--google-yellow);
+    --bs-btn-hover-bg: #ffd92d;
+    --bs-btn-hover-border-color: #ffd92d;
+    --bs-btn-active-bg: var(--google-yellow);
+    --bs-btn-active-border-color: var(--google-yellow);
+    --bs-btn-disabled-bg: var(--bs-grey);
+    --bs-btn-disabled-border-color: var(--bs-grey);
 }
-
-.avatar {
-    width: 150px;
-}
-
-#reservas img {
-    height: 100%;
-    width: auto;
+.star.colored {
+    color: var(--google-yellow);
 }
