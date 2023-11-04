@@ -31,3 +31,8 @@
 .star.grey {
     color: grey;
 }
+
+.card-footer {
+    --bs-card-border-width: 0px !important;
+    background-color: inherit !important;
+}

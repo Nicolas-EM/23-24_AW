@@ -1,0 +1,29 @@
+<div class="col">
+    <div class="card mb-3 px-0 h-100">
+        <div class="card-header">
+            <div class="row row-cols-1">
+                <div class="col d-sm-none">
+                    <%= comment.puntuacion %> / 5
+                </div>
+                <div class="col d-none d-sm-block">
+                    <% for (var i=0; i < 5; i++) { %>
+                        <span class="material-symbols-outlined star <% if (i < comment.puntuacion) { %>colored<% } else { %>grey<% } %>">star</span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="card-body pb-0">
+            <p class="card-text text-start">
+                <%= comment.comentario %>
+            </p>
+            <p class="card-text text-end m-0">
+                - <%= comment.nombre_usuario %>
+            </p>
+        </div>
+        <div class="card-footer text-end pt-0">
+            <small class="text-muted">
+                <%= comment.fecha_comentario %>
+            </small>
+        </div>
+    </div>
+</div>
