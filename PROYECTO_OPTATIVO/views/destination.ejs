@@ -13,7 +13,7 @@
 
   <!-- Custom -->
   <title>CheapBnB</title>
-  <link type="text/css" rel="stylesheet" href="destination.css">
+  <link type="text/css" rel="stylesheet" href="stylesheets/destination.css">
 </head>
 
 <body>
@@ -31,7 +31,7 @@
         <!-- Main img -->
         <div class="col col-lg-6 position-relative">
           <div class="row h-100 rounded-start">
-            <img id="primaryImg" src="<%= `${image_ids[0]}.jpg` %>" class="rounded-start" alt="...">
+            <img id="primaryImg" src="<%= `images/${image_ids[0]}.jpg` %>" class="rounded-start" alt="...">
           </div>
           <button class="btn btn-primary d-lg-none position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
             <span class="d-inline-block align-text-top material-symbols-outlined">
@@ -43,10 +43,10 @@
         <!-- Secondary imgs -->
         <div class="col col-lg-6 d-none d-lg-block ps-0">
           <div class="row row-cols-2 h-100 g-1 position-relative">
-            <img src="<%= `${image_ids[1]}.jpg` %>" class="img-fluid" alt="...">
-            <img src="<%= `${image_ids[2]}.jpg` %>" class="img-fluid" alt="...">
-            <img src="<%= `${image_ids[3]}.jpg` %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
-            <img src="<%= `${image_ids[4]}.jpg` %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
+            <img src="<%= `images/${image_ids[1]}.jpg` %>" class="img-fluid" alt="...">
+            <img src="<%= `images/${image_ids[2]}.jpg` %>" class="img-fluid" alt="...">
+            <img src="<%= `images/${image_ids[3]}.jpg` %>" class="img-fluid rounded-end rounded-bottom-0" alt="...">
+            <img src="<%= `images/${image_ids[4]}.jpg` %>" class="img-fluid rounded-bottom rounded-start-0" alt="...">
             <button class="btn btn-primary 
                 position-absolute bottom-0 end-0 me-3 mb-2" data-bs-toggle="modal" data-bs-target="#picturesModal">
               <span class="d-inline-block align-text-top material-symbols-outlined">
@@ -216,17 +216,17 @@
                 <!-- Single image -->
                 <% if(i % 3 === 0){ %>
                   <div class="col-12">
-                    <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+                    <img src="<%= `images/${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
                   </div>
                   <!-- Last image and has no pair -->
                 <% } else if(i + 1 === image_ids.length && i % 3 === 1){ %> 
                   <div class="col-12">
-                    <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+                    <img src="<%= `images/${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
                   </div>
                   <!-- Pair image -->
                 <% } else{ %> 
                 <div class="col-6">
-                  <img src="<%= `${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
+                  <img src="<%= `images/${image_ids[i]}.jpg` %>" class="w-100 h-auto" alt="...">
                 </div>
                 <% } %>
               <% } %>
@@ -238,7 +238,7 @@
 
     <!-- Footer -->
     <%- include('fragments/footer') %>
-    <script src="destino.js"></script>
+    <script src="javascript/destino.js"></script>
 </body>
 
 </html>

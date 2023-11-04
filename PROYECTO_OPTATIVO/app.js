@@ -7,7 +7,7 @@ const mime = require('mime');
 
 const path = require('path');
 const mysql = require('mysql');
-const DAO = require('./DAO');
+const DAO = require('./db/DAO');
 
 const pool = mysql.createPool({
     host: "localhost",
@@ -19,12 +19,12 @@ const pool = mysql.createPool({
 const app = express();
 const Dao = new DAO(pool);
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(express.json()); // For handling JSON in request body
-app.set("views", path.join(__dirname, "views"));//pending review!! (!)
-/////////////
+app.use(express.static(path.join(__dirname, 'public')));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
-/////////////
 
 // Create auth session
 app.use(
@@ -34,11 +34,6 @@ app.use(
         saveUninitialized: true,
     })
 )
-
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, "css")));
-app.use(express.static(path.join(__dirname, "resources")));
-app.use(express.static(path.join(__dirname, "js")));
 
 // Start the server
 app.listen(3000, () => {
@@ -75,7 +70,6 @@ app.post('/search', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password, source } = req.body
-    console.log(`Login from ${source}`);
 
     Dao.getSingleUser(email, function (err, userData) {
         if (err) {

@@ -13,7 +13,7 @@ Proyecto Opcional AW
 
     <!-- Custom -->
     <title>CheapBnB - User</title>
-    <link type="text/css" rel="stylesheet" href="user.css">
+    <link type="text/css" rel="stylesheet" href="stylesheets/user.css">
 </head>
 
 <body>
@@ -28,7 +28,8 @@ Proyecto Opcional AW
             <div class="col-lg-4">
               <div class="card rounded h-100">
                 <div class="card-body text-center">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" class="avatar rounded-circle img-fluid">
+                  <!-- TODO: Cambiar por imagen que sube usuario -->
+                  <img src="images/avatar.png" alt="avatar" class="avatar rounded-circle img-fluid">
                   <h5 class="my-3">
                     <%= user.nombre %>
                   </h5>
@@ -41,49 +42,49 @@ Proyecto Opcional AW
                   <form method="put" action="/updateUser">
                     <!-- Datos usuario -->
                     <!-- Nombre -->
-                    <div class="row row-cols-3 align-items-center g-0">
-                      <div class="col-3">
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
                         <label for="nombreInput" class="form-label mb-0">Nombre</label>
                       </div>
-                      <div class="col-9">
+                      <div class="col-sm-9">
                         <input type="text" id="nombreInput" class="form-control" value="<%= user.nombre %>" required>
                       </div>
                     </div>
                     <hr>
                     <!-- Correo -->
-                    <div class="row row-cols-3 align-items-center g-0">
-                      <div class="col-3">
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
                         <label for="emailInput" class="form-label mb-0">Correo</label>
                       </div>
-                      <div class="col-9">
+                      <div class="col-sm-9">
                         <input type="text" id="emailInput" class="form-control" value="<%= user.correo %>" required>
                       </div>
                     </div>
                     <hr>
 
                     <!-- Gestión contraseña -->
-                    <div class="row align-items-center">
-                      <div class="row align-items-center mb-1">
-                        <div class="col-3">
+                    <div class="align-items-center">
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
                           <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
                         </div>
-                        <div class="col-9">
+                        <div class="col-sm-9">
                           <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
                         </div>
                       </div>
-                      <div class="row align-items-center mb-1">
-                        <div class="col-3">
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
                           <label for="currentPasswordInput" class="form-label mb-0">Contraseña</label>
                         </div>
-                        <div class="col-9">
+                        <div class="col-sm-9">
                           <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
                         </div>
                       </div>
-                      <div class="row align-items-center">
-                        <div class="col-3">
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
                           <label for="currentPasswordInput" class="form-label mb-0">Confirmación</label>
                         </div>
-                        <div class="col-9">
+                        <div class="col-sm-9">
                           <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
                         </div>
                       </div>
@@ -104,7 +105,7 @@ Proyecto Opcional AW
       </section>
     </div>
     <!-- Reservas -->
-    <div class="container">
+    <div class="container mb-5">
       <div class="row justify-content-center">
         <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
       </div>
