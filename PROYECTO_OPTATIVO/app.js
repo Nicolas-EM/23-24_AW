@@ -158,6 +158,37 @@ app.post('/reservar', (req, res) => {
     }
 });
 
+app.post('/cancelar', (req, res) => {
+    if (req.session.user === undefined) {
+        res.redirect("/");
+    } else {
+        const userId = req.session.user.id;
+        const { reservaId } = req.body
+        
+        Dao.getSingleReserva(userId, reservaId, function(err, reservaExists){
+            if (err) {
+                console.log(err);
+                res.status(500).send('Server Error');
+            } else {
+                if(reservaExists){
+                    Dao.borrarReserva(reservaId, function(err, affectedRows){
+                        if (err || affectedRows > 1) {
+                            console.log(err);
+                            res.status(500).send('Server Error');
+                        } else {
+                            console.log(`Reserva con ID ${reservaId} eliminada`);
+                            res.redirect('/userPage');
+                        }
+                    })
+                }
+                else{
+                    res.status(500).send(`Reserva ${reservaId} does not exist for user ${userId}`);
+                }
+            }
+        })
+    }
+});
+
 app.get("/destination", (req, res) => {
     const destinationId = req.query.id;
     // Find the destination object using id (for instance from a database)
@@ -208,7 +239,6 @@ app.get("/userPage", (req, res) => {
         });
     }
 });
-
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {

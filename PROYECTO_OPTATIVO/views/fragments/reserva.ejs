@@ -1,26 +1,27 @@
 <div class="col">
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="<%= `${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start" alt="<%= reserva.destino_imagen_description %>">
+    <div class="card h-100">
+        <div class="row g-0 h-100">
+            <div class="col-5">
+                <img src="<%= `${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>">
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
+            <div class="col-7">
+                <div class="card-body h-100">
                     <h5 class="card-title"><%= reserva.destino_nombre %></h5>
                     <p class="card-text"><%= reserva.destino_descripcion %></p>
-                    <% if (new Date(reserva.fecha_start) < new Date()) { %>
-
-                        <div class="d-flex justify-content-end align-items-center">
-                            <span class="material-symbols-outlined star colored">  star </span>
+                    <!-- Dates -->
+                    <small class="card-text text-muted"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', {year: '2-digit', month: '2-digit', day: '2-digit' }) %> - <%= new Date(reserva.fecha_end).toLocaleDateString('es-ES', {year: '2-digit', month: '2-digit', day: '2-digit' }) %></small>
+                    <!-- Action -->
+                    <div class="mt-2 position-absolute bottom-0 end-0 m-2">
+                        <% if (new Date(reserva.fecha_start) < new Date()) { %>
                             <a href="#" class="btn reseniaBtn">Añadir reseña</a>
-                        </div>
-                    <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
-                        <small class="card-text text-muted"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></small>
-                        <div class="d-flex justify-content-end align-items-center">
-                            <a href="#" class="btn btn-primary">Cancelar reserva</a>
-                        </div>
-                         <!--pendiente hacer el post method aqui para cancelar la reserva y borrarla -->
-                        <% } %>
+                        <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
+                            <form method="post" action="/cancelar">
+                                <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
+                                <button type="submit" class="btn btn-primary">Cancelar reserva</button>
+                            </form>
+                             <!--pendiente hacer el post method aqui para cancelar la reserva y borrarla -->
+                        <% } %> 
+                    </div>
                 </div>
             </div>
         </div>

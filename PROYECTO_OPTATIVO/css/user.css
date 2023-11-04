@@ -1,5 +1,4 @@
 .reseniaBtn {
-    
     color: rgb(255, 255, 255);
     --bs-btn-bg: var(--google-yellow);
     --bs-btn-border-color: var(--google-yellow);
@@ -10,6 +9,7 @@
     --bs-btn-disabled-bg: var(--bs-grey);
     --bs-btn-disabled-border-color: var(--bs-grey);
 }
+
 .star.colored {
     color: var(--google-yellow);
 }
