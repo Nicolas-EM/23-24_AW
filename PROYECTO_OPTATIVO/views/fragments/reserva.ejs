@@ -13,13 +13,12 @@
                     <!-- Action -->
                     <div class="mt-2 position-absolute bottom-0 end-0 m-2">
                         <% if (new Date(reserva.fecha_start) < new Date()) { %>
-                            <a href="#" class="btn reseniaBtn">Añadir reseña</a>
+                            <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniamodal">Añadir reseña</a>
                         <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
                             <form method="post" action="/cancelar">
                                 <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
-                                <button type="submit" class="btn btn-primary">Cancelar reserva</button>
+                                <button type="button" class="btn btn-primary">Cancelar reserva</button>
                             </form>
-                             <!--pendiente hacer el post method aqui para cancelar la reserva y borrarla -->
                         <% } %> 
                     </div>
                 </div>
@@ -27,3 +26,54 @@
         </div>
     </div>
 </div>
+ <!-- Modal -->
+ <div class="modal fade" id="reseniamodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Déjanos una reseña!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Escribe tu reseña</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Calificación</label>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn star" data-value="1"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                            <button type="button" class="btn star" data-value="2"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                            <button type="button" class="btn star" data-value="3"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                            <button type="button" class="btn star" data-value="4"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                            <button type="button" class="btn star" data-value="5"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('.star');
+    let rating = 0;
+
+    stars.forEach((star) => {
+        star.addEventListener('click', () => {
+            rating = parseInt(star.dataset.value);
+            stars.forEach((s) => {
+                if (parseInt(s.dataset.value) <= rating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+    });
+</script>

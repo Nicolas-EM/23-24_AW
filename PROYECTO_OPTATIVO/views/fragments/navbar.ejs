@@ -42,7 +42,7 @@
                         <input type="hidden" id="source" name="source" value="<%= source %>">
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
@@ -77,15 +77,17 @@
                         </div>
                         <div class="mb-3">
                             <label for="signupEmail" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="signupEmail" name="email" required>
+                            <input type="email" class="form-control" id="signupEmail" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                         </div>
                         <div class="mb-3">
-                            <label for="signupPwd" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="signupPwd" name="password" placeholder="************" required>
+                            <label for="signupPwdInput" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="signupPwdInput" name="password" placeholder="************" required>
+                            <div id="signupPwdValidation"></div>
                         </div>
                         <div class="mb-3">
                             <label for="signupPwdConfirm" class="form-label">Confirmación</label>
                             <input type="password" class="form-control" id="signupPwdConfirm" name="passwordConfirmation" placeholder="************" required>
+                            <div id="signupPwdConfirmValidation"></div>
                         </div>
                         <div class="mt-3 text-center">
                             <button type="submit" class="btn btn-primary form-control">Continuar</button>
@@ -99,3 +101,41 @@
         </div>
     </div>
     <% } %>
+
+<script>
+let passwordInput = document.getElementById('signupPwdInput');
+let passwordValidation = document.getElementById('signupPwdValidation');
+let passwordConfirmInput = document.getElementById('signupPwdConfirm');
+let passwordConfirmValidation = document.getElementById('signupPwdConfirmValidation');
+
+passwordInput.addEventListener('input', () => {
+    let password = passwordInput.value;
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
+
+    if (passwordRegex.test(password)) {
+        passwordInput.style.backgroundColor = '#c8ecc7';
+        passwordValidation.textContent = 'Contraseña válida';
+    } else {
+        passwordInput.style.backgroundColor = '#f08080';
+        passwordValidation.textContent = 'Tu contraseña debe tener al menos 7 caracteres, una letra y un número';
+    }
+
+    if (password === passwordConfirmInput.value) {
+        passwordConfirmInput.style.backgroundColor = '#c8ecc7';
+        passwordConfirmValidation.textContent = 'Passwords match';
+    } else {
+        passwordConfirmInput.style.backgroundColor = '#f08080';
+        passwordConfirmValidation.textContent = 'Passwords do not match';
+    }
+});
+
+passwordConfirmInput.addEventListener('input', () => {
+    if (passwordInput.value === passwordConfirmInput.value) {
+        passwordConfirmInput.style.backgroundColor = '#c8ecc7';
+        passwordConfirmValidation.textContent = 'Contraseñas coinciden';
+    } else {
+        passwordConfirmInput.style.backgroundColor = '#f08080';
+        passwordConfirmValidation.textContent = 'Contraseñas no coinciden';
+    }
+});
+</script>
