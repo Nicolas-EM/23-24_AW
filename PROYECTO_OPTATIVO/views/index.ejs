@@ -12,7 +12,7 @@ Proyecto Opcional AW
     <%- include('fragments/head') %>
 
         <!-- Custom -->
-        <link type="text/css" rel="stylesheet" href="stylesheets/home.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/home.css" />
         <title>CheapBnB</title>
 </head>
 
@@ -70,7 +70,7 @@ Proyecto Opcional AW
                                         <% } %>
                                     </div>
                                     <div class="carousel-inner">
-                                        <a href="/destination?id=<%= destination.id %>">
+                                        <a href="/destination/<%= destination.id %>">
                                             <div class="carousel-item rounded active">
                                                 <img src="<%= `images/${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="...">
                                             </div>

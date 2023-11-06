@@ -1,7 +1,9 @@
+"use strict";
+
 const sharedModal = document.getElementById("reseniaModal");
 console.log(`Sharedmodal: ${sharedModal}`);
 if (sharedModal) {
-    sharedModal.addEventListener("shown.bs.modal", e => {
+    sharedModal.addEventListener("show.bs.modal", e => {
         const btn = e.relatedTarget;
         const reservaId = btn.dataset.reservaId;
         paintStars(0);
