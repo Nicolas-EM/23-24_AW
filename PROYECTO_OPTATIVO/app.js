@@ -183,6 +183,46 @@ app.post('/cancelar', (req, res) => {
     }
 });
 
+app.post('/review', (req, res) => {
+    if (req.session.user === undefined) {
+        res.redirect("/");
+    } else {
+        let userId = req.session.user.id;
+        let { reservaId } = req.body;
+        let comentario = req.body.comment;
+        let puntuacion = req.body.rating;
+        Dao.getReservaById(reservaId, function(err, row){
+            if (err) {
+                console.log(err);
+                res.status(500).send('Server Error');
+            } else {
+                if(row.length > 0){
+                    Dao.getSingleUserById(userId, function(err, user){
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send('Server Error');
+                        } else {
+                            Dao.crearComentario(row[0].destino_id, user.nombre, comentario, puntuacion, function(err, rowId){
+                                if (err) {
+                                    console.log(err);
+                                    res.status(500).send('Server Error');
+                                } else {
+                                    console.log(`Reseña con ID ${rowId} creada`);
+                                    res.redirect('/userPage');
+                                }
+                            });
+                        }
+                    });
+                }
+                else{
+                    res.status(500).send(`Reserva ${reservaId} does not exist for user ${userId}`);
+                }
+            }
+        });
+    }
+});
+
+
 app.get("/destination", (req, res) => {
     const destinationId = req.query.id;
     // Find the destination object using id (for instance from a database)

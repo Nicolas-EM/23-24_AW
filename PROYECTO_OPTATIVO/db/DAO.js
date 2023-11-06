@@ -93,7 +93,34 @@ class DAO {
             }
         });
     }
-
+    getSingleUserById(id, callback) {
+        this.pool.query("SELECT * FROM usuarios u WHERE u.id = ?;", [id], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                if (rows && rows.length == 1)
+                    callback(null, rows[0]);
+                else
+                    callback("getSingleUserById: Multiple users found");
+            }
+        });
+    }
+    // Assuming that the Dao object has a method called `crearComentario`
+    crearComentario = function (destino_id, nombre_usuario, comentario, puntuacion, callback) {
+        // Assuming that there is a database connection object called `db`
+        this.pool.query(
+            'INSERT INTO comentarios (destino_id, nombre_usuario, comentario, puntuacion) VALUES (?, ?, ?, ?)',
+            [destino_id, nombre_usuario, comentario, puntuacion],
+            function (err, result) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result.insertId);
+                }
+            }
+        );
+    };
     getSearch(search, filter, callback) {
         search = `%${search}%`;
         this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids " +
@@ -128,7 +155,17 @@ class DAO {
             }
         });
     }
-
+    getReservaById(reserva_id, callback) {
+        this.pool.query("SELECT * FROM reservas WHERE id = ?;", [reserva_id], function (err, rows) {
+            if (err) {
+                callback(err);
+            }
+            else {
+                console.log(rows)
+                callback(null, rows);
+            }
+        });
+    }
     getSingleReserva(cliente_id, reserva_id, callback) {
         this.pool.query("SELECT COUNT(*) as count FROM Reservas r WHERE r.id = ? AND r.cliente_id = ?;", [reserva_id, cliente_id], function (err, row) {
             if (err) {
