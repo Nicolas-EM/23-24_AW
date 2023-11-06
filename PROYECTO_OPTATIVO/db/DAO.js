@@ -106,7 +106,7 @@ class DAO {
             }
         });
     }
-    // Assuming that the Dao object has a method called `crearComentario`
+
     crearComentario = function (destino_id, nombre_usuario, comentario, puntuacion, callback) {
         // Assuming that there is a database connection object called `db`
         this.pool.query(
@@ -116,6 +116,7 @@ class DAO {
                 if (err) {
                     callback(err, null);
                 } else {
+                    console.log(`Comentario con ID ${result.insertId} creado`);
                     callback(null, result.insertId);
                 }
             }

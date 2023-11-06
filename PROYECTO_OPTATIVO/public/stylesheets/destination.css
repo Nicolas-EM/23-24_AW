@@ -10,7 +10,7 @@
 } */
 
 .daterangepicker td.active:not(.off),
-.daterangepicker td.active:hover  {
+.daterangepicker td.active:hover {
     background-color: var(--airbnb-red) !important;
     border-color: transparent;
     color: #fff !important;

@@ -2,93 +2,28 @@
     <div class="card h-100">
         <div class="row row-cols-1 row-cols-sm-2 g-0 h-100">
             <div class="col-sm-5">
-                <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>">
+                <a href="/destination?id=<%= reserva.destino_id%>"> <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>"> </a>
             </div>
             <div class="col-sm-7">
-                <div class="card-body h-100">
+                <div class="card-body h-75 pb-0">
                     <h5 class="card-title"><%= reserva.destino_nombre %></h5>
-                    <p class="card-text"><%= reserva.destino_descripcion %></p>
                     <!-- Dates -->
-                    <small class="card-text text-muted"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', {year: '2-digit', month: '2-digit', day: '2-digit' }) %> - <%= new Date(reserva.fecha_end).toLocaleDateString('es-ES', {year: '2-digit', month: '2-digit', day: '2-digit' }) %></small>
-                    <!-- Action -->
-                    <div class="mt-2 position-absolute bottom-0 end-0 m-2">
-                        <% if (new Date(reserva.fecha_start) < new Date()) { %>
-                        <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniamodal">Añadir reseña</a>
-                        <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
-                        <form method="post" action="/cancelar">
-                            <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
-                            <button type="button" class="btn btn-primary">Cancelar reserva</button>
-                        </form>
-                        <% } %>
-                    </div>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %> - <%= new Date(reserva.fecha_end).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %></h6>
+                    <!-- Description -->
+                    <p class="card-text"><%= reserva.destino_descripcion %></p>
+                </div>
+                <!-- Action -->
+                <div class="card-footer text-end h-25 pt-1">
+                    <% if (new Date(reserva.fecha_start) < new Date()) { %>
+                    <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
+                    <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
+                    <form method="post" action="/cancelar">
+                        <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
+                        <button type="submit" class="btn btn-primary">Cancelar reserva</button>
+                    </form>
+                    <% } %>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="reseniamodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Déjanos una reseña!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Escribe tu reseña</label>
-                        <textarea class="form-control" rows="3" name="comment" id="comment"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Calificación</label>
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn star" data-value="1" id="star1"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                            <button type="button" class="btn star" data-value="2" id="star2"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                            <button type="button" class="btn star" data-value="3" id="star3"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                            <button type="button" class="btn star" data-value="4" id="star4"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                            <button type="button" class="btn star" data-value="5" id="star5"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <form method="post" action="/review">
-                    <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
-                    <input type="number" class="d-none" value="0" name="rating" id="rating">
-                    <input type="hidden" name="comment" id="comment-hidden">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    
-        const stars = document.querySelectorAll('.star');
-        let rating = 0;
-
-        stars.forEach((star) => {
-            star.addEventListener('click', () => {
-                rating = parseInt(star.dataset.value);
-                document.getElementById('rating').value = rating;
-                stars.forEach((s) => {
-                    if (parseInt(s.dataset.value) <= rating) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
-            });
-        });
-        const commentTextarea = document.getElementById('comment');
-    const hiddenCommentInput = document.getElementById('comment-hidden');
-
-    commentTextarea.addEventListener('input', () => {
-        const commentValue = commentTextarea.value;
-        hiddenCommentInput.value = commentValue;
-    });
-    </script>

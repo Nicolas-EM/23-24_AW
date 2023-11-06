@@ -10,7 +10,7 @@ $('#calendar').daterangepicker({
     "minDate": new Date(),
 }, function (start, end) {
     console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-    
+
     $('#calendar').attr("placeholder", `De ${start.format('DD-MM-YYYY')} a ${end.format('DD-MM-YYYY')}`);
     $('#calendar').attr("value", `De ${start.format('DD-MM-YYYY')} a ${end.format('DD-MM-YYYY')}`);
     $('#startDate').attr("value", start.format('YYYY-MM-DD'));
@@ -20,12 +20,12 @@ $('#calendar').daterangepicker({
     calcTotalPrice();
 });
 
-function calcTotalPrice(){
+function calcTotalPrice() {
     const numPersonas = $('#numPersonas').val();
     const days = $('#precioTotal').data("days");
     const precioPorNoche = $('#precioTotal').data("precio");
 
-    if(days === undefined)
+    if (days === undefined)
         return;
 
     // TODO

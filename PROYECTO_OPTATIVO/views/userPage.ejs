@@ -11,155 +11,153 @@ Proyecto Opcional AW
   <!-- Shared head -->
   <%- include('fragments/head') %>
 
-    <!-- Custom -->
-    <title>CheapBnB - User</title>
-    <link type="text/css" rel="stylesheet" href="stylesheets/user.css">
+  <!-- Custom -->
+  <title>CheapBnB - User</title>
+  <link type="text/css" rel="stylesheet" href="stylesheets/user.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <%- include('fragments/navbar') %>
 
-    <!-- Datos del usuario -->
-    <div class="container-fluid p-0 mb-3">
-      <section class="userBg">
-        <div class="container py-5">
-          <div class="row g-2">
-            <div class="col-lg-4">
-              <div class="card rounded h-100">
-                <div class="card-body text-center">
-                  <!-- TODO: Cambiar por imagen que sube usuario -->
-                  <img src="images/avatar.png" alt="avatar" class="avatar rounded-circle img-fluid">
-                  <h5 class="my-3">
-                    <%= user.nombre %>
-                  </h5>
-                </div>
+  <!-- Datos del usuario -->
+  <div class="container-fluid p-0 mb-3">
+    <section class="userBg">
+      <div class="container py-5">
+        <div class="row g-2">
+          <div class="col-lg-4">
+            <div class="card rounded h-100">
+              <div class="card-body text-center">
+                <!-- TODO: Cambiar por imagen que sube usuario -->
+                <img src="images/avatar.png" alt="avatar" class="avatar rounded-circle img-fluid">
+                <h5 class="my-3">
+                  <%= user.nombre %>
+                </h5>
               </div>
             </div>
-            <div class="col-lg-8">
-              <div class="card h-100">
-                <div class="card-body">
-                  <form method="put" action="/updateUser">
-                    <!-- Datos usuario -->
-                    <!-- Nombre -->
-                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+          </div>
+          <div class="col-lg-8">
+            <div class="card h-100">
+              <div class="card-body">
+                <form method="put" action="/updateUser">
+                  <!-- Datos usuario -->
+                  <!-- Nombre -->
+                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                    <div class="col-sm-3">
+                      <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" id="nombreInput" class="form-control" value="<%= user.nombre %>" required>
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- Correo -->
+                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                    <div class="col-sm-3">
+                      <label for="emailInput" class="form-label mb-0">Correo</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" id="emailInput" class="form-control" value="<%= user.correo %>" required>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <!-- Gestión contraseña -->
+                  <div class="align-items-center">
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                       <div class="col-sm-3">
-                        <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                        <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="text" id="nombreInput" class="form-control" value="<%= user.nombre %>" required>
+                        <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
                       </div>
                     </div>
-                    <hr>
-                    <!-- Correo -->
-                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                       <div class="col-sm-3">
-                        <label for="emailInput" class="form-label mb-0">Correo</label>
+                        <label for="signupPwdInput" class="form-label mb-0">Nueva Contraseña</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="text" id="emailInput" class="form-control" value="<%= user.correo %>" required>
+                        <input type="password" id="signupPwdInput" class="form-control" placeholder="**********">
+                        <p id="signupPwdValidation"></p>
                       </div>
                     </div>
-                    <hr>
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                      <div class="col-sm-3">
+                        <label for="signupPwdConfirm" class="form-label mb-0">Confirmar Contraseña</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="password" id="signupPwdConfirm" class="form-control" placeholder="**********">
+                        <p id="signupPwdConfirmValidation"></p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
 
-                    <!-- Gestión contraseña -->
-                    <div class="align-items-center">
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="text" id="currentPasswordInput" class="form-control" placeholder="**********">
-                        </div>
-                      </div>
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="signupPwdInput" class="form-label mb-0">Nueva Contraseña</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="password" id="signupPwdInput" class="form-control" placeholder="**********">
-                          <p id="signupPwdValidation"></p>
-                        </div>
-                      </div>
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="signupPwdConfirm" class="form-label mb-0">Confirmar Contraseña</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="password" id="signupPwdConfirm" class="form-control" placeholder="**********">
-                          <p id="signupPwdConfirmValidation"></p>
-                        </div>
-                      </div>
+                  <div class="row">
+                    <div class="col text-end">
+                      <button class="btn btn-primary" type="submit">Guardar</button>
                     </div>
-                    <hr>
-
-                    <div class="row">
-                      <div class="col text-end">
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
-
-    <!-- Reservas -->
-    <div class="container mb-5">
-      <div class="row justify-content-center">
-        <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
       </div>
-      <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
-        <% reservas.forEach(function(reserva) { %>
-          <%- include('fragments/reserva', {reserva}) %>
-        <% }); %>
-      </div>
+    </section>
+  </div>
 
+  <!-- Reservas -->
+  <div class="container mb-5">
+    <div class="row justify-content-center">
+      <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
     </div>
+    <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
+      <% reservas.forEach(function(reserva) { %>
+      <%- include('fragments/reserva', {reserva}) %>
+      <% }); %>
+    </div>
+  </div>
 
-    <!-- Footer -->
-    <%- include('fragments/footer') %>
+  <!-- Comments Modal -->
+  <div class="modal fade" id="reseniaModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" action="/review">
+          <div class="modal-header">
+            <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="comment" class="form-label">Escribe tu reseña</label>
+              <textarea class="form-control" rows="3" name="comment" id="comment" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Calificación</label>
+              <div class="d-flex justify-content-center">
+                <button type="button" class="btn star" data-value="1" id="star1"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                <button type="button" class="btn star" data-value="2" id="star2"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                <button type="button" class="btn star" data-value="3" id="star3"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                <button type="button" class="btn star" data-value="4" id="star4"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                <button type="button" class="btn star" data-value="5" id="star5"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+            <input type="number" class="d-none" value="0" name="rating" id="rating">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-    <script>
-      let passwordInput = document.getElementById('signupPwdInput');
-      let passwordValidation = document.getElementById('signupPwdValidation');
-      let passwordConfirmInput = document.getElementById('signupPwdConfirm');
-      let passwordConfirmValidation = document.getElementById('signupPwdConfirmValidation');
-
-      passwordInput.addEventListener('input', () => {
-          let password = passwordInput.value;
-          let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
-
-          if (passwordRegex.test(password)) {
-              passwordInput.style.backgroundColor = '#c8ecc7';
-              passwordValidation.textContent = 'Contraseña válida';
-          } else {
-              passwordInput.style.backgroundColor = '#f08080';
-              passwordValidation.textContent = 'Tu contraseña debe tener al menos 7 caracteres, una letra y un número';
-          }
-
-          if (password === passwordConfirmInput.value) {
-              passwordConfirmInput.style.backgroundColor = '#c8ecc7';
-              passwordConfirmValidation.textContent = 'Passwords match';
-          } else {
-              passwordConfirmInput.style.backgroundColor = '#f08080';
-              passwordConfirmValidation.textContent = 'Passwords do not match';
-          }
-      });
-
-      passwordConfirmInput.addEventListener('input', () => {
-          if (passwordInput.value === passwordConfirmInput.value) {
-              passwordConfirmInput.style.backgroundColor = '#c8ecc7';
-              passwordConfirmValidation.textContent = 'Contraseñas coinciden';
-          } else {
-              passwordConfirmInput.style.backgroundColor = '#f08080';
-              passwordConfirmValidation.textContent = 'Contraseñas no coinciden';
-          }
-      });
-    </script>
+  <!-- Footer -->
+  <%- include('fragments/footer') %>
+  <script src="javascript/userpage.js"></script>
 </body>
 
 </html>
