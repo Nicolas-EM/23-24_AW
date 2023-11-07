@@ -2,7 +2,7 @@
     <div class="card h-100">
         <div class="row row-cols-1 row-cols-sm-2 g-0 h-100">
             <div class="col-sm-5">
-                <a href="/destination?id=<%= reserva.destino_id%>"> <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>"> </a>
+                <a href="/destination/<%= reserva.destino_id%>"> <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>"> </a>
             </div>
             <div class="col-sm-7">
                 <div class="card-body h-75 pb-0">
