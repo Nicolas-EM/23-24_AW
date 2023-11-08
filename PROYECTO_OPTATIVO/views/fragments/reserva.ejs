@@ -13,7 +13,7 @@
                     <p class="card-text"><%= reserva.destino_descripcion %></p>
                 </div>
                 <!-- Action -->
-                <div class="card-footer text-end h-25 pt-1">
+                <div class="card-footer text-end h-25 pt-1 mb-5">
                     <% if (new Date(reserva.fecha_end) < new Date()) { %>
                     <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
                     <% } else if (new Date(reserva.fecha_start) > new Date()) { %>

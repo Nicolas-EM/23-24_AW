@@ -136,7 +136,7 @@ app.post('/reservar', loginHandler, (req, res) => {
                         next(err);
                     } else {
                         console.log(`Reserva con ID ${reservaId} creada`);
-                        res.redirect('/userPage');
+                        res.redirect('/user');
                     }
                 })
             }
@@ -162,7 +162,7 @@ app.post('/cancelar', loginHandler, (req, res) => {
                         next(err);
                     } else {
                         console.log(`Reserva con ID ${reservaId} eliminada`);
-                        res.redirect('/userPage');
+                        res.redirect('/user');
                     }
                 })
             }
@@ -193,7 +193,7 @@ app.post('/review', loginHandler, (req, res) => {
                                 next(err);
                             } else {
                                 console.log(`Reseña con ID ${rowId} creada`);
-                                res.redirect('/userPage');
+                                res.redirect('/user');
                             }
                         });
                     }
@@ -232,7 +232,7 @@ app.get("/destination/:id", (req, res) => {
 });
 
 //GET DE LA PAGINA DE USUARIO PERSONALIZADA
-app.get("/userPage", loginHandler, (req, res) => {
+app.get("/user", loginHandler, (req, res) => {
     const email = req.session.user.email;
     Dao.getSingleUser(email, function (err, user) {
         if (err) {
