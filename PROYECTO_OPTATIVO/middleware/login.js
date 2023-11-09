@@ -1,6 +1,6 @@
 function requireLogin(request, response, next){
     if (request.session.user === undefined){
-        res.redirect("/");
+        response.redirect("/");
     } else {
         next();
     }

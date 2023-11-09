@@ -34,6 +34,7 @@ passwordInput.addEventListener('input', () => {
     } else {
         passwordInput.setCustomValidity("");
         passwordInput.style.backgroundColor = 'inherit';
+        checkPasswordsMatch();
     }
 });
 
@@ -44,15 +45,15 @@ function passwordIsValid(password){
 }
 
 passwordConfirmInput.addEventListener('input', () => {
-    if(!passwordsMatch()){
+    checkPasswordsMatch();
+});
+
+function checkPasswordsMatch(){
+    if(passwordInput.value !== passwordConfirmInput.value){
         passwordConfirmInput.style.backgroundColor = '#f08080';
         passwordConfirmInput.setCustomValidity('Tus contraseñas no coinciden');
     } else {
         passwordConfirmInput.setCustomValidity("");
         passwordConfirmInput.style.backgroundColor = 'inherit';
     }
-});
-
-function passwordsMatch(){
-    return passwordInput.value === passwordConfirmInput.value;
 }

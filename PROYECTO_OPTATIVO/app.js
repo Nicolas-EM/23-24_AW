@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const DAO = require('./db/DAO');
 const errorHandler = require('./middleware/error');
 const loginHandler = require('./middleware/login');
+const flashMiddleware = require('./middleware/flash');
 
 //BASE DE DATOS
 const pool = mysql.createPool({
@@ -33,6 +34,7 @@ app.use(express.json()); // For handling JSON in request body
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'secret_key', resave: false, saveUninitialized: true, }));
+app.use(flashMiddleware);
 //MIDDLEWARE PARA ERRORES
 app.use(errorHandler);
 
@@ -48,7 +50,7 @@ app.get('/', function (req, res) {
             next(err);
         }
         else {
-            res.render("index", { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
+            res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos});
         }
     });
 });
@@ -63,7 +65,7 @@ app.post('/search', (req, res) => {
         }
         else {
             console.log(destinos);
-            res.render('index', { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
+            res.status(200).render('index', { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
         }
     });
 
@@ -82,11 +84,12 @@ app.post('/login', (req, res) => {
                 console.log("Authenticated");
                 // If valid credentials, create a session
                 req.session.user = { email, id: userData.id };
+                res.setFlash('Sesión iniciada.');
                 res.redirect(source);
             }
             else {
                 console.log("Denied");
-                res.status(401);
+                res.setFlash('Credenciales incorrectas.');
                 res.redirect(source);
             }
         }
@@ -111,11 +114,13 @@ app.post('/register', (req, res) => {
                 console.log("Registered");
                 // If valid credentials, create a session
                 req.session.user = { email, id: userId };
-                res.status(200).redirect(source);
+                res.setFlash('Exito: Cuenta creada');
+                res.redirect(source);
             }
             else {
                 console.log("Registration failed");
-                res.status(401).redirect(source);
+                res.setFlash("Error: Tu cuenta ya existe, por favor inicia sesión");
+                res.redirect(source);
             }
         }
     });
@@ -136,6 +141,7 @@ app.post('/reservar', loginHandler, (req, res) => {
                         next(err);
                     } else {
                         console.log(`Reserva con ID ${reservaId} creada`);
+                        res.setFlash('Exito: Reserva creada');
                         res.redirect('/user');
                     }
                 })
@@ -162,6 +168,7 @@ app.post('/cancelar', loginHandler, (req, res) => {
                         next(err);
                     } else {
                         console.log(`Reserva con ID ${reservaId} eliminada`);
+                        res.setFlash('Exito: Reserva cancelada');
                         res.redirect('/user');
                     }
                 })
@@ -193,6 +200,7 @@ app.post('/review', loginHandler, (req, res) => {
                                 next(err);
                             } else {
                                 console.log(`Reseña con ID ${rowId} creada`);
+                                res.setFlash('Exito: Reseña creada');
                                 res.redirect('/user');
                             }
                         });
@@ -222,7 +230,7 @@ app.get("/destination/:id", (req, res) => {
                         if (err) {
                             next(err);
                         } else {
-                            res.render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination/${destinationId}`, dest, image_ids, comments: comments });
+                            res.status(200).render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination/${destinationId}`, dest, image_ids, comments: comments });
                         }
                     });
                 }
@@ -243,7 +251,7 @@ app.get("/user", loginHandler, (req, res) => {
                 if (err) {
                     next(err);
                 } else {
-                    res.render("userPage", { isAuthenticated: true, user, reservas })
+                    res.status(200).render("user", { isAuthenticated: true, user, reservas })
                 }
             });
         }
@@ -253,6 +261,7 @@ app.get("/user", loginHandler, (req, res) => {
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
+        res.setFlash('Sesión cerrada');
         res.redirect('/');
     })
 });

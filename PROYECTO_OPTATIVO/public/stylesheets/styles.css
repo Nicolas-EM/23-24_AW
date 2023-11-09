@@ -29,7 +29,8 @@
     --bs-btn-disabled-border-color: var(--bs-grey);
 }
 
-.navbar .navbar-brand .material-symbols-outlined {
+.navbar .navbar-brand .material-symbols-outlined,
+.toast-header .material-symbols-outlined {
     color: var(--airbnb-red);
 }
 
