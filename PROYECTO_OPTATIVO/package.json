@@ -69,7 +69,8 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "node app.js"
   },
   "author": "Nicolas Espinosa Mooser y Santiago Moral Santorio",
   "license": "ISC"
