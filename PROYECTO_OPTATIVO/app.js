@@ -66,7 +66,6 @@ app.post('/search', (req, res, next) => {
             next(err);
         }
         else {
-            console.log(destinos);
             res.status(200).render('index', { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
         }
     });
@@ -87,13 +86,11 @@ app.post('/login', (req, res, next) => {
                     next(err);
                 }
                 if (passwordMatch) {
-                    console.log("Authenticated");
                     // If valid credentials, create a session
                     req.session.user = { email, id: userData.id };
                     res.setFlash('Sesión iniciada.');
                     res.redirect(source);
                 } else {
-                    console.log("Denied");
                     res.setFlash('Credenciales incorrectas.');
                     res.redirect(source);
                 }
@@ -131,14 +128,12 @@ app.post('/register', (req, res, next) => {
         }
         else {
             if (userId !== undefined) {
-                console.log("Registered");
                 // If valid credentials, create a session
                 req.session.user = { email, id: userId };
                 res.setFlash('Exito: Cuenta creada');
                 res.redirect(source);
             }
             else {
-                console.log("Registration failed");
                 res.setFlash("Error: Tu cuenta ya existe, por favor inicia sesión");
                 res.redirect(source);
             }
@@ -163,7 +158,6 @@ app.post('/reservar', loginHandler, (req, res, next) => {
                     if (err) {
                         next(err);
                     } else {
-                        console.log(`Reserva con ID ${reservaId} creada`);
                         res.setFlash('Exito: Reserva creada');
                         res.redirect('/user');
                     }
@@ -190,7 +184,6 @@ app.post('/cancelar', loginHandler, (req, res, next) => {
                     if (err || affectedRows > 1) {
                         next(err);
                     } else {
-                        console.log(`Reserva con ID ${reservaId} eliminada`);
                         res.setFlash('Exito: Reserva cancelada');
                         res.redirect('/user');
                     }
@@ -225,12 +218,10 @@ app.post('/review', loginHandler, (req, res, next) => {
                                 if (err) {
                                     next(err);
                                 } else {
-                                    console.log(`Reseña con ID ${rowId} creada`);
                                     Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
                                         if (err || affectedRows > 1) {
                                             next(err);
                                         } else {
-                                            console.log(`Reserva con ID ${reservaId} actualizada`);
                                             res.setFlash('Exito: Reseña creada');
                                             res.redirect('/user');
                                         }
@@ -295,7 +286,6 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
                     next(err);
                 }
                 if (passwordMatch) {
-                    console.log({ newUsername, newEmail, newPwd, id });
                     Dao.updateUser({ newUsername, newEmail, newPwd, id }, (err) => {
                         if (err) {
                             next(err);

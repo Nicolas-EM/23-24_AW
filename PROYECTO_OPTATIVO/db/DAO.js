@@ -101,7 +101,6 @@ class DAO {
             if (err) {
                 callback(err);
             } else {
-                console.log(`Usuario con ID ${user.id} actualizado desde DAO`);
                 callback(null);
             }
         });
@@ -132,7 +131,6 @@ class DAO {
                 if (err) {
                     callback(err, null);
                 } else {
-                    console.log(`Comentario con ID ${result.insertId} creado`);
                     callback(null, result.insertId);
                 }
             }
@@ -203,7 +201,6 @@ class DAO {
                 callback(err);
             }
             else {
-                console.log(OkPacket);
                 callback(null, OkPacket.affectedRows);
             }
         });
