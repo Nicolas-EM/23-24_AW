@@ -196,25 +196,39 @@ app.post('/review', loginHandler, (req, res, next) => {
         if (err) {
             next(err);
         } else {
-            if (row.length > 0) {
-                Dao.getSingleUserById(userId, function (err, user) {
-                    if (err) {
-                        next(err);
-                    } else {
-                        Dao.crearComentario(row[0].destino_id, user.nombre, comentario, puntuacion, function (err, rowId) {
-                            if (err) {
-                                next(err);
-                            } else {
-                                console.log(`Reseña con ID ${rowId} creada`);
-                                res.setFlash('Exito: Reseña creada');
-                                res.redirect('/user');
-                            }
-                        });
-                    }
-                });
+            if (row) {
+                if(row.reviewed === 1){
+                    // Reseña ya existe
+                    res.setFlash('Error: Reseña ya existe para este destino');
+                    res.redirect('/user');
+                } else {
+                    Dao.getSingleUserById(userId, function (err, user) {
+                        if (err) {
+                            next(err);
+                        } else {
+                            Dao.crearComentario(row.destino_id, user.nombre, comentario, puntuacion, function (err, rowId) {
+                                if (err) {
+                                    next(err);
+                                } else {
+                                    console.log(`Reseña con ID ${rowId} creada`);
+                                    Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
+                                        if(err || affectedRows > 1){
+                                            next(err);
+                                        } else {
+                                            console.log(`Reserva con ID ${reservaId} actualizada`);
+                                            res.setFlash('Exito: Reseña creada');
+                                            res.redirect('/user');
+                                        }
+                                    });
+                                }
+    
+                            });
+                        }
+                    });
+                }
             }
             else {
-                res.status(500).send(`Reserva ${reservaId} does not exist for user ${userId}`);
+                next({status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/review"});
             }
         }
     });

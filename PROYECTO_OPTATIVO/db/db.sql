@@ -40,6 +40,7 @@ CREATE TABLE reservas (
  cliente_id INT NOT NULL,
  fecha_start DATE NOT NULL,
  fecha_end DATE NOT NULL,
+ reviewed BOOLEAN DEFAULT FALSE,
  FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
  FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
