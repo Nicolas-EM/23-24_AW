@@ -116,22 +116,3 @@ VALUES
   (13, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'El Himalaya es un lugar espiritual.' ELSE 'El Himalaya no cumplió mis expectativas, no lo recomiendo.' END, FLOOR(1 + RAND() * 5)),
   (14, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Escandinavia es un viaje cultural.' ELSE 'Me decepcionó Escandinavia, esperaba más.' END, FLOOR(1 + RAND() * 5)),
   (15, 'Mr Cáceres', CASE WHEN RAND() < 0.5 THEN 'Perú, tierra de los incas.' ELSE 'Perú no me impresionó, hay mejores opciones.' END, FLOOR(1 + RAND() * 5));
-/*
-INSERT INTO comentarios (destino_id, nombre_usuario, comentario, puntuacion)
-SELECT
-  d.id AS destino_id,
-  CASE
-    WHEN u.nombre = 'Mr Cáceres' THEN '¡Este destino es increíble! ¡Me encantó!'
-    WHEN u.nombre = 'Jesus, el señor' THEN '¡Una experiencia increíble, sin duda volveré!'
-    ELSE 'Buena elección para unas vacaciones.'
-  END AS comentario,
-  FLOOR(1 + RAND() * 5) AS puntuacion
-FROM destinos d
-CROSS JOIN (
-  SELECT 'Mr Cáceres' AS nombre
-  UNION SELECT 'Jesus, el señor'
-  UNION SELECT 'Otro Usuario'
-  -- Add more user names here
-) AS u
-CROSS JOIN (SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) AS rand_comments;
-*/
