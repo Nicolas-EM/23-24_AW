@@ -1,4 +1,7 @@
 "use strict";
+// config if dev or prod
+const isDevBuild = false;
+
 //MODULOS REQUERIDOS
 const express = require('express');
 const session = require('express-session');
@@ -10,9 +13,10 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
 const DAO = require('./db/DAO');
-const errorHandler = require('./middleware/error');
 const loginHandler = require('./middleware/login');
 const flashMiddleware = require('./middleware/flash');
+const errorHandler = isDevBuild ? require('./middleware/errorDev') : require('./middleware/errorProd');
+const error404Handler = require('./middleware/error404');
 
 //BASE DE DATOS
 const pool = mysql.createPool({
@@ -35,8 +39,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'secret_key', resave: false, saveUninitialized: true, }));
 app.use(flashMiddleware);
-//MIDDLEWARE PARA ERRORES
-app.use(errorHandler);
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
@@ -44,7 +46,7 @@ app.listen(3000, () => {
 });
 
 //GET DE LA PAGINA INDEX
-app.get('/', function (req, res) {
+app.get('/', function (req, res, next) {
     Dao.getDestinos(function (err, destinos) {
         if (err) {
             next(err);
@@ -56,7 +58,7 @@ app.get('/', function (req, res) {
 });
 
 //POST PARA LA BUSQUEDA
-app.post('/search', (req, res) => {
+app.post('/search', (req, res, next) => {
     const { query, maxPrice } = req.body;
 
     Dao.getSearch(query, maxPrice, function (err, destinos) {
@@ -72,7 +74,7 @@ app.post('/search', (req, res) => {
 });
 
 //POST PARA EL METODO LOGIN DEL USUARIO
-app.post('/login', (req, res) => {
+app.post('/login', (req, res, next) => {
     const { email, password, source } = req.body
 
     Dao.getSingleUser(email, function (err, userData) {
@@ -80,24 +82,28 @@ app.post('/login', (req, res) => {
             next(err);
         }
         else {
-            if (bcrypt.compare(password, userData.password)) {
-                console.log("Authenticated");
-                // If valid credentials, create a session
-                req.session.user = { email, id: userData.id };
-                res.setFlash('Sesión iniciada.');
-                res.redirect(source);
-            }
-            else {
-                console.log("Denied");
-                res.setFlash('Credenciales incorrectas.');
-                res.redirect(source);
-            }
+            bcrypt.compare(password, userData.password, (err, passwordMatch) => {
+                if(err){
+                    next(err);
+                }
+                if(passwordMatch){
+                    console.log("Authenticated");
+                    // If valid credentials, create a session
+                    req.session.user = { email, id: userData.id };
+                    res.setFlash('Sesión iniciada.');
+                    res.redirect(source);
+                } else {
+                    console.log("Denied");
+                    res.setFlash('Credenciales incorrectas.');
+                    res.redirect(source);
+                }
+            });
         }
     });
 })
 
 //POST PARA EL METODO REGISTER DEL USUARIO
-app.post('/register', (req, res) => {
+app.post('/register', (req, res, next) => {
     const { nombre, email, password, source } = req.body;
     console.log(`Register from ${source}`);
     // Create hasher
@@ -107,7 +113,7 @@ app.post('/register', (req, res) => {
 
     Dao.createUser({ nombre, email, hashedPassword }, function (err, userId) {
         if (err) {
-            next(err);
+            return next(err);
         }
         else {
             if (userId !== undefined) {
@@ -127,7 +133,7 @@ app.post('/register', (req, res) => {
 })
 
 //POST PARA LA RESERVA DEL USUARIO
-app.post('/reservar', loginHandler, (req, res) => {
+app.post('/reservar', loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { destinoId, numPersonas, startDate, endDate } = req.body
 
@@ -154,7 +160,7 @@ app.post('/reservar', loginHandler, (req, res) => {
 });
 
 //POST PARA CANCELAR UNA RESERVA
-app.post('/cancelar', loginHandler, (req, res) => {
+app.post('/cancelar', loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { reservaId } = req.body
 
@@ -181,7 +187,7 @@ app.post('/cancelar', loginHandler, (req, res) => {
 });
 
 //POST PARA CREAR UNA RESEÑA
-app.post('/review', loginHandler, (req, res) => {
+app.post('/review', loginHandler, (req, res, next) => {
     let userId = req.session.user.id;
     let { reservaId } = req.body;
     let comentario = req.body.comment;
@@ -215,7 +221,7 @@ app.post('/review', loginHandler, (req, res) => {
 });
 
 //GET PARA LA WEB PERSONALIZADA DE CADA DESTINO
-app.get("/destination/:id", (req, res) => {
+app.get("/destination/:id", (req, res, next) => {
     const destinationId = req.params.id;
     // Find the destination object using id (for instance from a database)
     Dao.getDestinoById(destinationId, function (err, dest) {
@@ -240,7 +246,7 @@ app.get("/destination/:id", (req, res) => {
 });
 
 //GET DE LA PAGINA DE USUARIO PERSONALIZADA
-app.get("/user", loginHandler, (req, res) => {
+app.get("/user", loginHandler, (req, res, next) => {
     const email = req.session.user.email;
     Dao.getSingleUser(email, function (err, user) {
         if (err) {
@@ -259,9 +265,8 @@ app.get("/user", loginHandler, (req, res) => {
 });
 
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
-app.get('/logout', (req, res) => {
+app.get('/logout', (req, res, next) => {
     req.session.destroy(() => {
-        res.setFlash('Sesión cerrada');
         res.redirect('/');
     })
 });
@@ -283,3 +288,7 @@ app.get('/logout', (req, res) => {
 //     const buffer = Buffer.from(hexData, 'hex');
 //     fs.writeFileSync(`./testingPhotos/${i}.jpg`, buffer);
 // }
+
+//MIDDLEWARE PARA ERRORES
+app.use(errorHandler);
+app.use(error404Handler);

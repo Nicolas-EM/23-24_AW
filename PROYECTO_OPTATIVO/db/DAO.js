@@ -86,13 +86,16 @@ class DAO {
                 callback(err);
             }
             else {
-                if (rows && rows.length == 1)
+                if (rows && rows.length === 1)
                     callback(null, rows[0]);
+                else if(rows.length === 0)
+                    callback({status: 403, message: "Usuario no existe", stack: "getSingleUser()"});
                 else
-                    callback("getSingleUser: Multiple users found");
+                    callback({status: 500, message: "Error sql", stack: "getSingleUser()"});
             }
         });
     }
+
     getSingleUserById(id, callback) {
         this.pool.query("SELECT * FROM usuarios u WHERE u.id = ?;", [id], function (err, rows) {
             if (err) {
@@ -101,8 +104,10 @@ class DAO {
             else {
                 if (rows && rows.length == 1)
                     callback(null, rows[0]);
+                else if(rows.length === 0)
+                    callback({status: 403, message: "Usuario no existe", stack: "getSingleUserById()"});
                 else
-                    callback("getSingleUserById: Multiple users found");
+                    callback({status: 500, message: "Error sql", stack: "getSingleUserById()"});
             }
         });
     }
