@@ -29,8 +29,8 @@ function calcTotalPrice() {
     if (days === undefined)
         return;
 
-    // TODO
-    $('#reservaBtn').data("bs-title", `${precioPorNoche * days * numPersonas}€`)
+    $('#precioTotal').text(`${precioPorNoche * days * numPersonas}€`);
+    document.getElementById("precio").classList.remove("d-none");
 }
 
 $('#numPersonas').on("change", e => {

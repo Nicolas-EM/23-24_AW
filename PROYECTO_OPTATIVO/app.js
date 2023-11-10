@@ -52,7 +52,7 @@ app.get('/', function (req, res, next) {
             next(err);
         }
         else {
-            res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos});
+            res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
         }
     });
 });
@@ -83,10 +83,10 @@ app.post('/login', (req, res, next) => {
         }
         else {
             bcrypt.compare(password, userData.password, (err, passwordMatch) => {
-                if(err){
+                if (err) {
                     next(err);
                 }
-                if(passwordMatch){
+                if (passwordMatch) {
                     console.log("Authenticated");
                     // If valid credentials, create a session
                     req.session.user = { email, id: userData.id };
@@ -105,7 +105,21 @@ app.post('/login', (req, res, next) => {
 //POST PARA EL METODO REGISTER DEL USUARIO
 app.post('/register', (req, res, next) => {
     const { nombre, email, password, source } = req.body;
-    console.log(`Register from ${source}`);
+    if (!nombre || !email || !password) {
+        res.setFlash("Error: Por favor, completa todos los campos.");
+        return res.redirect(source);
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        res.setFlash("Error: Por favor, ingresa una dirección de correo electrónico válida.");
+        return res.redirect(source);
+    }
+    const passwordRegex = /^(?=.*\d).{7,}$/;
+    if (password.length < 7 || !passwordRegex.test(password)) {
+        res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
+        return res.redirect(source);
+    }
     // Create hasher
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
@@ -136,7 +150,10 @@ app.post('/register', (req, res, next) => {
 app.post('/reservar', loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { destinoId, numPersonas, startDate, endDate } = req.body
-
+    if (numPersonas <= 0) {
+        res.setFlash('Error: Numero de personas no valido');
+        res.redirect('/destination/' + destinoId);
+    }
     Dao.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
         if (err) {
             next(err);
@@ -150,10 +167,10 @@ app.post('/reservar', loginHandler, (req, res, next) => {
                         res.setFlash('Exito: Reserva creada');
                         res.redirect('/user');
                     }
-                })
+                });
             }
             else {
-                res.status(500).send('Dates not available');
+                next({ status: 500, message: `Error: Fechas no disponibles`, stack: "/reservar" });
             }
         }
     })
@@ -180,7 +197,7 @@ app.post('/cancelar', loginHandler, (req, res, next) => {
                 })
             }
             else {
-                res.status(500).send(`Reserva ${reservaId} does not exist for user ${userId}`);
+                next({ status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/reservar" });
             }
         }
     })
@@ -188,16 +205,14 @@ app.post('/cancelar', loginHandler, (req, res, next) => {
 
 //POST PARA CREAR UNA RESEÑA
 app.post('/review', loginHandler, (req, res, next) => {
-    let userId = req.session.user.id;
-    let { reservaId } = req.body;
-    let comentario = req.body.comment;
-    let puntuacion = req.body.rating;
+    const userId = req.session.user.id;
+    let { reservaId, comment, rating } = req.body;
     Dao.getReservaById(reservaId, function (err, row) {
         if (err) {
             next(err);
         } else {
             if (row) {
-                if(row.reviewed === 1){
+                if (row.reviewed === 1) {
                     // Reseña ya existe
                     res.setFlash('Error: Reseña ya existe para este destino');
                     res.redirect('/user');
@@ -206,13 +221,13 @@ app.post('/review', loginHandler, (req, res, next) => {
                         if (err) {
                             next(err);
                         } else {
-                            Dao.crearComentario(row.destino_id, user.nombre, comentario, puntuacion, function (err, rowId) {
+                            Dao.crearComentario(row.destino_id, user.nombre, comment, rating, function (err, rowId) {
                                 if (err) {
                                     next(err);
                                 } else {
                                     console.log(`Reseña con ID ${rowId} creada`);
                                     Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
-                                        if(err || affectedRows > 1){
+                                        if (err || affectedRows > 1) {
                                             next(err);
                                         } else {
                                             console.log(`Reserva con ID ${reservaId} actualizada`);
@@ -221,15 +236,80 @@ app.post('/review', loginHandler, (req, res, next) => {
                                         }
                                     });
                                 }
-    
                             });
                         }
                     });
                 }
             }
             else {
-                next({status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/review"});
+                next({ status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/review" });
             }
+        }
+    });
+});
+
+//POST PARA ACTUALIZAR USUARIO
+app.post('/updateUser', loginHandler, (req, res, next) => {
+    const { id, email } = req.session.user;
+
+    let { name, correo, currentPassword, newPassword } = req.body;
+    // nos pasamos al post el currentpassword pero no se evalua 
+    // porque ya se hizo al registrarse o previo cambio.
+    if (!name || !correo || !currentPassword) {
+        res.setFlash("Error: Por favor, completa todos los campos.");
+        return res.redirect("/user");
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+        res.setFlash("Error: Por favor, ingresa una dirección de correo electrónico válida.");
+        return res.redirect("/user");
+    }
+
+    Dao.getSingleUser(email, function (err, userData) {
+        if (err) {
+            next(err);
+        }
+        else {
+            let newUsername = name;
+            let newEmail = correo;
+            let newPwd;
+            if (newPassword === '')
+                newPwd = userData.password;
+            else {
+                const passwordRegex = /^(?=.*\d).{7,}$/;
+                if (newPassword.length < 7 || !passwordRegex.test(password)) {
+                    res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
+                    return res.redirect("/user");
+                }
+
+                // Create hasher
+                const saltRounds = 10;
+                const salt = bcrypt.genSaltSync(saltRounds);
+                newPwd = bcrypt.hashSync(newPassword, salt);
+            }
+
+            //compare realiza el hash de la contraseña y luego la compara.
+            bcrypt.compare(currentPassword, userData.password, (err, passwordMatch) => {
+                if (err) {
+                    next(err);
+                }
+                if (passwordMatch) {
+                    console.log({ newUsername, newEmail, newPwd, id });
+                    Dao.updateUser({ newUsername, newEmail, newPwd, id }, (err) => {
+                        if (err) {
+                            next(err);
+                        } else {
+                            req.session.user = { email: newEmail, id };
+                            res.setFlash('Exito: Usuario actualizado');
+                            res.redirect("/user");
+                        }
+                    });
+                } else {
+                    res.setFlash('Credenciales incorrectas.');
+                    res.redirect("/user");
+                }
+            });
         }
     });
 });

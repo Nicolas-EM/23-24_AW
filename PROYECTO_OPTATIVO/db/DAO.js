@@ -96,6 +96,17 @@ class DAO {
         });
     }
 
+    updateUser(user, callback) {
+        this.pool.query("UPDATE usuarios SET nombre = ?, correo = ?, password = ? WHERE id = ?;", [user.newUsername, user.newEmail, user.newPwd, user.id], function (err, result) {
+            if (err) {
+                callback(err);
+            } else {
+                console.log(`Usuario con ID ${user.id} actualizado desde DAO`);
+                callback(null);
+            }
+        });
+    }
+
     getSingleUserById(id, callback) {
         this.pool.query("SELECT * FROM usuarios u WHERE u.id = ?;", [id], function (err, rows) {
             if (err) {

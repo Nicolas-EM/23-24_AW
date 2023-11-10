@@ -26,11 +26,10 @@ const passwordConfirmInput = document.getElementById("signupPwdConfirm");
 
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
 
     if(!passwordIsValid(password)){
         passwordInput.style.backgroundColor = '#f08080';
-        passwordInput.setCustomValidity('Tu contraseña debe tener al menos 7 caracteres, una letra y un número');
+        passwordInput.setCustomValidity('Tu contraseña debe tener mínimo 7 y máximo 50 caracteres, una letra y un número');
     } else {
         passwordInput.setCustomValidity("");
         passwordInput.style.backgroundColor = 'inherit';

@@ -48,3 +48,38 @@ function paintStars(rating){
         }
     });
 }
+
+const passwordInput = document.getElementById("newPassword");
+const passwordConfirmInput = document.getElementById("newPasswordConfirm");
+
+passwordInput.addEventListener('input', () => {
+    const password = passwordInput.value;
+
+    if(!passwordIsValid(password)){
+        passwordInput.style.backgroundColor = '#f08080';
+        passwordInput.setCustomValidity('Tu contraseña debe tener mínimo 7 y máximo 50 caracteres, una letra y un número');
+    } else {
+        passwordInput.setCustomValidity("");
+        passwordInput.style.backgroundColor = 'inherit';
+        checkPasswordsMatch();
+    }
+});
+
+function passwordIsValid(password){
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
+    return passwordRegex.test(password);
+}
+
+passwordConfirmInput.addEventListener('input', () => {
+    checkPasswordsMatch();
+});
+
+function checkPasswordsMatch(){
+    if(passwordInput.value !== passwordConfirmInput.value){
+        passwordConfirmInput.style.backgroundColor = '#f08080';
+        passwordConfirmInput.setCustomValidity('Tus contraseñas no coinciden');
+    } else {
+        passwordConfirmInput.setCustomValidity("");
+        passwordConfirmInput.style.backgroundColor = 'inherit';
+    }
+}
