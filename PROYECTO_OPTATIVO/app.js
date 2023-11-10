@@ -278,7 +278,7 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
                 newPwd = userData.password;
             else {
                 const passwordRegex = /^(?=.*\d).{7,}$/;
-                if (newPassword.length < 7 || !passwordRegex.test(password)) {
+                if (newPassword.length < 7 || !passwordRegex.test(newPassword)) {
                     res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
                     return res.redirect("/user");
                 }
