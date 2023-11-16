@@ -10,7 +10,8 @@ const fs = require('fs');
 const mime = require('mime');
 const path = require('path');
 const mysql = require('mysql');
-const bodyParser = require('body-parser');
+const multer = require("multer");
+const multerFactory = multer();
 
 const DAO = require('./db/DAO');
 const loginHandler = require('./middleware/login');
@@ -35,8 +36,9 @@ app.set("views", path.join(__dirname, "views"));
 
 //MIDDLEWARE
 app.use(express.json()); // For handling JSON in request body
+// Middleware para analizar datos codificados en formato URL en el cuerpo de la solicitud
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'secret_key', resave: false, saveUninitialized: true, }));
 app.use(flashMiddleware);
 
