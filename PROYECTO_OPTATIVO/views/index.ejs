@@ -11,107 +11,51 @@ Proyecto Opcional AW
     <!-- Shared head -->
     <%- include('fragments/head') %>
 
-        <!-- Custom -->
-        <link type="text/css" rel="stylesheet" href="/stylesheets/home.css" />
-        <title>CheapBnB</title>
+    <!-- Custom -->
+    <link type="text/css" rel="stylesheet" href="/stylesheets/home.css" />
+    <title>CheapBnB</title>
 </head>
 
 <body>
     <!-- Navbar -->
     <%- include('fragments/navbar') %>
 
-        <!-- Content -->
-        <div id="content" class="m-2">
-            <!-- Search -->
-            <div class="container text-center">
-                <!-- Search bar -->
-                <form id="searchForm" action="/search" method="post">
-                    <div class="input-group justify-content-center">
-                        <input type="text" class="form-control" id="query" name="query" placeholder="Descubre tu próximo destino...">
-                        <!-- Search Btn -->
-                        <div class="btn-group">
-                            <button class="btn btn-primary ml-2" type="submit">
-                                <span class="material-symbols-outlined">search</span>
-                            </button>
-
-                            <!-- Filter Button -->
-                            <!-- <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
-                                <span class="material-symbols-outlined">tune</span>
-                            </button> -->
-                        </div>
+    <!-- Content -->
+    <div id="content" class="m-2">
+        <!-- Search -->
+        <div class="container text-center">
+            <!-- Search bar -->
+            <form id="searchForm" action="/search" method="post">
+                <div class="input-group justify-content-center">
+                    <input type="text" class="form-control" id="query" name="query" placeholder="Descubre tu próximo destino...">
+                    <!-- Search Btn -->
+                    <div class="btn-group">
+                        <button class="btn btn-primary ml-2" type="submit">
+                            <span class="material-symbols-outlined">search</span>
+                        </button>
                     </div>
-
-                    <!-- Search filters -->
-                    <div class="row mt-3">
-                        <div class="collapse col" id="searchFilters">
-                            <label for="maxPrice" class="form-label">Filtrar por precio:</label>
-                            <input id="maxPrice" type="range" min="0" max="5000" value="2500" class="form-range" name="maxPrice">
-                            <span id="rangeValue">2500</span>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-
-            <!-- Grid of destinations -->
-            <div class="destinations container">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 gx-4">
-
-                    <% destinations.forEach(function(destination) { %>
-                        <!-- Destination card -->
-                        <div class="col mt-3">
-                            <div class="card h-100 ">
-                                <!-- Img row -->
-                                <div id="destination<%= destination.id %>ImgCarousel" class="carousel slide">
-                                    <div class="carousel-indicators">
-                                        <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                        <% for(let i=1; i<destination.image_ids.length; i++) {%>
-                                            <button type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide-to="<%= i %>" aria-label="Slide <%= i + 1 %>"></button>
-                                        <% } %>
-                                    </div>
-                                    <div class="carousel-inner">
-                                        <a href="/destination/<%= destination.id %>">
-                                            <div class="carousel-item rounded active">
-                                                <img src="<%= `images/${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="...">
-                                            </div>
-                                            <% for(let i=1; i<destination.image_ids.length; i++) {%>
-                                                <div class="carousel-item rounded">
-                                                    <img src="<%= `images/${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="...">
-                                                </div>
-                                                <% } %>
-                                        </a>
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#destination<%= destination.id %>ImgCarousel" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>
-                                <!-- Data row -->
-                                <a href="/destination?id=<%= destination.id %>" class="card-body align-items-center p-1 pt-2">
-                                    <h5 class="card-title">
-                                        <%= destination.nombre %>
-                                    </h5>
-                                    <p class="card-text">
-                                        <%= destination.descripcion %>
-                                    </p>
-                                </a>
-                                <a href="/destination?id=<%= destination.id %>" class="card-footer">
-                                    <small class="text-body-secondary">
-                                        <%= destination.precio.toFixed(2) %>€ / día
-                                    </small>
-                                </a>
-                            </div>
-                        </div>
-                    <% }); %>
                 </div>
+
+                <!-- Search filters -->
+                <div class="row mt-3">
+                    <div class="collapse col" id="searchFilters">
+                        <label for="maxPrice" class="form-label">Filtrar por precio:</label>
+                        <input id="maxPrice" type="range" min="0" max="5000" value="2500" class="form-range" name="maxPrice">
+                        <span id="rangeValue">2500</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Grid of destinations -->
+        <div class="destinations container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 gx-4" id="destRow">
             </div>
         </div>
-        <!-- Footer -->
-        <%- include('fragments/footer') %>
+    </div>
+    <!-- Footer -->
+    <%- include('fragments/footer') %>
+    <script src="/javascript/home.js"></script>
 </body>
 
 </html>

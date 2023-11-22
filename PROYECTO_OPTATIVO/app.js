@@ -60,19 +60,26 @@ app.get('/', function (req, res, next) {
 });
 
 //POST PARA LA BUSQUEDA
-app.post('/search', (req, res, next) => {
-    const { query, maxPrice } = req.body;
+app.post("/search", (req, res, next) => {
+  const { query, maxPrice } = req.body;
+  console.log(query, maxPrice);
 
-    Dao.getSearch(query, maxPrice, function (err, destinos) {
-        if (err) {
-            next(err);
-        }
-        else {
-            res.status(200).render('index', { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
-        }
-    });
-
+  Dao.getSearch(query, maxPrice, function (err, destinos) {
+    if (err) {
+      next(err);
+    } else {
+        console.log(destinos);
+        res.json(destinos);
+        // .status(200)
+        // .render("index", {
+        //   isAuthenticated: req.session.user !== undefined,
+        //   source: "/",
+        //   destinations: destinos,
+        // });
+    }
+  });
 });
+
 
 //POST PARA EL METODO LOGIN DEL USUARIO
 app.post('/login', (req, res, next) => {

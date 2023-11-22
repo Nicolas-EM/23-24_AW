@@ -137,11 +137,11 @@ class DAO {
         );
     };
 
-    getSearch(search, filter, callback) {
+    getSearch(search, maxPrice, callback) {
         search = `%${search}%`;
         this.pool.query("SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids " +
-            "FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.nombre LIKE ? AND d.precio < ? " +
-            "GROUP BY d.id, d.nombre, d.descripcion, d.precio;", [search, filter], function (err, rows) {
+            "FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.nombre LIKE ? AND d.precio <= ? " +
+            "GROUP BY d.id, d.nombre, d.descripcion, d.precio;", [search, maxPrice], function (err, rows) {
                 if (err) {
                     callback(err);
                 } else {
