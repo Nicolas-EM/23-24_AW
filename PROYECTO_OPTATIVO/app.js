@@ -226,13 +226,6 @@ app.get("/user", loginHandler, (req, res, next) => {
     });
 });
 
-//GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
-app.get('/logout', (req, res, next) => {
-    req.session.destroy(() => {
-        res.redirect('/');
-    })
-});
-
 
 //jpg to hex converter:
 // function imageToHex(imgName) {

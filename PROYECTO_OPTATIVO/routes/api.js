@@ -113,6 +113,14 @@ apiRouter.post('/register', (req, res, next) => {
     });
 });
 
+//GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
+apiRouter.post('/logout', (req, res, next) => {
+    console.log("x");
+    req.session.destroy(() => {
+        res.send("Sessión cerrada.");
+    })
+});
+
 //POST PARA LA RESERVA DEL USUARIO
 apiRouter.post("/reservar", loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
