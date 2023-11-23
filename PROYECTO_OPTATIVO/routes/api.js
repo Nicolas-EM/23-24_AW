@@ -1,29 +1,38 @@
 "use strict";
 let apiRouter = require('express').Router();
-const pool = require("../db/pool");
+
 const ejs = require('ejs');
 const path = require('path');
+const bcrypt = require('bcrypt');
+
+const pool = require("../db/pool");
 const loginHandler = require('../middleware/login');
 const DAO = require('../db/DAO');
+
 const Dao = new DAO(pool);
 
 const fragmentsPath = path.join(__dirname, "../views/fragments");
 
+function sendEjs(res, name, data) {
+    ejs.renderFile(path.join(fragmentsPath, `${name}.ejs`), data, {}, function (err, str) {
+        if (err) {
+            console.log(err);
+            next(err);
+        }
+
+        // Send the rendered EJS as the response    
+        res.send(str);
+    });
+}
+
 // Get varios destinos
 apiRouter.get("/destinations", function (req, res, next) {
-    Dao.getDestinos(function (err, destinos) {
+    Dao.getDestinos(function (err, destinations) {
         if (err) {
             next(err);
         }
         else {
-            ejs.renderFile(path.join(fragmentsPath, "destination-grid.ejs"), { destinations: destinos }, {}, function (err, str) {
-                if (err) {
-                    next(err);
-                }
-
-                // Send the rendered EJS as the response    
-                res.send(str);
-            });
+            sendEjs(res, "destination-grid", { destinations });
         }
     });
 });
@@ -33,23 +42,78 @@ apiRouter.post("/search", (req, res, next) => {
     const { query, maxPrice } = req.body;
     console.log(query, maxPrice);
 
-    Dao.getSearch(query, maxPrice, function (err, destinos) {
+    Dao.getSearch(query, maxPrice, function (err, destinations) {
         if (err) {
             next(err);
         } else {
-            ejs.renderFile(path.join(fragmentsPath, "destination-grid.ejs"), { destinations: destinos }, {}, function (err, str) {
+            sendEjs(res, "destination-grid", { destinations });
+        }
+    });
+});
+
+//POST PARA EL METODO LOGIN DEL USUARIO
+apiRouter.post('/login', (req, res, next) => {
+    const { email, password } = req.body
+
+    Dao.getSingleUser(email, function (err, userData) {
+        if (err) {
+            next(err);
+        }
+        else {
+            bcrypt.compare(password, userData.password, (err, passwordMatch) => {
                 if (err) {
                     next(err);
                 }
-
-                // Send the rendered EJS as the response    
-                res.send(str);
+                if (passwordMatch) {
+                    // If valid credentials, create a session
+                    req.session.user = { email, id: userData.id };
+                    res.send("Sesión iniciada.");
+                } else {
+                    res.status(401).send("Credenciales incorrectas.");
+                }
             });
         }
     });
 });
 
-//TODO aqui estaba metido loginHandler y ya no..?
+//POST PARA EL METODO REGISTER DEL USUARIO
+apiRouter.post('/register', (req, res, next) => {
+    const { nombre, email, password } = req.body;
+    if (!nombre || !email || !password) {
+        res.status(400).send("Error: Por favor, completa todos los campos.");
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        res.status(400).send("Error: Por favor, ingresa una dirección de correo electrónico válida.");
+    }
+    const passwordRegex = /^(?=.*\d).{7,}$/;
+    if (password.length < 7 || !passwordRegex.test(password)) {
+        res.status(400).send("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
+    }
+
+    // Create hasher
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    Dao.createUser({ nombre, email, hashedPassword }, function (err, userId) {
+        if (err) {
+            return next(err);
+        }
+        else {
+            if (userId !== undefined) {
+                // If valid credentials, create a session
+                req.session.user = { email, id: userId };
+                res.send('Exito: Cuenta creada');
+            }
+            else {
+                res.status(400).send("Error: Tu cuenta ya existe, por favor inicia sesión");
+            }
+        }
+    });
+});
+
+//POST PARA LA RESERVA DEL USUARIO
 apiRouter.post("/reservar", loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { destinoId, numPersonas, startDate, endDate } = req.body;
@@ -65,21 +129,17 @@ apiRouter.post("/reservar", loginHandler, (req, res, next) => {
                         if (err) {
                             next(err);
                         } else {
-                            ejs.renderFile(path.join(fragmentsPath, "flash.ejs"), { message: "Reserva realizada con éxito!",toastId: `createdReserva-${reservaId}`}, {}, function (err, str) {
-                                if (err) {
-                                    next(err);
-                                }
-                                else{
-                                    res.send(str);
-                                }
-                            });
-                        }});
+                            res.send("Reserva realizada con éxito!");
+                        }
+                    });
                 } else {
-                    next({ status: 500, message: `Error: Fechas no disponibles`, stack: "/reservar" });
+                    res.status(501).send(`Error: Fechas no disponibles`);
                 }
             }
         });
     }
 });
+
+
 
 module.exports = apiRouter;

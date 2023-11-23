@@ -1,4 +1,5 @@
 "use strict";
+
 $('#calendar').attr("value", "");
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
@@ -31,17 +32,18 @@ function calcTotalPrice() {
 
     $('#precioTotal').text(`${precioPorNoche * days * numPersonas}€`);
     document.getElementById("precio").classList.remove("d-none");
-}
+};
 
 $('#numPersonas').on("change", e => {
     calcTotalPrice();
-})
+});
+
 $('#reservaForm').on("submit", e => {
     e.preventDefault();
     let startDate = $('#startDate').val();
     let endDate = $('#endDate').val();
     let numPersonas = $('#numPersonas').val();
-    //TODO revisar!
+    
     $.ajax({
         url: '/api/reservar',
         method: 'POST',
@@ -51,11 +53,9 @@ $('#reservaForm').on("submit", e => {
             numPersonas: numPersonas
         },
         success: function(data) {
-            console.log("datos: ",data);
-            //podriamos lanzar un mensaje de exito y "quieres modificar tu reserva?"
-            $('#dstContainer').append(data);
+            $("#toastMsg").html(data);
+            toast.show();
         },
-
         error: function(xhr, status, error) {
             console.error(error);
         }

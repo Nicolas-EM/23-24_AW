@@ -1,6 +1,6 @@
 "use strict";
 // config if dev or prod
-const isDevBuild = false;
+const isDevBuild = true;
 
 //MODULOS REQUERIDOS
 const express = require('express');
@@ -14,7 +14,6 @@ const multerFactory = multer();
 
 const DAO = require('./db/DAO');
 const loginHandler = require('./middleware/login');
-const flashMiddleware = require('./middleware/flash');
 const errorHandler = isDevBuild ? require('./middleware/errorDev') : require('./middleware/errorProd');
 const error404Handler = require('./middleware/error404');
 const apiRouter = require("./routes/api");
@@ -35,7 +34,6 @@ app.use(express.json()); // For handling JSON in request body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'secret_key', resave: false, saveUninitialized: true, }));
-app.use(flashMiddleware);
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
@@ -49,78 +47,6 @@ app.use('/api', apiRouter);
 app.get('/', function (req, res, next) {
     res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/"});
 });
-
-//POST PARA EL METODO LOGIN DEL USUARIO
-app.post('/login', (req, res, next) => {
-    const { email, password, source } = req.body
-
-    Dao.getSingleUser(email, function (err, userData) {
-        if (err) {
-            next(err);
-        }
-        else {
-            bcrypt.compare(password, userData.password, (err, passwordMatch) => {
-                if (err) {
-                    next(err);
-                }
-                if (passwordMatch) {
-                    // If valid credentials, create a session
-                    req.session.user = { email, id: userData.id };
-                    res.setFlash('Sesión iniciada.');
-                    res.redirect(source);
-                } else {
-                    res.setFlash('Credenciales incorrectas.');
-                    res.redirect(source);
-                }
-            });
-        }
-    });
-})
-
-//POST PARA EL METODO REGISTER DEL USUARIO
-app.post('/register', (req, res, next) => {
-    const { nombre, email, password, source } = req.body;
-    if (!nombre || !email || !password) {
-        res.setFlash("Error: Por favor, completa todos los campos.");
-        return res.redirect(source);
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        res.setFlash("Error: Por favor, ingresa una dirección de correo electrónico válida.");
-        return res.redirect(source);
-    }
-    const passwordRegex = /^(?=.*\d).{7,}$/;
-    if (password.length < 7 || !passwordRegex.test(password)) {
-        res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
-        return res.redirect(source);
-    }
-    // Create hasher
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-
-    Dao.createUser({ nombre, email, hashedPassword }, function (err, userId) {
-        if (err) {
-            return next(err);
-        }
-        else {
-            if (userId !== undefined) {
-                // If valid credentials, create a session
-                req.session.user = { email, id: userId };
-                res.setFlash('Exito: Cuenta creada');
-                res.redirect(source);
-            }
-            else {
-                res.setFlash("Error: Tu cuenta ya existe, por favor inicia sesión");
-                res.redirect(source);
-            }
-        }
-    });
-})
-
-//POST PARA LA RESERVA DEL USUARIO
-
 
 //POST PARA CANCELAR UNA RESERVA
 app.post('/cancelar', loginHandler, (req, res, next) => {
@@ -136,7 +62,7 @@ app.post('/cancelar', loginHandler, (req, res, next) => {
                     if (err || affectedRows > 1) {
                         next(err);
                     } else {
-                        res.setFlash('Exito: Reserva cancelada');
+                        // res.setFlash('Exito: Reserva cancelada');
                         res.redirect('/user');
                     }
                 })
@@ -159,7 +85,7 @@ app.post('/review', loginHandler, (req, res, next) => {
             if (row) {
                 if (row.reviewed === 1) {
                     // Reseña ya existe
-                    res.setFlash('Error: Reseña ya existe para este destino');
+                    // res.setFlash('Error: Reseña ya existe para este destino');
                     res.redirect('/user');
                 } else {
                     Dao.getSingleUserById(userId, function (err, user) {
@@ -174,7 +100,7 @@ app.post('/review', loginHandler, (req, res, next) => {
                                         if (err || affectedRows > 1) {
                                             next(err);
                                         } else {
-                                            res.setFlash('Exito: Reseña creada');
+                                            // res.setFlash('Exito: Reseña creada');
                                             res.redirect('/user');
                                         }
                                     });
@@ -199,13 +125,13 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
     // nos pasamos al post el currentpassword pero no se evalua 
     // porque ya se hizo al registrarse o previo cambio.
     if (!name || !correo || !currentPassword) {
-        res.setFlash("Error: Por favor, completa todos los campos.");
+        // res.setFlash("Error: Por favor, completa todos los campos.");
         return res.redirect("/user");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(correo)) {
-        res.setFlash("Error: Por favor, ingresa una dirección de correo electrónico válida.");
+        // res.setFlash("Error: Por favor, ingresa una dirección de correo electrónico válida.");
         return res.redirect("/user");
     }
 
@@ -222,7 +148,7 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
             else {
                 const passwordRegex = /^(?=.*\d).{7,}$/;
                 if (newPassword.length < 7 || !passwordRegex.test(newPassword)) {
-                    res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
+                    // res.setFlash("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
                     return res.redirect("/user");
                 }
 
@@ -243,12 +169,12 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
                             next(err);
                         } else {
                             req.session.user = { email: newEmail, id };
-                            res.setFlash('Exito: Usuario actualizado');
+                            // res.setFlash('Exito: Usuario actualizado');
                             res.redirect("/user");
                         }
                     });
                 } else {
-                    res.setFlash('Credenciales incorrectas.');
+                    // res.setFlash('Credenciales incorrectas.');
                     res.redirect("/user");
                 }
             });
