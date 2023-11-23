@@ -1,6 +1,5 @@
 "use strict"
 
-const loginModal = document.getElementById("loginModal");
 if (loginModal) {
     loginModal.addEventListener("show.bs.modal", e => {
         document.getElementById("email").value = "";
@@ -8,7 +7,6 @@ if (loginModal) {
     });
 }
 
-const signupModal = document.getElementById("signupModal");
 if (signupModal) {
     signupModal.addEventListener("show.bs.modal", e => {
         document.getElementById("displayName").value = "";
@@ -33,10 +31,10 @@ passwordInput.addEventListener('input', () => {
     } else {
         passwordInput.setCustomValidity("");
         passwordInput.style.backgroundColor = 'inherit';
-        checkPasswordsMatch();
+        if(passwordConfirmInput.value !== "")
+            checkPasswordsMatch();
     }
 });
-
 
 function passwordIsValid(password){
     let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;

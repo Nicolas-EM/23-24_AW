@@ -69,7 +69,7 @@ apiRouter.post('/login', (req, res, next) => {
                     req.session.user = { email, id: userData.id };
                     res.send("Sesión iniciada.");
                 } else {
-                    res.status(401).send("Credenciales incorrectas.");
+                    res.status(401).end();
                 }
             });
         }
@@ -78,8 +78,8 @@ apiRouter.post('/login', (req, res, next) => {
 
 //POST PARA EL METODO REGISTER DEL USUARIO
 apiRouter.post('/register', (req, res, next) => {
-    const { nombre, email, password } = req.body;
-    if (!nombre || !email || !password) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
         res.status(400).send("Error: Por favor, completa todos los campos.");
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -96,9 +96,13 @@ apiRouter.post('/register', (req, res, next) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    Dao.createUser({ nombre, email, hashedPassword }, function (err, userId) {
+    Dao.createUser({ name, email, hashedPassword }, function (err, userId) {
         if (err) {
-            return next(err);
+            if(err.errno === 1062){
+                res.status(400).send("Error: Tu cuenta ya existe, por favor inicia sesión");
+            } else {
+                res.status(500).send(err);
+            }
         }
         else {
             if (userId !== undefined) {
@@ -115,7 +119,6 @@ apiRouter.post('/register', (req, res, next) => {
 
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
 apiRouter.post('/logout', (req, res, next) => {
-    console.log("x");
     req.session.destroy(() => {
         res.send("Sessión cerrada.");
     })

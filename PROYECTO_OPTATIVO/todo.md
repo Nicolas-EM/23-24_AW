@@ -3,10 +3,11 @@
   - [ ] Usar multer().single()
 - [ ] ajax (evitar recargar la pagina)
   - [X] busqueda (que se cambien los destinos segun vas introduciendo el texto) (si cuando pongo b se van eliminando resultados como "peru")
-  - [ ] inciar sesión (sin relogear la pagina)
-  - [ ] cerrar sesión 
+  - [X] inciar sesión (sin relogear la pagina)
+  - [X] cerrar sesión 
+  - [X] registro
   - [ ] añadir comentario
-  - [ ] crear reserva
+  - [ ] crear reserva (pendiente double check)
   - [ ] cancelar reserva
   - [X] cargar destinos paginando
 - [ ] filtro de precio

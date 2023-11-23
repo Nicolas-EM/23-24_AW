@@ -70,7 +70,7 @@ class DAO {
     }
 
     createUser(user, callback) {
-        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.nombre, user.email, user.hashedPassword], function (err, OkPacket) {
+        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.name, user.email, user.hashedPassword], function (err, OkPacket) {
             if (err) {
                 callback(err);
             }

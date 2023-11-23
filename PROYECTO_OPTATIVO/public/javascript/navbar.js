@@ -1,3 +1,6 @@
+const loginModal = bootstrap.Modal.getOrCreateInstance($("#loginModal")[0], { backdrop: true });
+const signupModal = bootstrap.Modal.getOrCreateInstance($("#signupModal")[0], { backdrop: true });
+
 $("#logoutBtn")?.on("click", e => {
     console.log("clicked");
 
@@ -30,9 +33,39 @@ $("#loginForm")?.on("submit", e => {
         success: function (data) {
             $("#toastMsg").html(data);
             toast.show();
+            loginModal?.hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Se ha producido un error: " + errorThrown);
+            if(jqXHR.status === 401){
+                $("#toastMsg").html("Credenciales incorrectas.");
+                toast.show();
+            } else {
+                $("#toastMsg").html(textStatus);
+                toast.show();
+            }
+        }
+    });
+});
+
+$("#signupForm")?.on("submit", e => {
+    e.preventDefault();
+
+    $.ajax({
+        method: "POST",
+        url: "/api/register",
+        data: {
+            name: $("#displayName").val(),
+            email: $("#signupEmail").val(),
+            password: $("#signupPwdInput").val()
+        },
+        success: function (data) {
+            $("#toastMsg").html(data);
+            toast.show();
+            signupModal?.hide();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
         }
     });
 });
