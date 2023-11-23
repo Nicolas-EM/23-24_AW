@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const mime = require('mime');
 const path = require('path');
-const mysql = require('mysql');
 const multer = require("multer");
 const multerFactory = multer();
 
@@ -18,14 +17,10 @@ const loginHandler = require('./middleware/login');
 const flashMiddleware = require('./middleware/flash');
 const errorHandler = isDevBuild ? require('./middleware/errorDev') : require('./middleware/errorProd');
 const error404Handler = require('./middleware/error404');
+const apiRouter = require("./routes/api");
 
 //BASE DE DATOS
-const pool = mysql.createPool({
-    host: "localhost",
-    user: "admin_aw",
-    password: "",
-    database: "viajes"
-});
+const pool = require("./db/pool");
 
 const app = express();
 const Dao = new DAO(pool);
@@ -47,39 +42,13 @@ app.listen(3000, () => {
     console.log('Server listening on port 3000!');
 });
 
+//utilizamos enrutador:
+app.use('/api', apiRouter);
+
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-    Dao.getDestinos(function (err, destinos) {
-        if (err) {
-            next(err);
-        }
-        else {
-            res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/", destinations: destinos });
-        }
-    });
+    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/"});
 });
-
-//POST PARA LA BUSQUEDA
-app.post("/search", (req, res, next) => {
-  const { query, maxPrice } = req.body;
-  console.log(query, maxPrice);
-
-  Dao.getSearch(query, maxPrice, function (err, destinos) {
-    if (err) {
-      next(err);
-    } else {
-        console.log(destinos);
-        res.json(destinos);
-        // .status(200)
-        // .render("index", {
-        //   isAuthenticated: req.session.user !== undefined,
-        //   source: "/",
-        //   destinations: destinos,
-        // });
-    }
-  });
-});
-
 
 //POST PARA EL METODO LOGIN DEL USUARIO
 app.post('/login', (req, res, next) => {
