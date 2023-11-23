@@ -120,33 +120,7 @@ app.post('/register', (req, res, next) => {
 })
 
 //POST PARA LA RESERVA DEL USUARIO
-app.post('/reservar', loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
-    const { destinoId, numPersonas, startDate, endDate } = req.body
-    if (numPersonas <= 0) {
-        res.setFlash('Error: Numero de personas no valido');
-        res.redirect('/destination/' + destinoId);
-    }
-    Dao.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
-        if (err) {
-            next(err);
-        } else {
-            if (isAvailable) {
-                Dao.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
-                    if (err) {
-                        next(err);
-                    } else {
-                        res.setFlash('Exito: Reserva creada');
-                        res.redirect('/user');
-                    }
-                });
-            }
-            else {
-                next({ status: 500, message: `Error: Fechas no disponibles`, stack: "/reservar" });
-            }
-        }
-    })
-});
+
 
 //POST PARA CANCELAR UNA RESERVA
 app.post('/cancelar', loginHandler, (req, res, next) => {

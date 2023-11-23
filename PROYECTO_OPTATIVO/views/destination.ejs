@@ -21,7 +21,7 @@
   <%- include('fragments/navbar') %>
 
     <!-- Content -->
-    <div class="container">
+    <div class="container" id = "dstContainer">
       <h2 class="mt-3"><%= dest.nombre %>
       </h2>
 
@@ -142,7 +142,7 @@
           <!-- Reserva -->
           <div class="col">
             <h3>Reserva</h3>
-            <form role="reserva" class="pt-2" method="post" action="/reservar">
+            <form role="reserva" id="reservaForm" class="pt-2" method="post" action="/api/reservar">
               <!-- Destino ID -->
               <input class="d-none" type="number" id="destinoId" name="destinoId" value="<%= dest.id %>">
               <!-- Num personas -->

@@ -36,3 +36,28 @@ function calcTotalPrice() {
 $('#numPersonas').on("change", e => {
     calcTotalPrice();
 })
+$('#reservaForm').on("submit", e => {
+    e.preventDefault();
+    let startDate = $('#startDate').val();
+    let endDate = $('#endDate').val();
+    let numPersonas = $('#numPersonas').val();
+    //TODO revisar!
+    $.ajax({
+        url: '/api/reservar',
+        method: 'POST',
+        data: {
+            startDate: startDate,
+            endDate: endDate,
+            numPersonas: numPersonas
+        },
+        success: function(data) {
+            console.log("datos: ",data);
+            //podriamos lanzar un mensaje de exito y "quieres modificar tu reserva?"
+            $('#dstContainer').append(data);
+        },
+
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
