@@ -151,6 +151,31 @@ apiRouter.post("/reservar", loginHandler, (req, res, next) => {
     }
 });
 
+//POST PARA CANCELAR UNA RESERVA
+apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
+    const userId = req.session.user.id;
+    const { reservaId } = req.body
+
+    Dao.getSingleReserva(userId, reservaId, function (err, reservaExists) {
+        if (err) {
+            next(err);
+        } else {
+            if (reservaExists) {
+                Dao.borrarReserva(reservaId, function (err, affectedRows) {
+                    if (err || affectedRows > 1) {
+                        next(err);
+                    } else {
+                        res.send('Exito: Reserva cancelada');
+                    }
+                })
+            }
+            else {
+                res.status(500).send('Error: Reserva no existe');
+            }
+        }
+    })
+});
+
 
 
 module.exports = apiRouter;

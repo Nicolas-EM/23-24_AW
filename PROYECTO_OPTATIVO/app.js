@@ -45,33 +45,7 @@ app.use('/api', apiRouter);
 
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined, source: "/"});
-});
-
-//POST PARA CANCELAR UNA RESERVA
-app.post('/cancelar', loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
-    const { reservaId } = req.body
-
-    Dao.getSingleReserva(userId, reservaId, function (err, reservaExists) {
-        if (err) {
-            next(err);
-        } else {
-            if (reservaExists) {
-                Dao.borrarReserva(reservaId, function (err, affectedRows) {
-                    if (err || affectedRows > 1) {
-                        next(err);
-                    } else {
-                        // res.setFlash('Exito: Reserva cancelada');
-                        res.redirect('/user');
-                    }
-                })
-            }
-            else {
-                next({ status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/reservar" });
-            }
-        }
-    })
+    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined});
 });
 
 //POST PARA CREAR UNA RESEÑA
@@ -198,7 +172,7 @@ app.get("/destination/:id", (req, res, next) => {
                         if (err) {
                             next(err);
                         } else {
-                            res.status(200).render("destination", { isAuthenticated: req.session.user !== undefined, source: `/destination/${destinationId}`, dest, image_ids, comments: comments });
+                            res.status(200).render("destination", { isAuthenticated: req.session.user !== undefined, dest, image_ids, comments: comments });
                         }
                     });
                 }

@@ -10,7 +10,7 @@
   - [X] registro
   - [ ] añadir comentario
   - [ ] crear reserva (pendiente double check)
-  - [ ] cancelar reserva
+  - [X] cancelar reserva
   - [X] cargar destinos paginando
 - [ ] filtro de precio
 - [ ] jQuery

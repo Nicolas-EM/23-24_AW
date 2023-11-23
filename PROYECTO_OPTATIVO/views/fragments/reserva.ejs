@@ -1,4 +1,4 @@
-<div class="col">
+<div id="<%= `reserva${reserva.reserva_id}` %>" class="col">
     <div class="card h-100">
         <div class="row row-cols-1 row-cols-sm-2 g-0 h-100">
             <div class="col-sm-5">
@@ -15,12 +15,9 @@
                 <!-- Action -->
                 <div class="card-footer text-end h-25 pt-1 mb-5">
                     <% if (new Date(reserva.fecha_end) < new Date() && reserva.reviewed !== 1) { %>
-                    <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
+                        <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
                     <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
-                    <form method="post" action="/cancelar">
-                        <input type="number" class="d-none" value="<%= reserva.reserva_id %>" name="reservaId">
-                        <button type="submit" class="btn btn-primary">Cancelar reserva</button>
-                    </form>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-reservaid="<%= reserva.reserva_id %>">Cancelar reserva</button>
                     <% } %>
                 </div>
             </div>

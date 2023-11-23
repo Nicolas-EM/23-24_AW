@@ -15,7 +15,8 @@ $("#logoutBtn")?.on("click", e => {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Se ha producido un error: " + errorThrown);
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
         }
     });
 });
@@ -38,13 +39,8 @@ $("#loginForm")?.on("submit", e => {
             $("#accountCircleUser").removeClass("d-none");
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            if(jqXHR.status === 401){
-                $("#toastMsg").html("Credenciales incorrectas.");
-                toast.show();
-            } else {
-                $("#toastMsg").html(textStatus);
-                toast.show();
-            }
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
         }
     });
 });
