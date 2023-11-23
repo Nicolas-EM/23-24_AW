@@ -2,9 +2,11 @@
 - [ ] Fotos de usuario
   - [ ] Usar multer().single()
 - [ ] ajax (evitar recargar la pagina)
-  - [X] busqueda (que se cambien los destinos segun vas introduciendo el texto) (si cuando pongo b se van eliminando resultados como "peru")
+  - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
-  - [X] cerrar sesión 
+    - [ ] Pendiente actualizar navbar + reservarBtn en /destino
+  - [X] cerrar sesión
+    - [ ] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] registro
   - [ ] añadir comentario
   - [ ] crear reserva (pendiente double check)
