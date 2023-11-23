@@ -1,15 +1,15 @@
-const loginModal = bootstrap.Modal.getOrCreateInstance($("#loginModal")[0], { backdrop: true });
-const signupModal = bootstrap.Modal.getOrCreateInstance($("#signupModal")[0], { backdrop: true });
+const loginModal = bootstrap.Modal.getOrCreateInstance("#loginModal");
+const signupModal = bootstrap.Modal.getOrCreateInstance("#signupModal");
 
 $("#logoutBtn")?.on("click", e => {
-    console.log("clicked");
-
     $.ajax({
         method: "POST",
         url: "/api/logout",
         success: function (data) {
             $("#toastMsg").html(data);
             toast.show();
+            $("#accountCirclePublic").removeClass("d-none");
+            $("#accountCircleUser").addClass("d-none");
             if (window.location.href.includes("/user")) {
                 window.location.replace(window.location.hostname);
             }
@@ -34,6 +34,8 @@ $("#loginForm")?.on("submit", e => {
             $("#toastMsg").html(data);
             toast.show();
             loginModal?.hide();
+            $("#accountCirclePublic").addClass("d-none");
+            $("#accountCircleUser").removeClass("d-none");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if(jqXHR.status === 401){
@@ -62,6 +64,9 @@ $("#signupForm")?.on("submit", e => {
             $("#toastMsg").html(data);
             toast.show();
             signupModal?.hide();
+            console.log($("#accountCirclePublic"));
+            $("#accountCirclePublic").addClass("d-none");
+            $("#accountCircleUser").removeClass("d-none");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#toastMsg").html(jqXHR.responseText);

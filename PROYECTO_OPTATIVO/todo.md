@@ -4,9 +4,9 @@
 - [ ] ajax (evitar recargar la pagina)
   - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
-    - [ ] Pendiente actualizar navbar + reservarBtn en /destino
+    - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] cerrar sesión
-    - [ ] Pendiente actualizar navbar + reservarBtn en /destino
+    - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] registro
   - [ ] añadir comentario
   - [ ] crear reserva (pendiente double check)

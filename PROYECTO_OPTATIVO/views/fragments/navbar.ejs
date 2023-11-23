@@ -9,10 +9,22 @@
         <div class="navbar-nav ms-auto">
             <div class="nav-item">
                 <% if(!isAuthenticated) {%>
-                    <a class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <a id="accountCirclePublic" class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal">
                         <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
                     </a>
+                    <div id="accountCircleUser" class="nav-item btn-group dropstart d-none">
+                        <btn type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
+                        </btn>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/user">Mi Cuenta</a></li>
+                            <li><a id="logoutBtn" class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
                 <% } else { %>
+                    <a id="accountCirclePublic" class="nav-link d-none" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
+                    </a>
                     <div class="nav-item btn-group dropstart">
                         <btn type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
@@ -28,75 +40,73 @@
     </div>
 </nav>
 
-<% if(!isAuthenticated) {%>
-    <!-- Login Modal -->
-    <div class="modal fade " id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="loginForm" method="post" action="/login">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="************" required>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <button type="submit" id="modalLoginSubmit" class="btn btn-primary form-control">Continuar</button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <p>¿Todavía no te has registrado? <a href="#" data-bs-target="#signupModal" data-bs-toggle="modal">Haz clic aquí</a></p>
-                    </div>
-                </form>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </div>
-
-    <!-- sign up modal -->
-    <div class="modal fade " id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupModalLabel">Registro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="signupForm" method="post" action="/register">
-                    <div class="modal-body">
-                        <input type="hidden" id="source" name="source" value="<%= source %>">
-                        <div class="mb-3">
-                            <label for="displayName" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="displayName" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="signupEmail" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="signupEmail" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="signupPwdInput" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="signupPwdInput" name="password" placeholder="************" required>
-                            <div id="signupPwdValidation"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="signupPwdConfirm" class="form-label">Confirmación</label>
-                            <input type="password" class="form-control" id="signupPwdConfirm" name="passwordConfirmation" placeholder="************" required>
-                            <div id="signupPwdConfirmValidation"></div>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <button type="submit" class="btn btn-primary form-control">Continuar</button>
-                        </div>
+            <form id="loginForm" method="post" action="/login">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
-                </form>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="************" required>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <button type="submit" id="modalLoginSubmit" class="btn btn-primary form-control">Continuar</button>
+                    </div>
+                </div>
                 <div class="modal-footer">
-                    <p>¿Ya tienes una cuenta? <a href="#" data-bs-target="#loginModal" data-bs-toggle="modal">Haz clic aquí</a></p>
+                    <p>¿Todavía no te has registrado? <a href="#" data-bs-target="#signupModal" data-bs-toggle="modal">Haz clic aquí</a></p>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- sign up modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="signupForm" method="post" action="/register">
+                <div class="modal-body">
+                    <input type="hidden" id="source" name="source" value="<%= source %>">
+                    <div class="mb-3">
+                        <label for="displayName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="displayName" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="signupEmail" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPwdInput" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="signupPwdInput" name="password" placeholder="************" required>
+                        <div id="signupPwdValidation"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPwdConfirm" class="form-label">Confirmación</label>
+                        <input type="password" class="form-control" id="signupPwdConfirm" name="passwordConfirmation" placeholder="************" required>
+                        <div id="signupPwdConfirmValidation"></div>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <button type="submit" class="btn btn-primary form-control">Continuar</button>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <p>¿Ya tienes una cuenta? <a href="#" data-bs-target="#loginModal" data-bs-toggle="modal">Haz clic aquí</a></p>
             </div>
         </div>
     </div>
-<% } %>
+</div>
