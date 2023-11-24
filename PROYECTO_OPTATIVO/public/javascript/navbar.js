@@ -8,8 +8,13 @@ $("#logoutBtn")?.on("click", e => {
         success: function (data) {
             $("#toastMsg").html(data);
             toast.show();
-            $("#accountCirclePublic").removeClass("d-none");
-            $("#accountCircleUser").addClass("d-none");
+            
+            // Update navbar
+            $("#accountCircleBtn").attr('data-bs-toggle', "modal");
+            // Update reservarBtn in /destination if exists
+            $("#reservaBtn")?.attr('type', 'button');
+            $("#reservaBtn")?.attr('data-bs-toggle', "modal");
+
             if (window.location.href.includes("/user")) {
                 window.location.replace(window.location.hostname);
             }
@@ -35,8 +40,12 @@ $("#loginForm")?.on("submit", e => {
             $("#toastMsg").html(data);
             toast.show();
             loginModal?.hide();
-            $("#accountCirclePublic").addClass("d-none");
-            $("#accountCircleUser").removeClass("d-none");
+
+            // Update navbar
+            $("#accountCircleBtn").attr('data-bs-toggle', "dropdown");
+            // Update reservarBtn in /destination if exists
+            $("#reservaBtn")?.attr('type', 'submit');
+            $("#reservaBtn")?.attr('data-bs-toggle', "");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#toastMsg").html(jqXHR.responseText);
@@ -60,9 +69,11 @@ $("#signupForm")?.on("submit", e => {
             $("#toastMsg").html(data);
             toast.show();
             signupModal?.hide();
-            console.log($("#accountCirclePublic"));
-            $("#accountCirclePublic").addClass("d-none");
-            $("#accountCircleUser").removeClass("d-none");
+
+            // Update navbar
+            $("#accountCircleBtn").attr('data-bs-toggle', "dropdown");
+            // Update reservarBtn in /destination if exists
+            $("#reservaBtn")?.attr('data-bs-toggle', "");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#toastMsg").html(jqXHR.responseText);

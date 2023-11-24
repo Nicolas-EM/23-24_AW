@@ -119,9 +119,11 @@ apiRouter.post('/register', (req, res, next) => {
 
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
 apiRouter.post('/logout', (req, res, next) => {
+    console.log("logout");
+    
     req.session.destroy(() => {
         res.send("Sessión cerrada.");
-    })
+    });
 });
 
 //POST PARA LA RESERVA DEL USUARIO
@@ -181,28 +183,28 @@ apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
 module.exports = apiRouter;
 // ...
 
-const fs = require('fs');
+// const fs = require('fs');
 
-app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
-    const file = req.file;
+// app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
+//     const file = req.file;
 
-    if (!file) {
-        return res.status(400).send('Error: No file uploaded');
-    }
+//     if (!file) {
+//         return res.status(400).send('Error: No file uploaded');
+//     }
 
-    // Read the file and convert it into a Blob
-    let fileData = fs.readFileSync(file.path);
-    let blob = new Blob([fileData], { type: file.mimetype });
-    Dao.updateUserPicture(req.session.user.id, blob, function (err, affectedRows) {
-        if (err || affectedRows > 1) {
-            next(err);
-        } else {
-            //res.redirect('/user');
-        }
-    });//TODO
+//     // Read the file and convert it into a Blob
+//     let fileData = fs.readFileSync(file.path);
+//     let blob = new Blob([fileData], { type: file.mimetype });
+//     Dao.updateUserPicture(req.session.user.id, blob, function (err, affectedRows) {
+//         if (err || affectedRows > 1) {
+//             next(err);
+//         } else {
+//             //res.redirect('/user');
+//         }
+//     });//TODO
 
-    res.send('File uploaded successfully');
-    //cambiamos foto renderizando de nuevo...
-});
+//     res.send('File uploaded successfully');
+//     //cambiamos foto renderizando de nuevo...
+// });
 
 // ...
