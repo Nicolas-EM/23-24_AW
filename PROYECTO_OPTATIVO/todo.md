@@ -9,7 +9,7 @@
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] registro
   - [ ] añadir comentario
-  - [ ] crear reserva (pendiente double check)
+  - [X] crear reserva (pendiente double check)
   - [X] cancelar reserva
   - [X] cargar destinos paginando
 - [ ] filtro de precio

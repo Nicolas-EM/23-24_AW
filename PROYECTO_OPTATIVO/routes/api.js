@@ -130,17 +130,18 @@ apiRouter.post('/logout', (req, res, next) => {
 apiRouter.post("/reservar", loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { destinoId, numPersonas, startDate, endDate } = req.body;
+
     if (numPersonas <= 0) {
-        res.json({ error: "Error: Numero de personas no valido" });
+        res.status(400).send("Error: Numero de personas no valido");
     } else {
         Dao.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
             if (err) {
-                next(err);
+                res.status(500).send("Error: Por favor intentalo más tarde.");
             } else {
                 if (isAvailable) {
                     Dao.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
                         if (err) {
-                            next(err);
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
                         } else {
                             res.send("Reserva realizada con éxito!");
                         }
