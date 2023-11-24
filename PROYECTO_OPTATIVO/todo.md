@@ -22,3 +22,23 @@
 - [ ] request checker (express-validator)
 
 todos los post -> pasan a ser ajax
+
+util de la practica de steven:
+----------------------------------
+const session = require("express-session");
+const sessionMySql = require("express-mysql-session");
+const MySQLStore = sessionMySql(session);
+const sessionStore = new MySQLStore(config.mysqlConfig);
+
+const middlewareSession = session({
+    saveUninitialized: false,
+    secret: "avisos22",
+    resave: false,
+    store: sessionStore 
+});
+
+app.use(middlewareSession);
+
+const morgan = require("morgan");
+app.use(morgan("dev"));
+----------------------------------

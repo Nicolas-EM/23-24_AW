@@ -6,12 +6,13 @@ const isDevBuild = true;
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
-const fs = require('fs');
+
+const clientSessions = require('client-sessions');
 const mime = require('mime');
 const path = require('path');
 const multer = require("multer");
 const multerFactory = multer();
-
+const crypto = require('crypto');
 const DAO = require('./db/DAO');
 const loginHandler = require('./middleware/login');
 const errorHandler = isDevBuild ? require('./middleware/errorDev') : require('./middleware/errorProd');
@@ -33,7 +34,20 @@ app.use(express.json()); // For handling JSON in request body
 // Middleware para analizar datos codificados en formato URL en el cuerpo de la solicitud
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'secret_key', resave: false, saveUninitialized: true, }));
+// Initialize session middleware
+
+app.use(
+    //TODO test (NOTA AHORA HAY QUE USAR mysql-sessions)
+    clientSessions({
+        cookieName: 'session',
+        secret: crypto.randomBytes(32).toString('hex'),
+        duration: 24 * 60 * 60 * 1000, // 1 day
+        cookie: {
+            secure: false, 
+            httpOnly: true,
+        },
+    })
+);
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
@@ -45,8 +59,14 @@ app.use('/api', apiRouter);
 
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined});
+
+    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined });
 });
+//auxiliar para las cookies de sesion:
+
+
+
+
 
 //POST PARA CREAR UNA RESEÑA
 app.post('/review', loginHandler, (req, res, next) => {
