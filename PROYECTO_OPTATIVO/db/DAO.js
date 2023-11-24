@@ -68,7 +68,15 @@ class DAO {
             }
         });
     }
-
+    updateUserPicture(id, blob,callback) {
+        this.pool.query("UPDATE usuarios SET imagen = ? WHERE id = ?;", [blob, id], function (err, result) {
+            if (err) {
+                callback(err);
+            } else {
+                callback(true);//TODO tenemos que redireccionar a user pero con la imagen cargada (ejs comprueba)
+            }
+        });
+    }
     createUser(user, callback) {
         this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.name, user.email, user.hashedPassword], function (err, OkPacket) {
             if (err) {

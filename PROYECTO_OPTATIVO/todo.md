@@ -1,6 +1,6 @@
 # TODO:
-- [ ] Fotos de usuario
-  - [ ] Usar multer().single()
+- [-] Fotos de usuario (Casi listo) (!!)
+  - [X] Usar multer().single()
 - [ ] ajax (evitar recargar la pagina)
   - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
