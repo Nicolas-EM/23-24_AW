@@ -15,7 +15,7 @@
                 <!-- Action -->
                 <div class="card-footer text-end h-25 pt-1 mb-5">
                     <% if (new Date(reserva.fecha_end) < new Date() && reserva.reviewed !== 1) { %>
-                        <a href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
+                        <a id="<%= `addComment${reserva.reserva_id}` %>" href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
                     <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-reservaid="<%= reserva.reserva_id %>">Cancelar reserva</button>
                     <% } %>

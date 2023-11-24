@@ -1,14 +1,14 @@
 # TODO:
 - [-] Fotos de usuario (Casi listo) (!!)
   - [X] Usar multer().single()
-- [ ] ajax (evitar recargar la pagina)
+- [X] ajax (evitar recargar la pagina)
   - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] cerrar sesión
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] registro
-  - [ ] añadir comentario
+  - [X] añadir comentario
   - [X] crear reserva (pendiente double check)
   - [X] cancelar reserva
   - [X] cargar destinos paginando

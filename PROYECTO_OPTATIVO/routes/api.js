@@ -179,7 +179,50 @@ apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
     })
 });
 
+//POST PARA CREAR UNA RESEÑA
+apiRouter.post('/review', loginHandler, (req, res, next) => {
+    const userId = req.session.user.id;
+    let { reservaId, comment, rating } = req.body;
 
+    console.log(req.body);
+    console.log(reservaId, comment, rating);
+
+    Dao.getReservaById(reservaId, function (err, row) {
+        if (err) {
+            res.status(500).send("Error: Por favor intentalo más tarde.");
+        } else {
+            if (row) {
+                if (row.reviewed === 1) {
+                    // Reseña ya existe
+                    res.status(400).send("Error: Sólo puedes añadir 1 reseña por reserva");
+                } else {
+                    Dao.getSingleUserById(userId, function (err, user) {
+                        if (err) {
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                        } else {
+                            Dao.crearComentario(row.destino_id, user.nombre, comment, rating, function (err, rowId) {
+                                if (err) {
+                                    res.status(500).send("Error: Por favor intentalo más tarde.");
+                                } else {
+                                    Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
+                                        if (err || affectedRows > 1) {
+                                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                                        } else {
+                                            res.send("¡Exito! Reseña añadida.");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            else {
+                res.status(500).send("Error: La reserva no exista");
+            }
+        }
+    });
+});
 
 module.exports = apiRouter;
 // ...
