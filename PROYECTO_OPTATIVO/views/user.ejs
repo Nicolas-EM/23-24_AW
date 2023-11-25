@@ -29,7 +29,10 @@ Proyecto Opcional AW
             <div class="card rounded h-100">
               <div class="card-body text-center">
                 <!-- TODO: Cambiar por imagen que sube usuario -->
-                <img src="images/avatar.png" alt="avatar" class="avatar rounded-circle img-fluid">
+                <label for="imageUpload" class="image-upload-label">
+                  <input type="file" id="imageUpload" class="image-upload-input" accept="image/*">
+                  <img src="images/avatar.png" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid" onclick="document.getElementById('imageUpload').click()">
+                </label>
                 <h5 class="my-3">
                   <%= user.nombre %>
                 </h5>

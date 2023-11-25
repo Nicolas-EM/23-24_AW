@@ -4,6 +4,8 @@ let apiRouter = require('express').Router();
 const ejs = require('ejs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const multer = require("multer");
 
 const pool = require("../db/pool");
 const loginHandler = require('../middleware/login');
@@ -11,6 +13,7 @@ const DAO = require('../db/DAO');
 
 const Dao = new DAO(pool);
 
+const uploadDir = multer({ dest: './uploads/' });
 const fragmentsPath = path.join(__dirname, "../views/fragments");
 
 function sendEjs(res, name, data) {
@@ -176,14 +179,7 @@ apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
     })
 });
 
-
-
-module.exports = apiRouter;
-// ...
-
-const fs = require('fs');
-
-app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
+apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
     const file = req.file;
 
     if (!file) {
@@ -197,7 +193,8 @@ app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) =>
         if (err || affectedRows > 1) {
             next(err);
         } else {
-            //res.redirect('/user');
+            res.setFlash('Exito: Foto de perfil actualizada');
+            res.send('Exito: Foto de perfil actualizada');
         }
     });//TODO
 
@@ -205,4 +202,4 @@ app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) =>
     //cambiamos foto renderizando de nuevo...
 });
 
-// ...
+module.exports = apiRouter;

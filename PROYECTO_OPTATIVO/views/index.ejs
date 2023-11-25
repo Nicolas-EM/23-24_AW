@@ -28,20 +28,29 @@ Proyecto Opcional AW
             <form id="searchForm" action="/search" method="post">
                 <div class="input-group justify-content-center">
                     <input type="text" class="form-control" id="query" name="query" placeholder="Descubre tu próximo destino...">
-                    <!-- Search Btn -->
+                    
+                    <!-- Search -->
                     <div class="btn-group">
+                        <!-- Search Btn -->
                         <button class="btn btn-primary ml-2" type="submit">
                             <span class="material-symbols-outlined">search</span>
+                        </button>
+                        <!-- Filter Button -->
+                        <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
+                            <span class="material-symbols-outlined">tune</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Search filters -->
-                <div class="row mt-3">
-                    <div class="collapse col" id="searchFilters">
-                        <label for="maxPrice" class="form-label">Filtrar por precio:</label>
-                        <input id="maxPrice" type="range" min="0" max="5000" value="5000" class="form-range" name="maxPrice">
-                        <span id="rangeValue">2500</span>
+                <div class="row mt-3 collapse" id="searchFilters">
+                    <div class="col">
+                        <label for="maxPrice" class="form-label">Precio Mínimo:</label>
+                        <input id="maxPrice" type="number" min="0" max="5000" value="5000" class="form-control" name="maxPrice">
+                    </div>
+                    <div class="col">
+                        <label for="maxPrice" class="form-label">Precio Máximo:</label>
+                        <input id="maxPrice" type="number" min="0" max="5000" value="0" class="form-control" name="maxPrice">
                     </div>
                 </div>
             </form>

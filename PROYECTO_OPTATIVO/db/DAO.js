@@ -69,7 +69,7 @@ class DAO {
         });
     }
     updateUserPicture(id, blob,callback) {
-        this.pool.query("UPDATE usuarios SET imagen = ? WHERE id = ?;", [blob, id], function (err, result) {
+        this.pool.query("UPDATE usuarios SET fotoPerfil = ? WHERE id = ?;", [blob, id], function (err, result) {
             if (err) {
                 callback(err);
             } else {
@@ -78,7 +78,8 @@ class DAO {
         });
     }
     createUser(user, callback) {
-        this.pool.query("INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?);", [user.name, user.email, user.hashedPassword], function (err, OkPacket) {
+        //por defecto comienza sin imagen de perfil
+        this.pool.query("INSERT INTO usuarios (nombre, correo, password,fotoPerfil) VALUES (?, ?, ?, ?);", [user.name, user.email, user.hashedPassword, ""], function (err, OkPacket) {
             if (err) {
                 callback(err);
             }
@@ -105,6 +106,7 @@ class DAO {
     }
 
     updateUser(user, callback) {
+        //la query de update de la foto es diferente
         this.pool.query("UPDATE usuarios SET nombre = ?, correo = ?, password = ? WHERE id = ?;", [user.newUsername, user.newEmail, user.newPwd, user.id], function (err, result) {
             if (err) {
                 callback(err);
