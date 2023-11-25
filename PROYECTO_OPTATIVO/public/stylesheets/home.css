@@ -1,5 +1,10 @@
 #searchForm .form-control {
     max-width: max(80%, 550px);
+    min-width: min(80%, 550px);
+}
+
+#searchFilters .form-control {
+    max-width: 300px;
 }
 
 .form-control:focus {

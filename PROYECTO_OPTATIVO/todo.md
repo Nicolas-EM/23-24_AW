@@ -15,8 +15,8 @@
   - [X] cancelar reserva
   - [X] cargar destinos paginando
 - [ ] filtro de precio
-- [ ] jQuery
-- [ ] uso de cookie de sesion
+- [X] jQuery
+- [X] uso de cookie de sesion
 - [ ] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
 - [ ] fechas ocupadas en rojo
 - [ ] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas

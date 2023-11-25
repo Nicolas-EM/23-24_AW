@@ -33,7 +33,7 @@ fotoPerfil BLOB,
 UNIQUE (correo)
 );
 
-INSERT INTO usuarios VALUES (1, "Prueba", "test@ucm.es", "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS");
+INSERT INTO usuarios VALUES (1, "Prueba", "test@ucm.es", "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS",NULL);
 
 CREATE TABLE reservas (
  id INT AUTO_INCREMENT PRIMARY KEY,

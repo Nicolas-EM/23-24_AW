@@ -55,22 +55,15 @@ $("#confirmationModal")?.on("show.bs.modal", (event) => {
   // Update the modal's content.
   $("#cancelReservaId").attr("value", reservaId);
 });
-let selectedImage = null;
-
-$("#userImg").on("click", () => {
-  $("#imageUpload").click();
-});
 
 $("#imageUpload").on("change", (e) => {
   const file = e.target.files[0];
-  const fileType = file.type;
-
+  if (!file) return;
+  let fileType = file.type;
+  
   if (fileType.startsWith("image/")) {
-    //tuvo exito cogiendo la foto
-    selectedImage = file;
-
     const formData = new FormData();
-    formData.append("image", selectedImage);
+    formData.append("avatar", file);
 
     $.ajax({
       method: "POST",
@@ -81,18 +74,36 @@ $("#imageUpload").on("change", (e) => {
       success: function (data) {
         $("#toastMsg").html(data);
         toast.show();
-        const avatarImg = document.getElementById("avatarImg");
-        avatarImg.src = URL.createObjectURL(selectedImage);
-    },
+
+        // Actualizar imagen perfil
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // get loaded data and render thumbnail.
+          $("#userImg").attr("src", e.target.result);
+        };
+        // read the image file as a data URL.
+        reader.readAsDataURL(file);
+      },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#toastMsg").html(jqXHR.responseText);
         toast.show();
       },
     });
-  } else {
-    //peto
   }
 });
+
+// $("#imageUpload").on("change", e => {
+//   console.log("change detected");
+
+//   const reader = new FileReader();
+//   reader.onload = e => {
+//       // get loaded data and render thumbnail.
+//       document.getElementById("img-profile").src = e.target.result;
+//       document.getElementById("nav-profile").src = e.target.result;
+//   };
+//   // read the image file as a data URL.
+//   reader.readAsDataURL(this.files[0]);
+// });
 
 const confirmationModal =
   bootstrap.Modal.getOrCreateInstance("#confirmationModal");
@@ -115,36 +126,35 @@ $("#confirmationModal")?.on("submit", (e) => {
     },
   });
 });
-});
 
 const commentModal = bootstrap.Modal.getOrCreateInstance("#reseniaModal");
-$("#commentForm")?.on("submit", e => {
-    e.preventDefault();
+$("#commentForm")?.on("submit", (e) => {
+  e.preventDefault();
 
-    const reservaId = $("#reservaId").val();
-    const rating = $("#rating").val();
-    const comment = $("#comment").val();
+  const reservaId = $("#reservaId").val();
+  const rating = $("#rating").val();
+  const comment = $("#comment").val();
 
-    $.ajax({
-        method: "POST",
-        url: "/api/review",
-        data: { 
-            reservaId,
-            rating,
-            comment
-        },
-        success: function (data) {
-            $("#toastMsg").html(data);
-            toast.show();
-            commentModal?.hide();
-            $(`#addComment${reservaId}`).remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $("#toastMsg").html(jqXHR.responseText);
-            toast.show();
-        }
-    });
-
+  $.ajax({
+    method: "POST",
+    url: "/api/review",
+    data: {
+      reservaId,
+      rating,
+      comment,
+    },
+    success: function (data) {
+      $("#toastMsg").html(data);
+      toast.show();
+      commentModal?.hide();
+      $(`#addComment${reservaId}`).remove();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
+});
 const passwordInput = document.getElementById("newPassword");
 const passwordConfirmInput = document.getElementById("newPasswordConfirm");
 

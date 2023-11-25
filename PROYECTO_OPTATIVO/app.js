@@ -4,10 +4,8 @@ const isDevBuild = true;
 
 //MODULOS REQUERIDOS
 const express = require('express');
-const session = require('express-session');
-const bcrypt = require('bcrypt');
 
-const clientSessions = require('client-sessions');
+const bcrypt = require('bcrypt');
 const mime = require('mime');
 const path = require('path');
 const crypto = require('crypto');
@@ -19,6 +17,14 @@ const apiRouter = require("./routes/api");
 
 //BASE DE DATOS
 const pool = require("./db/pool");
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const sessionStore = new MySQLStore({ 
+    host: "localhost",
+    user: "admin_aw",
+    password: "",
+    database: "viajes"
+});
 
 const app = express();
 const Dao = new DAO(pool);
@@ -35,15 +41,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Initialize session middleware
 
 app.use(
-    //TODO test (NOTA AHORA HAY QUE USAR mysql-sessions)
-    clientSessions({
-        cookieName: 'session',
-        secret: crypto.randomBytes(32).toString('hex'),
-        duration: 24 * 60 * 60 * 1000, // 1 day
-        cookie: {
-            secure: false, 
-            httpOnly: true,
-        },
+    session({
+        saveUninitialized: false,
+        secret: "cheapbnb",
+        resave: false,
+        store: sessionStore 
     })
 );
 
@@ -57,14 +59,12 @@ app.use('/api', apiRouter);
 
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-
-    res.status(200).render("index", { isAuthenticated: req.session.user !== undefined });
+    res.status(200).render("index", { isAuthenticated: (req.session.userId !== undefined) });
 });
-//auxiliar para las cookies de sesion:
 
 //POST PARA ACTUALIZAR USUARIO
 app.post('/updateUser', loginHandler, (req, res, next) => {
-    const { id, email } = req.session.user;
+    const { userId } = req.session;
 
     let { name, correo, currentPassword, newPassword } = req.body;
     // nos pasamos al post el currentpassword pero no se evalua 
@@ -80,7 +80,7 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
         return res.redirect("/user");
     }
 
-    Dao.getSingleUser(email, function (err, userData) {
+    Dao.getSingleUser(id, function (err, userData) {
         if (err) {
             next(err);
         }
@@ -113,7 +113,7 @@ app.post('/updateUser', loginHandler, (req, res, next) => {
                         if (err) {
                             next(err);
                         } else {
-                            req.session.user = { email: newEmail, id };
+                            req.session.userId = id;
                             // res.setFlash('Exito: Usuario actualizado');
                             res.redirect("/user");
                         }
@@ -143,7 +143,7 @@ app.get("/destination/:id", (req, res, next) => {
                         if (err) {
                             next(err);
                         } else {
-                            res.status(200).render("destination", { isAuthenticated: req.session.user !== undefined, dest, image_ids, comments: comments });
+                            res.status(200).render("destination", { isAuthenticated: req.session.userId !== undefined, dest, image_ids, comments: comments });
                         }
                     });
                 }
@@ -154,16 +154,19 @@ app.get("/destination/:id", (req, res, next) => {
 
 //GET DE LA PAGINA DE USUARIO PERSONALIZADA
 app.get("/user", loginHandler, (req, res, next) => {
-    const email = req.session.user.email;
-    Dao.getSingleUser(email, function (err, user) {
+    const userId = req.session.userId;
+    Dao.getSingleUser(userId, function (err, user) {
         if (err) {
             next(err);
         }
         else {
-            Dao.getReservas(req.session.user.id, function (err, reservas) {
+            Dao.getReservas(userId, function (err, reservas) {
                 if (err) {
                     next(err);
                 } else {
+                    console.log(user.fotoPerfil);
+                    user.fotoPerfil = `data:image/png;base64,${user.fotoPerfil.toString('base64')}`;
+                    console.log(user.fotoPerfil);
                     res.status(200).render("user", { isAuthenticated: true, user, reservas })
                 }
             });

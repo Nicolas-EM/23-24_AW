@@ -13,7 +13,7 @@ const DAO = require('../db/DAO');
 
 const Dao = new DAO(pool);
 
-const uploadDir = multer({ dest: './uploads/' });
+const uploadDir = multer({ dest: 'uploads/' });
 const fragmentsPath = path.join(__dirname, "../views/fragments");
 
 function sendEjs(res, name, data) {
@@ -58,7 +58,7 @@ apiRouter.post("/search", (req, res, next) => {
 apiRouter.post('/login', (req, res, next) => {
     const { email, password } = req.body
 
-    Dao.getSingleUser(email, function (err, userData) {
+    Dao.getSingleUserByEmail(email, function (err, userData) {
         if (err) {
             next(err);
         }
@@ -69,7 +69,8 @@ apiRouter.post('/login', (req, res, next) => {
                 }
                 if (passwordMatch) {
                     // If valid credentials, create a session
-                    req.session.user = { email, id: userData.id };
+                    req.session.userId = userData.id
+
                     res.send("Sesión iniciada.");
                 } else {
                     res.status(401).end();
@@ -110,7 +111,7 @@ apiRouter.post('/register', (req, res, next) => {
         else {
             if (userId !== undefined) {
                 // If valid credentials, create a session
-                req.session.user = { email, id: userId };
+                req.session.userId = userId;
                 res.send('Exito: Cuenta creada');
             }
             else {
@@ -131,7 +132,7 @@ apiRouter.post('/logout', (req, res, next) => {
 
 //POST PARA LA RESERVA DEL USUARIO
 apiRouter.post("/reservar", loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
+    const userId = req.session.userId;
     const { destinoId, numPersonas, startDate, endDate } = req.body;
 
     if (numPersonas <= 0) {
@@ -159,7 +160,7 @@ apiRouter.post("/reservar", loginHandler, (req, res, next) => {
 
 //POST PARA CANCELAR UNA RESERVA
 apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
+    const userId = req.session.userId;
     const { reservaId } = req.body
 
     Dao.getSingleReserva(userId, reservaId, function (err, reservaExists) {
@@ -184,7 +185,7 @@ apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
 
 //POST PARA CREAR UNA RESEÑA
 apiRouter.post('/review', loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
+    const userId = req.session.userId;
     let { reservaId, comment, rating } = req.body;
 
     console.log(req.body);
@@ -227,32 +228,22 @@ apiRouter.post('/review', loginHandler, (req, res, next) => {
     });
 });
 
-module.exports = apiRouter;
-// ...
+apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
+    const file = req.file;
+    if (!file) {
+        return res.status(400).send('Error: No file uploaded');
+    }
 
-// const fs = require('fs');
-
-// app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
-//     const file = req.file;
-
-//     if (!file) {
-//         return res.status(400).send('Error: No file uploaded');
-//     }
-
-    // Read the file and convert it into a Blob
     let fileData = fs.readFileSync(file.path);
     let blob = new Blob([fileData], { type: file.mimetype });
-    Dao.updateUserPicture(req.session.user.id, blob, function (err, affectedRows) {
-        if (err || affectedRows > 1) {
+
+    Dao.updateUserPicture(req.session.userId, blob, function (err) {
+        if (err) {
             next(err);
         } else {
-            res.setFlash('Exito: Foto de perfil actualizada');
             res.send('Exito: Foto de perfil actualizada');
         }
-    });//TODO
-
-//     res.send('File uploaded successfully');
-//     //cambiamos foto renderizando de nuevo...
-// });
+    });
+});
 
 module.exports = apiRouter;

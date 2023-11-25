@@ -23,15 +23,15 @@ Proyecto Opcional AW
   <!-- Datos del usuario -->
   <div class="container-fluid p-0 mb-3">
     <section class="userBg">
+      <input type="file" id="imageUpload" accept="image/*" class="d-none">
       <div class="container py-5">
         <div class="row g-2">
           <div class="col-lg-4">
             <div class="card rounded h-100">
               <div class="card-body text-center">
                 <!-- TODO: Cambiar por imagen que sube usuario -->
-                <label for="imageUpload" class="image-upload-label">
-                  <input type="file" id="imageUpload" class="image-upload-input" accept="image/*">
-                  <img src="images/avatar.png" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid" onclick="document.getElementById('imageUpload').click()">
+                <label for="imageUpload">
+                  <img src="<%- user.fotoPerfil !== null ? user.fotoPerfil : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
                 </label>
                 <h5 class="my-3">
                   <%= user.nombre %>

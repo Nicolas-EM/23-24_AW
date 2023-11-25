@@ -1,8 +1,9 @@
 function requireLogin(request, response, next){
-    if (request.session.user === undefined){
-        response.redirect("/");
+    if (request.session && request.session.userId) {
+        // If authenticated, continue with the request
+        return next();
     } else {
-        next();
+        response.redirect("/");
     }
 }
 

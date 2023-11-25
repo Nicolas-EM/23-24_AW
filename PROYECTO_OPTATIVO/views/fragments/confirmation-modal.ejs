@@ -8,11 +8,26 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="mb-3">
-                    <input id="cancelReservaId" type="number" class="d-none" value="" name="reservaId">
-                    <label class="form-label">¿Seguro que quieres eliminar esta reseña?</label>
-                    <label id="confirmModalTitle" class="form-label"></label>
-                    <label id="confirmModalDates" class="form-label"></label>
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="delete-tab" data-bs-toggle="tab" data-bs-target="#delete" type="button" role="tab" aria-controls="delete" aria-selected="true">Eliminar</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="modify-tab" data-bs-toggle="tab" data-bs-target="#modify" type="button" role="tab" aria-controls="modify" aria-selected="false">Modificar</button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+                      <div class="mb-3">
+                        <input id="cancelReservaId" type="number" class="d-none" value="" name="reservaId">
+                        <label class="form-label">¿Seguro que quieres eliminar esta reseña?</label>
+                        <label id="confirmModalTitle" class="form-label"></label>
+                        <label id="confirmModalDates" class="form-label"></label>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="modify" role="tabpanel" aria-labelledby="modify-tab">
+                      <!-- Add your modify form here -->
+                    </div>
                   </div>
                 </div>
                 <div class="modal-footer">
