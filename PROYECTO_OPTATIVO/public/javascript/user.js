@@ -115,6 +115,35 @@ $("#confirmationModal")?.on("submit", (e) => {
     },
   });
 });
+});
+
+const commentModal = bootstrap.Modal.getOrCreateInstance("#reseniaModal");
+$("#commentForm")?.on("submit", e => {
+    e.preventDefault();
+
+    const reservaId = $("#reservaId").val();
+    const rating = $("#rating").val();
+    const comment = $("#comment").val();
+
+    $.ajax({
+        method: "POST",
+        url: "/api/review",
+        data: { 
+            reservaId,
+            rating,
+            comment
+        },
+        success: function (data) {
+            $("#toastMsg").html(data);
+            toast.show();
+            commentModal?.hide();
+            $(`#addComment${reservaId}`).remove();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
 
 const passwordInput = document.getElementById("newPassword");
 const passwordConfirmInput = document.getElementById("newPasswordConfirm");

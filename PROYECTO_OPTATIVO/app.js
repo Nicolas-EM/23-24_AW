@@ -62,53 +62,6 @@ app.get('/', function (req, res, next) {
 });
 //auxiliar para las cookies de sesion:
 
-
-
-
-
-//POST PARA CREAR UNA RESEÑA
-app.post('/review', loginHandler, (req, res, next) => {
-    const userId = req.session.user.id;
-    let { reservaId, comment, rating } = req.body;
-    Dao.getReservaById(reservaId, function (err, row) {
-        if (err) {
-            next(err);
-        } else {
-            if (row) {
-                if (row.reviewed === 1) {
-                    // Reseña ya existe
-                    // res.setFlash('Error: Reseña ya existe para este destino');
-                    res.redirect('/user');
-                } else {
-                    Dao.getSingleUserById(userId, function (err, user) {
-                        if (err) {
-                            next(err);
-                        } else {
-                            Dao.crearComentario(row.destino_id, user.nombre, comment, rating, function (err, rowId) {
-                                if (err) {
-                                    next(err);
-                                } else {
-                                    Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
-                                        if (err || affectedRows > 1) {
-                                            next(err);
-                                        } else {
-                                            // res.setFlash('Exito: Reseña creada');
-                                            res.redirect('/user');
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-            else {
-                next({ status: 500, message: `Reserva ${reservaId} does not exist for user ${userId}`, stack: "/review" });
-            }
-        }
-    });
-});
-
 //POST PARA ACTUALIZAR USUARIO
 app.post('/updateUser', loginHandler, (req, res, next) => {
     const { id, email } = req.session.user;

@@ -122,26 +122,29 @@ apiRouter.post('/register', (req, res, next) => {
 
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
 apiRouter.post('/logout', (req, res, next) => {
+    console.log("logout");
+    
     req.session.destroy(() => {
         res.send("Sessión cerrada.");
-    })
+    });
 });
 
 //POST PARA LA RESERVA DEL USUARIO
 apiRouter.post("/reservar", loginHandler, (req, res, next) => {
     const userId = req.session.user.id;
     const { destinoId, numPersonas, startDate, endDate } = req.body;
+
     if (numPersonas <= 0) {
-        res.json({ error: "Error: Numero de personas no valido" });
+        res.status(400).send("Error: Numero de personas no valido");
     } else {
         Dao.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
             if (err) {
-                next(err);
+                res.status(500).send("Error: Por favor intentalo más tarde.");
             } else {
                 if (isAvailable) {
                     Dao.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
                         if (err) {
-                            next(err);
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
                         } else {
                             res.send("Reserva realizada con éxito!");
                         }
@@ -179,12 +182,62 @@ apiRouter.post('/cancelar', loginHandler, (req, res, next) => {
     })
 });
 
-apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
-    const file = req.file;
+//POST PARA CREAR UNA RESEÑA
+apiRouter.post('/review', loginHandler, (req, res, next) => {
+    const userId = req.session.user.id;
+    let { reservaId, comment, rating } = req.body;
 
-    if (!file) {
-        return res.status(400).send('Error: No file uploaded');
-    }
+    console.log(req.body);
+    console.log(reservaId, comment, rating);
+
+    Dao.getReservaById(reservaId, function (err, row) {
+        if (err) {
+            res.status(500).send("Error: Por favor intentalo más tarde.");
+        } else {
+            if (row) {
+                if (row.reviewed === 1) {
+                    // Reseña ya existe
+                    res.status(400).send("Error: Sólo puedes añadir 1 reseña por reserva");
+                } else {
+                    Dao.getSingleUserById(userId, function (err, user) {
+                        if (err) {
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                        } else {
+                            Dao.crearComentario(row.destino_id, user.nombre, comment, rating, function (err, rowId) {
+                                if (err) {
+                                    res.status(500).send("Error: Por favor intentalo más tarde.");
+                                } else {
+                                    Dao.updateReservaReviewed(reservaId, function (err, affectedRows) {
+                                        if (err || affectedRows > 1) {
+                                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                                        } else {
+                                            res.send("¡Exito! Reseña añadida.");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            else {
+                res.status(500).send("Error: La reserva no exista");
+            }
+        }
+    });
+});
+
+module.exports = apiRouter;
+// ...
+
+// const fs = require('fs');
+
+// app.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, next) => {
+//     const file = req.file;
+
+//     if (!file) {
+//         return res.status(400).send('Error: No file uploaded');
+//     }
 
     // Read the file and convert it into a Blob
     let fileData = fs.readFileSync(file.path);
@@ -198,8 +251,8 @@ apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, ne
         }
     });//TODO
 
-    res.send('File uploaded successfully');
-    //cambiamos foto renderizando de nuevo...
-});
+//     res.send('File uploaded successfully');
+//     //cambiamos foto renderizando de nuevo...
+// });
 
 module.exports = apiRouter;

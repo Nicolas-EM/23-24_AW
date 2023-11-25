@@ -1,15 +1,17 @@
 # TODO:
 - [-] Fotos de usuario (Casi listo) (!!)
   - [X] Usar multer().single()
-- [ ] ajax (evitar recargar la pagina)
+  - [ ] Actualizar por AJAX
+- [X] ajax (evitar recargar la pagina)
+  - [ ] Actualizar usuario
   - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] cerrar sesión
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
   - [X] registro
-  - [ ] añadir comentario
-  - [ ] crear reserva (pendiente double check)
+  - [X] añadir comentario
+  - [X] crear reserva (pendiente double check)
   - [X] cancelar reserva
   - [X] cargar destinos paginando
 - [ ] filtro de precio

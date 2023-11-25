@@ -40,24 +40,27 @@ $('#numPersonas').on("change", e => {
 
 $('#reservaForm').on("submit", e => {
     e.preventDefault();
-    let startDate = $('#startDate').val();
-    let endDate = $('#endDate').val();
-    let numPersonas = $('#numPersonas').val();
+    const destinoId = $('#destinoId').val();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+    const numPersonas = $('#numPersonas').val();
     
     $.ajax({
         url: '/api/reservar',
         method: 'POST',
         data: {
-            startDate: startDate,
-            endDate: endDate,
-            numPersonas: numPersonas
+            destinoId,
+            startDate,
+            endDate,
+            numPersonas
         },
         success: function(data) {
             $("#toastMsg").html(data);
             toast.show();
         },
         error: function(xhr, status, error) {
-            console.error(error);
+            $("#toastMsg").html(xhr.responseText);
+            toast.show();
         }
     });
 });

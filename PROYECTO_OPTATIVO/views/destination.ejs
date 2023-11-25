@@ -164,11 +164,12 @@
               </div>
               <!-- reservoir Btn -->
               <div class="mb-3 text-center">
-                <% if(!isAuthenticated) {%>
+                <button id="reservaBtn" class="btn btn-primary" type="<%- isAuthenticated? 'submit' : 'button' %>" data-bs-toggle="modal" data-bs-target="#loginModal">Reserva Ya!</button>
+                <!-- <% if(!isAuthenticated) {%>
                   <button id="reservaBtn" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Reserva Ya!</button>
                   <% } else { %>
                     <button id="reservaBtn" class="btn btn-primary" type="submit">Reserva Ya!</button>
-                    <% } %>
+                <% } %> -->
               </div>
             </form>
           </div>
