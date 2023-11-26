@@ -29,11 +29,12 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 nombre VARCHAR(255) NOT NULL,
 correo VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
-fotoPerfil BLOB,
+fotoFilename VARCHAR(255),
+fotoMimetype VARCHAR(255),
 UNIQUE (correo)
 );
 
-INSERT INTO usuarios VALUES (1, "Prueba", "test@ucm.es", "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS",NULL);
+INSERT INTO usuarios VALUES (1, "Prueba", "test@ucm.es", "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS",NULL, NULL);
 
 CREATE TABLE reservas (
  id INT AUTO_INCREMENT PRIMARY KEY,

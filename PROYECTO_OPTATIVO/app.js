@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const mime = require('mime');
 const path = require('path');
 const crypto = require('crypto');
+const fs = require('fs');
 const DAO = require('./db/DAO');
 const loginHandler = require('./middleware/login');
 const errorHandler = isDevBuild ? require('./middleware/errorDev') : require('./middleware/errorProd');
@@ -23,7 +24,8 @@ const sessionStore = new MySQLStore({
     host: "localhost",
     user: "admin_aw",
     password: "",
-    database: "viajes"
+    database: "viajes",
+    createDatabaseTable: true
 });
 
 const app = express();
@@ -45,7 +47,7 @@ app.use(
         saveUninitialized: false,
         secret: "cheapbnb",
         resave: false,
-        store: sessionStore 
+        store: sessionStore
     })
 );
 
@@ -100,10 +102,15 @@ app.get("/user", loginHandler, (req, res, next) => {
                 if (err) {
                     next(err);
                 } else {
-                    console.log(user.fotoPerfil);
-                    user.fotoPerfil = `data:image/png;base64,${user.fotoPerfil.toString('base64')}`;
-                    console.log(user.fotoPerfil);
-                    res.status(200).render("user", { isAuthenticated: true, user, reservas })
+                    if(user.fotoFilename && user.fotoMimetype){
+                        const imagePath = path.join(__dirname, 'uploads', user.fotoFilename);
+                        const imageBuffer = fs.readFileSync(imagePath);
+                        const base64Image = Buffer.from(imageBuffer).toString('base64');
+                        user.fotoPerfil = `data:${user.fotoMimetype};base64,${base64Image}`
+                    } else {
+                        user.fotoPerfil = null;
+                    }
+                    res.status(200).render("user", { isAuthenticated: true, user, reservas });
                 }
             });
         }

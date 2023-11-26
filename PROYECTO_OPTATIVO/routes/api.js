@@ -234,10 +234,7 @@ apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, ne
         return res.status(400).send('Error: No file uploaded');
     }
 
-    let fileData = fs.readFileSync(file.path);
-    let blob = new Blob([fileData], { type: file.mimetype });
-
-    Dao.updateUserPicture(req.session.userId, blob, function (err) {
+    Dao.updateUserPicture(req.session.userId, file.filename, file.mimetype, function (err) {
         if (err) {
             next(err);
         } else {
@@ -245,6 +242,7 @@ apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, ne
         }
     });
 });
+
 //POST PARA ACTUALIZAR USUARIO
 apiRouter.post('/updateUser', loginHandler, (req, res, next) => {
 

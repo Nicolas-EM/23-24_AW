@@ -75,10 +75,10 @@ class DAO {
     );
   }
 
-  updateUserPicture(id, blob, callback) { 
+  updateUserPicture(id, filename, mimetype, callback) {
       this.pool.query(
-          "UPDATE usuarios SET fotoPerfil = ? WHERE id = ?;",
-          [blob.toString('utf8'), id],
+          "UPDATE usuarios SET fotoFilename = ?, fotoMimetype = ? WHERE id = ?;",
+          [filename, mimetype, id],
           function (err, result) {
               if (err) {
                   callback(err);

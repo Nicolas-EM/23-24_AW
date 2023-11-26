@@ -1,9 +1,9 @@
 # TODO:
 - [X] Fotos de usuario (Casi listo) (!!)
   - [X] Usar multer().single()
-  - [ ] Actualizar por AJAX (esto no se esta haciendo???)
+  - [X] Actualizar por AJAX (esto no se esta haciendo???)
 - [X] ajax (evitar recargar la pagina)
-  - [ ] Actualizar usuario
+  - [X] Actualizar usuario
   - [X] busqueda
   - [X] inciar sesión (sin relogear la pagina)
     - [X] Pendiente actualizar navbar + reservarBtn en /destino
