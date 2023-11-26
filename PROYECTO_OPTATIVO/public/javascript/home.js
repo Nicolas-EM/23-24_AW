@@ -1,3 +1,5 @@
+let scroll = true;
+
 $(document).ready(function () {
     getDestinos();
 });
@@ -18,8 +20,11 @@ function getDestinos(){
 
 // Function to perform search
 function performSearch() {
+    scroll = false;
+    
     // Get the value from the search input
     const query = $("#query").val();
+    const minPrice = $("#minPrice").val();
     const maxPrice = $("#maxPrice").val();
     console.log("Making query to server with query: " + query);
 
@@ -27,7 +32,7 @@ function performSearch() {
     $.ajax({
         method: "POST",
         url: "/api/search",
-        data: { query, maxPrice },
+        data: { query, minPrice, maxPrice },
         success: function (data) {
             // Call renderDestinations with the received data
             $("#destRow").html(data);
@@ -44,10 +49,24 @@ $("#searchForm").on("submit", e => {
     performSearch();
 });
 
+$("#minPrice").on("change", e => {
+    if($("#minPrice").val() > $("#maxPrice").val()){
+        $("#minPrice").val($("#maxPrice").val());
+    }
+});
 
+$("#maxPrice").on("change", e => {
+    if($("#minPrice").val() > $("#maxPrice").val()){
+        $("#maxPrice").val($("#minPrice").val());
+    }
+
+    if($("#maxPrice").val() == 0){
+        $("#maxPrice").val(5000);
+    }
+});
 
 window.onscroll = function(ev) {
-    if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
+    if (scroll && (window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
         // you're at the bottom of the page
         // load more destinations
         getDestinos();

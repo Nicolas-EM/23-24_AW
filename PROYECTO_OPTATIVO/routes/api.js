@@ -42,10 +42,14 @@ apiRouter.get("/destinations", function (req, res, next) {
 
 //POST PARA LA BUSQUEDA
 apiRouter.post("/search", (req, res, next) => {
-    const { query, maxPrice } = req.body;
-    console.log(query, maxPrice);
+    const { query, minPrice, maxPrice } = req.body;
+    console.log(query, minPrice, maxPrice);
 
-    Dao.getSearch(query, maxPrice, function (err, destinations) {
+    if(minPrice < 0 || minPrice > maxPrice || maxPrice < minPrice || maxPrice <= 0){
+        res.status(400).send("Error: Los filtros de precio son incorrectos");
+    }
+
+    Dao.getSearch(query, minPrice, maxPrice, function (err, destinations) {
         if (err) {
             next(err);
         } else {

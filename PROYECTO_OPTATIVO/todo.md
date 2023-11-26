@@ -14,7 +14,7 @@
   - [X] crear reserva (pendiente double check)
   - [X] cancelar reserva
   - [X] cargar destinos paginando
-- [ ] filtro de precio
+- [X] filtro de precio
 - [X] jQuery
 - [X] uso de cookie de sesion
 - [ ] modificar reservas ya hechas (no cancerlar y volver a hacerla)  

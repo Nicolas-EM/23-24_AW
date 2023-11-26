@@ -155,6 +155,7 @@ class DAO {
       }
     );
   }
+  
   updateUser(user, callback) {
     //la query de update de la foto es diferente
     this.pool.query(
@@ -212,13 +213,13 @@ class DAO {
     );
   }
 
-  getSearch(search, maxPrice, callback) {
+  getSearch(search, minPrice, maxPrice, callback) {
     search = `%${search}%`;
     this.pool.query(
       "SELECT d.id, d.nombre, d.descripcion, d.precio, GROUP_CONCAT(di.image_id) AS image_ids " +
-        "FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.nombre LIKE ? AND d.precio <= ? " +
+        "FROM destinos d LEFT JOIN destino_imagenes di ON d.id = di.destino_id WHERE d.nombre LIKE ? AND d.precio >= ? AND d.precio <= ? " +
         "GROUP BY d.id, d.nombre, d.descripcion, d.precio;",
-      [search, maxPrice],
+      [search, minPrice, maxPrice],
       function (err, rows) {
         if (err) {
           callback(err);
