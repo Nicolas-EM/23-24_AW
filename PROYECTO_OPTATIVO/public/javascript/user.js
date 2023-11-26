@@ -191,3 +191,42 @@ function checkPasswordsMatch() {
     passwordConfirmInput.style.backgroundColor = "inherit";
   }
 }
+$("#updateUserForm").on("submit", (e) => {
+  e.preventDefault();
+
+  const nombre = $("#nombreInput").val();
+  const correo = $("#emailInput").val();
+  const currentPassword = $("#currentPasswordInput").val();
+  const newPassword = $("#newPassword").val();
+  const newPasswordConfirm = $("#newPasswordConfirm").val();
+  const userId = $("#userId").val();
+  console.log(nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId);
+  $.ajax({
+    method: "POST",
+    url: "/api/updateUser",
+    data: {
+      nombre,
+      correo,
+      currentPassword,
+      newPassword,
+      newPasswordConfirm,
+      userId
+    },
+    success: function (data) {
+      if (data.message === 'Exito: Usuario actualizado') {
+        $("#toastMsg").html(data.message);
+        toast.show();
+        // Update user info on the page
+        $("#nombreInput").html(data.newUsername);
+        $("#emailInput").html(data.newEmail);
+      } else {
+        $("#toastMsg").html(data.message);
+        toast.show();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
+});

@@ -42,7 +42,8 @@ Proyecto Opcional AW
           <div class="col-lg-8">
             <div class="card h-100">
               <div class="card-body">
-                <form method="post" action="/updateUser">
+                <form method="post" id="updateUserForm" action="/api/updateUser">
+                  <input type="hidden" id="userId" value="<%= user.id %>">
                   <!-- Datos usuario -->
                   <!-- Nombre -->
                   <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">

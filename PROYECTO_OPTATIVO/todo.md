@@ -1,7 +1,7 @@
 # TODO:
-- [-] Fotos de usuario (Casi listo) (!!)
+- [X] Fotos de usuario (Casi listo) (!!)
   - [X] Usar multer().single()
-  - [ ] Actualizar por AJAX
+  - [ ] Actualizar por AJAX (esto no se esta haciendo???)
 - [X] ajax (evitar recargar la pagina)
   - [ ] Actualizar usuario
   - [X] busqueda

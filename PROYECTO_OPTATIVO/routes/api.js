@@ -245,5 +245,69 @@ apiRouter.post('/user/upload-picture', uploadDir.single('avatar'), (req, res, ne
         }
     });
 });
+//POST PARA ACTUALIZAR USUARIO
+apiRouter.post('/updateUser', loginHandler, (req, res, next) => {
 
+    let { nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId } = req.body;
+    // nos pasamos al post el currentpassword pero no se evalua 
+    // porque ya se hizo al registrarse o previo cambio.
+    if (!nombre && !correo && !newPassword) {
+        return res.status(400).send("Error: Por favor, completa al menos uno de los campos (nombre, correo, contraseña).");
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (correo && !emailRegex.test(correo)) {
+        return res.status(400).send("Error: Por favor, ingresa una dirección de correo electrónico válida.");
+    }
+
+    Dao.getSingleUser(userId, function (err, userData) {
+        if (err) {
+            next(err);
+        }
+        else {
+            let newUsername = nombre ? nombre : userData.username;
+            let newEmail = correo ? correo : userData.email;
+            let newPwd = userData.password;
+
+            if (newPassword) {
+                const passwordRegex = /^(?=.*\d).{7,}$/;
+                if (newPassword.length < 7 || !passwordRegex.test(newPassword)) {
+                    return res.status(400).send("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
+                }
+
+                if (newPassword !== newPasswordConfirm) {
+                    return res.status(400).send("Error: Las contraseñas no coinciden.");
+                }
+
+                // Create hasher
+                const saltRounds = 10;
+                const salt = bcrypt.genSaltSync(saltRounds);
+                newPwd = bcrypt.hashSync(newPassword, salt);
+            }
+
+            //compare realiza el hash de la contraseña y luego la compara.
+            bcrypt.compare(currentPassword, userData.password, (err, passwordMatch) => {
+                if (err) {
+                    next(err);
+                }
+                if (passwordMatch) {
+                    Dao.updateUser({ newUsername, newEmail, newPwd, userId }, (err) => {
+                        if (err) {
+                            next(err);
+                        } else {
+                            //req.session.userId = id;
+                            res.send({
+                                message: 'Exito: Usuario actualizado',
+                                newUsername: newUsername,
+                                newEmail: newEmail
+                            });
+                        }
+                    });
+                } else {
+                    res.status(400).send('Credenciales incorrectas.');
+                }
+            });
+        }
+    });
+});
 module.exports = apiRouter;

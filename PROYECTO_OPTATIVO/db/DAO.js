@@ -159,11 +159,12 @@ class DAO {
     //la query de update de la foto es diferente
     this.pool.query(
       "UPDATE usuarios SET nombre = ?, correo = ?, password = ? WHERE id = ?;",
-      [user.newUsername, user.newEmail, user.newPwd, user.id],
+      [user.newUsername, user.newEmail, user.newPwd, user.userId],
       function (err, result) {
         if (err) {
           callback(err);
         } else {
+          console.log("dao actualizado", result);
           callback(null);
         }
       }
