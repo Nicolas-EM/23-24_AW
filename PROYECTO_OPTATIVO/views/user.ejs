@@ -42,7 +42,7 @@ Proyecto Opcional AW
           <div class="col-lg-8">
             <div class="card h-100">
               <div class="card-body">
-                <form method="post" id="updateUserForm" action="/api/updateUser">
+                <form method="post" id="updateUserForm" action="/users/update">
                   <input type="hidden" id="userId" value="<%= user.id %>">
                   <!-- Datos usuario -->
                   <!-- Nombre -->
@@ -125,7 +125,7 @@ Proyecto Opcional AW
   <div class="modal fade" id="reseniaModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form id="commentForm" method="post" action="/api/review">
+        <form id="commentForm" method="post" action="/reservas/review">
           <div class="modal-header">
             <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -162,6 +162,7 @@ Proyecto Opcional AW
   <!-- Footer -->
   <%- include('fragments/footer') %>
   <script src="/javascript/user.js"></script>
+  <script src="/javascript/reservaForm.js"></script>
 </body>
 
 </html>

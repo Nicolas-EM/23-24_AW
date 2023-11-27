@@ -4,7 +4,7 @@ const signupModal = bootstrap.Modal.getOrCreateInstance("#signupModal");
 $("#logoutBtn")?.on("click", e => {
     $.ajax({
         method: "POST",
-        url: "/api/logout",
+        url: "/users/logout",
         success: function (data) {
             $("#toastMsg").html(data);
             toast.show();
@@ -31,7 +31,7 @@ $("#loginForm")?.on("submit", e => {
 
     $.ajax({
         method: "POST",
-        url: "/api/login",
+        url: "/users/login",
         data: {
             email: $("#email").val(),
             password: $("#password").val()
@@ -59,7 +59,7 @@ $("#signupForm")?.on("submit", e => {
 
     $.ajax({
         method: "POST",
-        url: "/api/register",
+        url: "/users/register",
         data: {
             name: $("#displayName").val(),
             email: $("#signupEmail").val(),

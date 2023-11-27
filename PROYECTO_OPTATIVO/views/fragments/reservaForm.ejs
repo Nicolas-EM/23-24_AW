@@ -1,0 +1,19 @@
+<!-- Destino ID -->
+<input class="d-none" type="number" id="destinoId" name="destinoId" value="<%= id %>">
+<!-- Num personas -->
+<div class="mb-3">
+    <label for="numPersonas" class="form-label">Número de Personas</label>
+    <input type="number" min="1" max="10" class="form-control" id="numPersonas" value="1" name="numPersonas" required>
+</div>
+<!-- DatePicker -->
+<div class="mb-3">
+    <label for="calendar" class="form-label">Fechas</label>
+    <input id="calendar" class="form-control w-100" type="text" value="" placeholder="Selecciona tus fechas" required>
+    <input class="d-none" type="text" id="startDate" name="startDate">
+    <input class="d-none" type="text" id="endDate" name="endDate">
+</div>
+<!-- Precio Total -->
+<div id="precio" class="mb-3 d-none">
+    <label for="precioTotal" class="form-label">Precio Total</label>
+    <div id="precioTotal" data-precio="<%= price %>" class="form-text"></div>
+</div>

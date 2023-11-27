@@ -17,6 +17,7 @@
 - [X] filtro de precio
 - [X] jQuery
 - [X] uso de cookie de sesion
+- [ ] Fix eliminar reserva
 - [ ] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
 - [ ] fechas ocupadas en rojo
 - [ ] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas

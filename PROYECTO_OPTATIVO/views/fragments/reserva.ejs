@@ -2,7 +2,7 @@
     <div class="card h-100">
         <div class="row row-cols-1 row-cols-sm-2 g-0 h-100">
             <div class="col-sm-5">
-                <a href="/destination/<%= reserva.destino_id%>"> <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>"> </a>
+                <a href="/destinations/<%= reserva.destino_id%>"> <img src="<%= `images/${reserva.destino_imagen_id}.jpg` %>" class="img-fluid rounded-start h-100" alt="<%= reserva.destino_imagen_description %>"> </a>
             </div>
             <div class="col-sm-7">
                 <div class="card-body h-75 pb-0">
@@ -17,8 +17,19 @@
                     <% if (new Date(reserva.fecha_end) < new Date() && reserva.reviewed !== 1) { %>
                         <a id="<%= `addComment${reserva.reserva_id}` %>" href="#" class="btn reseniaBtn" data-bs-toggle="modal" data-bs-target="#reseniaModal" data-reserva-id="<%= reserva.reserva_id %>">Añadir reseña</a>
                     <% } else if (new Date(reserva.fecha_start) > new Date()) { %>
-                        <div class="row"></div>
-                        <button type="button" class="btn btn-primary justify-content-left" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-reservaid="<%= reserva.reserva_id %>">Opciones</button>
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-reservaid="<%= reserva.reserva_id %>" data-bs-action="delete" data-bs-destinationid="<%= reserva.destino_id %>">Eliminar</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-reservaid="<%= reserva.reserva_id %>" data-bs-action="modify" data-bs-destinationid="<%= reserva.destino_id %>">Modificar</a>
+                                </li>                            
+                            </ul>
+                          </div>                          
                      <% } %>
                 </div>
             </div>

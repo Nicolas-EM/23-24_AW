@@ -8,12 +8,14 @@ function getDestinos(){
     // Make an AJAX request to the server
     $.ajax({
         method: "GET",
-        url: "/api/destinations",
+        url: "/destinations/",
         success: function (data) {
+            console.log(data);
             $("#destRow").append(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Se ha producido un error: " + errorThrown);
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
         }
     });
 }
@@ -21,6 +23,7 @@ function getDestinos(){
 // Function to perform search
 function performSearch() {
     scroll = false;
+    console.log("searchign");
     
     // Get the value from the search input
     const query = $("#query").val();
@@ -31,14 +34,15 @@ function performSearch() {
     // Make an AJAX request to the server
     $.ajax({
         method: "POST",
-        url: "/api/search",
+        url: "/destinations/search",
         data: { query, minPrice, maxPrice },
         success: function (data) {
             // Call renderDestinations with the received data
             $("#destRow").html(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Se ha producido un error: " + errorThrown);
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
         }
     });
 }

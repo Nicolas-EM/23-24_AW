@@ -11,7 +11,7 @@
                     <% } %>
                 </div>
                 <div class="carousel-inner">
-                    <a href="/destination/<%= destination.id %>">
+                    <a href="/destinations/<%= destination.id %>">
                         <div class="carousel-item rounded active">
                             <img src="<%= `images/${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="...">
                         </div>
@@ -32,7 +32,7 @@
                 </button>
             </div>
             <!-- Data row -->
-            <a href="/destination/<%= destination.id %>" class="card-body align-items-center p-1 pt-2">
+            <a href="/destinations/<%= destination.id %>" class="card-body align-items-center p-1 pt-2">
                 <h5 class="card-title">
                     <%= destination.nombre %>
                 </h5>
@@ -40,7 +40,7 @@
                     <%= destination.descripcion %>
                 </p>
             </a>
-            <a href="/destination/<%= destination.id %>" class="card-footer">
+            <a href="/destinations/<%= destination.id %>" class="card-footer">
                 <small class="text-body-secondary">
                     <%= destination.precio.toFixed(2) %>€ / día
                 </small>

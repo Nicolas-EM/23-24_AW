@@ -51,23 +51,54 @@ $("#confirmationModal")?.on("show.bs.modal", (event) => {
   const button = event.relatedTarget;
   // Extract info from data-bs-* attributes
   const reservaId = button.getAttribute("data-bs-reservaid");
+  const action = button.getAttribute("data-bs-action");
+  const destinationId = button.getAttribute("data-bs-destinationid");
+
+  $.ajax({
+    method: "GET",
+    url: `/destinations/${destinationId}`,
+    data: { reservaId },
+    success: function (data) {
+      const regex = /data-precio="([^"]*)"/;
+      const match = regex.exec(data);
+      $("#precioTotal").data("precio", data);
+      if (match && match.length > 1) {
+        $("#precioTotal").data("precio", match[1]);
+      } else {
+        console.error('data-precio attribute not found or no value present');
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("No se pudo encontrar precio total");
+    },
+  });
+
+  if(action === "delete"){
+    $("#confirmAction").val("delete");
+    $("#deleteConfirm").removeClass("d-none");
+    $("#modifyConfirm").addClass("d-none");
+  } else {
+    $("#confirmAction").val("modify");
+    $("#modifyConfirm").removeClass("d-none");
+    $("#deleteConfirm").addClass("d-none");
+  }
 
   // Update the modal's content.
-  $("#cancelReservaId").attr("value", reservaId);
+  $("#confirmReservaId").attr("value", reservaId);
 });
 
 $("#imageUpload").on("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
   let fileType = file.type;
-  
+
   if (fileType.startsWith("image/")) {
     const formData = new FormData();
     formData.append("avatar", file);
 
     $.ajax({
       method: "POST",
-      url: "/api/user/upload-picture",
+      url: "/users/upload-picture",
       data: formData,
       processData: false,
       contentType: false,
@@ -92,27 +123,19 @@ $("#imageUpload").on("change", (e) => {
   }
 });
 
-// $("#imageUpload").on("change", e => {
-//   console.log("change detected");
-
-//   const reader = new FileReader();
-//   reader.onload = e => {
-//       // get loaded data and render thumbnail.
-//       document.getElementById("img-profile").src = e.target.result;
-//       document.getElementById("nav-profile").src = e.target.result;
-//   };
-//   // read the image file as a data URL.
-//   reader.readAsDataURL(this.files[0]);
-// });
-
-const confirmationModal =
-  bootstrap.Modal.getOrCreateInstance("#confirmationModal");
-$("#confirmationModal")?.on("submit", (e) => {
+const confirmationModal = bootstrap.Modal.getOrCreateInstance("#confirmationModal");
+console.log($("#confirmationModalForm"));
+$("#confirmationModalForm")?.on("submit", (e) => {
   e.preventDefault();
-  const reservaId = $("#cancelReservaId").val();
+
+  console.log("here");
+  
+  const reservaId = $("#confirmReservaId").val();
+  const action = $("#confirmAction").val();
+  console.log(action);
   $.ajax({
     method: "POST",
-    url: "/api/cancelar",
+    url: `/reservas/${action}`,
     data: { reservaId },
     success: function (data) {
       $("#toastMsg").html(data);
@@ -137,7 +160,7 @@ $("#commentForm")?.on("submit", (e) => {
 
   $.ajax({
     method: "POST",
-    url: "/api/review",
+    url: "/reservas/review",
     data: {
       reservaId,
       rating,
@@ -155,6 +178,47 @@ $("#commentForm")?.on("submit", (e) => {
     },
   });
 });
+
+$("#updateUserForm").on("submit", (e) => {
+  e.preventDefault();
+
+  const nombre = $("#nombreInput").val();
+  const correo = $("#emailInput").val();
+  const currentPassword = $("#currentPasswordInput").val();
+  const newPassword = $("#newPassword").val();
+  const newPasswordConfirm = $("#newPasswordConfirm").val();
+  const userId = $("#userId").val();
+  console.log(nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId);
+  $.ajax({
+    method: "POST",
+    url: "/users/update",
+    data: {
+      nombre,
+      correo,
+      currentPassword,
+      newPassword,
+      newPasswordConfirm,
+      userId
+    },
+    success: function (data) {
+      if (data.message === 'Exito: Usuario actualizado') {
+        $("#toastMsg").html(data.message);
+        toast.show();
+        // Update user info on the page
+        $("#nombreInput").html(data.newUsername);
+        $("#emailInput").html(data.newEmail);
+      } else {
+        $("#toastMsg").html(data.message);
+        toast.show();
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
+});
+
 const passwordInput = document.getElementById("newPassword");
 const passwordConfirmInput = document.getElementById("newPasswordConfirm");
 
@@ -191,42 +255,3 @@ function checkPasswordsMatch() {
     passwordConfirmInput.style.backgroundColor = "inherit";
   }
 }
-$("#updateUserForm").on("submit", (e) => {
-  e.preventDefault();
-
-  const nombre = $("#nombreInput").val();
-  const correo = $("#emailInput").val();
-  const currentPassword = $("#currentPasswordInput").val();
-  const newPassword = $("#newPassword").val();
-  const newPasswordConfirm = $("#newPasswordConfirm").val();
-  const userId = $("#userId").val();
-  console.log(nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId);
-  $.ajax({
-    method: "POST",
-    url: "/api/updateUser",
-    data: {
-      nombre,
-      correo,
-      currentPassword,
-      newPassword,
-      newPasswordConfirm,
-      userId
-    },
-    success: function (data) {
-      if (data.message === 'Exito: Usuario actualizado') {
-        $("#toastMsg").html(data.message);
-        toast.show();
-        // Update user info on the page
-        $("#nombreInput").html(data.newUsername);
-        $("#emailInput").html(data.newEmail);
-      } else {
-        $("#toastMsg").html(data.message);
-        toast.show();
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      $("#toastMsg").html(jqXHR.responseText);
-      toast.show();
-    },
-  });
-});

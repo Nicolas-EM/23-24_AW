@@ -2,20 +2,6 @@
     max-width: 220px;
 }
 
-/* .daterangepicker td.active:not(.off),
-.daterangepicker td.available:hover {
-    background-color: var(--airbnb-red) !important;
-    border-color: transparent;
-    color: #fff;
-} */
-
-.daterangepicker td.active:not(.off),
-.daterangepicker td.active:hover {
-    background-color: var(--airbnb-red) !important;
-    border-color: transparent;
-    color: #fff !important;
-}
-
 .commentSection {
     background-color: var(--airbnb-red);
 }
