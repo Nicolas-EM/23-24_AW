@@ -99,6 +99,33 @@ class reservaController {
             }
         });
     }
+    updateReserva(req, res, next) {
+        const userId = req.session.userId;
+        const { reservaId, numPersonas, startDate, endDate } = req.body;
+
+        if (numPersonas <= 0) {
+            res.status(400).send("Error: Numero de personas no valido");
+        } else {
+            DaoDestination.isDestinoAvailable({ destinoId: row.destino_id, numPersonas, startDate, endDate }, function (err, isAvailable) {
+                if (err) {
+                    res.status(500).send("Error: Por favor intentalo más tarde.");
+                } else {
+                    if (isAvailable) {
+                        DaoReservas.updateReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, affectedRows) {
+                            if (err || affectedRows > 1) {
+                                res.status(500).send("Error: Por favor intentalo más tarde.");
+                            } else {
+                                res.send("Reserva actualizada con éxito!");
+                            }
+                        });
+                    } else {
+                        res.status(400).send("Error: El destino no está disponible para las fechas y el número de personas especificados.");
+                    }
+                }
+            });
+        }
+    }
+
 }
 
 module.exports = reservaController;
