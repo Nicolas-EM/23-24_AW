@@ -1,12 +1,10 @@
 # Endpoints
 
-
 ```
 riu.ucm.es
 ├── /admin*
 │   └── /config 
 ├── /users
-│   ├── /
 │   ├── /create
 │   ├── /update
 │   ├── /delete
