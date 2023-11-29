@@ -11,156 +11,158 @@ Proyecto Opcional AW
   <!-- Shared head -->
   <%- include('fragments/head') %>
 
-  <!-- Custom -->
-  <title>CheapBnB - User</title>
-  <link type="text/css" rel="stylesheet" href="/stylesheets/user.css">
+    <!-- Custom -->
+    <title>CheapBnB - User</title>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/user.css">
 </head>
 
 <body>
   <!-- Navbar -->
   <%- include('fragments/navbar') %>
 
-  <!-- Datos del usuario -->
-  <div class="container-fluid p-0 mb-3">
-    <section class="userBg">
-      <input type="file" id="imageUpload" accept="image/*" class="d-none">
-      <div class="container py-5">
-        <div class="row g-2">
-          <div class="col-lg-4">
-            <div class="card rounded h-100">
-              <div class="card-body text-center">
-                <!-- TODO: Cambiar por imagen que sube usuario -->
-                <label for="imageUpload">
-                  <img src="<%- user.fotoPerfil !== null ? user.fotoPerfil : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
-                </label>
-                <h5 class="my-3">
-                  <%= user.nombre %>
-                </h5>
+    <!-- Datos del usuario -->
+    <div class="container-fluid p-0 mb-3">
+      <section class="userBg">
+        <input type="file" id="imageUpload" accept="image/*" class="d-none">
+        <div class="container py-5">
+          <div class="row g-2">
+            <div class="col-lg-4">
+              <div class="card rounded h-100">
+                <div class="card-body text-center">
+                  <!-- TODO: Cambiar por imagen que sube usuario -->
+                  <label for="imageUpload">
+                    <img src="<%- user.fotoPerfil !== null ? user.fotoPerfil : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
+                  </label>
+                  <h5 class="my-3">
+                    <p id="nombreUsuarioField"><%= user.nombre %></p>
+                  </h5>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-8">
-            <div class="card h-100">
-              <div class="card-body">
-                <form method="post" id="updateUserForm" action="/users/update">
-                  <input type="hidden" id="userId" value="<%= user.id %>">
-                  <!-- Datos usuario -->
-                  <!-- Nombre -->
-                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
-                    <div class="col-sm-3">
-                      <label for="nombreInput" class="form-label mb-0">Nombre</label>
+            <div class="col-lg-8">
+              <div class="card h-100">
+                <div class="card-body">
+                  <form method="post" id="updateUserForm" action="/users/update">
+                    <input type="hidden" id="userId" value="<%= user.id %>">
+                    <!-- Datos usuario -->
+                    <!-- Nombre -->
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
+                        <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.nombre %>" required>
+                      </div>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.nombre %>" required>
+                    <hr>
+                    <!-- Correo -->
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
+                        <label for="emailInput" class="form-label mb-0">Correo</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.correo %>" required>
+                      </div>
                     </div>
-                  </div>
-                  <hr>
-                  <!-- Correo -->
-                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
-                    <div class="col-sm-3">
-                      <label for="emailInput" class="form-label mb-0">Correo</label>
-                    </div>
-                    <div class="col-sm-9">
-                      <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.correo %>" required>
-                    </div>
-                  </div>
-                  <hr>
+                    <hr>
 
-                  <!-- Gestión contraseña -->
-                  <div class="align-items-center">
-                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                      <div class="col-sm-3">
-                        <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
+                    <!-- Gestión contraseña -->
+                    <div class="align-items-center">
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
+                        </div>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="newPassword" class="form-label mb-0">Nueva Contraseña</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="newPasswordConfirm" class="form-label mb-0">Confirmar Contraseña</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
+                        </div>
                       </div>
                     </div>
-                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                      <div class="col-sm-3">
-                        <label for="newPassword" class="form-label mb-0">Nueva Contraseña</label>
-                      </div>
-                      <div class="col-sm-9">
-                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
-                      </div>
-                    </div>
-                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                      <div class="col-sm-3">
-                        <label for="newPasswordConfirm" class="form-label mb-0">Confirmar Contraseña</label>
-                      </div>
-                      <div class="col-sm-9">
-                        <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
-                      </div>
-                    </div>
-                  </div>
-                  <hr>
+                    <hr>
 
-                  <div class="row">
-                    <div class="col text-end">
-                      <button class="btn btn-primary" type="submit">Guardar</button>
+                    <div class="row">
+                      <div class="col text-end">
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                      </div>
                     </div>
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
+    </div>
+
+    <!-- Reservas -->
+    <div class="container mb-5">
+      <div class="row justify-content-center">
+        <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
       </div>
-    </section>
-  </div>
-
-  <!-- Reservas -->
-  <div class="container mb-5">
-    <div class="row justify-content-center">
-      <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
+      <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
+        <% reservas.forEach(function(reserva) { %>
+          <%- include('fragments/reserva', {reserva}) %>
+            <% }); %>
+      </div>
     </div>
-    <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
-      <% reservas.forEach(function(reserva) { %>
-      <%- include('fragments/reserva', {reserva}) %>
-      <% }); %>
-    </div>
-  </div>
 
-  <!-- Comments Modal -->
-  <div class="modal fade" id="reseniaModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="commentForm" method="post" action="/reservas/review">
-          <div class="modal-header">
-            <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="comment" class="form-label">Escribe tu reseña</label>
-              <textarea class="form-control" rows="3" name="comment" id="comment" required></textarea>
+    <!-- Comments Modal -->
+    <div class="modal fade" id="reseniaModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="commentForm" method="post" action="/reservas/review">
+            <div class="modal-header">
+              <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="mb-3">
-              <label for="starSelector" class="form-label">Calificación</label>
-              <div id="starSelector" class="d-flex justify-content-center">
-                <button type="button" class="btn star" data-value="1" id="star1"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                <button type="button" class="btn star" data-value="2" id="star2"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                <button type="button" class="btn star" data-value="3" id="star3"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                <button type="button" class="btn star" data-value="4" id="star4"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
-                <button type="button" class="btn star" data-value="5" id="star5"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="comment" class="form-label">Escribe tu reseña</label>
+                <textarea class="form-control" rows="3" name="comment" id="comment" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="starSelector" class="form-label">Calificación</label>
+                <div id="starSelector" class="d-flex justify-content-center">
+                  <button type="button" class="btn star" data-value="1" id="star1"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                  <button type="button" class="btn star" data-value="2" id="star2"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                  <button type="button" class="btn star" data-value="3" id="star3"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                  <button type="button" class="btn star" data-value="4" id="star4"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                  <button type="button" class="btn star" data-value="5" id="star5"><span class="material-symbols-outlined" style="font-size: 1.5rem;">star</span></button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
-            <input type="number" class="d-none" value="" name="rating" id="rating" required>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-          </div>
-        </form>
+            <div class="modal-footer">
+              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+              <input type="number" class="d-none" value="" name="rating" id="rating" required>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <form id="cancelReservationForm" method="post" action="/reservas/delete">
-      <!-- Cancel Reservation Modal -->
-      <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-labelledby="cancelReservationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+
+
+    <!-- Cancel Reservation Modal -->
+    <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-labelledby="cancelReservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="cancelReservationForm" method="post" action="/reservas/delete">
             <div class="modal-header">
               <h5 class="modal-title" id="cancelReservationModalLabel">¿Estás seguro de que quieres eliminar esta reserva?</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -168,19 +170,18 @@ Proyecto Opcional AW
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary">Confirmar</button>
-              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+              <input type="number" class="d-none" value="" name="reservaId" id="cancelReservaId">
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
 
-    <!-- Modify Reservation Form -->
-    <form id="modifyReservationForm" method="post" action="/reservas/update">
-      <!-- Modify Reservation Modal -->
-      <div class="modal fade" id="modifyReservationModal" tabindex="-1" aria-labelledby="modifyReservationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+    <!-- Modify Reservation Modal -->
+    <div class="modal fade" id="modifyReservationModal" tabindex="-1" aria-labelledby="modifyReservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="modifyReservationForm" method="post" action="/reservas/update">
             <div class="modal-header">
               <h5 class="modal-title" id="modifyReservationModalLabel">Modificar Reserva</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -191,20 +192,17 @@ Proyecto Opcional AW
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+              <input type="number" class="d-none" value="" name="reservaId" id="modifyReservaId">
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
 
     <!-- Footer -->
-  </body>
-
-  </html>
-  <%- include('fragments/footer') %>
-  <script src="/javascript/user.js"></script>
-  <script src="/javascript/reservaForm.js"></script>
+    <%- include('fragments/footer') %>
+    <script src="/javascript/user.js"></script>
+    <script src="/javascript/reservaForm.js"></script>
 </body>
 
 </html>

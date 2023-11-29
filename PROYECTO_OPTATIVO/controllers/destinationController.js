@@ -53,6 +53,7 @@ class destinationController {
     }
 
     searchDestinations(req, res, next) {
+        check()
         const { query, minPrice, maxPrice } = req.body;
     
         if(minPrice < 0 || minPrice > maxPrice || maxPrice < minPrice || maxPrice <= 0){

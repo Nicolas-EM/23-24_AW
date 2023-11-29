@@ -27,8 +27,10 @@ class DAOReservas {
       [reserva_id],
       function (err, rows) {
         if (err) {
+          console.log(err);
           callback(err);
         } else {
+          console.log(rows);
           callback(null, rows[0]);
         }
       }
@@ -36,6 +38,7 @@ class DAOReservas {
   }
 
   getSingleReserva(cliente_id, reserva_id, callback) {
+    console.log(cliente_id, reserva_id);
     this.pool.query(
       "SELECT COUNT(*) as count FROM Reservas r WHERE r.id = ? AND r.cliente_id = ?;",
       [reserva_id, cliente_id],
@@ -43,6 +46,7 @@ class DAOReservas {
         if (err) {
           callback(err);
         } else {
+          console.log(row);
           callback(null, row[0].count === 1);
         }
       }
@@ -82,6 +86,17 @@ class DAOReservas {
       "UPDATE reservas SET reviewed = 1 WHERE id = ?;",
       [reserva_id],
       function (err, OkPacket) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, OkPacket.affectedRows);
+        }
+      }
+    );
+  }
+
+  updateReserva(data, callback){
+    this.pool.query("UPDATE reservas SET fecha_start = ?, fecha_end = ? WHERE id = ?;", [data.startDate, data.endDate, data.reservaId], function (err, OkPacket) {
         if (err) {
           callback(err);
         } else {

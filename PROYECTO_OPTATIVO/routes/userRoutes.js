@@ -2,9 +2,10 @@
 let userRouter = require('express').Router();
 const userController = require('../controllers/userController');
 const controller = new userController();
-
+//EXPRESS VALIDATOR
 const loginHandler = require('../middleware/login');
 
+const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
 // Multer
 const multer = require("multer");
 const uploadDir = multer({ dest: 'uploads/' });
@@ -21,7 +22,11 @@ userRouter.get("/", loginHandler, controller.getUser);
 userRouter.post('/login', controller.login);
 
 //POST PARA EL METODO REGISTER DEL USUARIO
-userRouter.post('/register', controller.register);
+userRouter.post('/register', 
+check("name").trim().notEmpty().withMessage("Name is required"),
+check("email").trim().isEmail().withMessage("Invalid email format"),
+check("password").trim().isLength({ min: 7 }).matches(/\d/).withMessage("Password must contain at least one digit"),
+controller.register);
 
 //GET PARA CUANDO EL USUARIO SALE DE SESION Y REDIRIGE AL INDEX
 userRouter.post('/logout', controller.logout);

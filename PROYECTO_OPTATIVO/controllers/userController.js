@@ -4,11 +4,11 @@ const DAOReservas = require('../db/DAOReservas');
 const DaoReservas = new DAOReservas(pool);
 const DAOUser = require('../db/DAOUser');
 const DaoUser = new DAOUser(pool);
-
 const bcrypt = require('bcrypt');
 const path = require('path');
 const fs = require('fs');
 
+const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
 class userController {
     getUser(req, res, next) {
         const userId = req.session.userId;
@@ -37,19 +37,13 @@ class userController {
     }
 
     register(req, res, next) {
-        const { name, email, password } = req.body;
-        if (!name || !email || !password) {
-            res.status(400).send("Error: Por favor, completa todos los campos.");
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            res.status(400).send("Error: Por favor, ingresa una dirección de correo electrónico válida.");
-        }
-        const passwordRegex = /^(?=.*\d).{7,}$/;
-        if (password.length < 7 || !passwordRegex.test(password)) {
-            res.status(400).send("Error: La contraseña debe tener al menos 7 caracteres y contener al menos un número.");
-        }
     
+        // si encuentra error, devuelve 400:
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const { name, email, password } = req.body;
         // Create hasher
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
@@ -57,20 +51,19 @@ class userController {
     
         DaoUser.createUser({ name, email, hashedPassword }, function (err, userId) {
             if (err) {
-                if(err.errno === 1062){
-                    res.status(400).send("Error: Tu cuenta ya existe, por favor inicia sesión");
+                if (err.errno === 1062) {
+                    res.status(400).send("Error: Your account already exists, please log in");
                 } else {
                     res.status(500).send(err);
                 }
-            }
-            else {
+            } else {
+                console.log("here");
                 if (userId !== undefined) {
                     // If valid credentials, create a session
                     req.session.userId = userId;
-                    res.send('Exito: Cuenta creada');
-                }
-                else {
-                    res.status(400).send("Error: Tu cuenta ya existe, por favor inicia sesión");
+                    res.send('Success: Account created');
+                } else {
+                    res.status(400).send("Error: Your account already exists, please log in");
                 }
             }
         });

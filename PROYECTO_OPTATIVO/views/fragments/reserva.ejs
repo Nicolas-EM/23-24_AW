@@ -8,7 +8,11 @@
                 <div class="card-body h-75 pb-0">
                     <h5 class="card-title"><%= reserva.destino_nombre %></h5>
                     <!-- Dates -->
-                    <h6 class="card-subtitle mb-2 text-body-secondary"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %> - <%= new Date(reserva.fecha_end).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %></h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        <span id="<%= `startDate${reserva.reserva_id}` %>"><%= new Date(reserva.fecha_start).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %></span>
+                         - 
+                        <span id="<%= `endDate${reserva.reserva_id}` %>"><%= new Date(reserva.fecha_end).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }) %></span>
+                    </h6>
                     <!-- Description -->
                     <p class="card-text"><%= reserva.destino_descripcion %></p>
                 </div>
@@ -24,7 +28,6 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#cancelReservationModal" data-bs-reservaid="<%= reserva.reserva_id %>" data-bs-action="delete" data-bs-destinationid="<%= reserva.destino_id %>">Eliminar</a>
-
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modifyReservationModal" data-bs-reservaid="<%= reserva.reserva_id %>" data-bs-action="modify" data-bs-destinationid="<%= reserva.destino_id %>">Modificar</a>
