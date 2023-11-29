@@ -17,31 +17,9 @@
 - [X] filtro de precio
 - [X] jQuery
 - [X] uso de cookie de sesion
-- [ ] Fix eliminar reserva
-- [ ] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
-- [ ] fechas ocupadas en rojo
-- [ ] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas
-- [ ] encriptar formularios con enctype="multipart/form-data" (slide 93 aprox)
-- [ ] request checker (express-validator)
+- [X] Fix eliminar reserva
+- [X] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
+- [X] request checker (express-validator)
 
-todos los post -> pasan a ser ajax
-
-util de la practica de steven:
-----------------------------------
-const session = require("express-session");
-const sessionMySql = require("express-mysql-session");
-const MySQLStore = sessionMySql(session);
-const sessionStore = new MySQLStore(config.mysqlConfig);
-
-const middlewareSession = session({
-    saveUninitialized: false,
-    secret: "avisos22",
-    resave: false,
-    store: sessionStore 
-});
-
-app.use(middlewareSession);
-
-const morgan = require("morgan");
-app.use(morgan("dev"));
-----------------------------------
+- [-] fechas ocupadas en rojo --> {not needed}
+- [-] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas

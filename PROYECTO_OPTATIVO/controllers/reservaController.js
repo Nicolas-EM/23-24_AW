@@ -12,27 +12,23 @@ class reservaController {
         const userId = req.session.userId;
         const { destinoId, numPersonas, startDate, endDate } = req.body;
     
-        if (numPersonas <= 0) {
-            res.status(400).send("Error: Numero de personas no valido");
-        } else {
-            DaoDestination.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
-                if (err) {
-                    res.status(500).send("Error: Por favor intentalo más tarde.");
+        DaoDestination.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
+            if (err) {
+                res.status(500).send("Error: Por favor intentalo más tarde.");
+            } else {
+                if (isAvailable) {
+                    DaoReservas.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
+                        if (err) {
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                        } else {
+                            res.send("Reserva realizada con éxito!");
+                        }
+                    });
                 } else {
-                    if (isAvailable) {
-                        DaoReservas.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
-                            if (err) {
-                                res.status(500).send("Error: Por favor intentalo más tarde.");
-                            } else {
-                                res.send("Reserva realizada con éxito!");
-                            }
-                        });
-                    } else {
-                        res.status(501).send(`Error: Fechas no disponibles`);
-                    }
+                    res.status(501).send(`Error: Fechas no disponibles`);
                 }
-            });
-        }
+            }
+        });
     }
 
     cancelReserva(req, res, next) {
@@ -99,6 +95,7 @@ class reservaController {
             }
         });
     }
+
     updateReserva(req, res, next) {
         const userId = req.session.userId;
         const { reservaId, numPersonas, startDate, endDate } = req.body;
@@ -106,26 +103,34 @@ class reservaController {
         if (numPersonas <= 0) {
             res.status(400).send("Error: Numero de personas no valido");
         } else {
-            DaoDestination.isDestinoAvailable({ destinoId: row.destino_id, numPersonas, startDate, endDate }, function (err, isAvailable) {
-                if (err) {
-                    res.status(500).send("Error: Por favor intentalo más tarde.");
-                } else {
-                    if (isAvailable) {
-                        DaoReservas.updateReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, affectedRows) {
-                            if (err || affectedRows > 1) {
-                                res.status(500).send("Error: Por favor intentalo más tarde.");
+            DaoReservas.getReservaById(reservaId, (err, reserva) => {
+                if(err){
+                    next(err);
+                } else if(reserva === undefined){
+                    res.status(400).send("Error: Esta reserva no existe");
+                }
+                else {
+                    DaoDestination.isDestinoAvailable({ destinoId: reserva.destino_id, numPersonas, startDate, endDate }, function (err, isAvailable) {
+                        if (err) {
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                        } else {
+                            if (isAvailable) {
+                                DaoReservas.updateReserva({ reservaId, numPersonas, startDate, endDate }, function (err, affectedRows) {
+                                    if (err || affectedRows > 1) {
+                                        res.status(500).send("Error: Por favor intentalo más tarde.");
+                                    } else {
+                                        res.send("Reserva actualizada con éxito!");
+                                    }
+                                });
                             } else {
-                                res.send("Reserva actualizada con éxito!");
+                                res.status(400).send("Error: El destino no está disponible para las fechas y el número de personas especificados.");
                             }
-                        });
-                    } else {
-                        res.status(400).send("Error: El destino no está disponible para las fechas y el número de personas especificados.");
-                    }
+                        }
+                    });
                 }
             });
         }
     }
-
 }
 
 module.exports = reservaController;

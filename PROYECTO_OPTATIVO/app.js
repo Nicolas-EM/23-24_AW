@@ -10,6 +10,7 @@ const error404Handler = require('./middleware/error404');
 const userRoutes = require("./routes/userRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
 const reservasRoutes = require("./routes/reservasRoutes");
+const cookieParser = require('cookie-parser');
 
 //BASE DE DATOS
 const session = require('express-session');
@@ -23,10 +24,11 @@ const sessionStore = new MySQLStore({
 });
 
 const app = express();
+app.use(cookieParser());
 ///////////////////////////////////////
 //usamos morgan para logear errores
-const morgan = require("morgan");
-app.use(morgan('tiny'));//la version mas pequeña
+//const morgan = require("morgan");
+//app.use(morgan('tiny'));//la version mas pequeña
 //GESTOR DE PLANTILLAS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -45,25 +47,15 @@ app.use(
         store: sessionStore
     })
 );
-//EXPRESS VALIDATOR
-const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
-//se usaria en algo asi:
-// app.get("/registro", (req, res) => {
-//     if(req.session.mailID === undefined){
-//         res.status(200);
-//         const errors = validationResult(req);
-//         res.render("register", {
-//             errores: errors.mapped(),
-//             msgRegistro: false  
-//         });
-//     }
-//     else{
-//         res.render("main",{
-//             nameUser: req.session.userName,
-//             imageUser: req.session.image,
-//         });
-//     }
-// });
+
+// Seguridad CSRF(Cross-Site Request Forgery)
+const csrf = require('csurf');
+app.use(csrf({ cookie: true }));
+app.use(cookieParser());
+
+// validator
+const validator = require('./middleware/validator');
+app.use(validator);
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
@@ -77,7 +69,7 @@ app.use('/reservas', reservasRoutes);
 
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-    res.status(200).render("index", { isAuthenticated: (req.session.userId !== undefined) });
+    res.status(200).render("index", { isAuthenticated: (req.session.userId !== undefined), csrfToken: req.csrfToken() });
 });
 
 //MIDDLEWARE PARA ERRORES

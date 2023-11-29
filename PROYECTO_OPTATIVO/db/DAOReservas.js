@@ -90,6 +90,17 @@ class DAOReservas {
       }
     );
   }
+
+  updateReserva(data, callback){
+    this.pool.query("UPDATE reservas SET fecha_start = ?, fecha_end = ? WHERE id = ?;", [data.startDate, data.endDate, data.reservaId], function (err, OkPacket) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, OkPacket.affectedRows);
+        }
+      }
+    );
+  }
 }
 
 module.exports = DAOReservas;

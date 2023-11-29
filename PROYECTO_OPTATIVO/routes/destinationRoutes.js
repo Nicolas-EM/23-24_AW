@@ -1,11 +1,10 @@
 "use strict";
+
+const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
+
 let destinationRouter = require('express').Router();
 const destinationController = require('../controllers/destinationController');
 const controller = new destinationController();
-
-// anti-CSRF
-const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
 
 // GET TODOS LOS DESTINOS
 destinationRouter.get("/", controller.getDestinations);
@@ -14,6 +13,9 @@ destinationRouter.get("/", controller.getDestinations);
 destinationRouter.get("/:id", controller.getSingleDestination);
 
 //POST PARA LA BUSQUEDA
-destinationRouter.post("/search", controller.searchDestinations);
+destinationRouter.post("/search",
+    check("minPrice").isInt({ min: 0 }).optional().withMessage("Precio mínimo debe ser un número mayor que 0"),
+    check("maxPrice").isInt().custom((value, { req }) => value > req.body.minPrice).withMessage("El precio maximo debe ser mayor al mínimo"),
+  controller.searchDestinations);
 
 module.exports = destinationRouter;

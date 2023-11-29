@@ -13,11 +13,11 @@
                 <div class="carousel-inner">
                     <a href="/destinations/<%= destination.id %>">
                         <div class="carousel-item rounded active">
-                            <img src="<%= `images/${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="...">
+                            <img src="<%= `images/${destination.image_ids[0]}.jpg` %>" class="rounded d-block w-100" alt="Destination Image">
                         </div>
                         <% for(let i=1; i<destination.image_ids.length; i++) {%>
                             <div class="carousel-item rounded">
-                                <img src="<%= `images/${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="...">
+                                <img src="<%= `images/${destination.image_ids[i]}.jpg` %>" class="rounded d-block w-100" alt="Destination Image">
                             </div>
                         <% } %>
                     </a>

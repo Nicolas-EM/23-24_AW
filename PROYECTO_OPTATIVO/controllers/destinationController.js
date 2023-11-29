@@ -25,7 +25,7 @@ class destinationController {
                             if (err) {
                                 next(err);
                             } else {
-                                res.status(200).render("destination", { isAuthenticated: req.session.userId !== undefined, dest, image_ids, comments: comments });
+                                res.status(200).render("destination", { isAuthenticated: req.session.userId !== undefined, dest, image_ids, comments, csrfToken: req.csrfToken() });
                             }
                         });
                     }
@@ -65,7 +65,6 @@ class destinationController {
             } else {
                 ejs.renderFile(path.join(fragmentsPath, `destination-grid.ejs`), { destinations }, {}, function (err, str) {
                     if (err) {
-                        console.log(err);
                         next(err);
                     }
             

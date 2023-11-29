@@ -14,6 +14,7 @@ $('#reservaForm').on("submit", e => {
         url: '/reservas/create',
         method: 'POST',
         data: {
+            _csrf: $("#csrfToken").val(),
             destinoId,
             startDate,
             endDate,

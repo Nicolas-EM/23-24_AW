@@ -13,16 +13,6 @@ if (reviewModal) {
     $("#reservaId").attr("value", reservaId);
   });
 }
-if (cancelReservationModal) {
-  cancelReservationModal.addEventListener("show.bs.modal", (e) => {
-    const btn = e.relatedTarget;
-    const reservaId = btn.getAttribute("data-bs-reservaid");
-
-    // Custom code for cancel modal
-    const cancelModalReservaId = document.getElementById("reservaId");
-    cancelModalReservaId.value = reservaId;
-  });
-}
 
 const stars = document.querySelectorAll(".star");
 let rating = 0;
@@ -56,47 +46,6 @@ function paintStars(rating) {
   });
 }
 
-$("#confirmationModal")?.on("show.bs.modal", (event) => {
-  // Button that triggered the modal
-  const button = event.relatedTarget;
-  // Extract info from data-bs-* attributes
-  const reservaId = button.getAttribute("data-bs-reservaid");
-  const action = button.getAttribute("data-bs-action");
-  const destinationId = button.getAttribute("data-bs-destinationid");
-
-  $.ajax({
-    method: "GET",
-    url: `/destinations/${destinationId}`,
-    data: { reservaId },
-    success: function (data) {
-      const regex = /data-precio="([^"]*)"/;
-      const match = regex.exec(data);
-      $("#precioTotal").data("precio", data);
-      if (match && match.length > 1) {
-        $("#precioTotal").data("precio", match[1]);
-      } else {
-        console.error('data-precio attribute not found or no value present');
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("No se pudo encontrar precio total");
-    },
-  });
-
-  if(action === "delete"){
-    $("#confirmAction").val("delete");
-    $("#deleteConfirm").removeClass("d-none");
-    $("#modifyConfirm").addClass("d-none");
-  } else {
-    $("#confirmAction").val("modify");
-    $("#modifyConfirm").removeClass("d-none");
-    $("#deleteConfirm").addClass("d-none");
-  }
-
-  // Update the modal's content.
-  $("#confirmReservaId").attr("value", reservaId);
-});
-
 $("#imageUpload").on("change", (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -105,6 +54,7 @@ $("#imageUpload").on("change", (e) => {
   if (fileType.startsWith("image/")) {
     const formData = new FormData();
     formData.append("avatar", file);
+    formData.append("_csrf", $("#csrfToken").val());
 
     $.ajax({
       method: "POST",
@@ -133,32 +83,6 @@ $("#imageUpload").on("change", (e) => {
   }
 });
 
-const confirmationModal = bootstrap.Modal.getOrCreateInstance("#confirmationModal");
-//console.log($("#confirmationModalForm"));
-$("#confirmationModalForm")?.on("submit", (e) => {
-  e.preventDefault();
-
-  
-  const reservaId = $("#confirmReservaId").val();
-  const action = $("#confirmAction").val();
-  console.log(action);
-  $.ajax({
-    method: "POST",
-    url: `/reservas/${action}`,
-    data: { reservaId },
-    success: function (data) {
-      $("#toastMsg").html(data);
-      toast.show();
-      confirmationModal?.hide();
-      $(`#reserva${reservaId}`).remove();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      $("#toastMsg").html(jqXHR.responseText);
-      toast.show();
-    },
-  });
-});
-
 const commentModal = bootstrap.Modal.getOrCreateInstance("#reseniaModal");
 $("#commentForm")?.on("submit", (e) => {
   e.preventDefault();
@@ -171,6 +95,7 @@ $("#commentForm")?.on("submit", (e) => {
     method: "POST",
     url: "/reservas/review",
     data: {
+      _csrf: $("#csrfToken").val(),
       reservaId,
       rating,
       comment,
@@ -197,11 +122,12 @@ $("#updateUserForm").on("submit", (e) => {
   const newPassword = $("#newPassword").val();
   const newPasswordConfirm = $("#newPasswordConfirm").val();
   const userId = $("#userId").val();
-  console.log(nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId);
+  
   $.ajax({
     method: "POST",
     url: "/users/update",
     data: {
+      _csrf: $("#csrfToken").val(),
       nombre,
       correo,
       currentPassword,
@@ -214,6 +140,7 @@ $("#updateUserForm").on("submit", (e) => {
         $("#toastMsg").html(data.message);
         toast.show();
         // Update user info on the page
+        $("#nombreUsuarioField").html(data.newUsername);
         $("#nombreInput").html(data.newUsername);
         $("#emailInput").html(data.newEmail);
       } else {
@@ -265,52 +192,87 @@ function checkPasswordsMatch() {
   }
 }
 
-$("#cancelReservationForm").on("submit", function(e) {
+const cancelModal = bootstrap.Modal.getOrCreateInstance("#cancelReservationModal");
+$("#cancelReservationModal").on("show.bs.modal", (e) => {
+  const btn = e.relatedTarget;
+  const reservaId = btn.getAttribute("data-bs-reservaid");
 
+  // Custom code for cancel modal
+  $("#cancelReservaId").attr("value", reservaId);
+});
+
+$("#cancelReservationForm").on("submit", function (e) {
   e.preventDefault();
 
-  const cancelModalReservaId = document.getElementById("reservaId");
-  const reservaId = cancelModalReservaId.value;
-console.log(reservaId);
+  const reservaId = $("#cancelReservaId").attr("value");
   $.ajax({
     method: "POST",
     url: `/reservas/delete`,
-    data: { reservaId },
-    success: function(data) {
+    data: { _csrf: $("#csrfToken").val(), reservaId },
+    success: function (data) {
       $("#toastMsg").html(data);
       toast.show();
-      confirmationModal?.hide();
+      cancelModal?.hide();
       $(`#reserva${reservaId}`).remove();
     },
-    error: function(jqXHR, textStatus, errorThrown) {
+    error: function (jqXHR, textStatus, errorThrown) {
       $("#toastMsg").html(jqXHR.responseText);
       toast.show();
     }
   });
 });
 
-$("#modifyReserveForm").on("submit", (e) => {
+$("#modifyReservationModal").on("show.bs.modal", (e) => {
+  const btn = e.relatedTarget;
+  const destinationId = btn.getAttribute("data-bs-destinationid");
+  const reservaId = btn.getAttribute("data-bs-reservaid");
+
+  $("#modifyReservaId").attr("value", reservaId);
+
+  $.ajax({
+    method: "GET",
+    url: `/destinations/${destinationId}`,
+    data: { _csrf: $("#csrfToken").val(), destinationId },
+    success: function (data) {
+      const regex = /data-precio="([^"]*)"/;
+      const match = regex.exec(data);
+      if (match && match.length > 1) {
+        $("#precioTotal").attr("data-precio", match[1]);
+      } else {
+        console.error('data-precio attribute not found or no value present');
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("No se pudo encontrar precio total");
+    },
+  });
+});
+
+const modifyModal = bootstrap.Modal.getOrCreateInstance("#modifyReservationModal");
+$("#modifyReservationForm").on("submit", (e) => {
   e.preventDefault();
-  console.log("aqui");
-  const numberInput = $("#numberInput").val();
+
+  const numPersonas = $("#numPersonas").val();
   const startDate = $("#startDate").val();
   const endDate = $("#endDate").val();
-  const id = $("#id").val();
-  console.log(numberInput, startDate, endDate, id);
+  const reservaId = $("#modifyReservaId").val();
+  
   $.ajax({
     method: "POST",
     url: "/reservas/update",
     data: {
-      id,
-      numberInput,
+      _csrf: $("#csrfToken").val(),
+      reservaId,
+      numPersonas,
       startDate,
       endDate,
     },
     success: function (data) {
       $("#toastMsg").html(data);
       toast.show();
-      confirmationModal?.hide();
-      // Perform any additional actions after successful update
+      modifyModal?.hide();
+      $(`#startDate${reservaId}`).text(new Date(startDate).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }));
+      $(`#endDate${reservaId}`).text(new Date(endDate).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' }));
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $("#toastMsg").html(jqXHR.responseText);

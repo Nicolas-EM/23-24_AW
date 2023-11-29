@@ -5,6 +5,9 @@ $("#logoutBtn")?.on("click", e => {
     $.ajax({
         method: "POST",
         url: "/users/logout",
+        data: {
+            _csrf: $("#csrfToken").val()
+        },
         success: function (data) {
             $("#toastMsg").html(data);
             toast.show();
@@ -33,6 +36,7 @@ $("#loginForm")?.on("submit", e => {
         method: "POST",
         url: "/users/login",
         data: {
+            _csrf: $("#csrfToken").val(),
             email: $("#email").val(),
             password: $("#password").val()
         },
@@ -61,6 +65,7 @@ $("#signupForm")?.on("submit", e => {
         method: "POST",
         url: "/users/register",
         data: {
+            _csrf: $("#csrfToken").val(),
             name: $("#displayName").val(),
             email: $("#signupEmail").val(),
             password: $("#signupPwdInput").val()

@@ -24,8 +24,8 @@ class DAOUser {
   createUser(user, callback) {
     //por defecto comienza sin imagen de perfil
     this.pool.query(
-      "INSERT INTO usuarios (nombre, correo, password,fotoPerfil) VALUES (?, ?, ?, ?);",
-      [user.name, user.email, user.hashedPassword, ""],
+      "INSERT INTO usuarios (nombre, correo, password, fotoFilename, fotoMimetype) VALUES (?, ?, ?, ?, ?);",
+      [user.name, user.email, user.hashedPassword, "", ""],
       function (err, OkPacket) {
         if (err) {
           callback(err);
@@ -97,7 +97,6 @@ class DAOUser {
         if (err) {
           callback(err);
         } else {
-          console.log("dao actualizado", result);
           callback(null);
         }
       }

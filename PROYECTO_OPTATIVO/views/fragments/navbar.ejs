@@ -31,6 +31,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="loginForm" method="post" action="/login">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo</label>
@@ -61,6 +62,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="signupForm" method="post" action="/register">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="displayName" class="form-label">Nombre</label>
@@ -91,3 +93,5 @@
         </div>
     </div>
 </div>
+
+<input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
