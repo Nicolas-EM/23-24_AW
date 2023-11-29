@@ -156,10 +156,52 @@ Proyecto Opcional AW
       </div>
     </div>
   </div>
+  <form id="cancelReservationForm" method="post" action="/reservas/delete">
+      <!-- Cancel Reservation Modal -->
+      <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-labelledby="cancelReservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cancelReservationModalLabel">¿Estás seguro de que quieres eliminar esta reserva?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Confirmar</button>
+              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
 
-  <%- include('fragments/confirmation-modal') %>
+    <!-- Modify Reservation Form -->
+    <form id="modifyReservationForm" method="post" action="/reservas/update">
+      <!-- Modify Reservation Modal -->
+      <div class="modal fade" id="modifyReservationModal" tabindex="-1" aria-labelledby="modifyReservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modifyReservationModalLabel">Modificar Reserva</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <%- include('fragments/reservaForm', {id: 0, price: 600, isAuthenticated}) %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
 
-  <!-- Footer -->
+    <!-- Footer -->
+  </body>
+
+  </html>
   <%- include('fragments/footer') %>
   <script src="/javascript/user.js"></script>
   <script src="/javascript/reservaForm.js"></script>

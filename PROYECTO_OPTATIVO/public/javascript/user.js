@@ -13,6 +13,16 @@ if (reviewModal) {
     $("#reservaId").attr("value", reservaId);
   });
 }
+if (cancelReservationModal) {
+  cancelReservationModal.addEventListener("show.bs.modal", (e) => {
+    const btn = e.relatedTarget;
+    const reservaId = btn.getAttribute("data-bs-reservaid");
+
+    // Custom code for cancel modal
+    const cancelModalReservaId = document.getElementById("reservaId");
+    cancelModalReservaId.value = reservaId;
+  });
+}
 
 const stars = document.querySelectorAll(".star");
 let rating = 0;
@@ -124,7 +134,7 @@ $("#imageUpload").on("change", (e) => {
 });
 
 const confirmationModal = bootstrap.Modal.getOrCreateInstance("#confirmationModal");
-console.log($("#confirmationModalForm"));
+//console.log($("#confirmationModalForm"));
 $("#confirmationModalForm")?.on("submit", (e) => {
   e.preventDefault();
 
@@ -255,3 +265,27 @@ function checkPasswordsMatch() {
     passwordConfirmInput.style.backgroundColor = "inherit";
   }
 }
+
+$("#cancelReservationForm").on("submit", function(e) {
+
+  e.preventDefault();
+
+  const cancelModalReservaId = document.getElementById("reservaId");
+  const reservaId = cancelModalReservaId.value;
+console.log(reservaId);
+  $.ajax({
+    method: "POST",
+    url: `/reservas/delete`,
+    data: { reservaId },
+    success: function(data) {
+      $("#toastMsg").html(data);
+      toast.show();
+      confirmationModal?.hide();
+      $(`#reserva${reservaId}`).remove();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    }
+  });
+});

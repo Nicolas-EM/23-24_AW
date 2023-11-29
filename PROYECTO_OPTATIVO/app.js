@@ -2,7 +2,10 @@
 //MODULOS REQUERIDOS
 require('dotenv').config();
 const express = require('express');
-
+///////////////////////////////////////
+//usamos morgan para logear errores
+const morgan = require("morgan");
+app.use(morgan('tiny'));//la version mas pequeña
 const mime = require('mime');
 const path = require('path');
 const errorHandler = process.env.DEV_BUILD === "TRUE" ? require('./middleware/errorDev') : require('./middleware/errorProd');
@@ -42,6 +45,25 @@ app.use(
         store: sessionStore
     })
 );
+//EXPRESS VALIDATOR
+const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
+//se usaria en algo asi:
+// app.get("/registro", (req, res) => {
+//     if(req.session.mailID === undefined){
+//         res.status(200);
+//         const errors = validationResult(req);
+//         res.render("register", {
+//             errores: errors.mapped(),
+//             msgRegistro: false  
+//         });
+//     }
+//     else{
+//         res.render("main",{
+//             nameUser: req.session.userName,
+//             imageUser: req.session.image,
+//         });
+//     }
+// });
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
