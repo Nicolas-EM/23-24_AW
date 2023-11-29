@@ -138,7 +138,6 @@ const confirmationModal = bootstrap.Modal.getOrCreateInstance("#confirmationModa
 $("#confirmationModalForm")?.on("submit", (e) => {
   e.preventDefault();
 
-  console.log("here");
   
   const reservaId = $("#confirmReservaId").val();
   const action = $("#confirmAction").val();
@@ -287,5 +286,35 @@ console.log(reservaId);
       $("#toastMsg").html(jqXHR.responseText);
       toast.show();
     }
+  });
+});
+
+$("#modifyReserveForm").on("submit", (e) => {
+  e.preventDefault();
+  console.log("aqui");
+  const numberInput = $("#numberInput").val();
+  const startDate = $("#startDate").val();
+  const endDate = $("#endDate").val();
+  const id = $("#id").val();
+  console.log(numberInput, startDate, endDate, id);
+  $.ajax({
+    method: "POST",
+    url: "/reservas/update",
+    data: {
+      id,
+      numberInput,
+      startDate,
+      endDate,
+    },
+    success: function (data) {
+      $("#toastMsg").html(data);
+      toast.show();
+      confirmationModal?.hide();
+      // Perform any additional actions after successful update
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
   });
 });

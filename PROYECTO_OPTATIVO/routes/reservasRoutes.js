@@ -18,4 +18,6 @@ reservasRouter.post('/delete', loginHandler, controller.cancelReserva);
 //POST PARA CREAR UNA RESEÑA
 reservasRouter.post('/review', loginHandler, controller.createComment);
 
+
+reservasRouter.post('/update', loginHandler, controller.updateReserva);
 module.exports = reservasRouter;

@@ -32,4 +32,5 @@ userRouter.post('/upload-picture', uploadDir.single('avatar'), controller.upload
 //POST PARA ACTUALIZAR USUARIO
 userRouter.post('/update', loginHandler, controller.update);
 
+
 module.exports = userRouter;
