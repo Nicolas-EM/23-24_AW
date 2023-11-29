@@ -2,10 +2,7 @@
 //MODULOS REQUERIDOS
 require('dotenv').config();
 const express = require('express');
-///////////////////////////////////////
-//usamos morgan para logear errores
-const morgan = require("morgan");
-app.use(morgan('tiny'));//la version mas pequeña
+
 const mime = require('mime');
 const path = require('path');
 const errorHandler = process.env.DEV_BUILD === "TRUE" ? require('./middleware/errorDev') : require('./middleware/errorProd');
@@ -26,7 +23,10 @@ const sessionStore = new MySQLStore({
 });
 
 const app = express();
-
+///////////////////////////////////////
+//usamos morgan para logear errores
+const morgan = require("morgan");
+app.use(morgan('tiny'));//la version mas pequeña
 //GESTOR DE PLANTILLAS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
