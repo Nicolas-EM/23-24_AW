@@ -21,6 +21,5 @@
 - [X] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
 - [ ] fechas ocupadas en rojo
 - [ ] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas
-- [ ] encriptar formularios con enctype="multipart/form-data" (slide 93 aprox)
 - [ ] request checker (express-validator)
 

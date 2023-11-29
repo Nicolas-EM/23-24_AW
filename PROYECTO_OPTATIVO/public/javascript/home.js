@@ -10,7 +10,6 @@ function getDestinos(){
         method: "GET",
         url: "/destinations/",
         success: function (data) {
-            console.log(data);
             $("#destRow").append(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -23,19 +22,17 @@ function getDestinos(){
 // Function to perform search
 function performSearch() {
     scroll = false;
-    console.log("searchign");
     
     // Get the value from the search input
     const query = $("#query").val();
     const minPrice = $("#minPrice").val();
     const maxPrice = $("#maxPrice").val();
-    console.log("Making query to server with query: " + query);
 
     // Make an AJAX request to the server
     $.ajax({
         method: "POST",
         url: "/destinations/search",
-        data: { query, minPrice, maxPrice },
+        data: { _csrf: $("#csrfToken").val(), query, minPrice, maxPrice },
         success: function (data) {
             // Call renderDestinations with the received data
             $("#destRow").html(data);

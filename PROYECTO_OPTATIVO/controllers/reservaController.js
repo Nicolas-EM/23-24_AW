@@ -12,39 +12,31 @@ class reservaController {
         const userId = req.session.userId;
         const { destinoId, numPersonas, startDate, endDate } = req.body;
     
-        if (numPersonas <= 0) {
-            res.status(400).send("Error: Numero de personas no valido");
-        } else {
-            DaoDestination.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
-                if (err) {
-                    res.status(500).send("Error: Por favor intentalo más tarde.");
+        DaoDestination.isDestinoAvailable({ destinoId, numPersonas, startDate, endDate }, function (err, isAvailable) {
+            if (err) {
+                res.status(500).send("Error: Por favor intentalo más tarde.");
+            } else {
+                if (isAvailable) {
+                    DaoReservas.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
+                        if (err) {
+                            res.status(500).send("Error: Por favor intentalo más tarde.");
+                        } else {
+                            res.send("Reserva realizada con éxito!");
+                        }
+                    });
                 } else {
-                    if (isAvailable) {
-                        DaoReservas.createReserva({ destinoId, numPersonas, startDate, endDate, userId }, function (err, reservaId) {
-                            if (err) {
-                                res.status(500).send("Error: Por favor intentalo más tarde.");
-                            } else {
-                                res.send("Reserva realizada con éxito!");
-                            }
-                        });
-                    } else {
-                        res.status(501).send(`Error: Fechas no disponibles`);
-                    }
+                    res.status(501).send(`Error: Fechas no disponibles`);
                 }
-            });
-        }
+            }
+        });
     }
 
     cancelReserva(req, res, next) {
         const userId = req.session.userId;
         const { reservaId } = req.body
-
-        console.log("controller")
-        console.log(reservaId);
     
         DaoReservas.getSingleReserva(userId, reservaId, function (err, reservaExists) {
             if (err) {
-                console.log(err);
                 next(err);
             } else {
                 if (reservaExists) {
@@ -139,7 +131,6 @@ class reservaController {
             });
         }
     }
-
 }
 
 module.exports = reservaController;

@@ -43,6 +43,7 @@ Proyecto Opcional AW
               <div class="card h-100">
                 <div class="card-body">
                   <form method="post" id="updateUserForm" action="/users/update">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" id="userId" value="<%= user.id %>">
                     <!-- Datos usuario -->
                     <!-- Nombre -->
@@ -126,6 +127,7 @@ Proyecto Opcional AW
       <div class="modal-dialog">
         <div class="modal-content">
           <form id="commentForm" method="post" action="/reservas/review">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="modal-header">
               <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -163,6 +165,7 @@ Proyecto Opcional AW
       <div class="modal-dialog">
         <div class="modal-content">
           <form id="cancelReservationForm" method="post" action="/reservas/delete">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="modal-header">
               <h5 class="modal-title" id="cancelReservationModalLabel">¿Estás seguro de que quieres eliminar esta reserva?</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -182,6 +185,7 @@ Proyecto Opcional AW
       <div class="modal-dialog">
         <div class="modal-content">
           <form id="modifyReservationForm" method="post" action="/reservas/update">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="modal-header">
               <h5 class="modal-title" id="modifyReservationModalLabel">Modificar Reserva</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -66,7 +66,6 @@ class destinationController {
             } else {
                 ejs.renderFile(path.join(fragmentsPath, `destination-grid.ejs`), { destinations }, {}, function (err, str) {
                     if (err) {
-                        console.log(err);
                         next(err);
                     }
             

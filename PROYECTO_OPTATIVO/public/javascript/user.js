@@ -54,6 +54,7 @@ $("#imageUpload").on("change", (e) => {
   if (fileType.startsWith("image/")) {
     const formData = new FormData();
     formData.append("avatar", file);
+    formData.append("_csrf", $("#csrfToken").val());
 
     $.ajax({
       method: "POST",
@@ -94,6 +95,7 @@ $("#commentForm")?.on("submit", (e) => {
     method: "POST",
     url: "/reservas/review",
     data: {
+      _csrf: $("#csrfToken").val(),
       reservaId,
       rating,
       comment,
@@ -120,11 +122,12 @@ $("#updateUserForm").on("submit", (e) => {
   const newPassword = $("#newPassword").val();
   const newPasswordConfirm = $("#newPasswordConfirm").val();
   const userId = $("#userId").val();
-  console.log(nombre, correo, currentPassword, newPassword, newPasswordConfirm, userId);
+  
   $.ajax({
     method: "POST",
     url: "/users/update",
     data: {
+      _csrf: $("#csrfToken").val(),
       nombre,
       correo,
       currentPassword,
@@ -205,7 +208,7 @@ $("#cancelReservationForm").on("submit", function (e) {
   $.ajax({
     method: "POST",
     url: `/reservas/delete`,
-    data: { reservaId },
+    data: { _csrf: $("#csrfToken").val(), reservaId },
     success: function (data) {
       $("#toastMsg").html(data);
       toast.show();
@@ -229,7 +232,7 @@ $("#modifyReservationModal").on("show.bs.modal", (e) => {
   $.ajax({
     method: "GET",
     url: `/destinations/${destinationId}`,
-    data: { destinationId },
+    data: { _csrf: $("#csrfToken").val(), destinationId },
     success: function (data) {
       const regex = /data-precio="([^"]*)"/;
       const match = regex.exec(data);
@@ -258,6 +261,7 @@ $("#modifyReservationForm").on("submit", (e) => {
     method: "POST",
     url: "/reservas/update",
     data: {
+      _csrf: $("#csrfToken").val(),
       reservaId,
       numPersonas,
       startDate,

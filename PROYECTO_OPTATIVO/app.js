@@ -10,6 +10,7 @@ const error404Handler = require('./middleware/error404');
 const userRoutes = require("./routes/userRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
 const reservasRoutes = require("./routes/reservasRoutes");
+const cookieParser = require('cookie-parser');
 
 //BASE DE DATOS
 const session = require('express-session');
@@ -23,6 +24,7 @@ const sessionStore = new MySQLStore({
 });
 
 const app = express();
+app.use(cookieParser());
 ///////////////////////////////////////
 //usamos morgan para logear errores
 //const morgan = require("morgan");
@@ -46,6 +48,13 @@ app.use(
     })
 );
 
+// Seguridad CSRF(Cross-Site Request Forgery)
+const csrf = require('csurf');
+app.use(csrf());
+
+// validator
+const validator = require('./middleware/validator');
+app.use(validator);
 
 // INICALIZARDO APLICACION WEB
 app.listen(3000, () => {
@@ -59,7 +68,7 @@ app.use('/reservas', reservasRoutes);
 
 //GET DE LA PAGINA INDEX
 app.get('/', function (req, res, next) {
-    res.status(200).render("index", { isAuthenticated: (req.session.userId !== undefined) });
+    res.status(200).render("index", { isAuthenticated: (req.session.userId !== undefined), csrfToken: req.csrfToken() });
 });
 
 //MIDDLEWARE PARA ERRORES
