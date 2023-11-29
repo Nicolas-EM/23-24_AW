@@ -28,7 +28,7 @@ class userController {
                         } else {
                             user.fotoPerfil = null;
                         }
-                        res.status(200).render("user", { isAuthenticated: true, user, reservas });
+                        res.status(200).render("user", { isAuthenticated: true, user, reservas, csrfToken: req.csrfToken() });
                     }
                 });
             }

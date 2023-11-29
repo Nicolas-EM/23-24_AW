@@ -25,7 +25,7 @@ class destinationController {
                             if (err) {
                                 next(err);
                             } else {
-                                res.status(200).render("destination", { isAuthenticated: req.session.userId !== undefined, dest, image_ids, comments: comments });
+                                res.status(200).render("destination", { isAuthenticated: req.session.userId !== undefined, dest, image_ids, comments, csrfToken: req.csrfToken() });
                             }
                         });
                     }
@@ -53,7 +53,6 @@ class destinationController {
     }
 
     searchDestinations(req, res, next) {
-        check()
         const { query, minPrice, maxPrice } = req.body;
     
         if(minPrice < 0 || minPrice > maxPrice || maxPrice < minPrice || maxPrice <= 0){

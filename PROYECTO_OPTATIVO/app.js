@@ -50,7 +50,8 @@ app.use(
 
 // Seguridad CSRF(Cross-Site Request Forgery)
 const csrf = require('csurf');
-app.use(csrf());
+app.use(csrf({ cookie: true }));
+app.use(cookieParser());
 
 // validator
 const validator = require('./middleware/validator');

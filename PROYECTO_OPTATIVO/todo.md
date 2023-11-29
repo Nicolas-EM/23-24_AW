@@ -19,7 +19,7 @@
 - [X] uso de cookie de sesion
 - [X] Fix eliminar reserva
 - [X] modificar reservas ya hechas (no cancerlar y volver a hacerla)  
-- [ ] fechas ocupadas en rojo
-- [ ] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas
-- [ ] request checker (express-validator)
+- [X] request checker (express-validator)
 
+- [-] fechas ocupadas en rojo --> {not needed}
+- [-] usar emit/ajax para que se te cambie tu calendario dinamicamente, marcando las fechas recien cogidas
