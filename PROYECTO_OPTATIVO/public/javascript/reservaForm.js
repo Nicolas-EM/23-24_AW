@@ -1,5 +1,6 @@
 "use strict"
 
+// Creacion calendario para reservas y listener de cambio
 $('#calendar').attr("value", "");
 $('#calendar').daterangepicker({
     autoUpdateInput: false,
@@ -17,6 +18,7 @@ $('#calendar').daterangepicker({
     calcTotalPrice();
 });
 
+// Calculo precio total
 function calcTotalPrice() {
     const numPersonas = $('#numPersonas').val();
     const days = $('#precioTotal').data("days");
@@ -29,6 +31,7 @@ function calcTotalPrice() {
     document.getElementById("precio").classList.remove("d-none");
 };
 
+// Re-calcular al cambiar num personas
 $('#numPersonas').on("change", e => {
     calcTotalPrice();
 });

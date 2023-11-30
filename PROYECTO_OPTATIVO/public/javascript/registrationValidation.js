@@ -1,23 +1,22 @@
 "use strict"
 
-if (loginModal) {
-    loginModal.addEventListener("show.bs.modal", e => {
-        document.getElementById("email").value = "";
-        document.getElementById("password").value = "";
-    });
-}
+// Eliminar datos pre-existentes al cerrar modal
+$("#loginModal")?.on("hide.bs.modal", e => {
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+});
 
-if (signupModal) {
-    signupModal.addEventListener("show.bs.modal", e => {
-        document.getElementById("displayName").value = "";
-        document.getElementById("signupEmail").value = "";
-        document.getElementById("signupPwdInput").value = "";
-        document.getElementById("signupPwdConfirm").value = "";
-        passwordInput.style.backgroundColor = 'inherit';
-        passwordConfirmInput.style.backgroundColor = 'inherit';
-    });
-}
+// Eliminar datos pre-existentes al cerrar modal
+$("#signupModal")?.on("hide.bs.modal", e => {
+    document.getElementById("displayName").value = "";
+    document.getElementById("signupEmail").value = "";
+    document.getElementById("signupPwdInput").value = "";
+    document.getElementById("signupPwdConfirm").value = "";
+    passwordInput.style.backgroundColor = 'inherit';
+    passwordConfirmInput.style.backgroundColor = 'inherit';
+});
 
+// Validacion contraseñas
 const nombreInput = document.getElementById("displayName");
 const passwordInput = document.getElementById("signupPwdInput");
 const passwordConfirmInput = document.getElementById("signupPwdConfirm");

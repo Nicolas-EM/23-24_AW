@@ -4,6 +4,7 @@ $(document).ready(function () {
     getDestinos();
 });
 
+// Cargar destinos dinámicamente
 function getDestinos(){
     // Make an AJAX request to the server
     $.ajax({
@@ -19,7 +20,7 @@ function getDestinos(){
     });
 }
 
-// Function to perform search
+// Llamada AJAX para busqueda
 function performSearch() {
     scroll = false;
     
@@ -50,12 +51,14 @@ $("#searchForm").on("submit", e => {
     performSearch();
 });
 
+// Comprobacion minPrice en cliente
 $("#minPrice").on("change", e => {
     if($("#minPrice").val() > $("#maxPrice").val()){
         $("#minPrice").val($("#maxPrice").val());
     }
 });
 
+// Comprobacion maxPrice en cliente
 $("#maxPrice").on("change", e => {
     if($("#minPrice").val() > $("#maxPrice").val()){
         $("#maxPrice").val($("#minPrice").val());
@@ -66,6 +69,7 @@ $("#maxPrice").on("change", e => {
     }
 });
 
+// Carga dinámica al hacer scroll
 window.onscroll = function(ev) {
     if (scroll && (window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
         // you're at the bottom of the page

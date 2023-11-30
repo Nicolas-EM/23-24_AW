@@ -7,6 +7,7 @@ riu.ucm.es
 │   ├── /delete
 │   └── /update
 ├── /users
+│   ├── /
 │   ├── /create
 │   ├── /update
 │   ├── /delete

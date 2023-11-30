@@ -1,6 +1,7 @@
 const loginModal = bootstrap.Modal.getOrCreateInstance("#loginModal");
 const signupModal = bootstrap.Modal.getOrCreateInstance("#signupModal");
 
+// LLamada AJAX para logout
 $("#logoutBtn")?.on("click", e => {
     $.ajax({
         method: "POST",
@@ -29,6 +30,7 @@ $("#logoutBtn")?.on("click", e => {
     });
 });
 
+// LLamada AJAX para login
 $("#loginForm")?.on("submit", e => {
     e.preventDefault();
 
@@ -58,6 +60,7 @@ $("#loginForm")?.on("submit", e => {
     });
 });
 
+// LLamada AJAX para register
 $("#signupForm")?.on("submit", e => {
     e.preventDefault();
 

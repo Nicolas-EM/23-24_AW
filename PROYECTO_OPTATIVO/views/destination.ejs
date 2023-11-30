@@ -149,7 +149,7 @@
               <%- include('fragments/reservaForm', {id: dest.id, price: dest.precio, isAuthenticated}) %>
               <!-- reservoir Btn -->
               <div class="mb-3 text-center">
-                <button id="reservaBtn" class="btn btn-primary" type="<%- isAuthenticated? 'submit' : 'button' %>" data-bs-toggle="modal" data-bs-target="#loginModal">Reserva Ya!</button>
+                <button id="reservaBtn" class="btn btn-primary" type="<%- isAuthenticated? 'submit' : 'button' %>" data-bs-toggle="<%- isAuthenticated? '' : 'modal' %>" data-bs-target="#loginModal">Reserva Ya!</button>
               </div>
             </form>
           </div>
