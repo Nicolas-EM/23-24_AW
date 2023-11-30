@@ -1,0 +1,29 @@
+:root{
+    --primary-blue: #1b6388;
+    --primary-green: #B0D9B1;
+    --secondary-blue: rgb(85, 175, 221);
+    --primary-black:#232526;
+    --secondary-black:#414345;
+    --soft-pink: #F8C3CD;
+    --soft-purple: #D8C8E6;
+    --soft-peach: #FDDAC5;
+    --soft-mint: #B2E3D9;
+    --soft-lilac: #E6D6F8;
+}
+.btn-primary{
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    --bs-btn-border-color: var(--primary-blue);
+    --bs-btn-hover-bg: var(--secondary-blue);
+}
+.customNav{
+    --bs-navbar-color: var(--soft-mint);
+}
+.gradientCustom {
+    background: var(--primary-blue);/* fallback color */
+    background: linear-gradient(to right, var(--primary-blue), var(--primary-green));
+  }
+.bodyGradient{
+    background: var(--primary-blue);/* fallback color */
+    background: radial-gradient(circle, var(--primary-green), var(--primary-blue));
+}
