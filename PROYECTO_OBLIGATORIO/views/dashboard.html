@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RIU - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="../public/stylesheets/dashboard.css" rel="stylesheet">
+    <link href="../public/stylesheets/styles.css" rel="stylesheet">
+</head>
+
+<body class="bodyGradient">
+    <nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom customNav">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" target="_self">
+                <span>
+                    <img src="../public/images/logo.svg" alt="logo" width="45" height="35">
+                </span>
+            </a>
+            <!-- Account menu -->
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item">
+                    <div class="nav-item btn-group dropstart">
+                        <btn id="menuBtn" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#dropdownMenu">
+                            <span>
+                                <img src="../public/images/menu.svg" alt="account_circle" width="45" height="35">
+                            </span>
+                        </btn>
+                        <ul class="dropdown-menu fades" id="dropdownMenu">
+                            <li><a class="dropdown-item">Feature #1</a></li>
+                            <li><a class="dropdown-item">Feature #2</a></li>
+                            <li><a class="dropdown-item">Feature #3</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a id="logoutBtn" class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="Installation container-fluid">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 gx-4 justify-content-center" id="instRow">
+            <!-- instalaciones -->
+            <div class="col mt-3">
+                <div class="card h-100 w-100">
+                    <!-- Img row -->
+                    <a href="#">
+                        <div class="rounded">
+                            <img src="../public/images/lab.jpeg" class="rounded d-block w-100 zoom-on-hover" alt="Destination Image">
+                        </div>
+                    </a>
+                    <!-- Card Body -->
+                    <div class="card-body align-items-center p-1 pt-2 text-center"> <!-- Added text-center class -->
+                        <h5 class="card-title">
+                            laboratorio
+                        </h5>
+                        <p class="card-text just">
+                            Get a hold of our latest technology and equipment
+                        </p>
+                    </div>
+                    <!-- Card Footer -->
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <button class="btn btn-primary pill-rounded">Book now!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mt-3">
+                <div class="card h-100 w-100">
+                    <!-- Img row -->
+                    <a href="#">
+                        <div class="rounded">
+                            <img src="../public/images/sala.jpeg" class="rounded d-block w-100" alt="Destination Image">
+                        </div>
+                    </a>
+                    <!-- Card Body -->
+                    <div class="card-body align-items-center p-1 pt-2 text-center"> <!-- Added text-center class -->
+                        <h5 class="card-title">
+                            sala
+                        </h5>
+                        <p class="card-text">
+                            Get a hold of our latest technology and equipment
+                        </p>
+                    </div>
+                    <!-- Card Footer -->
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <button class="btn btn-primary pill-rounded">Book now!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mt-3">
+                <div class="card h-100 w-100">
+                    <!-- Img row -->
+                    <a href="#">
+                        <div class="rounded">
+                            <img src="../public/images/supersala.jpg" class="rounded d-block w-100" alt="Destination Image">
+                        </div>
+                    </a>
+                    <!-- Card Body -->
+                    <div class="card-body align-items-center p-1 pt-2 text-center">
+                        <h5 class="card-title">
+                            otra sala
+                        </h5>
+                        <p class="card-text">
+                            Get a hold of our latest technology and equipment
+                        </p>
+                    </div>
+                    <!-- Card Footer -->
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <button class="btn btn-primary pill-rounded">Book now!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>
