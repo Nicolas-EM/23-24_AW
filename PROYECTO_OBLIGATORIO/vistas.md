@@ -3,10 +3,20 @@
 ```
 riu.ucm.es
 ├── /
-├── /login + register
+├── /login
 ├── /user
-├── /admin
-└── /installation
+└── /admin
+    ├── /org
+    ├── /users
+    │   ├── /
+    │   ├── /groups
+    │   └── /courses
+    ├── /installations
+    │   ├── /
+    │   └── /faculties
+    └── /stats
+        ├── /user
+        └── /faculty
 ```
 
 # Fragments
@@ -15,6 +25,8 @@ riu.ucm.es
 - [ ] Footer
 - [ ] Navbar
 - [ ] Reservation Card
-- [ ] Reservation form
+- [ ] Reservation form modal
 - [ ] Installation Card
-- [ ] Message board
+- [ ] Chat/Email modal
+- [ ] Admin sidebar
+- [ ] Dashboard filter sidebar
