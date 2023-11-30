@@ -2,8 +2,10 @@
 
 ```
 riu.ucm.es
-├── /admin*
-│   └── /config 
+├── /org*
+│   ├── /create
+│   ├── /delete
+│   └── /update
 ├── /users
 │   ├── /create
 │   ├── /update

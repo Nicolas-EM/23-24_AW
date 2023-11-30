@@ -4,10 +4,11 @@ CREATE TABLE UCM_AW_RIU_USU_Users (
     surname VARCHAR(255) NOT NULL,
     faculty VARCHAR(255) NOT NULL,
     grade VARCHAR(255) NOT NULL,
-    group VARCHAR(255),
+    group VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    profileImage BLOB,
+    profileImageName VARCHAR(255),
+    profileImageType VARCHAR(255),
     isAdmin BOOLEAN DEFAULT FALSE,
     validated BOOLEAN DEFAULT FALSE,
     UNIQUE (email)
