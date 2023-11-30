@@ -3,6 +3,7 @@
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
+// Llamada AJAX para crear reserva
 $('#reservaForm').on("submit", e => {
     e.preventDefault();
     const destinoId = $('#destinoId').val();

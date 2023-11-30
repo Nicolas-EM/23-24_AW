@@ -1,14 +1,16 @@
 "use strict"
 
+// Eliminar datos pre-existentes al cerrar modal
 if (loginModal) {
-    loginModal.addEventListener("show.bs.modal", e => {
+    loginModal.addEventListener("hide.bs.modal", e => {
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
     });
 }
 
+// Eliminar datos pre-existentes al cerrar modal
 if (signupModal) {
-    signupModal.addEventListener("show.bs.modal", e => {
+    signupModal.addEventListener("hides.bs.modal", e => {
         document.getElementById("displayName").value = "";
         document.getElementById("signupEmail").value = "";
         document.getElementById("signupPwdInput").value = "";
@@ -18,6 +20,7 @@ if (signupModal) {
     });
 }
 
+// Validacion contraseñas
 const nombreInput = document.getElementById("displayName");
 const passwordInput = document.getElementById("signupPwdInput");
 const passwordConfirmInput = document.getElementById("signupPwdConfirm");
