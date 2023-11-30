@@ -1,24 +1,20 @@
 "use strict"
 
 // Eliminar datos pre-existentes al cerrar modal
-if (loginModal) {
-    loginModal.addEventListener("hide.bs.modal", e => {
-        document.getElementById("email").value = "";
-        document.getElementById("password").value = "";
-    });
-}
+$("#loginModal")?.on("hide.bs.modal", e => {
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+});
 
 // Eliminar datos pre-existentes al cerrar modal
-if (signupModal) {
-    signupModal.addEventListener("hides.bs.modal", e => {
-        document.getElementById("displayName").value = "";
-        document.getElementById("signupEmail").value = "";
-        document.getElementById("signupPwdInput").value = "";
-        document.getElementById("signupPwdConfirm").value = "";
-        passwordInput.style.backgroundColor = 'inherit';
-        passwordConfirmInput.style.backgroundColor = 'inherit';
-    });
-}
+$("#signupModal")?.on("hide.bs.modal", e => {
+    document.getElementById("displayName").value = "";
+    document.getElementById("signupEmail").value = "";
+    document.getElementById("signupPwdInput").value = "";
+    document.getElementById("signupPwdConfirm").value = "";
+    passwordInput.style.backgroundColor = 'inherit';
+    passwordConfirmInput.style.backgroundColor = 'inherit';
+});
 
 // Validacion contraseñas
 const nombreInput = document.getElementById("displayName");

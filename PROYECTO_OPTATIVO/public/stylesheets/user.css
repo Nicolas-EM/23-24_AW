@@ -16,6 +16,10 @@
     max-height: 275px;
 }
 
+.star {
+    font-size: 1.5rem;
+}
+
 .star.active {
     color: var(--google-yellow);
 }
