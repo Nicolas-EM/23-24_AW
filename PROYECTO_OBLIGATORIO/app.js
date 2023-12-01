@@ -6,10 +6,13 @@ const installationRouter = require("./routes/installationRouter");
 const messageRouter = require("./routes/messageRouter");
 const reservationRouter = require("./routes/reservationRouter");
 const userRouter = require("./routes/userRouter");
-
+import('mime').then(() => {
+  // Use the mime package here
+}).catch((err) => {
+  console.error(err);
+});
 //modulos requeridos:
 const express = require("express");
-const mime = require('mime');
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -65,6 +68,31 @@ app.use("/installations", installationRouter);
 app.use("/faculties", facultyRouter);
 app.use("/messages", messageRouter);
 
-app.get("/", (req, res, next) => {
-  res.render("dasboard");
+app.get("/", (req, res) => {
+  if (req.session.userId !== undefined) {
+    res.redirect("/dashboard");
+  } else {
+    const faculties = [
+      { value: "1", name: "Faculty 1" },
+      { value: "2", name: "Faculty 2" },
+      { value: "3", name: "Faculty 3" },
+    ];
+  
+    const grades = [
+      { value: "1", name: "Grade 1" },
+      { value: "2", name: "Grade 2" },
+      { value: "3", name: "Grade 3" },
+    ];
+  
+    const groups = [
+      { value: "1", name: "Group 1" },
+      { value: "2", name: "Group 2" },
+      { value: "3", name: "Group 3" },
+    ];
+    res.render("login",{ faculties, grades, groups });
+  }
+});
+
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard");
 });

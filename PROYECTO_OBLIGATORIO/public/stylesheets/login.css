@@ -1,5 +1,6 @@
-#accountImg{
+#accountImg {
     width: 100%;
     aspect-ratio: 1/1;
     max-height: 230px;
+    filter: invert(91%) sepia(3%) saturate(706%) hue-rotate(338deg) brightness(98%) contrast(96%);
 }
