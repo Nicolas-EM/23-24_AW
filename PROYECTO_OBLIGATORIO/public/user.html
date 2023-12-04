@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIU -- User</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link href="./stylesheets/styles.css" rel="stylesheet">
+  <link href="./stylesheets/user.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom customNav gradientCustom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/" target="_self">
+            <span>
+                <img src="./images/logo.svg" alt="logo" width="45" height="35">
+            </span>
+        </a>
+        <!-- Account menu -->
+        <div class="navbar-nav ms-auto">
+            <div class="nav-item">
+                <div class="nav-item btn-group dropstart">
+                    <btn id="menuBtn" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#dropdownMenu">
+                        <span>
+                            <img src="./images/menu.svg" alt="account_circle" width="45" height="35">
+                        </span>
+                    </btn>
+                    <ul class="dropdown-menu fades" id="dropdownMenu">
+                        <li><a class="dropdown-item">Feature #1</a></li>
+                        <li><a class="dropdown-item">Feature #2</a></li>
+                        <li><a class="dropdown-item">Feature #3</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a id="logoutBtn" class="dropdown-item" href="#">Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Sidebar menu -->
+<div class="main-leftsidebar-div" data-component="leftsidebar" id="userSidebar">
+  <div class="leftsidebar">
+    <ul class="nav list-group flex-column d-inline-block first-menu scrollbar-indigo thin first-main-menu">
+      <li class="nav-item list-group-item ps-1 py-2">
+        <a class="nav-link" href="#">
+          <i class="fa fa-dashboard"></i>
+          <span class="ml-2 align-middle">Instalaciones</span>
+        </a>
+      </li>
+      <li class="nav-item list-group-item ps-1 py-2">
+        <a class="nav-link" href="#">
+          <i class="fa fa-ticket"></i>
+          <span class="ml-2 align-middle">Usuarios</span>
+        </a>
+        <ul class="nav list-group flex-column d-inline-block submenu">
+          <li class="nav-item list-group-item ps-3">
+            <a class="nav-link active" href="#">Create Ticket</a>
+            <ul class="nav list-group flex-column d-inline-block sub-submenu">
+              <li class="nav-item list-group-item ps-4"><a class="nav-link active" href="#">Home</a></li>
+              <li class="nav-item list-group-item ps-4"><a class="nav-link active" href="#">My Site</a></li>
+            </ul>
+          </li>
+          <li class="nav-item list-group-item ps-3">
+            <a class="nav-link" href="#">Import Ticket</a>
+            <ul class="nav list-group flex-column d-inline-block sub-submenu">
+              <li class="nav-item list-group-item ps-4"><a class="nav-link active" href="#">Create Task</a></li>
+              <li class="nav-item list-group-item ps-4"><a class="nav-link active" href="#">Edit Task</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- Content -->
+<div class="content">
+  <!-- Your content goes here -->
+</div>
+
+<!--Script de BootStrap 5.3.1-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<!-- Popper -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<!-- MomentJS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<!-- DateRange Picker -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</body>
+</html>
