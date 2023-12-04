@@ -17,22 +17,23 @@ riu.ucm.es
 │   ├── /validate*
 │   └── /byFaculty*
 ├── /reservations
+│   ├── /
 │   ├── /create
 │   ├── /update
 │   ├── /delete
 │   ├── /byUser*
 │   └── /byFaculty*
 ├── /installations
+│   ├── /
 │   ├── /create*
 │   ├── /delete*
 │   ├── /modify*
-│   ├── /get
 │   └── /search
 ├── /faculties
+│   ├── /
 │   ├── /create*
 │   ├── /update*
-│   ├── /delete*
-│   └── /get
+│   └── /delete*
 └── /messages
     ├── /send
     └── /get

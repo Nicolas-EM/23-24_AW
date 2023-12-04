@@ -1,11 +1,12 @@
 "use strict";
 // routers
-const adminRouter = require("./routes/adminRouter");
+const orgRouter = require("./routes/orgRouter");
 const facultyRouter = require("./routes/facultyRouter");
 const installationRouter = require("./routes/installationRouter");
 const messageRouter = require("./routes/messageRouter");
 const reservationRouter = require("./routes/reservationRouter");
 const userRouter = require("./routes/userRouter");
+
 import('mime').then(() => {
   // Use the mime package here
 }).catch((err) => {
@@ -60,13 +61,17 @@ app.listen(_PORT, () => {
   console.log(`Server running on port ${_PORT}`);
 });
 
+// middleware login
+const requireAdmin = require('./middleware/requireAdmin');
+const requireLogin = require('./middleware/requireLogin')
+
 //todos nuestros enrutadores:
-app.use("/admin", adminRouter);
+app.use("/org", requireAdmin, orgRouter);
 app.use("/users", userRouter);
-app.use("/reservations", reservationRouter);
-app.use("/installations", installationRouter);
+app.use("/reservations", requireLogin, reservationRouter);
+app.use("/installations", requireLogin, installationRouter);
 app.use("/faculties", facultyRouter);
-app.use("/messages", messageRouter);
+app.use("/messages", requireLogin, messageRouter);
 
 app.get("/", (req, res) => {
   if (req.session.userId !== undefined) {
