@@ -4,6 +4,7 @@
     --secondary-blue: rgb(85, 175, 221);
     --primary-black:#232526;
     --secondary-black:#414345;
+    --disabled-grey: #b3b3b3;
 }
 
 .btn-primary{

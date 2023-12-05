@@ -4,22 +4,25 @@ const { check, validationResult } = require("express-validator"); //para validar
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
 
+const FacultyController = require('../controllers/facultyController');
+const facultyController = new FacultyController();
+
 let facultyRouter = require('express').Router();
 
-app.get('/', (req, res, next) => {
-    
+facultyRouter.get('/', (req, res, next) => {
+    facultyController.getIndex(req, res, next);
 });
 
-app.post('/create', requireAdmin, (req, res, next) => {
-    
+facultyRouter.post('/create', requireAdmin, (req, res, next) => {
+    facultyController.createFaculty(req, res, next);
 });
 
-app.post('/update', requireAdmin, (req, res, next) => {
-    
+facultyRouter.post('/update', requireAdmin, (req, res, next) => {
+    facultyController.updateFaculty(req, res, next);
 });
 
-app.post('/delete', requireAdmin, (req, res, next) => {
-    
+facultyRouter.post('/delete', requireAdmin, (req, res, next) => {
+    facultyController.deleteFaculty(req, res, next);
 });
 
 module.exports = facultyRouter;

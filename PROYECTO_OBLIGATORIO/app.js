@@ -75,7 +75,7 @@ app.use("/messages", requireLogin, messageRouter);
 
 app.get("/", (req, res) => {
   if (req.session.userId !== undefined) {
-    res.redirect("/dashboard");
+    res.render("/dashboard");
   } else {
     const faculties = [
       { value: "1", name: "Faculty 1" },
