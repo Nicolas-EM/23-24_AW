@@ -45,63 +45,77 @@
 
             <!-- Registration -->
             <div class="row d-flex justify-content-center align-items-center h-100 d-none" id="regDiv">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-6">
+                <div class="col-12 col-lg-8">
                     <div class="card bg-dark text-white rounded">
-                        <div class="card-body p-md-5 text-center">
+                        <div class="card-body p-sm-5 p-lg-4 p-xl-5 text-center">
                             <h2 class="signin fw-bold mb-4 text-uppercase">Registrate</h2>
                             <p class="text-white-50 mb-4">Por favor introduce tus datos a continuación</p>
                             <!-- se llama create no register ahora -->
                             <form id="registerForm" method="post" action="/users/create">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <div class="row mb-3">
-                                    <div class="col">
+                                <!-- Img preview + Names + Email -->
+                                <div class="row">
+                                    <div class="col col-lg-6 mb-3">
                                         <img src="/images/person-circle.svg" alt="profile-image" class="img-fluid rounded-circle" id="accountImg">
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6  mb-3">
-                                        <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Nombre">
+                                    <!-- Names + Email -->
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="row row-cols-1 h-100 align-items-center">
+                                            <!-- Name -->
+                                            <div class="col mb-3">
+                                                <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Nombre">
+                                            </div>
+                                            <!-- Surname -->
+                                            <div class="col mb-3">
+                                                <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Apellidos">
+                                            </div>
+                                            <!-- Email -->
+                                            <div class="col">
+                                                <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6  mb-3">
-                                        <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Apellidos">
-                                    </div>
                                 </div>
+                                <!-- ACDM info -->
                                 <div class="row">
                                     <div class="col-md-4  mb-3">
                                         <select id="facultyInput" class="form-control form-control-lg">
                                             <option value="" disabled selected hidden>Facultad</option>
                                             <% faculties.forEach(function(faculty) { %>
-                                            <option value="<%= faculty.value %>"><%= faculty.name %></option>
-                                            <% }); %>
+                                                <option value="<%= faculty.value %>">
+                                                    <%= faculty.name %>
+                                                </option>
+                                                <% }); %>
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <select id="gradeInput" class="form-control form-control-lg">
                                             <option value="" disabled selected hidden>Grado</option>
                                             <% grades.forEach(function(grade) { %>
-                                            <option value="<%= grade.value %>"><%= grade.name %></option>
-                                            <% }); %>
+                                                <option value="<%= grade.value %>">
+                                                    <%= grade.name %>
+                                                </option>
+                                                <% }); %>
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <select id="groupInput" class="form-control form-control-lg">
                                             <option value="" disabled selected hidden>Grupo</option>
                                             <% groups.forEach(function(group) { %>
-                                            <option value="<%= group.value %>"><%= group.name %></option>
-                                            <% }); %>
+                                                <option value="<%= group.value %>">
+                                                    <%= group.name %>
+                                                </option>
+                                                <% }); %>
                                         </select>
                                     </div>
-                                    </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email">
-                                    </div>
                                 </div>
+                                <!-- Img input -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <input type="file" id="pictureInput" class="form-control form-control-lg" accept="image/*">
                                     </div>
                                 </div>
+                                <!-- Password -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
@@ -110,6 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Password confirmation -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
@@ -133,7 +148,7 @@
     </section>
 
     <%- include('fragments/footer.ejs') %>
-    <script src="/javascripts/login.js"></script>
+        <script src="/javascripts/login.js"></script>
 </body>
 
 </html>
