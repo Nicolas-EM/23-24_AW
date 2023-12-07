@@ -78,22 +78,29 @@ app.get("/", requireLogin, (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  const faculties = [
-    { value: "1", name: "Faculty 1" },
-    { value: "2", name: "Faculty 2" },
-    { value: "3", name: "Faculty 3" },
-  ];
-
-  const grades = [
-    { value: "1", name: "Grade 1" },
-    { value: "2", name: "Grade 2" },
-    { value: "3", name: "Grade 3" },
-  ];
-
-  const groups = [
-    { value: "1", name: "Group 1" },
-    { value: "2", name: "Group 2" },
-    { value: "3", name: "Group 3" },
-  ];
-  res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups })
+  if(req.session && req.session.userId){
+    // user already signed in
+    res.redirect("/");
+  } else {
+    // show login
+    const faculties = [
+      { value: "1", name: "Faculty 1" },
+      { value: "2", name: "Faculty 2" },
+      { value: "3", name: "Faculty 3" },
+    ];
+  
+    const grades = [
+      { value: "1", name: "Grade 1" },
+      { value: "2", name: "Grade 2" },
+      { value: "3", name: "Grade 3" },
+    ];
+  
+    const groups = [
+      { value: "1", name: "Group 1" },
+      { value: "2", name: "Group 2" },
+      { value: "3", name: "Group 3" },
+    ];
+    
+    res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups });
+  }
 });
