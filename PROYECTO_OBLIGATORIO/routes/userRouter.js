@@ -5,8 +5,9 @@ const { check, validationResult } = require("express-validator"); //para validar
 const requireAdmin = require('../middleware/requireAdmin');
 const requireLogin = require('../middleware/requireLogin');
 const userController = require('../controllers/userController');
-const userCtrl = new userController(pool);
 let userRouter = require('express').Router();
+
+const userCtrl = new userController(pool);
 
 userRouter.get('/', requireLogin, (req, res, next) => {
     res.status(200).render("user", { csrfToken: req.csrfToken() });
@@ -21,34 +22,32 @@ userRouter.post('/create',
     check('email').notEmpty().withMessage('Email es requerido').isEmail().withMessage('Email no válido'),
     check('password').notEmpty().withMessage('Contraseña es requerida')
         .isLength({ min: 7 }).withMessage('La contraseña debe tener al menos 7 caracteres')
-        .matches(/\d/).withMessage('La contraseña debe contener al menos un número')
-, (req, res, next) => {
-    userCtrl.register(req, res, next);
-    // Continue with the rest of the code
-});
+        .matches(/\d/).withMessage('La contraseña debe contener al menos un número'), 
+    userCtrl.register);
 
 userRouter.post('/update', requireLogin, (req, res, next) => {
-    
+
 });
 
-userRouter.post('/login', (req, res, next) => {
-    
-});
+userRouter.post('/login',
+    check('email').notEmpty().withMessage('Email es requerido').isEmail().withMessage('Email no válido'),
+    check('password').notEmpty().withMessage('Contraseña es requerida'),
+    userCtrl.login);
 
 userRouter.post('/logout', requireLogin, (req, res, next) => {
-    
+
 });
 
 userRouter.post('/role', requireAdmin, (req, res, next) => {
-    
+
 });
 
 userRouter.post('/validate', requireAdmin, (req, res, next) => {
-    
+
 });
 
 userRouter.get('/byFaculty', requireAdmin, (req, res, next) => {
-    
+
 });
 
 module.exports = userRouter;

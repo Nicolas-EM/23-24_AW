@@ -1,9 +1,9 @@
-function requireLogin(request, response, next){
-    if (request.session && request.session.userId) {
+function requireLogin(req, res, next) {
+    if (req.session && req.session.userId) {
         // If authenticated, continue with the request
         return next();
     } else {
-        response.redirect("/login");
+        res.redirect("/login");
     }
 }
 

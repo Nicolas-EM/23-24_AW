@@ -11,10 +11,7 @@ $("#loginBtn").on("click", () => {
 
 //ambos passwordfields se ponen en texto plano o se quitan el texto plano
 $(".show-password-btn").on("click", e => {
-    console.log($(e.target));
-    console.log($(e.target).closest('.input-group'));
     const passwordInput = $(e.target).closest('.input-group').find('.password-input');
-    console.log(passwordInput);
 
     if (passwordInput.attr("type") === "password") {
         passwordInput.attr("type", "text");
@@ -26,26 +23,28 @@ $(".show-password-btn").on("click", e => {
 $("#loginForm").on("submit", (e) => {
     e.preventDefault();
 
-    let email = $("#emailInput").val();
-    let password = $("#passwordInput").val();
+    const email = $("#emailInput").val();
+    const password = $("#passwordInput").val();
+    const _csrf = $("#loginCSRF").val();
 
     $.ajax({
-        url: "/login",
+        url: "/users/login",
         method: "POST",
         data: {
             email,
             password,
+            _csrf
         },
         success: (response) => {
-            if (response.success) {
-                window.location.href = "/home";
-            } else {
-                $("#loginError").removeClass("d-none");
-            }
+            console.log(response);
+            window.location.href = "/";
         },
-        error: () => {
-            console.log(err);
-        },
+        error: function(xhr, status, error) {
+            // TODO: show proper error message
+            // $("#toastMsg").html(xhr.responseText);
+            // toast.show();
+            console.error(xhr.responseText);
+        }
     });
 });
 
