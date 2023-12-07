@@ -6,27 +6,27 @@ const requireAdmin = require('../middleware/requireAdmin');
 
 let reservationRouter = require('express').Router();
 
-app.get('/', (req, res, next) => {
+reservationRouter.get('/', (req, res, next) => {
 
 });
 
-app.post('/create', (req, res, next) => {
+reservationRouter.post('/create', (req, res, next) => {
     
 });
 
-app.post('/update', (req, res, next) => {
+reservationRouter.post('/update', (req, res, next) => {
     
 });
 
-app.post('/delete', (req, res, next) => {
+reservationRouter.post('/delete', (req, res, next) => {
     
 });
 
-app.get('/byUser', requireAdmin, (req, res, next) => {
+reservationRouter.get('/byUser', requireAdmin, (req, res, next) => {
     
 });
 
-app.get('/byFaculty', requireAdmin, (req, res, next) => {
+reservationRouter.get('/byFaculty', requireAdmin, (req, res, next) => {
     
 });
 

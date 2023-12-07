@@ -1,11 +1,12 @@
 "use strict";
 const pool = require("../db/pool");
 const DAOUsers = require('../db/DAOUsers');
-daoUser = new DAOUsers(pool);
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require("express-validator");
 const path = require('path');
 const fs = require('fs');
+
+const daoUser = new DAOUsers(pool);
 
 class userController {
     register(req, res, next) {
@@ -40,3 +41,5 @@ class userController {
         });
     }
 }
+
+module.exports = userController;

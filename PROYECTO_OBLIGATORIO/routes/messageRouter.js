@@ -4,11 +4,11 @@ const { check, validationResult } = require("express-validator"); //para validar
 
 let messageRouter = require('express').Router();
 
-app.get('/', (req, res, next) => {
+messageRouter.get('/', (req, res, next) => {
     
 });
 
-app.post('/send', (req, res, next) => {
+messageRouter.post('/send', (req, res, next) => {
     
 });
 

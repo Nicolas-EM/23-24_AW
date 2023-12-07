@@ -13,6 +13,7 @@
 <body class="gradientCustom">
     <section class="vh-100">
         <div class="container py-5 h-100" id="loginRegister">
+            <!-- Login -->
             <div class="row d-flex justify-content-center align-items-center h-100" id="logDiv">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-6">
                     <div class="card bg-dark text-white rounded">
@@ -25,8 +26,8 @@
                                 </div>
                                 <div class="mb-4">
                                     <div class="input-group">
-                                        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password">
-                                        <button class="btn btn-outline-light" type="button" id="showPassword">Mostrar</button>
+                                        <input type="password" id="passwordInput" class="form-control form-control-lg password-input" placeholder="Password">
+                                        <button class="btn btn-outline-light show-password-btn" type="button">Mostrar</button>
                                     </div>
                                 </div>
                                 <button class="signin btn btn-outline-light btn-lg px-5" id="formLoginBtn" type="submit">Entrar</button>
@@ -40,6 +41,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Registration -->
             <div class="row d-flex justify-content-center align-items-center h-100 d-none" id="regDiv">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-6">
                     <div class="card bg-dark text-white rounded">
@@ -98,8 +101,16 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <input type="password" id="passwordInput2" class="form-control form-control-lg" placeholder="Contraseña">
-                                            <button class="btn btn-outline-light" type="button" id="showPassword2">Mostrar</button>
+                                            <input type="password" id="registrationPassword" class="form-control form-control-lg password-input" placeholder="Contraseña">
+                                            <button class="btn btn-outline-light show-password-btn" type="button">Mostrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <input type="password" id="registrationPasswordConfirm" class="form-control form-control-lg password-input" placeholder="Confirmación Contraseña">
+                                            <button class="btn btn-outline-light show-password-btn" type="button">Mostrar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -116,6 +127,7 @@
             </div>
         </div>
     </section>
+
     <%- include('fragments/footer.ejs') %>
     <script src="/javascripts/login.js"></script>
 </body>

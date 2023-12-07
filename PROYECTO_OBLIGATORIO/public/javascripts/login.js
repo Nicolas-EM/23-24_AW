@@ -8,9 +8,14 @@ $("#loginBtn").on("click", () => {
     $("#logDiv").removeClass("d-none");
     $("#regDiv").addClass("d-none");
 });
+
 //ambos passwordfields se ponen en texto plano o se quitan el texto plano
-$("#showPassword, #showPassword2").on("click", () => {
-    let passwordInput = $("#passwordInput, #passwordInput2");
+$(".show-password-btn").on("click", e => {
+    console.log($(e.target));
+    console.log($(e.target).closest('.input-group'));
+    const passwordInput = $(e.target).closest('.input-group').find('.password-input');
+    console.log(passwordInput);
+
     if (passwordInput.attr("type") === "password") {
         passwordInput.attr("type", "text");
     } else {
@@ -43,9 +48,10 @@ $("#loginForm").on("submit", (e) => {
         },
     });
 });
+
 // Validacion contraseñas
-const passwordInput = document.getElementById("passwordInput");
-const passwordInput2 = document.getElementById("passwordInput2");
+const passwordInput = document.getElementById("registrationPassword");
+const passwordInput2 = document.getElementById("registrationPasswordConfirm");
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
 

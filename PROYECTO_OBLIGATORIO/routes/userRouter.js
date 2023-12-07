@@ -12,8 +12,6 @@ userRouter.get('/', requireLogin, (req, res, next) => {
     res.status(200).render("user", { csrfToken: req.csrfToken() });
 });
 
-const { check, validationResult } = require("express-validator");
-
 userRouter.post('/create',
     check('name').notEmpty().withMessage('Nombre es requerido'),
     check('surname').notEmpty().withMessage('Apellidos es requerido'),

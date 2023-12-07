@@ -6,23 +6,23 @@ const requireAdmin = require('../middleware/requireAdmin');
 
 let installationRouter = require('express').Router();
 
-app.get('/', (req, res, next) => {
+installationRouter.get('/', (req, res, next) => {
     
 });
 
-app.post('/create', requireAdmin, (req, res, next) => {
+installationRouter.post('/create', requireAdmin, (req, res, next) => {
     
 });
 
-app.post('/update', requireAdmin, (req, res, next) => {
+installationRouter.post('/update', requireAdmin, (req, res, next) => {
     
 });
 
-app.post('/delete', requireAdmin, (req, res, next) => {
+installationRouter.post('/delete', requireAdmin, (req, res, next) => {
     
 });
 
-app.post('/search', (req, res, next) => {
+installationRouter.post('/search', (req, res, next) => {
     
 });
 
