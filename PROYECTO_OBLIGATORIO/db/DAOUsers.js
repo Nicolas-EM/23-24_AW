@@ -5,9 +5,10 @@ class DAOUsers {
   constructor(pool) {
     this.pool = pool;
   }
+
   getUserById(id, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_usu_users WHERE id = ?",
+      "SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `validated` FROM ucm_aw_riu_usu_users WHERE id = ?",
       [id],
       (err, rows) => {
         if (err) {
@@ -50,6 +51,7 @@ class DAOUsers {
       }
     });
   }
+
   //se puede actualizar solo algun dato, eso lo separaremos en otra query.
   updateUser(user, callback) {
     this.pool.query(

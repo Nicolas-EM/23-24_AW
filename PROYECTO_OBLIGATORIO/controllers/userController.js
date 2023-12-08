@@ -9,9 +9,23 @@ const fs = require('fs');
 const daoUser = new DAOUsers(pool);
 
 class userController {
+    getUserById(req, res, next) {
+        const userId = req.params.id;
+
+        daoUser.getUserById(userId, (err, user) => {
+            if(err)
+                next(err);
+            else
+                res.send(user);
+        })
+    }
+
     getAllUsers(req, res, next){
         daoUser.getAllUsers((err, users) => {
-            res.send(users);
+            if(err)
+                next(err);
+            else
+                res.send(users);
         })
     }
 

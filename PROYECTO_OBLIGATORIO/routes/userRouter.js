@@ -13,6 +13,8 @@ const userCtrl = new userController();
 
 userRouter.get('/', requireLogin, userCtrl.getAllUsers);
 
+userRouter.get('/:id', requireLogin, userCtrl.getUserById);
+
 userRouter.post('/create',
     check('name').notEmpty().withMessage('Nombre es requerido'),
     check('surname').notEmpty().withMessage('Apellidos es requerido'),
