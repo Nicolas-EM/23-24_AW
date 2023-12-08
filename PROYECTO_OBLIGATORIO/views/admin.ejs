@@ -13,29 +13,29 @@
   <!-- Sidebar menu -->
   <div class="container-fluid">
     <div class="row">
-      <%- include('fragments/adminSidebar.ejs') %>
+      <%- include('fragments/admin/sidebar.ejs') %>
 
       <div class="col">
         <div class="tab-content" id="pills-tabContent">
 
           <div class="tab-pane fade show active" id="pills-org" role="tabpanel" aria-labelledby="pills-org-tab" tabindex="0">
-            <%- include('fragments/adminSettingsOrg.ejs') %>
+            <%- include('fragments/admin/orgSettings.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab" tabindex="0">
-            <%- include('fragments/adminSettingsUsers.ejs') %>
+            <%- include('fragments/admin/usersSettings.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-installationsCreate" role="tabpanel" aria-labelledby="pills-installationsCreate-tab" tabindex="0">
-            <%- include('fragments/adminSettingsInstallationsCreate.ejs') %>
+            <%- include('fragments/admin/installationsCreate.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-installationsManage" role="tabpanel" aria-labelledby="pills-installationsManage-tab" tabindex="0">
-            <%- include('fragments/adminSettingsInstallationsManage.ejs') %>
+            <%- include('fragments/admin/installationsManage.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
-            <%- include('fragments/adminSettingsStats.ejs') %>
+            <%- include('fragments/admin/stats.ejs') %>
           </div>
         </div>
         
@@ -44,6 +44,9 @@
   </div>
 
   <%- include('fragments/footer.ejs') %>
+  <script src="/javascript/adminUserSettings.js"></script>
+  <script src="/javascript/adminInstallations.js"></script>
+  <script src="/javascript/adminStats.js"></script>
   <script src="/javascript/admin.js"></script>
 </body>
 

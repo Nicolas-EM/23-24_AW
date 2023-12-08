@@ -9,6 +9,12 @@ const fs = require('fs');
 const daoUser = new DAOUsers(pool);
 
 class userController {
+    getAllUsers(req, res, next){
+        daoUser.getAllUsers((err, users) => {
+            res.send(users);
+        })
+    }
+
     register(req, res, next) {
         //express validator
         const errors = validationResult(req);

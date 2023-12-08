@@ -112,3 +112,7 @@ app.get("/login", (req, res) => {
     });
   }
 });
+
+app.get("/user", (req, res, next) => {
+  res.status(200).render("user", { csrfToken: req.csrfToken() });
+})

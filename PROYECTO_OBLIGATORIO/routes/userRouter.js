@@ -11,9 +11,7 @@ let userRouter = require('express').Router();
 
 const userCtrl = new userController();
 
-userRouter.get('/', requireLogin, (req, res, next) => {
-    res.status(200).render("user", { csrfToken: req.csrfToken() });
-});
+userRouter.get('/', requireLogin, userCtrl.getAllUsers);
 
 userRouter.post('/create',
     check('name').notEmpty().withMessage('Nombre es requerido'),

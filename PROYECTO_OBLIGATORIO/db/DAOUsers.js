@@ -42,7 +42,7 @@ class DAOUsers {
   }
 
   getAllUsers(callback) {
-    this.pool.query("SELECT * FROM ucm_aw_riu_usu_users", (err, rows) => {
+    this.pool.query("SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `validated` FROM `ucm_aw_riu_usu_users`;", (err, rows) => {
       if (err) {
         callback(err);
       } else {

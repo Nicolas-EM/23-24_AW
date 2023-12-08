@@ -8,6 +8,14 @@ const daoReservations = new DAOReservations(pool);
 class reservationsController {
 
   getReservationsByUser(req, res, next) {
+    
+  }
+
+  getReservationsByFaculty(req, res, next) {
+    
+  }
+
+  getStatsByUser(req, res, next) {
     daoReservations.getReservationsStatsByUser((err, stats) => {
       if(err)
         next(err);
@@ -16,7 +24,7 @@ class reservationsController {
     });
   }
 
-  getReservationsByFaculty(req, res, next) {
+  getStatsByFaculty(req, res, next) {
     daoReservations.getReservationsStatsByFaculty((err, stats) => {
       if(err)
         next(err);

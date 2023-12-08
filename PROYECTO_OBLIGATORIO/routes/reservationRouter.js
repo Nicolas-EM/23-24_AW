@@ -23,8 +23,12 @@ reservationRouter.post('/delete', (req, res, next) => {
     
 });
 
-reservationRouter.get('/byUser', requireAdmin, controller.getReservationsByUser);
+reservationRouter.get('/byUser/:id', requireAdmin, controller.getReservationsByUser);
 
-reservationRouter.get('/byFaculty', requireAdmin, controller.getReservationsByFaculty);
+reservationRouter.get('/byFaculty/:id', requireAdmin, controller.getReservationsByFaculty);
+
+reservationRouter.get('/userStats', requireAdmin, controller.getStatsByUser);
+
+reservationRouter.get('/facultyStats', requireAdmin, controller.getStatsByFaculty);
 
 module.exports = reservationRouter;
