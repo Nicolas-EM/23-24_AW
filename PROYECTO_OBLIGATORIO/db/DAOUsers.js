@@ -8,7 +8,7 @@ class DAOUsers {
 
   getUserById(id, callback) {
     this.pool.query(
-      "SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `validated` FROM ucm_aw_riu_usu_users WHERE id = ?",
+      "SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `isValidated` FROM ucm_aw_riu_usu_users WHERE id = ?",
       [id],
       (err, rows) => {
         if (err) {
@@ -44,7 +44,7 @@ class DAOUsers {
   }
 
   getAllUsers(callback) {
-    this.pool.query("SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `validated` FROM `ucm_aw_riu_usu_users`;", (err, rows) => {
+    this.pool.query("SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `isValidated` FROM `ucm_aw_riu_usu_users`;", (err, rows) => {
       if (err) {
         callback(err);
       } else {
@@ -56,7 +56,7 @@ class DAOUsers {
   //se puede actualizar solo algun dato, eso lo separaremos en otra query.
   updateUser(user, callback) {
     this.pool.query(
-      "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, faculty = ?, grade = ?, ugroup = ?, email = ?, password = ?, profileImageName = ?, profileImageType = ?, isAdmin = ?, validated = ? WHERE id = ?",
+      "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, faculty = ?, grade = ?, ugroup = ?, email = ?, password = ?, profileImageName = ?, profileImageType = ?, isAdmin = ?, isValidated = ? WHERE id = ?",
       [
         user.name,
         user.surname,
@@ -68,9 +68,23 @@ class DAOUsers {
         user.profileImageName,
         user.profileImageType,
         user.isAdmin,
-        user.validated,
+        user.isValidated,
         user.id,
       ],
+      (err, result) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null);
+        }
+      }
+    );
+  }
+
+  validateUser(id, callback){
+    this.pool.query(
+      "UPDATE ucm_aw_riu_usu_users SET isValidated = 1 WHERE id = ?",
+      [id],
       (err, result) => {
         if (err) {
           callback(err);
@@ -97,7 +111,7 @@ class DAOUsers {
 
   createUser(user, callback) {
     this.pool.query(
-      "INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImageName, profileImageType, isAdmin, validated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImageName, profileImageType, isAdmin, isValidated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         user.name,
         user.surname,
@@ -109,7 +123,7 @@ class DAOUsers {
         user.profileImageName,
         user.profileImageType,
         user.isAdmin,
-        user.validated,
+        user.isValidated,
       ],
       (err, result) => {
         if (err) {

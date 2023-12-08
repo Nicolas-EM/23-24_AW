@@ -53,9 +53,31 @@ $("#userSettingsModal").on("show.bs.modal", e => {
             $("#email").val(user.email);
             $("#role").val(user.isAdmin);
 
-            if(user.validated === 0){
+            if(user.isValidated === 0){
+                $("#validationUserId").attr("value", user.id);
                 $("#validation").removeClass("d-none");
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+});
+
+// Validate user
+$("#validateUserBtn").on("click", e => {
+    $.ajax({
+        method: "POST",
+        url: `/users/validate`,
+        data: {
+            _csrf: $("#csrfToken").val(),
+            userId: $("#validationUserId").val()
+        },
+        success: function (data) {
+            $("#validation").addClass("d-none");
+            $("#toastMsg").html("User successfully validated");
+            toast.show();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#toastMsg").html(jqXHR.responseText);

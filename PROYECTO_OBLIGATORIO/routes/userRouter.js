@@ -42,9 +42,9 @@ userRouter.post('/role', requireAdmin, (req, res, next) => {
 
 });
 
-userRouter.post('/validate', requireAdmin, (req, res, next) => {
-
-});
+userRouter.post('/validate', 
+check("userId").notEmpty().withMessage("UserID required").isNumeric().withMessage("UserID must be numeric"),
+requireAdmin, userCtrl.validate);
 
 userRouter.get('/byFaculty', requireAdmin, (req, res, next) => {
 

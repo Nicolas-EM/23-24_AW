@@ -75,6 +75,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <form id="updateUser">
+        <input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="userSettingsModalLabel">Settings</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -109,8 +110,9 @@
             </select>
           </div>
           <div id="validation" class="mb-3 d-none">
+            <input class="d-none" id="validationUserId" value="">
             <label for="validationBtn" class="form-label">Validation</label>
-            <button class="btn btn-primary form-control">Validate</button>
+            <button id="validateUserBtn" class="btn btn-primary form-control" type="button">Validate</button>
           </div>
         </div>
         <div class="modal-footer">

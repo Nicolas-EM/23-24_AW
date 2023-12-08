@@ -104,6 +104,23 @@ class userController {
             res.redirect("/");
         });
     }
+
+    validate(req, res, next) {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        
+        const { userId } = req.body;
+
+        daoUser.validateUser(userId, (err) => {
+            if(err)
+                next(err);
+            else
+                res.send("OK");
+        })
+    }
 }
 
 module.exports = userController;
