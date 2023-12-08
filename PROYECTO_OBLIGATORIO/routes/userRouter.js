@@ -1,13 +1,15 @@
 "use strict";
-const pool = require("../db/pool");
-const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
+
+const { check } = require("express-validator"); //para validar los datos de los formularios
+const userController = require('../controllers/userController');
+
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
 const requireLogin = require('../middleware/requireLogin');
-const userController = require('../controllers/userController');
+
 let userRouter = require('express').Router();
 
-const userCtrl = new userController(pool);
+const userCtrl = new userController();
 
 userRouter.get('/', requireLogin, (req, res, next) => {
     res.status(200).render("user", { csrfToken: req.csrfToken() });
@@ -34,9 +36,7 @@ userRouter.post('/login',
     check('password').notEmpty().withMessage('Contraseña es requerida'),
     userCtrl.login);
 
-userRouter.post('/logout', requireLogin, (req, res, next) => {
-
-});
+userRouter.get('/logout', requireLogin, userCtrl.logout);
 
 userRouter.post('/role', requireAdmin, (req, res, next) => {
 

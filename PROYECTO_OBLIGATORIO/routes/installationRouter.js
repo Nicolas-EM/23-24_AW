@@ -1,14 +1,14 @@
 "use strict";
 
-const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
+const { check } = require("express-validator"); //para validar los datos de los formularios
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
+const installationController = require("../controllers/installationController");
 
 let installationRouter = require('express').Router();
+const installationCtrl = new installationController();
 
-installationRouter.get('/', (req, res, next) => {
-    
-});
+installationRouter.get('/', installationCtrl.getInstallations);
 
 installationRouter.post('/create', requireAdmin, (req, res, next) => {
     

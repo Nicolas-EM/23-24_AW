@@ -30,6 +30,8 @@ class userController {
             } else {
                 if (userId !== undefined) {
                     req.session.userId = userId;
+                    req.session.isAdmin = false;
+
                     res.render('user', {
                         isAuthenticated: true, user: { name, surname, faculty, grade, group, email },
                         csrfToken: req.csrfToken()
@@ -62,6 +64,7 @@ class userController {
                     if (passwordMatch) {
                         // If valid credentials, create a session
                         req.session.userId = user.id
+                        req.session.isAdmin = (user.isAdmin === 1);
 
                         res.send("Sesión iniciada.");
                     } else {
@@ -70,6 +73,12 @@ class userController {
                 });
             }
         })
+    }
+
+    logout(req, res, next) {
+        req.session.destroy(() => {
+            res.redirect("/");
+        });
     }
 }
 

@@ -1,25 +1,24 @@
-<nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom customNav">
-    <div class="container-fluid">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-sm bg-body-tertiary border-bottom">
+    <div class="container">
         <a class="navbar-brand" href="/" target="_self">
             <span>
                 <img src="/images/logo.svg" alt="logo" width="45" height="35">
             </span>
         </a>
-        <!-- Account menu -->
+        <!-- Account Icon -->
         <div class="navbar-nav ms-auto">
             <div class="nav-item">
                 <div class="nav-item btn-group dropstart">
-                    <btn id="menuBtn" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#dropdownMenu">
-                        <span>
-                            <img src="/images/menu.svg" alt="account_circle" width="45" height="35">
-                        </span>
+                    <btn id="accountCircleBtn" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#loginModal" aria-expanded="false">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
                     </btn>
-                    <ul class="dropdown-menu fades" id="dropdownMenu">
-                        <li><a class="dropdown-item">Feature #1</a></li>
-                        <li><a class="dropdown-item">Feature #2</a></li>
-                        <li><a class="dropdown-item">Feature #3</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li><a id="logoutBtn" class="dropdown-item" href="#">Cerrar sesión</a></li>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/users">My Profile</a></li>
+                        <% if(locals.isAdmin) {%>
+                            <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                        <% } %>
+                        <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>

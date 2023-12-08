@@ -74,23 +74,18 @@ app.use("/faculties", facultyRouter);
 app.use("/messages", requireLogin, messageRouter);
 
 app.get("/", requireLogin, (req, res) => {
-  res.render("dashboard");
+  console.log(req.session.isAdmin);
+  res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
 });
+
 const DAOFaculties = require("./db/DAOFaculties");
+const pool = require("./db/pool");
 
 app.get("/login", (req, res) => {
   if(req.session && req.session.userId){
     // user already signed in
     res.redirect("/");
-  } else {
-    // show login
-    const pool = mysql.createPool({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "UCM_RIU"
-    });
-  
+  } else {  
     const daoFaculties = new DAOFaculties(pool);
   
     daoFaculties.getFaculties((err, faculties) => {
