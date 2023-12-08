@@ -1,5 +1,5 @@
 function requireAdmin(request, response, next){
-    if (request.session && request.session.userId && request.session.role === "admin") {
+    if (request.session && request.session.userId && request.session.isAdmin) {
         // If authenticated, continue with the request
         next();
     } else {

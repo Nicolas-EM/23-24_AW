@@ -10,9 +10,7 @@ function getInstallations() {
         method: "GET",
         url: "/installations/",
         success: function (data) {
-            // $("#installations").append(data);
-            console.log(data);
-            for(let x in data){
+            for (let x in data) {
                 const inst = data[x];
                 $("#installations").append(createInstallationCard(inst));
             }
@@ -55,8 +53,7 @@ function createInstallationCard(inst) {
             </div>`
 }
 
-function getButtonFromAvailability(availability){
-    console.log(availability)
+function getButtonFromAvailability(availability) {
     if (availability === "Available")
         return '<button class="btn btn-primary pill-rounded">Book now!</button>'
     else

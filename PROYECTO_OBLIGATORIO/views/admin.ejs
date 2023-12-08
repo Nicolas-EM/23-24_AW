@@ -2,11 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIU -- Admin</title>
   <%- include('fragments/head.ejs') %>
-  <link href="./stylesheets/admin.css" rel="stylesheet">
+  <title>RIU -- Admin</title>
+  <link href="/stylesheets/admin.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,94 +13,32 @@
   <!-- Sidebar menu -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-auto sideBarCol">
-        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+      <%- include('fragments/adminSidebar.ejs') %>
 
-          <ul class="nav nav-pills flex-column mb-0 align-items-center align-items-sm-start" id="menu">
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-speedometer2"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-speedometer2"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Organizations</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-table"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Users</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-bootstrap"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Installations</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-people"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Stats</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <hr>
-          <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://github.com/mdo.png" alt="hugenerd" width="45" height="45" class="rounded-circle">
-              <span class="fs-6">loser</span>
-            </a>
-            <ul class="dropdown-menu sideBarCol text-small shadow">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
+      <div class="col">
+        <div class="tab-content" id="pills-tabContent">
+
+          <div class="tab-pane fade show active" id="pills-org" role="tabpanel" aria-labelledby="pills-org-tab" tabindex="0">
+            <%- include('fragments/adminSettingsOrg.ejs') %>
+          </div>
+
+          <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab" tabindex="0">
+            <%- include('fragments/adminSettingsUsers.ejs') %>
+          </div>
+
+          <div class="tab-pane fade" id="pills-installations" role="tabpanel" aria-labelledby="pills-installations-tab" tabindex="0">
+            <%- include('fragments/adminSettingsInstallations.ejs') %>
+          </div>
+
+          <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
+            <%- include('fragments/adminSettingsStats.ejs') %>
           </div>
         </div>
-      </div>
-      <!-- FILEPATH: /d:/#1_REPOS VS STUDIO/23-23_AW/PROYECTO_OBLIGATORIO/public/user.html -->
-      <!-- BEGIN: ed8c6549bwf9 -->
-
-      <%- include('fragments/contentCard.ejs') %>
-      <!-- hara falta mas de una-->
+        
+      </div>    
     </div>
   </div>
+
   <%- include('fragments/footer.ejs') %>
 </body>
 

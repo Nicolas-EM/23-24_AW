@@ -52,8 +52,8 @@ CREATE TABLE `ucm_aw_riu_messages` (
 
 -- Insert entries into ucm_aw_riu_usu_users table
 INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImageName, profileImageType, isAdmin, validated) VALUES
-('John', 'Doe', 'Faculty 1', 'Grade 1', 'Group 1', 'test@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 0, 1),
-('Jane', 'Smith', 'Faculty 2', 'Grade 2', 'Group 2', 'user2@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 1, 1),
+('Normal', 'User', 'Faculty 1', 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 0, 1),
+('Admin', 'User', 'Faculty 2', 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 1, 1),
 ('Mike', 'Johnson', 'Faculty 3', 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 0, 1);
 
 INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity) VALUES

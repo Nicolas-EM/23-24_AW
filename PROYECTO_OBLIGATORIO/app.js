@@ -73,13 +73,12 @@ app.use("/installations", requireLogin, installationRouter);
 app.use("/faculties", facultyRouter);
 app.use("/messages", requireLogin, messageRouter);
 
-app.get("/", requireLogin, (req, res) => {
-  console.log(req.session.isAdmin);
-  res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
-});
-
 const DAOFaculties = require("./db/DAOFaculties");
 const pool = require("./db/pool");
+
+app.get("/", requireLogin, (req, res) => {
+  res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
+});
 
 app.get("/login", (req, res) => {
   if(req.session && req.session.userId){
