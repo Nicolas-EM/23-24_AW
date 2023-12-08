@@ -12,8 +12,8 @@ CREATE TABLE `ucm_aw_riu_ins_facilities` (
   `availabity` varchar(255) NOT NULL,
   `type` varchar(12) NOT NULL,
   `capacity` INT DEFAULT NULL,
-  `ImageName` varchar(255) DEFAULT NULL,
-  `ImageType` varchar(255) DEFAULT NULL
+  `Image` BLOB DEFAULT NULL,
+
 );
 
 CREATE TABLE `ucm_aw_riu_res_reservations` (
@@ -34,8 +34,7 @@ CREATE TABLE `ucm_aw_riu_usu_users` (
   `ugroup` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profileImageName` varchar(255) DEFAULT NULL,
-  `profileImageType` varchar(255) DEFAULT NULL,
+  `profileImage` BLOB,
   `isAdmin` tinyint(1) DEFAULT 0,
   `validated` tinyint(1) DEFAULT 0
 );
@@ -51,10 +50,10 @@ CREATE TABLE `ucm_aw_riu_messages` (
 );
 
 -- Insert entries into ucm_aw_riu_usu_users table
-INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImageName, profileImageType, isAdmin, validated) VALUES
-('Normal', 'User', 'Faculty 1', 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 0, 1),
-('Admin', 'User', 'Faculty 2', 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 1, 1),
-('Mike', 'Johnson', 'Faculty 3', 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, NULL, 0, 1);
+INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImage, isAdmin, validated) VALUES
+('Normal', 'User', 'Faculty 1', 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 0, 1),
+('Admin', 'User', 'Faculty 2', 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 1, 1),
+('Mike', 'Johnson', 'Faculty 3', 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL,0, 1);
 
 INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity) VALUES
 ('Facility 1', 'Available', 'Type 1', 100),
