@@ -16,7 +16,7 @@ class userController {
             if (err)
                 next(err);
             else
-                res.send(user);
+                res.json(user);
         })
     }
 
@@ -25,7 +25,7 @@ class userController {
             if (err)
                 next(err);
             else
-                res.send(users);
+                res.json(users);
         })
     }
 

@@ -9,20 +9,12 @@ const facultyController = new FacultyController();
 
 let facultyRouter = require('express').Router();
 
-facultyRouter.get('/', (req, res, next) => {
-    facultyController.getIndex(req, res, next);
-});
+facultyRouter.get('/', facultyController.getFaculties);
 
-facultyRouter.post('/create', requireAdmin, (req, res, next) => {
-    facultyController.createFaculty(req, res, next);
-});
+facultyRouter.post('/create', requireAdmin, facultyController.createFaculty);
 
-facultyRouter.post('/update', requireAdmin, (req, res, next) => {
-    facultyController.updateFaculty(req, res, next);
-});
+facultyRouter.post('/update', requireAdmin, facultyController.updateFaculty);
 
-facultyRouter.post('/delete', requireAdmin, (req, res, next) => {
-    facultyController.deleteFaculty(req, res, next);
-});
+facultyRouter.post('/delete', requireAdmin, facultyController.deleteFaculty);
 
 module.exports = facultyRouter;

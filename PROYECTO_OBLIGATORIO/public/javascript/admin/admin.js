@@ -25,8 +25,10 @@ $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     if(event.target.id === "pills-users-tab"){
         getUsers();
     }
-    else if (event.target.id === "pills-installationsManage-tab") {
+    else if (event.target.id === "pills-installations-tab") {
         getInstallations();
+    } else if (event.target.id === "pills-faculties-tab") {
+        getFaculties();
     } else if (event.target.id === "pills-stats-tab") {
         getStatsByFaculty();
         getStatsByUser();

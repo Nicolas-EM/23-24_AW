@@ -14,7 +14,7 @@ class reservationsController {
       if(err)
         next(err);
       else
-        res.send(reservations);
+        res.json(reservations);
     });
   }
 
@@ -27,7 +27,7 @@ class reservationsController {
       if(err)
         next(err);
       else
-        res.send(stats);
+        res.json(stats);
     });
   }
 
@@ -36,7 +36,7 @@ class reservationsController {
       if(err)
         next(err);
       else
-        res.send(stats);
+        res.json(stats);
     });
   }
 }

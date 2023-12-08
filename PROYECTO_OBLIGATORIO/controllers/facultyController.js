@@ -7,8 +7,13 @@ const daoFaculty = new DAOFaculty(pool);
 
 class FacultyController {
 
-  getIndex(req, res, next) {
-    // Handle the GET request for '/'
+  getFaculties(req, res, next) {
+    daoFaculty.getFaculties((err, faculties) => {
+      if(err)
+        next(err);
+      else
+        return res.json(faculties);
+    })
   }
 
   createFaculty(req, res, next) {

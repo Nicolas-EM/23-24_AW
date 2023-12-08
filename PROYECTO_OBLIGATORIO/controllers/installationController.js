@@ -11,10 +11,11 @@ class installationController {
       if (err) {
         next(err);
       } else {
-        res.send(installations);
+        res.json(installations);
       }
     });
   }
+  
   getImage(req, res, next) {
     const installationId = req.params.id;
     daoInstallations.getInstallationById(

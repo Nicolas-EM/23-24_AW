@@ -27,3 +27,11 @@
 #query {
   min-width: 125px;
 }
+
+#adminCol {
+  flex: 1;
+}
+
+#pills-tabContent .btn {
+  max-width: 150px;
+}

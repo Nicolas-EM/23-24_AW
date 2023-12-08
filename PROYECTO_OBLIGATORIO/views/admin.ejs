@@ -12,10 +12,10 @@
 
   <!-- Sidebar menu -->
   <div class="container-fluid">
-    <div class="row">
+    <div class="row row-cols-2">
       <%- include('fragments/admin/sidebar.ejs') %>
 
-      <div class="col">
+      <div id="adminCol" class="col">
         <div class="tab-content" id="pills-tabContent">
 
           <div class="tab-pane fade show active" id="pills-org" role="tabpanel" aria-labelledby="pills-org-tab" tabindex="0">
@@ -26,12 +26,12 @@
             <%- include('fragments/admin/usersSettings.ejs') %>
           </div>
 
-          <div class="tab-pane fade" id="pills-installationsCreate" role="tabpanel" aria-labelledby="pills-installationsCreate-tab" tabindex="0">
-            <%- include('fragments/admin/installationsCreate.ejs') %>
+          <div class="tab-pane fade" id="pills-installations" role="tabpanel" aria-labelledby="pills-installations-tab" tabindex="0">
+            <%- include('fragments/admin/installations.ejs') %>
           </div>
 
-          <div class="tab-pane fade" id="pills-installationsManage" role="tabpanel" aria-labelledby="pills-installationsManage-tab" tabindex="0">
-            <%- include('fragments/admin/installationsManage.ejs') %>
+          <div class="tab-pane fade" id="pills-faculties" role="tabpanel" aria-labelledby="pills-faculties-tab" tabindex="0">
+            <%- include('fragments/admin/faculties.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
@@ -44,10 +44,11 @@
   </div>
 
   <%- include('fragments/footer.ejs') %>
-  <script src="/javascript/adminUserSettings.js"></script>
-  <script src="/javascript/adminInstallations.js"></script>
-  <script src="/javascript/adminStats.js"></script>
-  <script src="/javascript/admin.js"></script>
+  <script src="/javascript/admin/adminUserSettings.js"></script>
+  <script src="/javascript/admin/adminInstallations.js"></script>
+  <script src="/javascript/admin/adminFaculties.js"></script>
+  <script src="/javascript/admin/adminStats.js"></script>
+  <script src="/javascript/admin/admin.js"></script>
 </body>
 
 </html>
