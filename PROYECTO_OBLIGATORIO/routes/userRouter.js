@@ -24,12 +24,13 @@ userRouter.post('/create',
     check('email').notEmpty().withMessage('Email es requerido').isEmail().withMessage('Email no válido'),
     check('password').notEmpty().withMessage('Contraseña es requerida')
         .isLength({ min: 7 }).withMessage('La contraseña debe tener al menos 7 caracteres')
-        .matches(/\d/).withMessage('La contraseña debe contener al menos un número'), 
+        .matches(/\d/).withMessage('La contraseña debe contener al menos un número'),
     userCtrl.register);
 
-userRouter.post('/update', requireLogin, (req, res, next) => {
-
-});
+userRouter.post('/update',
+    check("userId").notEmpty().withMessage("UserID required").isNumeric().withMessage("UserID must be numeric"),
+    check("role").notEmpty().withMessage("Role required").isNumeric().withMessage("Role must be numeric"),
+    requireLogin, userCtrl.updateUser);
 
 userRouter.post('/login',
     check('email').notEmpty().withMessage('Email es requerido').isEmail().withMessage('Email no válido'),
@@ -38,13 +39,9 @@ userRouter.post('/login',
 
 userRouter.post('/logout', requireLogin, userCtrl.logout);
 
-userRouter.post('/role', requireAdmin, (req, res, next) => {
-
-});
-
-userRouter.post('/validate', 
-check("userId").notEmpty().withMessage("UserID required").isNumeric().withMessage("UserID must be numeric"),
-requireAdmin, userCtrl.validate);
+userRouter.post('/validate',
+    check("userId").notEmpty().withMessage("UserID required").isNumeric().withMessage("UserID must be numeric"),
+    requireAdmin, userCtrl.validateUser);
 
 userRouter.get('/byFaculty', requireAdmin, (req, res, next) => {
 

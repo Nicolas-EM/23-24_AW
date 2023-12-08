@@ -52,9 +52,9 @@ $("#userSettingsModal").on("show.bs.modal", e => {
             $("#surname").val(user.surname);
             $("#email").val(user.email);
             $("#role").val(user.isAdmin);
+            $("#userId").attr("value", user.id);
 
             if(user.isValidated === 0){
-                $("#validationUserId").attr("value", user.id);
                 $("#validation").removeClass("d-none");
             }
         },
@@ -72,7 +72,7 @@ $("#validateUserBtn").on("click", e => {
         url: `/users/validate`,
         data: {
             _csrf: $("#csrfToken").val(),
-            userId: $("#validationUserId").val()
+            userId: $("#userId").val()
         },
         success: function (data) {
             $("#validation").addClass("d-none");
@@ -85,3 +85,26 @@ $("#validateUserBtn").on("click", e => {
         }
     });
 });
+
+// Update user
+$("#updateUser").on("submit", e => {
+    e.preventDefault();
+    $.ajax({
+        method: "POST",
+        url: `/users/update`,
+        data: {
+            _csrf: $("#csrfToken").val(),
+            userId: $("#userId").val(),
+            role: $("#role").val(),
+        },
+        success: function (data) {
+            $("#validation").addClass("d-none");
+            $("#toastMsg").html("User role successfully updated");
+            toast.show();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+})

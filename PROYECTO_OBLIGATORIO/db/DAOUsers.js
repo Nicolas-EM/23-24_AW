@@ -53,22 +53,11 @@ class DAOUsers {
     });
   }
 
-  //se puede actualizar solo algun dato, eso lo separaremos en otra query.
   updateUser(user, callback) {
     this.pool.query(
-      "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, faculty = ?, grade = ?, ugroup = ?, email = ?, password = ?, profileImageName = ?, profileImageType = ?, isAdmin = ?, isValidated = ? WHERE id = ?",
+      "UPDATE ucm_aw_riu_usu_users SET isAdmin = ? WHERE id = ?",
       [
-        user.name,
-        user.surname,
-        user.faculty,
-        user.grade,
-        user.ugroup,
-        user.email,
-        user.password,
-        user.profileImageName,
-        user.profileImageType,
         user.isAdmin,
-        user.isValidated,
         user.id,
       ],
       (err, result) => {
@@ -80,6 +69,34 @@ class DAOUsers {
       }
     );
   }
+
+  //se puede actualizar solo algun dato, eso lo separaremos en otra query.
+  // updateUser(user, callback) {
+  //   this.pool.query(
+  //     "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, faculty = ?, grade = ?, ugroup = ?, email = ?, password = ?, profileImageName = ?, profileImageType = ?, isAdmin = ?, isValidated = ? WHERE id = ?",
+  //     [
+  //       user.name,
+  //       user.surname,
+  //       user.faculty,
+  //       user.grade,
+  //       user.ugroup,
+  //       user.email,
+  //       user.password,
+  //       user.profileImageName,
+  //       user.profileImageType,
+  //       user.isAdmin,
+  //       user.isValidated,
+  //       user.id,
+  //     ],
+  //     (err, result) => {
+  //       if (err) {
+  //         callback(err);
+  //       } else {
+  //         callback(null);
+  //       }
+  //     }
+  //   );
+  // }
 
   validateUser(id, callback){
     this.pool.query(

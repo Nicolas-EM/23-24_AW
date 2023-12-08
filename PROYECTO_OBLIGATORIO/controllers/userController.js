@@ -13,16 +13,16 @@ class userController {
         const userId = req.params.id;
 
         daoUser.getUserById(userId, (err, user) => {
-            if(err)
+            if (err)
                 next(err);
             else
                 res.send(user);
         })
     }
 
-    getAllUsers(req, res, next){
+    getAllUsers(req, res, next) {
         daoUser.getAllUsers((err, users) => {
-            if(err)
+            if (err)
                 next(err);
             else
                 res.send(users);
@@ -71,18 +71,18 @@ class userController {
             return res.status(400).json({ errors: errors.array() });
         }
         const { email, password } = req.body;
-        
+
         daoUser.getUserByEmail(email, (err, user) => {
             if (err) {
                 next(err);
             }
-            else {                
+            else {
                 bcrypt.compare(password, user.password, (err, passwordMatch) => {
                     if (err) {
                         next(err);
                     }
                     if (passwordMatch) {
-                        if(user.isValidated){
+                        if (user.isValidated) {
                             // If valid credentials, create a session
                             req.session.userId = user.id
                             req.session.isAdmin = (user.isAdmin === 1);
@@ -105,16 +105,28 @@ class userController {
         });
     }
 
-    validate(req, res, next) {
+    validateUser(req, res, next) {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-        
+
         const { userId } = req.body;
 
         daoUser.validateUser(userId, (err) => {
+            if (err)
+                next(err);
+            else
+                res.send("OK");
+        })
+    }
+
+    updateUser(req, res, next) {
+        const { userId, role } = req.body;
+        console.log(userId, role);
+
+        daoUser.updateUser({ id: userId, isAdmin: role}, (err) => {
             if(err)
                 next(err);
             else
