@@ -15,6 +15,7 @@ $("#loginBtn").on("click", () => {
 });
 
 function clearRegistration(){
+    // Clear registration form inputs
     $("#nameInput").val("");
     $("#surnameInput").val("");
     $("#facultyInput").val("");
@@ -30,6 +31,7 @@ function clearRegistration(){
 }
 
 function clearSignIn(){
+    // Clear login form inputs
     $("#emailInput").val("");
     $("#passwordInput").val("");
 }
@@ -62,12 +64,56 @@ $("#loginForm").on("submit", (e) => {
         },
         success: (response) => {
             console.log(response);
-            window.location.href = "/"; b
+            window.location.href = "/";
         },
         error: function(xhr, status, error) {
             // TODO: show proper error message
             // $("#toastMsg").html(xhr.responseText);
             // toast.show();
+            alert(xhr.responseText);
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+$("#registerForm").on("submit", (e) => {
+    e.preventDefault();
+
+    const name = $("#nameInput").val();
+    const surname = $("#surnameInput").val();
+    const faculty = $("#facultyInput").val();
+    const grade = $("#gradeInput").val();
+    const group = $("#groupInput").val();
+    const email = $("#emailInput2").val();
+    const picture = $("#pictureInput").val();
+    const password = $("#registrationPassword").val();
+    const passwordConfirm = $("#registrationPasswordConfirm").val();
+    const _csrf = $("#loginCSRF").val();
+
+    $.ajax({
+        url: "/users/register",
+        method: "POST",
+        data: {
+            name,
+            surname,
+            faculty,
+            grade,
+            group,
+            email,
+            picture,
+            password,
+            passwordConfirm,
+            _csrf
+        },
+        success: (response) => {
+            console.log(response);
+            window.location.href = "/";
+        },
+        error: function(xhr, status, error) {
+            // TODO: show proper error message
+            // $("#toastMsg").html(xhr.responseText);
+            // toast.show();
+            alert(xhr.responseText);
             console.error(xhr.responseText);
         }
     });

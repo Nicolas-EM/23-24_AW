@@ -80,32 +80,32 @@
                                 <div class="row">
                                     <div class="col-md-4  mb-3">
                                         <select id="facultyInput" class="form-control form-control-lg">
-                                            <option value="" disabled selected hidden>Facultad</option>
+                                            <option value="" selected disabled hidden>Facultad</option>
                                             <% faculties.forEach(function(faculty) { %>
-                                                <option value="<%= faculty.value %>">
-                                                    <%= faculty.name %>
-                                                </option>
-                                                <% }); %>
+                                            <option value="<%= faculty.faculty %>">
+                                                <%= faculty.faculty %>
+                                            </option>
+                                            <% }); %>
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <select id="gradeInput" class="form-control form-control-lg">
-                                            <option value="" disabled selected hidden>Grado</option>
+                                            <option value="" selected disabled hidden>Grado</option>
                                             <% grades.forEach(function(grade) { %>
-                                                <option value="<%= grade.value %>">
-                                                    <%= grade.name %>
-                                                </option>
-                                                <% }); %>
+                                            <option value="<%= grade.grade %>">
+                                                <%= grade.grade %>
+                                            </option>
+                                            <% }); %>
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <select id="groupInput" class="form-control form-control-lg">
-                                            <option value="" disabled selected hidden>Grupo</option>
+                                            <option value="" selected disabled hidden>Grupo</option>
                                             <% groups.forEach(function(group) { %>
-                                                <option value="<%= group.value %>">
-                                                    <%= group.name %>
-                                                </option>
-                                                <% }); %>
+                                            <option value="<%= group.ugroup %>">
+                                                <%= group.ugroup %>
+                                            </option>
+                                            <% }); %>
                                         </select>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
     </section>
 
     <%- include('fragments/footer.ejs') %>
-        <script src="/javascripts/login.js"></script>
+    <script src="/javascripts/login.js"></script>
 </body>
 
 </html>

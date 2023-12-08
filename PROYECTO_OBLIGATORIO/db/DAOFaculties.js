@@ -26,7 +26,7 @@ class DAOFaculties {
             if (err) {
                 callback(err);
             } else {
-                connection.query("SELECT DISTINCT group FROM ucm_aw_riu_usu_users;", function (err, rows) {
+                connection.query("SELECT DISTINCT ugroup FROM ucm_aw_riu_usu_users;", function (err, rows) {
                     if (err) {
                         callback(err);
                     } else {

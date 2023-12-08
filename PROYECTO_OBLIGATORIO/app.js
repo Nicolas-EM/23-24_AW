@@ -6,7 +6,7 @@ const installationRouter = require("./routes/installationRouter");
 const messageRouter = require("./routes/messageRouter");
 const reservationRouter = require("./routes/reservationRouter");
 const userRouter = require("./routes/userRouter");
-
+const mysql = require("mysql");
 import('mime').then(() => {
   // Use the mime package here
 }).catch((err) => {
@@ -76,6 +76,7 @@ app.use("/messages", requireLogin, messageRouter);
 app.get("/", requireLogin, (req, res) => {
   res.render("dashboard");
 });
+const DAOFaculties = require("./db/DAOFaculties");
 
 app.get("/login", (req, res) => {
   if(req.session && req.session.userId){
@@ -83,24 +84,37 @@ app.get("/login", (req, res) => {
     res.redirect("/");
   } else {
     // show login
-    const faculties = [
-      { value: "1", name: "Faculty 1" },
-      { value: "2", name: "Faculty 2" },
-      { value: "3", name: "Faculty 3" },
-    ];
+    const pool = mysql.createPool({
+      host: "localhost",
+      user: "root",
+      password: "",
+      database: "UCM_RIU"
+    });
   
-    const grades = [
-      { value: "1", name: "Grade 1" },
-      { value: "2", name: "Grade 2" },
-      { value: "3", name: "Grade 3" },
-    ];
+    const daoFaculties = new DAOFaculties(pool);
   
-    const groups = [
-      { value: "1", name: "Group 1" },
-      { value: "2", name: "Group 2" },
-      { value: "3", name: "Group 3" },
-    ];
-    
-    res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups });
+    daoFaculties.getFaculties((err, faculties) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        daoFaculties.getGrades((err, grades) => {
+          if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+          } else {
+            daoFaculties.getGroups((err, groups) => {
+              if (err) {
+                console.error(err);
+                res.status(500).send("Internal Server Error");
+              } else {
+                console.log(faculties, grades, groups);
+                res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups });
+              }
+            });
+          }
+        });
+      }
+    });
   }
 });

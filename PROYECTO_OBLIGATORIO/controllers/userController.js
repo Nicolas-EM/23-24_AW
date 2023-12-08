@@ -43,13 +43,13 @@ class userController {
     }
 
     login(req, res, next) {
-        //express validator
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         const { email, password } = req.body;
-
+        
         daoUser.getUserByEmail(email, (err, user) => {
             if (err) {
                 next(err);
