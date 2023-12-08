@@ -16,6 +16,9 @@
     - Tipo (individual/colectiva)
     - Aforo
     - Foto
-- Validar usuarios
-  - idUsuario
-- Asignar rol
+- Usuarios
+  - Validar
+  - Modificar rol
+- Stats
+  - ByFaculty
+  - ByUser

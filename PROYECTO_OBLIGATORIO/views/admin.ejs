@@ -26,8 +26,12 @@
             <%- include('fragments/adminSettingsUsers.ejs') %>
           </div>
 
-          <div class="tab-pane fade" id="pills-installations" role="tabpanel" aria-labelledby="pills-installations-tab" tabindex="0">
-            <%- include('fragments/adminSettingsInstallations.ejs') %>
+          <div class="tab-pane fade" id="pills-installationsCreate" role="tabpanel" aria-labelledby="pills-installationsCreate-tab" tabindex="0">
+            <%- include('fragments/adminSettingsInstallationsCreate.ejs') %>
+          </div>
+
+          <div class="tab-pane fade" id="pills-installationsManage" role="tabpanel" aria-labelledby="pills-installationsManage-tab" tabindex="0">
+            <%- include('fragments/adminSettingsInstallationsManage.ejs') %>
           </div>
 
           <div class="tab-pane fade" id="pills-stats" role="tabpanel" aria-labelledby="pills-stats-tab" tabindex="0">
@@ -40,6 +44,7 @@
   </div>
 
   <%- include('fragments/footer.ejs') %>
+  <script src="/javascript/admin.js"></script>
 </body>
 
 </html>
