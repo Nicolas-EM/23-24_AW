@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 $(document).ready(function () {
     getInstallations();
@@ -31,7 +31,7 @@ function createInstallationCard(inst) {
                     <a href="#">
                         <div class="rounded">
                             <!-- hace falta guardar el formato tambien!-->
-                            <img src="/images/${inst.imageName}" class="rounded d-block w-100 zoom-on-hover" alt="Installation Image">
+                            <img src="installations/image/${inst.id}" class="rounded d-block w-100 zoom-on-hover" alt="Installation Image">
                         </div>
                     </a>
                     <!-- Card Body -->

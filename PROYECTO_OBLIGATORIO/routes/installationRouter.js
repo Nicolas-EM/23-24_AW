@@ -26,4 +26,8 @@ installationRouter.post('/search', (req, res, next) => {
     
 });
 
+installationRouter.get('/image/:id', (req, res, next) => {
+    installationController.getImage(req, res, next);
+});
+
 module.exports = installationRouter;
