@@ -18,7 +18,12 @@
                         <% if(locals.isAdmin) {%>
                             <li><a class="dropdown-item" href="/org">Admin</a></li>
                         <% } %>
-                        <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
+                        <li>
+                            <form id="logoutForm" method="post" action="/users/logout">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <a id="logout" class="dropdown-item" href="#">Logout</a>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

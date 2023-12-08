@@ -33,8 +33,9 @@ class DAOUsers {
           callback(err);
         } else {
           if (rows.length === 0) {
-            callback(null, null); // No user found with the given email
+            callback({err: 400, message: "User not found"}); // No user found with the given email
           } else {
+            console.log(rows[0]);
             callback(null, rows[0]);
           }
         }

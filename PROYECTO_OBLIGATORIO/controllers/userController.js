@@ -76,19 +76,23 @@ class userController {
             if (err) {
                 next(err);
             }
-            else {
+            else {                
                 bcrypt.compare(password, user.password, (err, passwordMatch) => {
                     if (err) {
                         next(err);
                     }
                     if (passwordMatch) {
-                        // If valid credentials, create a session
-                        req.session.userId = user.id
-                        req.session.isAdmin = (user.isAdmin === 1);
+                        if(user.isValidated){
+                            // If valid credentials, create a session
+                            req.session.userId = user.id
+                            req.session.isAdmin = (user.isAdmin === 1);
 
-                        res.send("Sesión iniciada.");
+                            res.send("OK");
+                        } else {
+                            res.status(401).send("Error: User not validated");
+                        }
                     } else {
-                        res.status(401).send("Error: Credenciales incorrectas");
+                        res.status(401).send("Error: Incorrect credentials");
                     }
                 });
             }

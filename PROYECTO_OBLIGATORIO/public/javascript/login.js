@@ -14,7 +14,7 @@ $("#loginBtn").on("click", () => {
     $("#regDiv").addClass("d-none");
 });
 
-function clearRegistration(){
+function clearRegistration() {
     // Clear registration form inputs
     $("#nameInput").val("");
     $("#surnameInput").val("");
@@ -30,7 +30,7 @@ function clearRegistration(){
     passwordInput.style.backgroundColor = '#fff';
 }
 
-function clearSignIn(){
+function clearSignIn() {
     // Clear login form inputs
     $("#emailInput").val("");
     $("#passwordInput").val("");
@@ -45,96 +45,97 @@ $(".show-password-btn").on("click", e => {
     } else {
         passwordInput.attr("type", "password");
     }
-    });
+});
 
-    $("#loginForm").on("submit", (e) => {
-        e.preventDefault();
+$("#loginForm").on("submit", (e) => {
+    e.preventDefault();
 
-        const email = $("#emailInput").val();
-        const password = $("#passwordInput").val();
-        const _csrf = $("#loginCSRF").val();
+    const email = $("#emailInput").val();
+    const password = $("#passwordInput").val();
+    const _csrf = $("#loginCSRF").val();
 
-        $.ajax({
-            url: "/users/login",
-            method: "POST",
-            data: {
-                email,
-                password,
-                _csrf
-            },
-            success: (response) => {
-                console.log(response);
-                window.location.href = "/";
-            },
-            error: function(xhr, status, error) {
-                // TODO: show proper error message
-                // $("#toastMsg").html(xhr.responseText);
-                // toast.show();
-                alert(xhr.responseText);
-                console.error(xhr.responseText);
-            }
-        });
-    });
-
-    $("#registerForm").on("submit", (e) => {
-        e.preventDefault();
-        const name = $("#nameInput").val();
-        const surname = $("#surnameInput").val();
-        const faculty = $("#facultyInput").val();
-        const grade = $("#gradeInput").val();
-        const group = $("#groupInput").val();
-        const email = $("#emailInput2").val();
-        const password = $("#registrationPassword").val();
-        const passwordConfirm = $("#registrationPasswordConfirm").val();
-        const _csrf = $("#loginCSRF").val();
-
-        // Get the uploaded file
-        const file = $("#pictureInput")[0].files[0];
-        console.log(file);
-
-        // Create a FormData object and append the file and other form data
-        const formData = new FormData();
-
-        formData.append("name", name);
-        formData.append("surname", surname);
-        formData.append("faculty", faculty);
-        formData.append("grade", grade);
-        formData.append("group", group);
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("passwordConfirm", passwordConfirm);
-        formData.append("_csrf", _csrf);
-
-        if (file) {
-            formData.append("picture", file);
+    $.ajax({
+        url: "/users/login",
+        method: "POST",
+        data: {
+            email,
+            password,
+            _csrf
+        },
+        success: (response) => {
+            console.log(response);
+            window.location.href = "/";
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr);
+            // TODO: show proper error message
+            // $("#toastMsg").html(xhr.responseText);
+            // toast.show();
+            alert(xhr.responseText);
+            console.error(xhr.responseText);
         }
-
-        console.log(formData.getAll("picture"));
-        $.ajax({
-            url: "/users/create",
-            method: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: (response) => {
-                console.log(response);
-                window.location.href = "/";
-            },
-            error: function(xhr, status, error) {
-                // TODO: show proper error message
-                // $("#toastMsg").html(xhr.responseText);
-                // toast.show();
-                alert(xhr.responseText);
-                console.error(xhr.responseText);
-            }
-        });
     });
+});
+
+$("#registerForm").on("submit", (e) => {
+    e.preventDefault();
+    const name = $("#nameInput").val();
+    const surname = $("#surnameInput").val();
+    const faculty = $("#facultyInput").val();
+    const grade = $("#gradeInput").val();
+    const group = $("#groupInput").val();
+    const email = $("#emailInput2").val();
+    const password = $("#registrationPassword").val();
+    const passwordConfirm = $("#registrationPasswordConfirm").val();
+    const _csrf = $("#loginCSRF").val();
+
+    // Get the uploaded file
+    const file = $("#pictureInput")[0].files[0];
+    console.log(file);
+
+    // Create a FormData object and append the file and other form data
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("surname", surname);
+    formData.append("faculty", faculty);
+    formData.append("grade", grade);
+    formData.append("group", group);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("passwordConfirm", passwordConfirm);
+    formData.append("_csrf", _csrf);
+
+    if (file) {
+        formData.append("picture", file);
+    }
+
+    console.log(formData.getAll("picture"));
+    $.ajax({
+        url: "/users/create",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: (response) => {
+            console.log(response);
+            window.location.href = "/";
+        },
+        error: function (xhr, status, error) {
+            // TODO: show proper error message
+            // $("#toastMsg").html(xhr.responseText);
+            // toast.show();
+            alert(xhr.responseText);
+            console.error(xhr.responseText);
+        }
+    });
+});
 
 // Validacion contraseñas
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
 
-    if(!passwordIsValid(password)){
+    if (!passwordIsValid(password)) {
         passwordInput.style.backgroundColor = '#f08080';
         passwordInput.setCustomValidity('Tu contraseña debe tener mínimo 7 y máximo 50 caracteres, una letra y un número');
     } else {
@@ -145,7 +146,7 @@ passwordInput.addEventListener('input', () => {
 passwordInput2.addEventListener('input', () => {
     const password = passwordInput2.value;
 
-    if(!passwordIsValid(password) || (passwordInput.value != "" && passwordInput.value !== password)){
+    if (!passwordIsValid(password) || (passwordInput.value != "" && passwordInput.value !== password)) {
         passwordInput2.style.backgroundColor = '#f08080';
         passwordInput2.setCustomValidity('Tu contraseña debe tener mínimo 7 y máximo 50 caracteres, una letra y un número');
     } else {
@@ -153,23 +154,23 @@ passwordInput2.addEventListener('input', () => {
         passwordInput2.style.backgroundColor = '#fff';
     }
 });
-function passwordIsValid(password){
+function passwordIsValid(password) {
     let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
     return passwordRegex.test(password);
 }
 
-$("#pictureInput").on("change", function() {
+$("#pictureInput").on("change", function () {
     if (this.files && this.files[0]) {
         const file = this.files[0];
         const fileType = file.type;
 
         if (fileType.startsWith("image/")) {
             var reader = new FileReader();
-            
-            reader.onload = function(e) {
+
+            reader.onload = function (e) {
                 $('#accountImg').attr('src', e.target.result);
             }
-            
+
             reader.readAsDataURL(file); // convert to base64 string
         }
     }

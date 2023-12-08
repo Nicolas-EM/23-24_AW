@@ -36,7 +36,7 @@ userRouter.post('/login',
     check('password').notEmpty().withMessage('Contraseña es requerida'),
     userCtrl.login);
 
-userRouter.get('/logout', requireLogin, userCtrl.logout);
+userRouter.post('/logout', requireLogin, userCtrl.logout);
 
 userRouter.post('/role', requireAdmin, (req, res, next) => {
 

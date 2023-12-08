@@ -33,7 +33,7 @@ CREATE TABLE `ucm_aw_riu_usu_users` (
   `password` varchar(255) NOT NULL,
   `profileImage` BLOB,
   `isAdmin` tinyint(1) DEFAULT 0,
-  `validated` tinyint(1) DEFAULT 0,
+  `isValidated` tinyint(1) DEFAULT 0,
   FOREIGN KEY (`facultyId`) REFERENCES `ucm_aw_riu_ins_faculties` (`id`)
 );
 
@@ -64,10 +64,10 @@ INSERT INTO ucm_aw_riu_ins_faculties (name) VALUES
 ('Faculty 3');
 
 -- Insert entries into ucm_aw_riu_usu_users table
-INSERT INTO ucm_aw_riu_usu_users (name, surname, facultyId, grade, ugroup, email, password, profileImage, isAdmin, validated) VALUES
+INSERT INTO ucm_aw_riu_usu_users (name, surname, facultyId, grade, ugroup, email, password, profileImage, isAdmin, isValidated) VALUES
 ('Normal', 'User', 1, 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 0, 1),
 ('Admin', 'User', 2, 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 1, 1),
-('Mike', 'Johnson', 3, 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL,0, 1);
+('Mike', 'Johnson', 3, 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 0, 0);
 
 INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity, facultyId) VALUES
 ('Facility 1', 'Available', 'Type 1', 100, 1),
