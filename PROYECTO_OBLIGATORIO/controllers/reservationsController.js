@@ -8,7 +8,14 @@ const daoReservations = new DAOReservations(pool);
 class reservationsController {
 
   getReservationsByUser(req, res, next) {
-    
+    const userId = req.params.id;
+
+    daoReservations.getReservationsByUser(userId, (err, reservations) => {
+      if(err)
+        next(err);
+      else
+        res.send(reservations);
+    });
   }
 
   getReservationsByFaculty(req, res, next) {

@@ -126,17 +126,27 @@
 
 <!-- User history modal -->
 <div class="modal fade" id="userHistoryModal" tabindex="-1" aria-labelledby="userHistoryModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="userHistoryModalLabel">History</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col">
-            <h3 id="uHistoryName"></h3>
-          </div>
+        <table id="uHistoryTable" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Installation</th>
+              <th>Reservation Start</th>
+              <th>Reservation End</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="uHistoryTableRows">
+          </tbody>
+        </table>
+        <div id="uHistoryNoResults">
+          <h3>No results</h3>
         </div>
       </div>
       <div class="modal-footer">
