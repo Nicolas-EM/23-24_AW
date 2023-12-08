@@ -6,6 +6,11 @@ USE UCM_RIU;
 CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY '';
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'admin_aw'@'localhost' WITH GRANT OPTION;
 
+CREATE TABLE `ucm_aw_riu_ins_faculties` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(255) NOT NULL
+);
+
 CREATE TABLE `ucm_aw_riu_ins_facilities` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `name` varchar(255) NOT NULL,
@@ -13,7 +18,23 @@ CREATE TABLE `ucm_aw_riu_ins_facilities` (
   `type` varchar(12) NOT NULL,
   `capacity` INT DEFAULT NULL,
   `Image` BLOB DEFAULT NULL,
+  `facultyId` INT NOT NULL,
+  FOREIGN KEY (`facultyId`) REFERENCES `ucm_aw_riu_ins_faculties` (`id`)
+);
 
+CREATE TABLE `ucm_aw_riu_usu_users` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) NOT NULL,
+  `facultyId` INT NOT NULL,
+  `grade` varchar(255) NOT NULL,
+  `ugroup` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `profileImage` BLOB,
+  `isAdmin` tinyint(1) DEFAULT 0,
+  `validated` tinyint(1) DEFAULT 0,
+  FOREIGN KEY (`facultyId`) REFERENCES `ucm_aw_riu_ins_faculties` (`id`)
 );
 
 CREATE TABLE `ucm_aw_riu_res_reservations` (
@@ -22,21 +43,9 @@ CREATE TABLE `ucm_aw_riu_res_reservations` (
   `dateend` datetime NOT NULL,
   `datecreation` datetime NOT NULL,
   `userid` INT NOT NULL,
-  `instid` INT NOT NULL
-);
-
-CREATE TABLE `ucm_aw_riu_usu_users` (
-  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(255) NOT NULL,
-  `surname` varchar(255) NOT NULL,
-  `faculty` varchar(255) NOT NULL,
-  `grade` varchar(255) NOT NULL,
-  `ugroup` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `profileImage` BLOB,
-  `isAdmin` tinyint(1) DEFAULT 0,
-  `validated` tinyint(1) DEFAULT 0
+  `instid` INT NOT NULL,
+  FOREIGN KEY (`userid`) REFERENCES `ucm_aw_riu_usu_users` (`id`),
+  FOREIGN KEY (`instid`) REFERENCES `ucm_aw_riu_ins_facilities` (`id`)
 );
 
 CREATE TABLE `ucm_aw_riu_messages` (
@@ -49,16 +58,21 @@ CREATE TABLE `ucm_aw_riu_messages` (
     FOREIGN KEY (`receiver_id`) REFERENCES `ucm_aw_riu_usu_users` (`id`)
 );
 
--- Insert entries into ucm_aw_riu_usu_users table
-INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImage, isAdmin, validated) VALUES
-('Normal', 'User', 'Faculty 1', 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 0, 1),
-('Admin', 'User', 'Faculty 2', 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 1, 1),
-('Mike', 'Johnson', 'Faculty 3', 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL,0, 1);
+INSERT INTO ucm_aw_riu_ins_faculties (name) VALUES
+('Faculty 1'),
+('Faculty 2'),
+('Faculty 3');
 
-INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity) VALUES
-('Facility 1', 'Available', 'Type 1', 100),
-('Facility 2', 'Not Available', 'Type 2', 50),
-('Facility 3', 'Available', 'Type 1', 200);
+-- Insert entries into ucm_aw_riu_usu_users table
+INSERT INTO ucm_aw_riu_usu_users (name, surname, facultyId, grade, ugroup, email, password, profileImage, isAdmin, validated) VALUES
+('Normal', 'User', 1, 'Grade 1', 'Group 1', 'user@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 0, 1),
+('Admin', 'User', 2, 'Grade 2', 'Group 2', 'admin@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL, 1, 1),
+('Mike', 'Johnson', 3, 'Grade 3', 'Group 3', 'user3@ucm.es', "$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS", NULL,0, 1);
+
+INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity, facultyId) VALUES
+('Facility 1', 'Available', 'Type 1', 100, 1),
+('Facility 2', 'Not Available', 'Type 2', 50, 1),
+('Facility 3', 'Available', 'Type 1', 200, 2);
 
 -- Insert entries into ucm_aw_riu_res_reservations table
 INSERT INTO ucm_aw_riu_res_reservations (dateini, dateend, datecreation, userid, instid) VALUES

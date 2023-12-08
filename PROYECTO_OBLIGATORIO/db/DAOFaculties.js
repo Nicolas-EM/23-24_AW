@@ -10,7 +10,7 @@ class DAOFaculties {
             if (err) {
                 callback(err);
             } else {
-                connection.query("SELECT DISTINCT faculty FROM ucm_aw_riu_usu_users;", function (err, rows) {
+                connection.query("SELECT * FROM ucm_aw_riu_ins_faculties;", function (err, rows) {
                     if (err) {
                         callback(err);
                     } else {

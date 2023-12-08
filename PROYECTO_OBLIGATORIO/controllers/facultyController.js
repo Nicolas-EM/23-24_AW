@@ -1,3 +1,9 @@
+"use strict";
+const pool = require("../db/pool");
+const DAOFaculty = require('../db/DAOFaculties');
+const { validationResult } = require("express-validator");
+
+const daoFaculty = new DAOFaculty(pool);
 
 class FacultyController {
 
