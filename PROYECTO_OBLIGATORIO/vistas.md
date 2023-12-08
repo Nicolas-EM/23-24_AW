@@ -21,12 +21,12 @@ riu.ucm.es
 
 # Fragments
 
-- [ ] Header
-- [ ] Footer
-- [ ] Navbar
+- [X] Header
+- [X] Footer
+- [X] Navbar
 - [ ] Reservation Card
 - [ ] Reservation form modal
-- [ ] Installation Card
+- [X] Installation Card
 - [ ] Chat/Email modal
-- [ ] Admin sidebar
+- [X] Admin sidebar
 - [ ] Dashboard filter sidebar

@@ -62,7 +62,7 @@ $("#loginForm").on("submit", (e) => {
         },
         success: (response) => {
             console.log(response);
-            window.location.href = "/";
+            window.location.href = "/"; b
         },
         error: function(xhr, status, error) {
             // TODO: show proper error message

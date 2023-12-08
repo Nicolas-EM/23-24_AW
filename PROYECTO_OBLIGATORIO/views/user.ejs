@@ -1,109 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+<!--
+AUTORES:
+Proyecto Opcional AW
+    Nicolas Espinosa Mooser.
+    Santiago Moral Santorio.
+-->
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIU -- User</title>
-  <%- include('fragments/head.ejs') %>
-  <link href="./stylesheets/user.css" rel="stylesheet">
+  <!-- Shared head -->
+  <%- include('fragments/head') %>
+
+    <!-- Custom -->
+    <title>RIU - User</title>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/user.css">
 </head>
 
 <body>
-  <%- include('fragments/navbar.ejs') %>
+  <!-- Navbar -->
+  <%- include('fragments/navbar') %>
 
-  <!-- Sidebar menu -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-auto sideBarCol">
-        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+    <!-- Datos del usuario -->
+    <div class="container-fluid p-0 mb-3">
+      <section class="userBg">
+        <input type="file" id="imageUpload" accept="image/*" class="d-none">
+        <div class="container py-5">
+          <div class="row g-2">
+            <div class="col-lg-4">
+              <div class="card rounded h-100">
+                <div class="card-body text-center">
+                  <!-- TODO: Cambiar por imagen que sube usuario -->
+                  <label for="imageUpload">
+                    <img src="<%- user.profileImageName !== null ? user.profileImageName : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
+                  </label>
+                  <h5 class="my-3">
+                    <p id="nombreUsuarioField"><%= user.name %></p>
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="card h-100">
+                <div class="card-body">
+                  <form method="post" id="updateUserForm" action="/users/update">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" id="userId" value="<%= user.id %>">
+                    <!-- Datos usuario -->
+                    <!-- Nombre -->
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
+                        <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.name %>" required>
+                      </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                        <div class="col-sm-3">
+                          <label for="nombreInput" class="form-label mb-0">Apellidos</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.surname %>" required>
+                        </div>
+                      </div>
+                    <hr>
+                    <!-- Correo -->
+                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                      <div class="col-sm-3">
+                        <label for="emailInput" class="form-label mb-0">Correo</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.email %>" required>
+                      </div>
+                    </div>
+                    <hr>
 
-          <ul class="nav nav-pills flex-column mb-0 align-items-center align-items-sm-start" id="menu">
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-speedometer2"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                  </div>
+                    <!-- Gestión contraseña -->
+                    <div class="align-items-center">
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
+                        </div>
+                      </div>
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="newPassword" class="form-label mb-0">Nueva Contraseña</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                        <div class="col-sm-3">
+                          <label for="newPasswordConfirm" class="form-label mb-0">Confirmar Contraseña</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col text-end">
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-speedometer2"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Organizations</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-table"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Users</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-bootstrap"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Installations</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link px-0 align-middle btn btn-pill">
-                <div class="row hoverable-item">
-                  <div class="col-auto">
-                    <i class="fs-4 bi-people"></i>
-                  </div>
-                  <div class="col">
-                    <span class="ms-1 d-none d-sm-inline">Stats</span>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <hr>
-          <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://github.com/mdo.png" alt="hugenerd" width="45" height="45" class="rounded-circle">
-              <span class="fs-6">loser</span>
-            </a>
-            <ul class="dropdown-menu sideBarCol text-small shadow">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- FILEPATH: /d:/#1_REPOS VS STUDIO/23-23_AW/PROYECTO_OBLIGATORIO/public/user.html -->
-      <!-- BEGIN: ed8c6549bwf9 -->
-
-      <%- include('fragments/contentCard.ejs') %>
-      <!-- hara falta mas de una-->
+      </section>
     </div>
-  </div>
-  <%- include('fragments/footer.ejs') %>
+
+    <!-- Reservas -->
+    <div class="container mb-5">
+      <div class="row justify-content-center">
+        <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
+      </div>
+      <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
+        <% reservas.forEach(function(reserva) { %>
+          <%- include('fragments/reservaCard', {reserva}) %>
+            <% }); %>
+      </div>
+    </div>
+
+    <!-- Comments Modal -->
+    <div class="modal fade" id="reseniaModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="commentForm" method="post" action="/reservas/review">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="modal-header">
+              <h5 class="modal-title" id="commentModalLabel">Déjanos una reseña!</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="comment" class="form-label">Escribe tu reseña</label>
+                <textarea class="form-control" rows="3" name="comment" id="comment" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="starSelector" class="form-label">Calificación</label>
+                <div id="starSelector" class="d-flex justify-content-center">
+                  <button type="button" class="btn star" data-value="1" id="star1"><span class="material-symbols-outlined">star</span></button>
+                  <button type="button" class="btn star" data-value="2" id="star2"><span class="material-symbols-outlined">star</span></button>
+                  <button type="button" class="btn star" data-value="3" id="star3"><span class="material-symbols-outlined">star</span></button>
+                  <button type="button" class="btn star" data-value="4" id="star4"><span class="material-symbols-outlined">star</span></button>
+                  <button type="button" class="btn star" data-value="5" id="star5"><span class="material-symbols-outlined">star</span></button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input type="number" class="d-none" value="" name="reservaId" id="reservaId">
+              <input type="number" class="d-none" value="" name="rating" id="rating" required>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Cancel Reservation Modal -->
+    <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-labelledby="cancelReservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="cancelReservationForm" method="post" action="/reservas/delete">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cancelReservationModalLabel">¿Estás seguro de que quieres eliminar esta reserva?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Confirmar</button>
+              <input type="number" class="d-none" value="" name="reservaId" id="cancelReservaId">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modify Reservation Modal -->
+    <div class="modal fade" id="modifyReservationModal" tabindex="-1" aria-labelledby="modifyReservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="modifyReservationForm" method="post" action="/reservas/update">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modifyReservationModalLabel">Modificar Reserva</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <%- include('fragments/reservaForm', {id: 0, price: 600, isAuthenticated}) %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              <input type="number" class="d-none" value="" name="reservaId" id="modifyReservaId">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('fragments/footer') %>
+    <script src="/javascript/user.js"></script>
+    <script src="/javascript/reservaForm.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,22 @@
+<div class="card h-100 w-100">
+    <!-- Img row -->
+    <a href="#">
+        <div class="rounded">
+            <!-- hay que hacer un join para la reserva? porque la reserva tiene el id de la instalacion... -->
+            <img src="/images/<%installation.imageName%>" class="rounded d-block w-100 zoom-on-hover" alt="Destination Image">
+        </div>
+    </a>
+    <!-- Card Body -->
+    <div class="card-body align-items-center p-1 pt-2 text-center"> <!-- Added text-center class -->
+        <h5 class="card-title">
+            <% Installation.name %>
+        </h5>
+        <p class="card-text just">
+            Fecha de la reserva: <% reserva.dateini%> -- <% reserva.dateend%>
+        </p>
+    </div>
+    <!-- Card Footer (mostramos opciones solo si es a futuro, no hay reseñas aqui) -->
+    <% if (new Date(reserva.dateini) > new Date()) { %>
+        <button class="btn btn-primary">opciones</button>
+    <% } %>
+</div>

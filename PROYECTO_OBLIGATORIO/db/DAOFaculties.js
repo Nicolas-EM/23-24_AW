@@ -5,10 +5,53 @@ class DAOFaculties {
     constructor(pool) {
         this.pool = pool;
     }
-
-    //no tenemos tabla facultades... como solucionamos esto? una tabla 
-    //de datos (facultades, grupos, etc??)
-
-
+    getFaculties(callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                connection.query("SELECT DISTINCT faculty FROM ucm_aw_riu_usu_users;", function (err, rows) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                    connection.release();
+                });
+            }
+        });
+    }
+    getGroups(callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                connection.query("SELECT DISTINCT group FROM ucm_aw_riu_usu_users;", function (err, rows) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                    connection.release();
+                });
+            }
+        });
+    }
+    getGrades(callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                connection.query("SELECT DISTINCT grade FROM ucm_aw_riu_usu_users;", function (err, rows) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                    connection.release();
+                });
+            }
+        });
+    }
 }
 module.exports = DAOFaculties;

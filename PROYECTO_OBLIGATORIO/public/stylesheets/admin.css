@@ -1,0 +1,19 @@
+.sideBarCol{
+  background-color: var(--primary-blue);
+}
+.sideBarCol a{
+  color: var(--primary-green);
+}
+.sideBarCol a:hover{
+  color: var(--secondary-blue);
+  background-color: var(--bs-dropdown-link-hover-bg);
+}
+
+.contentCard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
+  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+#dropdownUser1 img{
+  margin-right: 5px;
+}
