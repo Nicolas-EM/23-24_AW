@@ -166,9 +166,9 @@ class userController {
     }
 
     searchUsers(req, res, next) {
-        const { query, isAdmin, isValidated } = req.body;
+        const { query, isAdmin, isValidated, facultyId } = req.body;
 
-        daoUser.searchUsers(query, isAdmin, isValidated, (err, users) => {
+        daoUser.searchUsers(query, isAdmin, isValidated, facultyId, (err, users) => {
             if(err)
                 next(err);
             else

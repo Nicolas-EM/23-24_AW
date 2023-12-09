@@ -131,10 +131,10 @@ class DAOUsers {
   //   );
   // }
 
-  searchUsers(query, isAdmin, isValidated, callback) {
+  searchUsers(query, isAdmin, isValidated, facultyId, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_usu_users WHERE (name LIKE ? OR surname LIKE ? OR email LIKE ?) AND isAdmin LIKE ? AND isValidated LIKE ?",
-      [`%${query}%`, `%${query}%`, `%${query}%`, `%${isAdmin}%`, `%${isValidated}%`],
+      "SELECT * FROM ucm_aw_riu_usu_users WHERE (name LIKE ? OR surname LIKE ? OR email LIKE ?) AND isAdmin LIKE ? AND isValidated LIKE ? AND facultyId LIKE ?",
+      [`%${query}%`, `%${query}%`, `%${query}%`, `%${isAdmin}%`, `%${isValidated}%`, `%${facultyId}%`],
       (err, rows) => {
           if (err) {
               callback(err);

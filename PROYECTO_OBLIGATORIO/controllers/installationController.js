@@ -1,10 +1,13 @@
 "use strict";
+
+const { validationResult } = require("express-validator");
+
 const pool = require("../db/pool");
 const DAOInstallations = require("../db/DAOInstallations");
-const { validationResult } = require("express-validator");
-const DAOInstallations = require("../db/DAOInstallations");
+const DAOFaculties = require("../db/DAOFaculties");
 const daoInstallations = new DAOInstallations(pool);
 const daoFaculties = new DAOFaculties(pool);
+
 class installationController {
   getInstallations(req, res, next) {
     daoInstallations.getAllInstallations((err, installations) => {

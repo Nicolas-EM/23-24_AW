@@ -22,25 +22,33 @@
             </div>
 
             <!-- Search filters -->
-            <div class="row row-cols-1 row-cols-md-4 g-2 mt-3 collapse align-items-center" id="searchFilters">
-              <div class="col col-sm-4 col-md-2">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 mt-3 collapse align-items-center" id="searchFilters">
+              <div class="col col-sm-4 col-md-2 col-lg-1">
                 <label for="roleFilter" class="form-label">Role:</label>
               </div>
-              <div class="col col-sm-8 col-md-4">
+              <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
                 <select id="roleFilter" class="form-select" aria-label="role filter">
                   <option value="" selected>Any</option>
                   <option value="0">User</option>
                   <option value="1">Admin</option>
                 </select>
               </div>
-              <div class="col col-sm-4 col-md-2">
+              <div class="col col-sm-4 col-md-2 col-lg-1">
                 <label for="validatedFilter" class="form-label">Validated:</label>
               </div>
-              <div class="col col-sm-8 col-md-4">
+              <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
                 <select id="validatedFilter" class="form-select" aria-label="validated filter">
                   <option value="" selected>Any</option>
                   <option value="0">No</option>
                   <option value="1">Yes</option>
+                </select>
+              </div>
+              <div class="col col-sm-4 col-md-2 col-lg-1">
+                <label for="facultyFilter" class="form-label">Faculty:</label>
+              </div>
+              <div class="col col-sm-8 col-md-4 col-lg-3">
+                <select id="facultyFilter" class="form-select" aria-label="faculty filter">
+                  <option value="" selected>Any</option>
                 </select>
               </div>
             </div>
@@ -53,6 +61,7 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Email</th>
+            <th>Faculty</th>
             <th class="d-none">Role</th>
             <th class="d-none">Validated</th>
             <th>Options</th>

@@ -24,6 +24,7 @@ $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
 
     if(event.target.id === "pills-users-tab"){
         getUsers();
+        createFacultyFilters();
     }
     else if (event.target.id === "pills-installations-tab") {
         getInstallations();
