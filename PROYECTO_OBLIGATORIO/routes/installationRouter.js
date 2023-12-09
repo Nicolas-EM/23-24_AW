@@ -6,7 +6,9 @@ const requireAdmin = require('../middleware/requireAdmin');
 const installationController = require("../controllers/installationController");
 let installationRouter = require('express').Router();
 const installationCtrl = new installationController();
-
+const multer = require("multer");
+const uploadDir = multer({ dest: 'uploads/' });
+let userRouter = require('express').Router();
 installationRouter.get('/', installationCtrl.getInstallations);
 
 installationRouter.post('/create', requireAdmin, (req, res, next) => {
@@ -22,7 +24,7 @@ installationRouter.post('/delete', requireAdmin, (req, res, next) => {
 });
 
 installationRouter.post('/search',
-    check("query").notEmpty().withMessage("El campo de búsqueda no puede estar vacío"),
+  //  check("query").notEmpty().withMessage("El campo de búsqueda no puede estar vacío"),
     // check("minPrice").notEmpty().withMessage("El campo minPrice no puede estar vacío").custom((value, { req }) => {
     //     if (value < 0) {
     //         throw new Error("El campo minPrice no puede ser negativo");

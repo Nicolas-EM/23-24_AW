@@ -4,7 +4,7 @@
       <h2 class="p-0">Installations</h2>
     </div>
     <div class="row mb-2">
-      <button class="btn btn-primary">New Installation</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInstallationModal">New Installation</button>
     </div>
     <div class="row overflow-x-auto">
       <table class="table table-bordered table-striped">
@@ -12,7 +12,7 @@
           <tr>
             <th scope="col">Installation Name</th>
             <th scope="col">Faculty</th>
-            <th scope="col">Capactity</th>
+            <th scope="col">Capacity</th>
             <th scope="col">Type</th>
           </tr>
         </thead>
@@ -22,3 +22,59 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="newInstallationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Nueva Instalacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body"></div>
+        <form id="newInstallationForm" method="post" action="/installations/create">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="col col-lg-6 mb-3">
+            <img src="/images/img.svg" alt="profile-image" class="img-fluid rounded-circle" id="insImage">
+        </div>
+          <!-- Installation Name -->
+          <div class="form-group">
+            <label for="installationName">Installation Name</label>
+            <input type="text" class="form-control form-control-lg" id="installationName" placeholder="Installation Name">
+          </div>
+          <!-- Faculty -->
+          <div class="form-group">
+            <label for="installationFaculty">Faculty</label>
+            <input type="text" class="form-control form-control-lg" id="installationFaculty" placeholder="Faculty">
+          </div>
+          <!-- Capacity -->
+          <div class="form-group">
+            <label for="installationCapacity">Capacity</label>
+            <input type="number" class="form-control form-control-lg" id="installationCapacity" placeholder="Capacity">
+          </div>
+          <!-- Type -->
+          <div class="form-group">
+            <label for="installationType">Type</label>
+            <input type="text" class="form-control form-control-lg" id="installationType" placeholder="Type">
+          </div>
+
+          <!-- Picture placeholders and other fields from the original form -->
+          <!-- ... -->
+
+          <button class="btn btn-outline-light btn-lg px-sm-5" id="formRegisterBtn" type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.getElementById("newInstallationForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+    // Add your form submission logic here
+  });
+</script>
+<!-- END: Modal -->

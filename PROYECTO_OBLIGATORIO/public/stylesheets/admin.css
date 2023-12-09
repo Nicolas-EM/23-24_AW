@@ -35,3 +35,9 @@
 #pills-tabContent .btn {
   max-width: 150px;
 }
+#insImage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 230px;
+  max-width: min(230px, 35vw);
+}

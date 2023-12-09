@@ -6,7 +6,8 @@ const userController = require('../controllers/userController');
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
 const requireLogin = require('../middleware/requireLogin');
-
+const multer = require("multer");
+const uploadDir = multer({ dest: 'uploads/' });
 let userRouter = require('express').Router();
 
 const userCtrl = new userController();
@@ -24,7 +25,7 @@ userRouter.post('/create',
     check('email').notEmpty().withMessage('Email es requerido').isEmail().withMessage('Email no válido'),
     check('password').notEmpty().withMessage('Contraseña es requerida')
         .isLength({ min: 7 }).withMessage('La contraseña debe tener al menos 7 caracteres')
-        .matches(/\d/).withMessage('La contraseña debe contener al menos un número'),
+        .matches(/\d/).withMessage('La contraseña debe contener al menos un número'),uploadDir.single("picture"),
     userCtrl.register);
 
 userRouter.post('/update',

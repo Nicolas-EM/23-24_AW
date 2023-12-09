@@ -22,7 +22,6 @@ function getInstallations() {
         }
     });
 }
-
 function createInstallationRow(installation) {
     return `<tr>
                 <td scope="row">${installation.name}</td>

@@ -35,23 +35,30 @@ class installationController {
       }
     );
   }
-  // getImage(req, res, next) {
-  //   const installationId = req.params.id;
-  //   daoInstallations.getInstallationById(
-  //     installationId,
-  //     (err, installation) => {
-  //       if (err) {
-  //         next(err);
-  //       } else {
-  //         const imageBuffer = installation.image; // Assuming installation.image is a buffer containing the image data
-  //         const imageBase64 = imageBuffer.toString("base64"); // Convert the buffer to base64 string
-  //         const imageDataURI = `data:image/png;base64,${imageBase64}`; // Create a data URI with the base64 string
+  getImage(req, res, next) {
+    const installationId = req.params.id;
+    if (isNaN(installationId)) {
+      response.status(400);
+      response.end("Petición incorrecta");
+    }
+    daoInstallations.getInstallationById(
+      installationId,
+      (err, installation) => {
+        if (err) {
+          next(err);
+        } else {
+          if (!installation || !installation.image) {
+            return res.status(404).send("Not found");
+          }
+          // const imageBuffer = installation.image; 
+          // const imageBase64 = imageBuffer.toString("base64"); 
+          // const imageDataURI = `data:image/png;base64,${imageBase64}`; 
 
-  //         res.send(imageDataURI);
-  //       }
-  //     }
-  //   );
-  // }
+          res.end(installation.image);
+        }
+      }
+    );
+  }
 }
 
 module.exports = installationController;
