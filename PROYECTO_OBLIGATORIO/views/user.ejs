@@ -29,9 +29,8 @@ Proyecto Opcional AW
             <div class="col-lg-4">
               <div class="card rounded h-100">
                 <div class="card-body text-center">
-                  <!-- TODO: Cambiar por imagen que sube usuario -->
                   <label for="imageUpload">
-                    <img src="<%- user.profileImage !== null ? user.profileImage : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
+                    <img src="<%- user.profileImage !== null ? `users/image/${user.id}` : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
                   </label>
                   <h5 class="my-3">
                     <p id="nombreUsuarioField"><%= user.name %></p>
@@ -43,13 +42,13 @@ Proyecto Opcional AW
               <div class="card h-100">
                 <div class="card-body">
                   <form method="post" id="updateUserForm" action="/users/update">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" id="userId" value="<%= user.id %>">
                     <!-- Datos usuario -->
                     <!-- Nombre -->
                     <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
                       <div class="col-sm-3">
-                        <label for="nombreInput" class="form-label mb-0">Nombre</label>
+                        <label for="nombreInput" class="form-label mb-0">Name</label>
                       </div>
                       <div class="col-sm-9">
                         <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.name %>" required>
@@ -57,7 +56,7 @@ Proyecto Opcional AW
                     </div>
                     <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
                         <div class="col-sm-3">
-                          <label for="nombreInput" class="form-label mb-0">Apellidos</label>
+                          <label for="nombreInput" class="form-label mb-0">Surname</label>
                         </div>
                         <div class="col-sm-9">
                           <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.surname %>" required>
@@ -67,7 +66,7 @@ Proyecto Opcional AW
                     <!-- Correo -->
                     <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
                       <div class="col-sm-3">
-                        <label for="emailInput" class="form-label mb-0">Correo</label>
+                        <label for="emailInput" class="form-label mb-0">Email</label>
                       </div>
                       <div class="col-sm-9">
                         <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.email %>" required>
@@ -79,7 +78,7 @@ Proyecto Opcional AW
                     <div class="align-items-center">
                       <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                         <div class="col-sm-3">
-                          <label for="currentPasswordInput" class="form-label mb-0">Contraseña Actual</label>
+                          <label for="currentPasswordInput" class="form-label mb-0">Current Password</label>
                         </div>
                         <div class="col-sm-9">
                           <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
@@ -87,7 +86,7 @@ Proyecto Opcional AW
                       </div>
                       <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                         <div class="col-sm-3">
-                          <label for="newPassword" class="form-label mb-0">Nueva Contraseña</label>
+                          <label for="newPassword" class="form-label mb-0">New Password</label>
                         </div>
                         <div class="col-sm-9">
                           <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
@@ -95,7 +94,7 @@ Proyecto Opcional AW
                       </div>
                       <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                         <div class="col-sm-3">
-                          <label for="newPasswordConfirm" class="form-label mb-0">Confirmar Contraseña</label>
+                          <label for="newPasswordConfirm" class="form-label mb-0">Password Confirmation</label>
                         </div>
                         <div class="col-sm-9">
                           <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
@@ -118,64 +117,11 @@ Proyecto Opcional AW
       </section>
     </div>
 
-    <!-- Reservas -->
-    <div class="container mb-5">
-      <div class="row justify-content-center">
-        <h2 class="text-primary text-center"><strong>Tus reservas:</strong></h2>
-      </div>
-      <div id="reservas" class="row row-cols-1 row-cols-lg-2 g-3">
-        <% reservas.forEach(function(reserva) { %>
-          <%- include('fragments/reservaCard', {reserva}) %>
-            <% }); %>
-      </div>
-    </div>
-    <!-- Cancel Reservation Modal -->
-    <div class="modal fade" id="cancelReservationModal" tabindex="-1" aria-labelledby="cancelReservationModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="cancelReservationForm" method="post" action="/reservas/delete">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <div class="modal-header">
-              <h5 class="modal-title" id="cancelReservationModalLabel">¿Estás seguro de que quieres eliminar esta reserva?</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Confirmar</button>
-              <input type="number" class="d-none" value="" name="reservaId" id="cancelReservaId">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- Modify Reservation Modal -->
-    <div class="modal fade" id="modifyReservationModal" tabindex="-1" aria-labelledby="modifyReservationModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form id="modifyReservationForm" method="post" action="/reservas/update">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modifyReservationModalLabel">Modificar Reserva</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <%- include('fragments/reservaForm', {id: 0, price: 600, isAuthenticated}) %>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-              <input type="number" class="d-none" value="" name="reservaId" id="modifyReservaId">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
     <!-- Footer -->
     <%- include('fragments/footer') %>
     <script src="/javascript/user.js"></script>
     <!-- TODO esto no se usa pero podria -->
-    <script src="/javascript/reservaForm.js"></script>
+    <!-- <script src="/javascript/reservaForm.js"></script> -->
 </body>
 
 </html>

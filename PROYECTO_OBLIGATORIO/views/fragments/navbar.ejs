@@ -15,7 +15,7 @@
                     </btn>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/user">My Profile</a></li>
-                        <% if(locals.isAdmin) {%>
+                        <% if(isAdmin) {%>
                             <li><a class="dropdown-item" href="/org">Admin</a></li>
                         <% } %>
                         <li>

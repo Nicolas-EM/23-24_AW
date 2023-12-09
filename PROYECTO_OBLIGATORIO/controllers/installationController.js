@@ -15,6 +15,7 @@ class installationController {
       }
     });
   }
+
   search(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -35,29 +36,21 @@ class installationController {
       }
     );
   }
+
   getImage(req, res, next) {
     const installationId = req.params.id;
-    if (isNaN(installationId)) {
-      response.status(400);
-      response.end("Petición incorrecta");
-    }
-    daoInstallations.getInstallationById(
-      installationId,
-      (err, installation) => {
-        if (err) {
-          next(err);
-        } else {
-          if (!installation || !installation.image) {
-            return res.status(404).send("Not found");
-          }
-          // const imageBuffer = installation.image; 
-          // const imageBase64 = imageBuffer.toString("base64"); 
-          // const imageDataURI = `data:image/png;base64,${imageBase64}`; 
 
+    daoInstallations.getInstallationById(installationId, (err, installation) => {
+      if (err) {
+        next(err);
+      } else {
+        if(installation.image != null){
           res.end(installation.image);
+        } else {
+          res.status(404).end("Not found");
         }
       }
-    );
+    });
   }
 }
 

@@ -133,6 +133,37 @@ class userController {
                 res.send("OK");
         })
     }
+
+    uploadPicture(req, res, next) {
+        const file = req.file;
+        if (!file) {
+            return res.status(400).send('Error: No file uploaded');
+        }
+
+        daoUser.uploadPicture(req.session.userId, file, (err) => {
+            if(err)
+                next(err);
+            else {
+                res.send("OK");
+            }
+        })
+    }
+
+    getPicture(req, res, next) {
+        const userId = req.params.id;
+
+        daoUser.getPicture(userId, (err, picture) => {
+            if(err)
+                next(err);
+            else{
+                if(picture){
+                    res.end(picture);
+                } else {
+                    res.status(404).end();
+                }
+            }
+        })
+    }
 }
 
 module.exports = userController;

@@ -8,7 +8,7 @@ class DAOInstallations {
 
     getInstallationById(id, callback) {
         this.pool.query(
-            "SELECT * FROM ucm_aw_riu_ins_facilities WHERE id = ?",
+            "SELECT * FROM ucm_aw_riu_ins_installations WHERE id = ?",
             [id],
             (err, rows) => {
                 if (err) {
@@ -24,7 +24,7 @@ class DAOInstallations {
         );
     }
     getAllInstallations(callback) {
-        this.pool.query("SELECT * FROM ucm_aw_riu_ins_facilities", (err, rows) => {
+        this.pool.query("SELECT * FROM ucm_aw_riu_ins_installations", (err, rows) => {
             if (err) {
                 callback(err);
             } else {
@@ -35,7 +35,7 @@ class DAOInstallations {
 
     deleteFacility(id, callback) {
         this.pool.query(
-            "DELETE FROM ucm_aw_riu_ins_facilities WHERE id = ?",
+            "DELETE FROM ucm_aw_riu_ins_installations WHERE id = ?",
             [id],
             (err, result) => {
                 if (err) {
@@ -48,7 +48,7 @@ class DAOInstallations {
     }
     searchInstallation(name, callback) {
         this.pool.query(
-            "SELECT * FROM ucm_aw_riu_ins_facilities WHERE name LIKE ?",
+            "SELECT * FROM ucm_aw_riu_ins_installations WHERE name LIKE ?",
             [`%${name}%`],
             (err, rows) => {
                 if (err) {
@@ -61,7 +61,7 @@ class DAOInstallations {
     }
     createFacility(facility, callback) {
         this.pool.query(
-            "INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity, ImageName, ImageType) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO ucm_aw_riu_ins_installations (name, availabity, type, capacity, ImageName, ImageType) VALUES (?, ?, ?, ?, ?, ?)",
             [
                 facility.name,
                 facility.availabity,
