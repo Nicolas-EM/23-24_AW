@@ -30,12 +30,12 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="registrationModalLabel">Nueva Instalacion</h5>
+        <h5 class="modal-title" id="registrationModalLabel">New Installation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="newInstallationForm">
-          <input type="hidden" id="_csrf" value=<% csrfToken  %>>
+        <form id="newInstallationForm" method="post" action="/installations/create">
+          <input type="hidden" id="csrfToken" value="<% csrfToken %>">
           <input type="file" id="installationImageInput" accept="image/*" hidden>
           <div class="row">
             <div class="col-lg-6">
@@ -52,34 +52,32 @@
                 <label for="installationFaculty">Faculty</label>
                 <select class="form-control form-control-lg" id="installationFaculty">
                   <% faculties.forEach(function(faculty) { %>
-                    <option value="<%= faculty.id %>"><%= faculty.name %></option>
+                    <option value="<%= faculty.id %>"><%=faculty.name  %></option>
                   <% }); %>
                 </select>
               </div>
               <!-- Capacity -->
               <div class="form-group">
                 <label for="installationCapacity">Capacity</label>
-                <input type="number" class="form-control form-control-lg" id="installationCapacity" placeholder="Capacity">
+                <input type="number" class="form-control form-control-lg" id="installationCapacity" placeholder="Capacity" min="1">
               </div>
               <!-- Type -->
               <div class="form-group">
                 <label for="installationType">Type</label>
                 <select class="form-control form-control-lg" id="installationType">
-                  <option value="colectivo">Colectivo</option>
-                  <option value="individual">Individual</option>
+                  <option value="0">Collective</option>
+                  <option value="1">Individual</option>
                 </select>
               </div>
-              <!-- Picture placeholders and other fields from the original form -->
-              <!-- ... -->
             </div>
           </div>
           <div class="modal-footer">
             <div class="row">
               <div class="col d-flex justify-content-end">
-                <button class="btn btn-secondary btn-lg px-sm-5" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-secondary btn-lg px-sm-5" data-bs-dismiss="modal">Cancel</button>
               </div>
               <div class="col d-flex justify-content-end">
-                <button class="btn btn-primary btn-lg px-sm-5" id="formRegisterBtn" type="submit">Guardar</button>
+                <button class="btn btn-primary btn-lg px-sm-5" id="formRegisterBtn" type="submit">Save</button>
               </div>
             </div>
           </div>

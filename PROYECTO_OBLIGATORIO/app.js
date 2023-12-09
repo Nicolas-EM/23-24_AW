@@ -17,6 +17,8 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const errorHandler = process.env.DEV_BUILD === "TRUE" ? require('./middleware/errorDev') : require('./middleware/errorProd');
+const error404Handler = require('./middleware/error404');
 
 //sql
 const MySQLStore = require("express-mysql-session")(session);
@@ -123,3 +125,7 @@ app.get("/user", (req, res, next) => {
       res.status(200).render("user", { user, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
   })
 })
+
+//MIDDLEWARE PARA ERRORES
+app.use(errorHandler);
+app.use(error404Handler);

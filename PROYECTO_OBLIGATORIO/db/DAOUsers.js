@@ -33,7 +33,7 @@ class DAOUsers {
           callback(err);
         } else {
           if (rows.length === 0) {
-            callback({err: 400, message: "User not found"}); // No user found with the given email
+            callback({err: 400, message: "Error: User does not exist, please register."}); // No user found with the given email
           } else {
             console.log(rows[0]);
             callback(null, rows[0]);
@@ -130,6 +130,20 @@ class DAOUsers {
   //     }
   //   );
   // }
+
+  searchUsers(query, isAdmin, isValidated, callback) {
+    this.pool.query(
+      "SELECT * FROM ucm_aw_riu_usu_users WHERE (name LIKE ? OR surname LIKE ? OR email LIKE ?) AND isAdmin LIKE ? AND isValidated LIKE ?",
+      [`%${query}%`, `%${query}%`, `%${query}%`, `%${isAdmin}%`, `%${isValidated}%`],
+      (err, rows) => {
+          if (err) {
+              callback(err);
+          } else {
+              callback(null, rows);
+          }
+      }
+  );
+  }
 
   validateUser(id, callback){
     this.pool.query(

@@ -67,12 +67,8 @@ $("#loginForm").on("submit", (e) => {
             window.location.href = "/";
         },
         error: function (xhr, status, error) {
-            console.log(xhr);
-            // TODO: show proper error message
-            // $("#toastMsg").html(xhr.responseText);
-            // toast.show();
-            alert(xhr.responseText);
-            console.error(xhr.responseText);
+            $("#toastMsg").html(xhr.responseText);
+            toast.show();
         }
     });
 });
@@ -110,7 +106,6 @@ $("#registerForm").on("submit", (e) => {
         formData.append("picture", file);
     }
 
-    console.log(formData.getAll("picture"));
     $.ajax({
         url: "/users/create",
         method: "POST",
@@ -118,15 +113,11 @@ $("#registerForm").on("submit", (e) => {
         processData: false,
         contentType: false,
         success: (response) => {
-            console.log(response);
             window.location.href = "/";
         },
         error: function (xhr, status, error) {
-            // TODO: show proper error message
-            // $("#toastMsg").html(xhr.responseText);
-            // toast.show();
-            alert(xhr.responseText);
-            console.error(xhr.responseText);
+            $("#toastMsg").html(xhr.responseText);
+            toast.show();
         }
     });
 });

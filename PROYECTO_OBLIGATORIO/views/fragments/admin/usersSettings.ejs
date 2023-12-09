@@ -3,10 +3,10 @@
     <h2>Users</h2>
 
     <!-- Search bar -->
-    <form id="searchForm" class="m-3">
+    <form id="userSearchForm" class="m-3">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="input-group justify-content-center">
-              <input type="text" class="form-control" id="query" name="query" placeholder="Search users">
+              <input type="text" class="form-control" id="userSearchQuery" name="userSearchQuery" placeholder="Search users">
 
               <!-- Search -->
               <div class="btn-group">
@@ -28,6 +28,7 @@
               </div>
               <div class="col col-sm-8 col-md-4">
                 <select id="roleFilter" class="form-select" aria-label="role filter">
+                  <option value="" selected>Any</option>
                   <option value="0">User</option>
                   <option value="1">Admin</option>
                 </select>
@@ -37,8 +38,9 @@
               </div>
               <div class="col col-sm-8 col-md-4">
                 <select id="validatedFilter" class="form-select" aria-label="validated filter">
-                  <option value="0">Yes</option>
-                  <option value="1">No</option>
+                  <option value="" selected>Any</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
                 </select>
               </div>
             </div>

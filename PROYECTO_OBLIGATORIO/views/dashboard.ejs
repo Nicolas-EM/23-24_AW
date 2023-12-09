@@ -33,15 +33,15 @@
                 </div>
 
                 <!-- Search filters -->
-                <div class="row row-cols-1 row-cols-md-2 g-2 mt-3 collapse" id="searchFilters">
+                <div class="row row-cols-2 g-2 mt-3 collapse align-items-center text-center" id="searchFilters">
                     <!-- TODO: change filters to faculty -->
                     <div class="col">
-                        <label for="maxPrice" class="form-label">Precio Mínimo:</label>
-                        <input id="minPrice" type="number" min="0" max="5000" value="0" class="form-control mx-auto" name="minPrice">
+                        <label for="facultyFilter" class="form-label ">Faculty:</label>
                     </div>
                     <div class="col">
-                        <label for="maxPrice" class="form-label">Precio Máximo:</label>
-                        <input id="maxPrice" type="number" min="0" max="5000" value="5000" class="form-control mx-auto" name="maxPrice">
+                        <select id="facultyFilter" class="form-control form-control-lg">
+                            <option value="" selected>All</option>
+                        </select>
                     </div>
                 </div>
             </form>
@@ -49,6 +49,11 @@
 
         <!-- Grid of installations -->
         <div class="installations container mt-4">
+            <div class="row text-center">
+                <div id="noResults" class="d-none">
+                    <h3>No results</h3>
+                </div>
+            </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 gx-4" id="installations">
             </div>
         </div>

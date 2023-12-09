@@ -164,6 +164,17 @@ class userController {
             }
         })
     }
+
+    searchUsers(req, res, next) {
+        const { query, isAdmin, isValidated } = req.body;
+
+        daoUser.searchUsers(query, isAdmin, isValidated, (err, users) => {
+            if(err)
+                next(err);
+            else
+                res.json(users);
+        })
+    }
 }
 
 module.exports = userController;

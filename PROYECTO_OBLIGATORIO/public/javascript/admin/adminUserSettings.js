@@ -38,6 +38,49 @@ function createUserRow(user) {
             </tr>`
 }
 
+// User search
+$("#userSearchForm").on("submit", e => {
+    e.preventDefault();
+
+    // Get the value from the search input
+    const query = $("#userSearchQuery").val();
+    const isAdmin = $("#roleFilter").val();
+    const isValidated = $("#validatedFilter").val();
+
+    // Get the CSRF token value
+    const _csrf = $("input[name='_csrf']").val();
+    // Make an AJAX request to the server
+    $.ajax({
+        method: "POST",
+        url: "/users/search",
+        data: {
+            query,
+            isAdmin,
+            isValidated,
+            _csrf
+        },
+        success: function (data) {
+            $("#userList").empty();
+
+            let users = "";
+            for (let x in data) {
+                const user = data[x];
+                users += createUserRow(user);
+            }
+            $("#userList").html(users);
+
+            if(data.length === 0){
+                $("#toastMsg").html("No users found. Try clearing filters?");
+                toast.show();
+            }
+        },
+        error: function (jqXHR) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+})
+
 // Shared modal on open
 $("#userSettingsModal").on("show.bs.modal", e => {
     const button = e.relatedTarget
