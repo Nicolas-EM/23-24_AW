@@ -9,24 +9,29 @@
         <!-- Account Icon -->
         <div class="navbar-nav ms-auto">
             <div class="nav-item">
-                <div class="nav-item btn-group dropstart">
-                    <btn id="accountCircleBtn" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#loginModal" aria-expanded="false">
-                        <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
-                    </btn>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/user">My Profile</a></li>
-                        <% if(isAdmin) {%>
-                            <li><a class="dropdown-item" href="/org">Admin</a></li>
-                        <% } %>
-                        <li>
-                            <form id="logoutForm" method="post" action="/users/logout">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <a id="logout" class="dropdown-item" href="#">Logout</a>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                <button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#mailModal">
+                    <span class="material-symbols-outlined d-inline-block align-text-top">mail</span>
+                </button>                  
+            </div>
+            <div class="nav-item btn-group dropstart">
+                <button id="accountCircleBtn" class="nav-link" type="button" aria-current="page" data-bs-toggle="dropdown" data-bs-target="#loginModal" aria-expanded="false">
+                    <span class="material-symbols-outlined d-inline-block align-text-top">account_circle</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/user">My Profile</a></li>
+                    <% if(isAdmin) {%>
+                        <li><a class="dropdown-item" href="/org">Admin</a></li>
+                    <% } %>
+                    <li>
+                        <form id="logoutForm" method="post" action="/users/logout">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <a id="logout" class="dropdown-item" href="#">Logout</a>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </nav>
+
+<%- include('./mailModal.ejs') %>

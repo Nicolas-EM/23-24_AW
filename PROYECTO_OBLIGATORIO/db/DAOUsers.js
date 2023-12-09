@@ -199,10 +199,10 @@ class DAOUsers {
     );
   }
 
-  getUserByFaculty(faculty, callback) {
+  getUserByFaculty(facultyId, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_usu_users WHERE faculty = ?",
-      [faculty],
+      "SELECT * FROM ucm_aw_riu_usu_users WHERE facultyId = ?",
+      [facultyId],
       (err, rows) => {
         if (err) {
           callback(err);

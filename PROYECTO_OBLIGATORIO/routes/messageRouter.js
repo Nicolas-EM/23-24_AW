@@ -1,15 +1,14 @@
 "use strict";
 
-const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
+const { check } = require("express-validator"); //para validar los datos de los formularios
+
+const messageController = require("../controllers/messageController");
 
 let messageRouter = require('express').Router();
+const messageCtrl = new messageController();
 
-messageRouter.get('/', (req, res, next) => {
-    
-});
+messageRouter.get('/', messageCtrl.getMessages);
 
-messageRouter.post('/send', (req, res, next) => {
-    
-});
+messageRouter.post('/send', messageCtrl.sendMessage);
 
 module.exports = messageRouter;

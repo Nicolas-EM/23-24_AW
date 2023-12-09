@@ -90,7 +90,6 @@ userRouter.get("/image/:id", requireLogin, userCtrl.getPicture);
 
 userRouter.post("/search", requireLogin, userCtrl.searchUsers);
 
-// TODO:
-userRouter.get("/byFaculty", requireAdmin);
+userRouter.get("/byFaculty/:id", requireLogin, userCtrl.getUsersByFaculty);
 
 module.exports = userRouter;

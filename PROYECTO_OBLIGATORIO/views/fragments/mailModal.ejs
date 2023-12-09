@@ -1,0 +1,59 @@
+<div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="mailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="mailModalLabel">Messages</h1>
+                <div class="ms-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">edit</span>
+                        New Message
+                    </button>
+                    <button type="button" class="btn-close align-middle" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body p-0">
+                <div id="noMessages" class="row text-center">
+                    <h3>No messages</h3>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 p-0" id="recipientsCol" role="tablist">
+
+                    </div>
+                    <div id="chats-tabContent" class="col-8 tab-content">
+                        <h3 id="selectChat" class="d-none text-center my-2">Select a chat to get started</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newMessageLabel">
+                    New Message
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newMessageForm">
+                    <div class="mb-3">
+                        <label for="recipient" class="form-label">Recipient</label>
+                        <input class="form-control" list="recipientsDataList" id="recipient" placeholder="Type to search recipient...">
+                        <datalist id="recipientsDataList" data-isadmin="<%= isAdmin %>">
+                            <!-- Filled via javascript -->
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" class="form-control" aria-label="Message"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#mailModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

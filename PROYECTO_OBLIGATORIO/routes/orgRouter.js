@@ -5,6 +5,7 @@ const pool = require("../db/pool");
 let orgRouter = require('express').Router();
 const daoF = require('../db/DAOFaculties');
 const daoFaculties = new daoF(pool);
+
 orgRouter.get("/", (req, res, next) => {
     daoFaculties.getFaculties((err, faculties) => {
         if (err) {

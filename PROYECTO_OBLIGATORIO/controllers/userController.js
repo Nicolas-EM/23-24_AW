@@ -175,6 +175,17 @@ class userController {
                 res.json(users);
         })
     }
+
+    getUsersByFaculty(req, res, next) {
+        const facultyId = req.params.id;
+
+        daoUser.getUserByFaculty(facultyId, (err, users) => {
+            if(err)
+                next(err);
+            else
+                res.send(users);
+        })
+    }
 }
 
 module.exports = userController;
