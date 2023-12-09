@@ -15,6 +15,7 @@ class installationController {
       }
     });
   }
+
   search(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -35,23 +36,23 @@ class installationController {
       }
     );
   }
-  // getImage(req, res, next) {
-  //   const installationId = req.params.id;
-  //   daoInstallations.getInstallationById(
-  //     installationId,
-  //     (err, installation) => {
-  //       if (err) {
-  //         next(err);
-  //       } else {
-  //         const imageBuffer = installation.image; // Assuming installation.image is a buffer containing the image data
-  //         const imageBase64 = imageBuffer.toString("base64"); // Convert the buffer to base64 string
-  //         const imageDataURI = `data:image/png;base64,${imageBase64}`; // Create a data URI with the base64 string
 
-  //         res.send(imageDataURI);
-  //       }
-  //     }
-  //   );
-  // }
+  getImage(req, res, next) {
+    const installationId = req.params.id;
+
+    daoInstallations.getInstallationById(installationId, (err, installation) => {
+      if (err) {
+        next(err);
+      } else {
+        console.log(installation.image);
+        if(installation.image != null){
+          res.end(installation.image);
+        } else {
+          res.status(404).end("Not found");
+        }
+      }
+    });
+  }
 }
 
 module.exports = installationController;

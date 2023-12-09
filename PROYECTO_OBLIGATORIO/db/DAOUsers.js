@@ -70,6 +70,23 @@ class DAOUsers {
     );
   }
 
+  uploadPicture(userId, file, callback) {
+    this.pool.query(
+      "UPDATE ucm_aw_riu_usu_users SET profileImage = ? WHERE id = ?",
+      [
+        file,
+        userId
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null);
+        }
+      }
+    );
+  }
+
   //se puede actualizar solo algun dato, eso lo separaremos en otra query.
   // updateUser(user, callback) {
   //   this.pool.query(

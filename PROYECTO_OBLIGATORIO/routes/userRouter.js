@@ -2,6 +2,8 @@
 
 const { check } = require("express-validator"); //para validar los datos de los formularios
 const userController = require('../controllers/userController');
+const multer = require("multer");
+const multerFactory = multer({ storage: multer.memoryStorage() });
 
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
@@ -43,8 +45,9 @@ userRouter.post('/validate',
     check("userId").notEmpty().withMessage("UserID required").isNumeric().withMessage("UserID must be numeric"),
     requireAdmin, userCtrl.validateUser);
 
-userRouter.get('/byFaculty', requireAdmin, (req, res, next) => {
+userRouter.post("/image", requireLogin, multerFactory.single('avatar'), userCtrl.uploadPicture);
 
-});
+// TODO:
+userRouter.get('/byFaculty', requireAdmin, );
 
 module.exports = userRouter;

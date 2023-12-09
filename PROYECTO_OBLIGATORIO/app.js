@@ -73,8 +73,9 @@ app.use("/installations", requireLogin, installationRouter);
 app.use("/faculties", facultyRouter);
 app.use("/messages", requireLogin, messageRouter);
 
-const DAOFaculties = require("./db/DAOFaculties");
 const pool = require("./db/pool");
+const DAOFaculties = require("./db/DAOFaculties");
+const DAOUsers = require("./db/DAOUsers");
 
 app.get("/", requireLogin, (req, res) => {
   res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
@@ -114,5 +115,11 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/user", (req, res, next) => {
-  res.status(200).render("user", { csrfToken: req.csrfToken() });
+  const daoUsers = new DAOUsers(pool);
+  daoUsers.getUserById(req.session.userId, (err, user) => {
+    if(err)
+      next(err);
+    else
+      res.status(200).render("user", { user, csrfToken: req.csrfToken() });
+  })
 })

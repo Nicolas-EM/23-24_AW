@@ -9,17 +9,11 @@ const installationCtrl = new installationController();
 
 installationRouter.get('/', installationCtrl.getInstallations);
 
-installationRouter.post('/create', requireAdmin, (req, res, next) => {
-    
-});
+installationRouter.post('/create', requireAdmin, );
 
-installationRouter.post('/update', requireAdmin, (req, res, next) => {
-    
-});
+installationRouter.post('/update', requireAdmin, );
 
-installationRouter.post('/delete', requireAdmin, (req, res, next) => {
-    
-});
+installationRouter.post('/delete', requireAdmin, );
 
 installationRouter.post('/search',
     check("query").notEmpty().withMessage("El campo de búsqueda no puede estar vacío"),
@@ -41,13 +35,9 @@ installationRouter.post('/search',
     //     }
     //     return true;
     // }),
-    (req, res, next) => {
-        console.log("req.body: ", req.body);
-        installationCtrl.search(req, res, next); 
-    }
+    installationCtrl.search
 );
 
-installationRouter.get('/image/:id', (req, res, next) => {
-    installationCtrl.getImage(req, res, next);
-});
+installationRouter.get('/image/:id', installationCtrl.getImage);
+
 module.exports = installationRouter;
