@@ -3,13 +3,13 @@
 const { check } = require("express-validator"); //para validar los datos de los formularios
 const userController = require('../controllers/userController');
 const multer = require("multer");
+
+const uploadDir = multer({ dest: 'uploads/' });
 const multerFactory = multer({ storage: multer.memoryStorage() });
 
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
 const requireLogin = require('../middleware/requireLogin');
-const multer = require("multer");
-const uploadDir = multer({ dest: 'uploads/' });
 let userRouter = require('express').Router();
 
 const userCtrl = new userController();

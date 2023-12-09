@@ -39,5 +39,10 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   max-height: 230px;
-  max-width: min(230px, 35vw);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#insImage:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
 }

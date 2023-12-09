@@ -30,3 +30,17 @@ function createInstallationRow(installation) {
                 <td>${installation.type}</td>
             </tr>`
 }
+function choosePicture() {
+    $("#installationImageInput").change(function() {
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $("#insImage").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+    $("#installationImageInput").click();
+}
+$("#insImage").on("click", function() {
+    choosePicture();
+});

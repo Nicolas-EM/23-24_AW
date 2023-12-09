@@ -4,7 +4,7 @@
       <h2 class="p-0">Faculties</h2>
     </div>
     <div class="row mb-2">
-      <button class="btn btn-primary">New Faculty</button>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newFacultyModal">New Faculty</button>
     </div>
     <div class="row overflow-x-auto">
       <table class="table table-bordered table-striped">
@@ -20,3 +20,26 @@
     </div>
   </div>
 </div>
+
+<!-- BEGIN: New Faculty Modal -->
+<div class="modal fade" id="newFacultyModal" tabindex="-1" role="dialog" aria-labelledby="newFacultyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newFacultyModalLabel">New Faculty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="installationName">Faculty name: </label>
+          <input type="text" class="form-control form-control-lg" id="installationName" placeholder="faculty Name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END: New Faculty Modal -->
