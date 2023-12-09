@@ -6,7 +6,25 @@ class DAOReservations {
     constructor(pool) {
         this.pool = pool;
     }
-
+    createReservation(reservation, callback) {
+        console.log(reservation);
+        this.pool.query(
+            "INSERT INTO ucm_aw_riu_res_reservations (dateini,dateend,datecreation,userid,instid) VALUES (?, ?, ?, ?, ?)",
+            [
+                reservation.dateini,
+                reservation.dateend,
+                reservation.datecreation,
+                reservation.userid,
+                reservation.instid,
+            ],(err, result) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, result.insertId);
+                }
+            }
+        );
+    }
     getReservationById(id, callback) {
         this.pool.query(
             "SELECT * FROM ucm_aw_riu_res_reservations WHERE id = ?",
@@ -50,6 +68,18 @@ class DAOReservations {
                     callback(err);
                 } else {
                     callback(null, result.insertId);
+                }
+            }
+        );
+    }
+    checkReservation(day, instid, callback) {
+        this.pool.query(
+            "SELECT CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS `Time Slot`,COUNT(*) AS `Number of Reservations`FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = '?' AND instid = '?' GROUP BY HOUR(dateini) ORDER BY HOUR(dateini);",
+            [day, instid],(err, rows) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, rows);
                 }
             }
         );

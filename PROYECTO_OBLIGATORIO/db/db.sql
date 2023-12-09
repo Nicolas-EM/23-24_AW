@@ -48,6 +48,7 @@ CREATE TABLE `ucm_aw_riu_res_reservations` (
   FOREIGN KEY (`instid`) REFERENCES `ucm_aw_riu_ins_installations` (`id`)
 );
 
+
 CREATE TABLE `ucm_aw_riu_messages` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `sender_id` INT NOT NULL,

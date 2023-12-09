@@ -1,0 +1,29 @@
+<!-- BEGIN: Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">Reserve your facility: </h5>
+                <button class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id ="reservationForm" action = "/reservations/create" method ="post">
+                <input type="hidden" id="_csrf" value= "<%= csrfToken %>">
+                <input type="hidden" id="installationId" value="">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="calendar" class="form-label">Date:</label>
+                        <input id="calendar" class="form-control w-100" type="text" value="" placeholder="Selecciona tu reserva" required>
+                        <input class="d-none" type="text" id="startDate" name="startDate">
+                        <input class="d-none" type="text" id="endDate" name="endDate">
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END: Modal -->
