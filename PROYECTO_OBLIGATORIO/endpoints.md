@@ -12,8 +12,8 @@ riu.ucm.es
 │   ├── /create
 │   ├── /update
 │   ├── /delete
-│   ├── /login
-│   ├── /logout
+│   ├── /login [X]
+│   ├── /logout [X]
 │   ├── /role*
 │   ├── /validate*
 │   └── /byFaculty*

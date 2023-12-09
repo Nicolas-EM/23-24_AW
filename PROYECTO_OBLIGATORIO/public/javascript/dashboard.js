@@ -4,6 +4,7 @@ $(document).ready(function () {
     getInstallations();
 });
 
+
 function getInstallations() {
     // Make an AJAX request to the server
     $.ajax({
@@ -59,3 +60,41 @@ function getButtonFromAvailability(availability) {
     else
         return '<button class="btn btn-secondary pill-rounded disabled">Unavailable</button>'
 }
+function performSearch() {
+    scroll = false;
+
+    // Get the value from the search input
+    const query = $("#query").val();
+    //const minPrice = $("#minPrice").val();
+   //const maxPrice = $("#maxPrice").val();
+
+    // Get the CSRF token value
+    const csrfToken = $("input[name='_csrf']").val();
+    console.log("query: ", query);
+    // Make an AJAX request to the server
+    $.ajax({
+        method: "POST",
+        url: "/installations/search",
+        data: {query},
+        headers: {
+            "X-CSRF-Token": csrfToken // Include the CSRF token in the request headers
+        },
+        success: function (data) {
+            $("#installations").empty();
+            for (let x in data) {
+                const inst = data[x];
+                $("#installations").append(createInstallationCard(inst));
+            }
+        },
+        error: function (jqXHR) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+}
+
+
+$("#searchForm").on("submit", function (event) {
+    event.preventDefault();
+    performSearch();
+});

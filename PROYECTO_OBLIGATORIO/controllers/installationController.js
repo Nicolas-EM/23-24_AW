@@ -15,24 +15,43 @@ class installationController {
       }
     });
   }
-  
-  getImage(req, res, next) {
-    const installationId = req.params.id;
-    daoInstallations.getInstallationById(
-      installationId,
-      (err, installation) => {
+  search(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() }); //422 Unprocessable Entity
+    }
+    daoInstallations.searchInstallation(
+      req.body.query,
+      // req.body.maxPrice,
+      // req.body.minPrice,
+      (err, installations) => {
         if (err) {
           next(err);
         } else {
-          const imageBuffer = installation.image; // Assuming installation.image is a buffer containing the image data
-          const imageBase64 = imageBuffer.toString("base64"); // Convert the buffer to base64 string
-          const imageDataURI = `data:image/png;base64,${imageBase64}`; // Create a data URI with the base64 string
-
-          res.send(imageDataURI);
+          //TODO no se que es mejor si json o send
+          console.log(installations);
+          res.json(installations);
         }
       }
     );
   }
+  // getImage(req, res, next) {
+  //   const installationId = req.params.id;
+  //   daoInstallations.getInstallationById(
+  //     installationId,
+  //     (err, installation) => {
+  //       if (err) {
+  //         next(err);
+  //       } else {
+  //         const imageBuffer = installation.image; // Assuming installation.image is a buffer containing the image data
+  //         const imageBase64 = imageBuffer.toString("base64"); // Convert the buffer to base64 string
+  //         const imageDataURI = `data:image/png;base64,${imageBase64}`; // Create a data URI with the base64 string
+
+  //         res.send(imageDataURI);
+  //       }
+  //     }
+  //   );
+  // }
 }
 
 module.exports = installationController;

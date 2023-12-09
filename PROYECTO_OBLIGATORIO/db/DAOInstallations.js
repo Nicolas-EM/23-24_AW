@@ -46,7 +46,19 @@ class DAOInstallations {
             }
         );
     }
-
+    searchInstallation(name, callback) {
+        this.pool.query(
+            "SELECT * FROM ucm_aw_riu_ins_facilities WHERE name LIKE ?",
+            [`%${name}%`],
+            (err, rows) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, rows);
+                }
+            }
+        );
+    }
     createFacility(facility, callback) {
         this.pool.query(
             "INSERT INTO ucm_aw_riu_ins_facilities (name, availabity, type, capacity, ImageName, ImageType) VALUES (?, ?, ?, ?, ?, ?)",
