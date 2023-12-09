@@ -31,7 +31,7 @@ CREATE TABLE `ucm_aw_riu_usu_users` (
   `ugroup` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profileImage` BLOB,
+  `profileImage` LONGBLOB,
   `isAdmin` tinyint(1) DEFAULT 0,
   `isValidated` tinyint(1) DEFAULT 0,
   FOREIGN KEY (`facultyId`) REFERENCES `ucm_aw_riu_ins_faculties` (`id`)

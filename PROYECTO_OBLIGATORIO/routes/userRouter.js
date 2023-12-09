@@ -47,6 +47,8 @@ userRouter.post('/validate',
 
 userRouter.post("/image", requireLogin, multerFactory.single('avatar'), userCtrl.uploadPicture);
 
+userRouter.get("/image/:id", requireLogin, userCtrl.getPicture);
+
 // TODO:
 userRouter.get('/byFaculty', requireAdmin, );
 

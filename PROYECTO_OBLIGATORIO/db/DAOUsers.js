@@ -70,11 +70,27 @@ class DAOUsers {
     );
   }
 
+  getPicture(userId, callback) {
+    this.pool.query(
+      "SELECT profileImage FROM ucm_aw_riu_usu_users WHERE id = ?",
+      [
+        userId
+      ],
+      (err, row) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, row[0].profileImage);
+        }
+      }
+    );
+  }
+
   uploadPicture(userId, file, callback) {
     this.pool.query(
       "UPDATE ucm_aw_riu_usu_users SET profileImage = ? WHERE id = ?",
       [
-        file,
+        file.buffer,
         userId
       ],
       (err, result) => {

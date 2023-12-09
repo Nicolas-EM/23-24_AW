@@ -144,7 +144,23 @@ class userController {
             if(err)
                 next(err);
             else {
-                res.end();
+                res.send("OK");
+            }
+        })
+    }
+
+    getPicture(req, res, next) {
+        const userId = req.params.id;
+
+        daoUser.getPicture(userId, (err, picture) => {
+            if(err)
+                next(err);
+            else{
+                if(picture){
+                    res.end(picture);
+                } else {
+                    res.status(404).end();
+                }
             }
         })
     }

@@ -44,7 +44,6 @@ class installationController {
       if (err) {
         next(err);
       } else {
-        console.log(installation.image);
         if(installation.image != null){
           res.end(installation.image);
         } else {

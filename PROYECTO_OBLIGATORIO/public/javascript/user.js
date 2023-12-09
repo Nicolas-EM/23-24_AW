@@ -7,12 +7,9 @@ $("#imageUpload").on("change", (e) => {
   let fileType = file.type;
 
   if (fileType.startsWith("image/")) {
-    console.log(file);
     const formData = new FormData();
-    formData.append("avatar", file);
     formData.append("_csrf", $("#csrfToken").val());
-
-    console.log(formData);
+    formData.append("avatar", file);
 
     $.ajax({
       method: "POST",
@@ -20,8 +17,11 @@ $("#imageUpload").on("change", (e) => {
       data: formData,
       processData: false,
       contentType: false,
-      success: function (data) {
-        $("#toastMsg").html(data);
+      headers: {
+        "X-CSRF-TOKEN": $("#csrfToken").val(),
+      },
+      success: function () {
+        $("#toastMsg").html("Exito: Foto de perfil actualizada");
         toast.show();
 
         // Actualizar imagen perfil
@@ -39,4 +39,38 @@ $("#imageUpload").on("change", (e) => {
       },
     });
   }
+});
+
+// Llamada AJAX para actualizar datos usuario
+$("#updateUserForm").on("submit", (e) => {
+  e.preventDefault();
+
+  const nombre = $("#nombreInput").val();
+  const correo = $("#emailInput").val();
+  const currentPassword = $("#currentPasswordInput").val();
+  const newPassword = $("#newPassword").val();
+  const newPasswordConfirm = $("#newPasswordConfirm").val();
+  const userId = $("#userId").val();
+  
+  $.ajax({
+    method: "POST",
+    url: "/users/update",
+    data: {
+      _csrf: $("#csrfToken").val(),
+      nombre,
+      correo,
+      currentPassword,
+      newPassword,
+      newPasswordConfirm,
+      userId
+    },
+    success: function (data) {
+      $("#toastMsg").html("Exito: Usuario actualizado");
+        toast.show();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
 });
