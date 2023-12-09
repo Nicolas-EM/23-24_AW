@@ -132,7 +132,7 @@ class DAOReservations {
 
     getReservationsStatsByFaculty(callback) {
         this.pool.query(
-            "SELECT f.name AS name, COUNT(r.id) AS ReservationCount, MIN(r.dateini) AS EarliestReservation, MAX(r.dateend) AS LatestReservation FROM ucm_aw_riu_ins_faculties f JOIN ucm_aw_riu_ins_facilities i ON f.id = i.facultyId JOIN ucm_aw_riu_res_reservations r ON i.id = r.instid GROUP BY f.id, f.name;",
+            "SELECT f.name AS name, COUNT(r.id) AS ReservationCount, MIN(r.dateini) AS EarliestReservation, MAX(r.dateend) AS LatestReservation FROM ucm_aw_riu_ins_faculties f JOIN ucm_aw_riu_ins_installations i ON f.id = i.facultyId JOIN ucm_aw_riu_res_reservations r ON i.id = r.instid GROUP BY f.id, f.name;",
             (err, rows) => {
                 if (err) {
                     callback(err);

@@ -120,6 +120,6 @@ app.get("/user", (req, res, next) => {
     if(err)
       next(err);
     else
-      res.status(200).render("user", { user, csrfToken: req.csrfToken() });
+      res.status(200).render("user", { user, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
   })
 })
