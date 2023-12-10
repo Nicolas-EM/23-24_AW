@@ -83,15 +83,16 @@ $("#registerForm").on("submit", (e) => {
     const email = $("#emailInput2").val();
     const password = $("#registrationPassword").val();
     const passwordConfirm = $("#registrationPasswordConfirm").val();
-    const _csrf = $("#loginCSRF").val();
+    const _csrf = $("#_csrf").val();
 
     // Get the uploaded file
     const file = $("#pictureInput")[0].files[0];
     console.log(file);
 
-    // Create a FormData object and append the file and other form data
+    // Create a new FormData object
     const formData = new FormData();
 
+    // Append the form data
     formData.append("name", name);
     formData.append("surname", surname);
     formData.append("faculty", faculty);
@@ -100,10 +101,14 @@ $("#registerForm").on("submit", (e) => {
     formData.append("email", email);
     formData.append("password", password);
     formData.append("passwordConfirm", passwordConfirm);
-    formData.append("_csrf", _csrf);
 
     if (file) {
         formData.append("picture", file);
+    }
+
+    // Iterate over the form data entries
+    for (const pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
     }
 
     $.ajax({
@@ -112,6 +117,9 @@ $("#registerForm").on("submit", (e) => {
         data: formData,
         processData: false,
         contentType: false,
+        headers: {
+            "X-CSRF-Token": _csrf // Include the CSRF token in the request headers
+        },
         success: (response) => {
             window.location.href = "/";
         },

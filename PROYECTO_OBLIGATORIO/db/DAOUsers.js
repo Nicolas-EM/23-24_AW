@@ -175,17 +175,16 @@ class DAOUsers {
 
   createUser(user, callback) {
     this.pool.query(
-      "INSERT INTO ucm_aw_riu_usu_users (name, surname, faculty, grade, ugroup, email, password, profileImageName, profileImageType, isAdmin, isValidated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO ucm_aw_riu_usu_users (name, surname, facultyId, grade, ugroup, email, password, profileImage, isAdmin, isValidated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         user.name,
         user.surname,
-        user.faculty,
+        user.facultyId,
         user.grade,
         user.ugroup,
         user.email,
         user.password,
-        user.profileImageName,
-        user.profileImageType,
+        user.profileImage,
         user.isAdmin,
         user.isValidated,
       ],

@@ -32,15 +32,28 @@ class userController {
     register(req, res, next) {
         //express validator
         const errors = validationResult(req);
+        console.log("errores: ", errors);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
         const { name, surname, faculty, grade, group, email, password } = req.body;
+        const img = req.file;
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashedPassword = bcrypt.hashSync(password, salt);
 
-        daoUser.createUser({ name, surname, faculty, grade, group, email, hashedPassword }, function (err, userId) {
+        daoUser.createUser({ 
+            name, 
+            surname, 
+            facultyId: faculty, 
+            grade, 
+            ugroup: group, 
+            email, 
+            password: hashedPassword, 
+            profileImage: img, 
+            isAdmin: false, 
+            isValidated: false 
+        }, function (err, userId) {
             if (err) {
                 if (err.errno === 1062) {
                     res.status(400).send("Error: Your account already exists, please log in");

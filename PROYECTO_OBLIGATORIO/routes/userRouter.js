@@ -15,28 +15,23 @@ const userCtrl = new userController();
 userRouter.get("/", requireLogin, userCtrl.getAllUsers);
 
 userRouter.get("/:id", requireLogin, userCtrl.getUserById);
-
 userRouter.post(
   "/create",
-  check("name").notEmpty().withMessage("Nombre es requerido"),
-  check("surname").notEmpty().withMessage("Apellidos es requerido"),
-  check("faculty").notEmpty().withMessage("Facultad es requerida"),
-  check("grade").notEmpty().withMessage("Grado es requerido"),
-  check("group").notEmpty().withMessage("Grupo es requerido"),
-  check("email")
-    .notEmpty()
-    .withMessage("Email es requerido")
-    .isEmail()
-    .withMessage("Email no válido"),
-  check("password")
-    .notEmpty()
-    .withMessage("Contraseña es requerida")
-    .isLength({ min: 7 })
-    .withMessage("La contraseña debe tener al menos 7 caracteres")
-    .matches(/\d/)
-    .withMessage("La contraseña debe contener al menos un número"),
+
   multerFactory.single("picture"),
-  userCtrl.register
+  (req, res, next) => {
+    // Check if the request body contains the required fields
+    check("name").notEmpty().withMessage("Name is required");
+    check("surname").notEmpty().withMessage("Surname is required");
+    check("faculty").notEmpty().withMessage("Faculty is required");
+    check("grade").notEmpty().withMessage("Grade is required");
+    check("group").notEmpty().withMessage("Group is required");
+    check("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Invalid email");
+    check("password").notEmpty().withMessage("Password is required");
+    check("passwordConfirm").notEmpty().withMessage("Password confirmation is required");
+
+    userCtrl.register(req, res, next);
+  }
 );
 
 userRouter.post(
