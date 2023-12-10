@@ -156,32 +156,32 @@ $("#searchForm").on("submit", (event) => {
   performSearch();
 });
 function newReservation(){
-    console.log("newReservation");
-    const _csrf = $("#_csrf").val();
-    const installationId = $('#installationId').val();
-    const startDate = $('#startDate').val();
-    const endDate = $('#endDate').val();
-    console.log(startDate, endDate, installationId, _csrf);
-    $.ajax({
-        method: "POST",
-        url: "/reservations/create",
-        data: {
-            installationId,
-            startDate,
-            endDate,
-            _csrf,
-        },
-        success: function (data) {
-            $("#toastMsg").html(data);
-            toast.show();
-            $('#reservationModal').modal('hide');
-           // $('#reservationForm').trigger("reset");
-        },
-        error: function (jqXHR) {
-            $("#toastMsg").html(jqXHR.responseText);
-            toast.show();
-        },
-    });
+  const _csrf = $("#_csrf").val();
+  const installationId = $('#installationId').val();
+  const startDate = $('#startDate').val();
+  const endDate = $('#endDate').val();
+  $.ajax({
+    method: "POST",
+    url: "/reservations/create",
+    data: {
+      installationId,
+      startDate,
+      endDate,
+      _csrf,
+    },
+    cache: false, // Disable cache
+    success: function (data) {
+      console.log("tuve exito!: ", data);
+      $("#toastMsg").html(data);
+      toast.show();
+      $('#reservationModal').modal('hide');
+       // $('#reservationForm').trigger("reset");
+    },
+    error: function (jqXHR) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
 }
 $('#reservationModal').on('show.bs.modal', function (event) {
     var buttonId = event.relatedTarget.id;

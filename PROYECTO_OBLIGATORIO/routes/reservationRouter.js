@@ -1,22 +1,25 @@
 "use strict";
 
-const { check } = require("express-validator"); //para validar los datos de los formularios
+//const { check } = require("express-validator"); //para validar los datos de los formularios
 // middleware login
 const requireAdmin = require('../middleware/requireAdmin');
-const requireLogin = require('../middleware/requireLogin');
 const reservationsController = require('../controllers/reservationsController');
-const ctrl = new reservationsController();
-let reservationRouter = require('express').Router();
-const { isAfter, addHours } = require('date-fns');
 
+let reservationRouter = require('express').Router();
+//const { isAfter, addHours } = require('date-fns');
+const ctrl = new reservationsController();
 reservationRouter.get('/', (req, res, next) => {
 
 });
 
-reservationRouter.post('/create', requireLogin, 
-    check('startDate').isISO8601().toDate(),
+reservationRouter.post('/create', 
+    // check('startDate').isISO8601().toDate(),
+    // check('endDate').isISO8601().toDate(),
     (req, res, next) => {
-        ctrl.createReservation;
+        console.log("createReservation en router");
+        console.log(req.body);
+        console.log(req.session.userId);
+        ctrl.createReservation(req, res, next);
     }
 );
 

@@ -6,8 +6,10 @@ const { validationResult } = require("express-validator");
 const daoReservations = new DAOReservations(pool);
 
 class reservationsController {
+
+  
   createReservation(req, res, next) {
-    console.log("createReservation");
+    console.log("createReservation from controller!");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).send(errors.array());
