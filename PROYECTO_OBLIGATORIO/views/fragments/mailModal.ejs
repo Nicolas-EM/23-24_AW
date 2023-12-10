@@ -13,14 +13,16 @@
             </div>
             <div class="modal-body p-0">
                 <div id="noMessages" class="row text-center">
-                    <h3>No messages</h3>
+                    <h3>No chats, send a message to create one</h3>
                 </div>
-                <div class="row px-3">
-                    <div class="col-4 p-0" id="recipientsCol" role="tablist">
-
-                    </div>
-                    <div id="chats-tabContent" class="col-8 tab-content">
-                        <h3 id="selectChat" class="d-none text-center my-2">Select a chat to get started</h3>
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-4 p-0" id="recipientsCol" role="tablist">
+    
+                        </div>
+                        <div id="chats-tabContent" class="col-8 tab-content">
+                            <h3 id="selectChat" class="d-none text-center my-2">Select a chat to get started</h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,16 +41,17 @@
             </div>
             <div class="modal-body">
                 <form id="newMessageForm">
+                    <input id="messageCSRF" type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="mb-3">
                         <label for="recipient" class="form-label">Recipient</label>
-                        <input class="form-control" list="recipientsDataList" id="recipient" placeholder="Type to search recipient...">
+                        <input class="form-control" list="recipientsDataList" id="recipient" placeholder="Type to search recipient..." required>
                         <datalist id="recipientsDataList" data-isadmin="<%= isAdmin %>">
                             <!-- Filled via javascript -->
                         </datalist>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
-                        <textarea id="message" class="form-control" aria-label="Message"></textarea>
+                        <textarea id="message" class="form-control" aria-label="Message" required></textarea>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#mailModal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Send</button>

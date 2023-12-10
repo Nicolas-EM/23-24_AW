@@ -27,3 +27,7 @@
     background: var(--primary-blue);/* fallback color */
     background: radial-gradient(circle, var(--primary-green), var(--primary-blue));
 }
+
+#recipientsCol, #chats-tabContent .tab-pane {
+    min-height: 45vh;
+}

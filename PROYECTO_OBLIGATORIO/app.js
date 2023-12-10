@@ -65,7 +65,7 @@ app.listen(_PORT, () => {
 
 // middleware login
 const requireAdmin = require('./middleware/requireAdmin');
-const requireLogin = require('./middleware/requireLogin')
+const requireLogin = require('./middleware/requireLogin');
 
 //todos nuestros enrutadores:
 app.use("/org", requireAdmin, orgRouter);
