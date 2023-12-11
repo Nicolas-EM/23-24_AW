@@ -47,18 +47,21 @@ class installationController {
       return res.status(422).json({ errors: errors.array() }); //422 Unprocessable Entity
     }
 
-    const { image, name, capacity, type, faculty } = req.body;
-    daoFaculties.getFacultyById(faculty, (err, faculty) => {
+    const {name, capacity, type, faculty } = req.body;
+    const image = req.file;
+    daoFaculties.getFacultyById(faculty, (err, facultyObj) => {
       if (err) {
         next(err);
       } else {
-        if (faculty) {
+        if (facultyObj) {
+          let availability = "available";
           daoInstallations.createInstallation(
             name,
-            faculty,
-            capacity,
+            availability,
             type,
-            image,
+            capacity,
+            image.buffer,
+            faculty,
             (err, result) => {
               if (err) {
                 next(err);

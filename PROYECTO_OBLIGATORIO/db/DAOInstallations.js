@@ -64,14 +64,17 @@ class DAOInstallations {
     );
   }
 
-  createInstallation(name, faculty, capacity, type, image, callback) {
+  createInstallation(name, availability, type, capacity, image, faculty, callback) {
+    console.log("dao", name, availability, type, capacity, faculty, image);
     this.pool.query(
-      "INSERT INTO ucm_aw_riu_ins_installations (name, availability, type, capacity, image, facultyId) VALUES (?, ?, ?, ?, ?, ?)",
-      [name,"available",type, capacity, image, faculty],
+      "INSERT INTO ucm_aw_riu_ins_installations (name, availabity, type, capacity, image, facultyId) VALUES (?, ?, ?, ?, ?, ?)",
+      [name,availability,type, capacity, image, faculty],
       (err) => {
         if (err) {
+          console.log(err);
           callback(err);
         } else {
+          console.log("no hay error");
           callback(null);
         }
       }
