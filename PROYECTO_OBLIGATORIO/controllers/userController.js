@@ -31,11 +31,12 @@ class userController {
 
     register(req, res, next) {
         //express validator
-        const errors = validationResult(req);
-        console.log("errores: ", errors);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+        // const errors = validationResult(req);
+        // console.log("errores: ", errors);
+        // if (!errors.isEmpty()) {
+        //     return res.status(400).json({ errors: errors.array() });
+        // }
+
         const { name, surname, faculty, grade, group, email, password } = req.body;
         const img = req.file;
         const saltRounds = 10;
@@ -50,7 +51,7 @@ class userController {
             ugroup: group, 
             email, 
             password: hashedPassword, 
-            profileImage: img, 
+            profileImage: img.buffer, 
             isAdmin: false, 
             isValidated: false 
         }, function (err, userId) {
@@ -65,11 +66,7 @@ class userController {
                     req.session.userId = userId;
                     req.session.isAdmin = false;
 
-                    res.render('user', {
-                        isAuthenticated: true, user: { name, surname, faculty, grade, group, email },
-                        csrfToken: req.csrfToken()
-                    });
-                    //TODO revisar porque ahora mismo tema admin tendria que forzarse en la bbdd
+                    res.send("OK");
                 } else {
                     res.status(400).send("Error: Your account already exists, please log in");
                 }
@@ -95,15 +92,11 @@ class userController {
                         next(err);
                     }
                     if (passwordMatch) {
-                        if (user.isValidated) {
-                            // If valid credentials, create a session
-                            req.session.userId = user.id
-                            req.session.isAdmin = (user.isAdmin === 1);
+                        // If valid credentials, create a session
+                        req.session.userId = user.id
+                        req.session.isAdmin = (user.isAdmin === 1);
 
-                            res.send("OK");
-                        } else {
-                            res.status(401).send("Error: User not validated");
-                        }
+                        res.send("OK");
                     } else {
                         res.status(401).send("Error: Incorrect credentials");
                     }

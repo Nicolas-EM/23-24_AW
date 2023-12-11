@@ -87,7 +87,6 @@ $("#registerForm").on("submit", (e) => {
 
     // Get the uploaded file
     const file = $("#pictureInput")[0].files[0];
-    console.log(file);
 
     // Create a new FormData object
     const formData = new FormData();
@@ -104,11 +103,6 @@ $("#registerForm").on("submit", (e) => {
 
     if (file) {
         formData.append("picture", file);
-    }
-
-    // Iterate over the form data entries
-    for (const pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
     }
 
     $.ajax({
