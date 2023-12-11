@@ -51,7 +51,14 @@ class orgController {
     }
 
     update(req, res, next) {
-        
+        const { name, dir} = req.body;
+
+        daoOrg.updateOrg(name, dir, (err) => {
+            if(err)
+                next(err);
+            else
+                res.send("OK");
+        })
     }
 }
 

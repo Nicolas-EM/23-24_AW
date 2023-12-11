@@ -25,6 +25,7 @@ function createFacultyFilters() {
         method: "GET",
         url: "/faculties/",
         success: function (data) {
+            $("#facultyFilter").empty();
             for (let x in data) {
                 const faculty = data[x];
                 $("#facultyFilter").append(`<option value="${faculty.id}">

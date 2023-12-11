@@ -44,6 +44,19 @@ class DAOOrg {
             }
         );
     }
+
+    updateOrg(name, dir, callback) {
+        this.pool.query(
+            "UPDATE ucm_aw_riu_org SET name = ?, dir = ? WHERE id = 1;", [name, dir],
+            (err) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null);
+                }
+            }
+        );
+    }
 }
 
 module.exports = DAOOrg;

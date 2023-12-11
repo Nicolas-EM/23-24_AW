@@ -1,27 +1,3 @@
-$("#updateOrgForm").on("submit", e => {
-    e.preventDefault();
-
-
-    const _csrf = $("#csrfToken").val();
-
-    $.ajax({
-        url: "/org/update",
-        method: "POST",
-        data: {
-            facultyName,
-            _csrf,
-        },
-        success: (response) => {
-            $("#toastMsg").html("Success: Organization details updated");
-            toast.show();
-        },
-        error: function (xhr, status, error) {
-            $("#toastMsg").html(xhr.responseText);
-            toast.show();
-        },
-    });
-});
-
 $("#orgImgUpload").on("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -64,3 +40,38 @@ $("#orgImgUpload").on("change", (e) => {
         });
     }
 });
+
+$("#updateOrgForm").on("submit", e => {
+    e.preventDefault();
+
+    const orgName = $("#orgName").val();
+    const orgDir = $("#orgAddress").val();
+    const _csrf = $("#csrfToken").val();
+
+    console.log(orgName, orgDir, _csrf);
+
+    $.ajax({
+        method: "POST",
+        url: "/org/update",
+        data: {
+            name: orgName,
+            dir: orgDir,
+            _csrf
+        },
+        success: function () {
+            $("#toastMsg").html("Success: Organization details updated");
+            toast.show();
+
+            // Actualizar navbar
+            $("#orgNameNavbar").html(orgName);
+
+            // Actualizar footer
+            $("#orgNameFooter").html(orgName);
+            $("#orgDirFooter").html(orgDir);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        },
+    });
+})

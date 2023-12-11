@@ -35,3 +35,7 @@
 footer .row {
     max-width: 100%;
 }
+
+.avatar {
+    cursor: pointer;
+}
