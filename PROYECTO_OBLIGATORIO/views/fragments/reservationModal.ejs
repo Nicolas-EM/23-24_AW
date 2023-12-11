@@ -7,7 +7,6 @@
                 <button class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id ="reservationForm" method ="post" action = "/reservations/create">
-                <input type="hidden" id="_csrf" value= "<%= csrfToken %>">
                 <input type="hidden" id="installationId" value="">
                 <div class="modal-body">
                     <div class="mb-3">

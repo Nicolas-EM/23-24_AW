@@ -18,110 +18,108 @@ Proyecto Opcional AW
 
 <body>
   <!-- Navbar -->
-  <%- include('fragments/navbar') %>
+  <%- include('fragments/navbar.ejs', { org }) %>
 
-    <!-- Datos del usuario -->
-    <div class="container-fluid p-0 mb-3">
-      <section class="userBg">
-        <input type="file" id="imageUpload" accept="image/*" class="d-none">
-        <div class="container py-5">
-          <div class="row g-2">
-            <div class="col-lg-4">
-              <div class="card rounded h-100">
-                <div class="card-body text-center">
-                  <label for="imageUpload">
-                    <img src="<%- user.profileImage !== null ? `users/image/${user.id}` : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
-                  </label>
-                  <h5 class="my-3">
-                    <p id="nombreUsuarioField"><%= user.name %></p>
-                  </h5>
-                </div>
+  <!-- Datos del usuario -->
+  <div class="container-fluid p-0 mb-3">
+    <section class="userBg">
+      <input type="file" id="imageUpload" accept="image/*" class="d-none">
+      <div class="container py-5">
+        <div class="row g-2">
+          <div class="col-lg-4">
+            <div class="card rounded h-100">
+              <div class="card-body text-center">
+                <label for="imageUpload">
+                  <img src="<%- user.profileImage !== null ? `users/image/${user.id}` : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
+                </label>
+                <h5 class="my-3">
+                  <p id="nombreUsuarioField"><%= user.name %></p>
+                </h5>
               </div>
             </div>
-            <div class="col-lg-8">
-              <div class="card h-100">
-                <div class="card-body">
-                  <form method="post" id="updateUserForm" action="/users/update">
-                    <input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" id="userId" value="<%= user.id %>">
-                    <!-- Datos usuario -->
-                    <!-- Nombre -->
-                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+          </div>
+          <div class="col-lg-8">
+            <div class="card h-100">
+              <div class="card-body">
+                <form method="post" id="updateUserForm" action="/users/update">
+                  <input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="hidden" id="userId" value="<%= user.id %>">
+                  <!-- Datos usuario -->
+                  <!-- Nombre -->
+                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                    <div class="col-sm-3">
+                      <label for="nombreInput" class="form-label mb-0">Name</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.name %>" required>
+                    </div>
+                  </div>
+                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
                       <div class="col-sm-3">
-                        <label for="nombreInput" class="form-label mb-0">Name</label>
+                        <label for="nombreInput" class="form-label mb-0">Surname</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.name %>" required>
+                        <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.surname %>" required>
                       </div>
                     </div>
-                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
-                        <div class="col-sm-3">
-                          <label for="nombreInput" class="form-label mb-0">Surname</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="text" id="nombreInput" class="form-control" name="name" value="<%= user.surname %>" required>
-                        </div>
-                      </div>
-                    <hr>
-                    <!-- Correo -->
-                    <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                  <hr>
+                  <!-- Correo -->
+                  <div class="row row-cols-1 row-cols-sm-2 align-items-center g-1">
+                    <div class="col-sm-3">
+                      <label for="emailInput" class="form-label mb-0">Email</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.email %>" required>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <!-- Gestión contraseña -->
+                  <div class="align-items-center">
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
                       <div class="col-sm-3">
-                        <label for="emailInput" class="form-label mb-0">Email</label>
+                        <label for="currentPasswordInput" class="form-label mb-0">Current Password</label>
                       </div>
                       <div class="col-sm-9">
-                        <input type="email" id="emailInput" name="correo" class="form-control" value="<%= user.email %>" required>
+                        <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
                       </div>
                     </div>
-                    <hr>
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                      <div class="col-sm-3">
+                        <label for="newPassword" class="form-label mb-0">New Password</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
+                      </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
+                      <div class="col-sm-3">
+                        <label for="newPasswordConfirm" class="form-label mb-0">Password Confirmation</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
 
-                    <!-- Gestión contraseña -->
-                    <div class="align-items-center">
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="currentPasswordInput" class="form-label mb-0">Current Password</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="password" id="currentPasswordInput" name="currentPassword" class="form-control" placeholder="**********" required>
-                        </div>
-                      </div>
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="newPassword" class="form-label mb-0">New Password</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="**********">
-                        </div>
-                      </div>
-                      <div class="row row-cols-1 row-cols-sm-2 g-1 mb-1">
-                        <div class="col-sm-3">
-                          <label for="newPasswordConfirm" class="form-label mb-0">Password Confirmation</label>
-                        </div>
-                        <div class="col-sm-9">
-                          <input type="password" id="newPasswordConfirm" class="form-control" placeholder="**********">
-                        </div>
-                      </div>
+                  <div class="row">
+                    <div class="col text-end">
+                      <button class="btn btn-primary" type="submit">Guardar</button>
                     </div>
-                    <hr>
-
-                    <div class="row">
-                      <div class="col text-end">
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  </div>
 
-    <!-- Footer -->
-    <%- include('fragments/footer') %>
-    <script src="/javascript/user.js"></script>
-    <!-- TODO esto no se usa pero podria -->
-    <!-- <script src="/javascript/reservaForm.js"></script> -->
+  <!-- Footer -->
+  <%- include('fragments/footer') %>
+  <script src="/javascript/user.js"></script>
 </body>
 
 </html>

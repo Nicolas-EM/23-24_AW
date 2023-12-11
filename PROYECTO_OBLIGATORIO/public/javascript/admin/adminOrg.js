@@ -44,7 +44,7 @@ $("#orgImgUpload").on("change", (e) => {
                 "X-CSRF-TOKEN": $("#csrfToken").val(),
             },
             success: function () {
-                $("#toastMsg").html("Sucess: Organization logo updated");
+                $("#toastMsg").html("Success: Organization logo updated");
                 toast.show();
 
                 // Actualizar imagen perfil
@@ -52,6 +52,7 @@ $("#orgImgUpload").on("change", (e) => {
                 reader.onload = function (e) {
                     // get loaded data and render thumbnail.
                     $("#orgImg").attr("src", e.target.result);
+                    $("#navbarLogo").attr("src", e.target.result);
                 };
                 // read the image file as a data URL.
                 reader.readAsDataURL(file);

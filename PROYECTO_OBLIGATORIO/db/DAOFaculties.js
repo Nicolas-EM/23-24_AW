@@ -37,6 +37,7 @@ class DAOFaculties {
             }
         });
     }
+    
     getFaculties(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -53,6 +54,7 @@ class DAOFaculties {
             }
         });
     }
+
     getGroups(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

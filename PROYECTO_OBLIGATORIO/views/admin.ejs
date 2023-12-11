@@ -8,18 +8,20 @@
 </head>
 
 <body>
-  <%- include('fragments/navbar.ejs') %>
+  <%- include('fragments/navbar.ejs', { org }) %>
 
-  <!-- Sidebar menu -->
   <div class="container-fluid">
     <div class="row row-cols-2">
+      <!-- Sidebar menu -->
       <%- include('fragments/admin/sidebar.ejs') %>
 
+      <!-- Admin content -->
       <div id="adminCol" class="col">
         <div class="tab-content" id="pills-tabContent">
+          <input type="hidden" id="csrfToken" value= "<%= csrfToken %>">
 
           <div class="tab-pane fade show active" id="pills-org" role="tabpanel" aria-labelledby="pills-org-tab" tabindex="0">
-            <%- include('fragments/admin/orgSettings.ejs') %>
+            <%- include('fragments/admin/orgSettings.ejs', { org }) %>
           </div>
 
           <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab" tabindex="0">
@@ -38,7 +40,6 @@
             <%- include('fragments/admin/stats.ejs') %>
           </div>
         </div>
-        
       </div>    
     </div>
   </div>

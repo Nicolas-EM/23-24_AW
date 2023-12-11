@@ -4,7 +4,6 @@
       <h2 class="p-0">Organization</h2>
     </div>
     <form id="updateOrgForm">
-      <input type="hidden" id="csrfToken" value= "<% csrfToken %>">
       <div class="row row-cols-1 row-cols-md-2">
         <div class="col-lg-4 text-center">
           <input type="file" id="orgImgUpload" accept="image/*" class="d-none">
@@ -15,12 +14,12 @@
         <div class="col-lg-8">
           <div class="mb-3">
             <label for="orgName" class="form-label">Organization Name</label>
-            <input type="text" class="form-control" id="orgName" aria-describedby="orgNameHelp" value="<%= %>">
+            <input type="text" class="form-control" id="orgName" aria-describedby="orgNameHelp" value="<%= org.name %>">
             <div id="orgNameHelp" class="form-text">This is the name visible to all users on the navigation bar.</div>
           </div>
           <div class="mb-3">
             <label for="orgAddress" class="form-label">Postal Address</label>
-            <input type="text" class="form-control" id="orgAddress" aria-describedby="orgAddrHelp" value="<%= %>">
+            <textarea class="form-control" id="orgAddress" rows="3" aria-describedby="orgAddrHelp"><%= org.dir %></textarea>
             <div id="orgAddrHelp" class="form-text">This is the address visible to all users on the page footer</div>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -28,3 +27,4 @@
       </div>
     </form>
   </div>
+</div>

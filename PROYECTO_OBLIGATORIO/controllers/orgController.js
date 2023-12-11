@@ -8,14 +8,20 @@ const daoOrg = new DAOOrg(pool);
 const daoFaculties = new daoF(pool);
 
 class orgController {
-    getFaculties(req, res, next) {
-        daoFaculties.getFaculties((err, faculties) => {
-            if (err) {
+    getIndex(req, res, next){
+        daoOrg.getOrg((err, org) => {
+            if(err)
                 next(err);
-            } else {
-                res.render("admin", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, faculties: faculties });
+            else {
+                daoFaculties.getFaculties((err, faculties) => {
+                    if (err) {
+                        next(err);
+                    } else {
+                        res.render("admin", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org, faculties: faculties });
+                    }
+                });
             }
-        });
+        })
     }
 
     getPicture(req, res, next) {
@@ -23,6 +29,7 @@ class orgController {
             if(err)
                 next(err);
             else
+                console.log(picture);
                 res.end(picture);
         })
     };
@@ -33,7 +40,9 @@ class orgController {
             return res.status(400).send('Error: No file uploaded');
         }
 
-        daoOrg.setPicture(file.blob, (err) => {
+        console.log(file.buffer);
+
+        daoOrg.setPicture(file.buffer, (err) => {
             if(err)
                 next(err);
             else

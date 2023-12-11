@@ -10,7 +10,7 @@ const controller = new orgController();
 
 let orgRouter = require('express').Router();
 
-orgRouter.get("/", controller.getFaculties);
+orgRouter.get("/", controller.getIndex);
 
 orgRouter.get("/picture", controller.getPicture);
 

@@ -6,6 +6,19 @@ class DAOOrg {
         this.pool = pool;
     }
 
+    getOrg(callback) {
+        this.pool.query(
+            "SELECT * FROM ucm_aw_riu_org WHERE id = 1;",
+            (err, row) => {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, row[0]);
+                }
+            }
+        );
+    }
+
     getPicture(callback) {
         this.pool.query(
             "SELECT foto FROM ucm_aw_riu_org WHERE id = 1;",

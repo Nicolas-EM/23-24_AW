@@ -77,18 +77,26 @@ app.use("/messages", requireLogin, messageRouter);
 const pool = require("./db/pool");
 const DAOFaculties = require("./db/DAOFaculties");
 const DAOUsers = require("./db/DAOUsers");
+const DAOOrg = require('./db/DAOOrg');
+
+const daoOrg = new DAOOrg(pool);
 
 app.get("/", requireLogin, (req, res) => {
-  res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
+  daoOrg.getOrg((err, org) => {
+    if (err)
+      next(err);
+    else
+      res.render("dashboard", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org });
+  })
 });
 
 app.get("/login", (req, res) => {
-  if(req.session && req.session.userId){
+  if (req.session && req.session.userId) {
     // user already signed in
     res.redirect("/");
-  } else {  
+  } else {
     const daoFaculties = new DAOFaculties(pool);
-  
+
     daoFaculties.getFaculties((err, faculties) => {
       if (err) {
         console.error(err);
@@ -116,12 +124,18 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/user", (req, res, next) => {
-  const daoUsers = new DAOUsers(pool);
-  daoUsers.getUserById(req.session.userId, (err, user) => {
-    if(err)
+  daoOrg.getOrg((err, org) => {
+    if (err)
       next(err);
-    else
-      res.status(200).render("user", { user, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin });
+    else {
+      const daoUsers = new DAOUsers(pool);
+      daoUsers.getUserById(req.session.userId, (err, user) => {
+        if (err)
+          next(err);
+        else
+          res.status(200).render("user", { user, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org });
+      })
+    }
   })
 })
 

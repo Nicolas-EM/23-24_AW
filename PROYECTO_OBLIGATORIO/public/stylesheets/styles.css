@@ -31,3 +31,7 @@
 #recipientsCol, #chats-tabContent .tab-pane {
     min-height: 45vh;
 }
+
+footer .row {
+    max-width: 100%;
+}
