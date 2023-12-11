@@ -14,6 +14,7 @@
             <th scope="col">Faculty</th>
             <th scope="col">Capacity</th>
             <th scope="col">Type</th>
+            <th>Options</th>
           </tr>
         </thead>
         <tbody id="installationTableRow">
@@ -23,19 +24,15 @@
   </div>
 </div>
 
-<!-- FILEPATH: /d:/#1_REPOS VS STUDIO/23-23_AW/PROYECTO_OBLIGATORIO/views/fragments/admin/installations.ejs -->
-<!-- BEGIN: ed8c6549bwf9 -->
-
 <div class="modal fade" id="newInstallationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="registrationModalLabel">New Installation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="newInstallationForm" method="post" action="/installations/create">
-          <input type="hidden" id="csrfToken" value="<% csrfToken %>">
+      <form id="newInstallationForm" method="post" action="/installations/create">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registrationModalLabel">New Installation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
           <input type="file" id="installationImageInput" accept="image/*" hidden>
           <div class="row">
             <div class="col-lg-6">
@@ -52,8 +49,10 @@
                 <label for="installationFaculty">Faculty</label>
                 <select class="form-control form-control-lg" id="installationFaculty">
                   <% faculties.forEach(function(faculty) { %>
-                    <option value="<%= faculty.id %>"><%=faculty.name  %></option>
-                  <% }); %>
+                    <option value="<%= faculty.id %>">
+                      <%=faculty.name %>
+                    </option>
+                    <% }); %>
                 </select>
               </div>
               <!-- Capacity -->
@@ -71,28 +70,108 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <div class="row">
-              <div class="col d-flex justify-content-end">
-                <button class="btn btn-secondary btn-lg px-sm-5" data-bs-dismiss="modal">Cancel</button>
-              </div>
-              <div class="col d-flex justify-content-end">
-                <button class="btn btn-primary btn-lg px-sm-5" id="formRegisterBtn" type="submit">Save</button>
-              </div>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col d-flex justify-content-end">
+              <button class="btn btn-secondary btn-lg px-sm-5" data-bs-dismiss="modal" type="button">Cancel</button>
+            </div>
+            <div class="col d-flex justify-content-end">
+              <button class="btn btn-primary btn-lg px-sm-5" id="formRegisterBtn" type="submit">Save</button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
-<!-- END: ed8c6549bwf9 -->
+<!-- Installation settings modal -->
+<div class="modal fade" id="installationSettingsModal" tabindex="-1" aria-labelledby="installationSettingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="updateInstallationForm">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="installationSettingsModalLabel">Settings</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editInstallationId" value="">
+          <input type="file" id="editInstallationImageInput" accept="image/*" hidden>
+          <div class="row">
+            <div class="col-lg-6">
+              <img src="/images/img.svg" alt="profile-image" class="img-fluid" id="editInstallationImg">
+            </div>
+            <div class="col-lg-6">
+              <!-- Installation Name -->
+              <div class="form-group">
+                <label for="editIName">Installation Name</label>
+                <input type="text" class="form-control form-control-lg" id="editIName" placeholder="Installation Name">
+              </div>
+              <!-- Faculty -->
+              <div class="form-group">
+                <label for="editIFaculty">Faculty</label>
+                <select class="form-control form-control-lg" id="editIFaculty">
+                  <% faculties.forEach(function(faculty) { %>
+                    <option value="<%= faculty.id %>">
+                      <%=faculty.name %>
+                    </option>
+                    <% }); %>
+                </select>
+              </div>
+              <!-- Capacity -->
+              <div class="form-group">
+                <label for="editICapacity">Capacity</label>
+                <input type="number" class="form-control form-control-lg" id="editICapacity" placeholder="Capacity" min="1">
+              </div>
+              <!-- Type -->
+              <div class="form-group">
+                <label for="editIType">Type</label>
+                <select class="form-control form-control-lg" id="editIType">
+                  <option value="0">Collective</option>
+                  <option value="1">Individual</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-<script>
-  document.getElementById("newInstallationForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form submission
-    // Add your form submission logic here
-  });
-</script>
-<!-- END: Modal -->
+<!-- Installation history modal -->
+<div class="modal fade" id="installationHistoryModal" tabindex="-1" aria-labelledby="installationHistoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="installationHistoryModalLabel">History</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table id="uHistoryTable" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Reservation Start</th>
+              <th>Reservation End</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="iHistoryTableRows">
+          </tbody>
+        </table>
+        <div id="iHistoryNoResults">
+          <h3>No results</h3>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

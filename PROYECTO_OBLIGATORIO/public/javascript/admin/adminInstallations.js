@@ -23,15 +23,23 @@ function getInstallations() {
 }
 
 function createInstallationRow(installation) {
-    return `<tr>
+    return `<tr id="instRow-${installation.id}">
                 <td scope="row">${installation.name}</td>
                 <td>${installation.facultyId}</td>
                 <td>${installation.capacity}</td>
-                <td>${installation.type}</td>
+                <td>${installation.type === 0 ? "Collective" : "Individual"}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installationSettingsModal" data-bs-installationid="${installation.id}">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">settings</span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#installationHistoryModal" data-bs-installationid="${installation.id}">
+                        <span class="material-symbols-outlined d-inline-block align-text-top">history</span>
+                    </button>
+                </td>
             </tr>`;
 }
 
-function choosePicture() {
+$("#insImage").on("click", function() {
     $("#installationImageInput").change(function() {
         const file = this.files[0];
         const reader = new FileReader();
@@ -41,20 +49,21 @@ function choosePicture() {
         reader.readAsDataURL(file);
     });
     $("#installationImageInput").click();
-}
-
-$("#insImage").on("click", function() {
-    choosePicture();
 });
 
 function createInstallation() {
     let formData = new FormData();
 
+    const name = $("#installationName").val();
+    const facultyId = $("#installationFaculty").val();
+    const capacity = $("#installationCapacity").val();
+    const type = $("#installationType").val();
+
     formData.append("image", $("#installationImageInput")[0].files[0]);
-    formData.append("name", $("#installationName").val());
-    formData.append("faculty", $("#installationFaculty").val());
-    formData.append("capacity",  $("#installationCapacity").val());
-    formData.append("type", $("#installationType").val());
+    formData.append("name", name);
+    formData.append("faculty", facultyId);
+    formData.append("capacity",  capacity);
+    formData.append("type", type);
 
     $.ajax({
         type: "POST",
@@ -65,11 +74,16 @@ function createInstallation() {
         },
         processData: false,
         contentType: false,
-        success: function (response) {
-            console.log(response);
+        success: function (id) {
+            $("#toastMsg").html("Success: Installation created.");
+            toast.show();
+
+            $("#installationTableRow").append(createInstallationRow({id, name, facultyId, capacity, type}));
+
+            $("#newInstallationModal").modal("hide"); // Close the modal
         },
         error: function (jqXHR) {
-         $("#toastMsg").html(jqXHR.responseText);
+            $("#toastMsg").html(jqXHR.responseText);
             toast.show();
         }
     });
@@ -78,4 +92,89 @@ function createInstallation() {
 $("#newInstallationForm").on("submit", function(e) {
     e.preventDefault();
     createInstallation();
+});
+
+$("#newInstallationModal").on("hide.bs.modal", e => {
+    $("#installationName").val("");
+    $("#installationFaculty").val(1);
+    $("#installationCapacity").val("");
+    $("#installationType").val(0);
+});
+
+$("#installationSettingsModal").on("show.bs.modal", e => {
+    const button = e.relatedTarget
+    // Extract info from data-bs-* attributes
+    const installationId = button.getAttribute('data-bs-installationid');
+
+    $("#editInstallationId").val(installationId);
+    $("#editInstallationImg").attr("src", `/installations/image/${installationId}`);
+
+    $.ajax({
+        method: "GET",
+        url: `/installations/${installationId}`,
+        success: function (data) {
+            $("#editIName").val(data.name);
+            $("#editIFaculty").val(data.facultyId);
+            $("#editICapacity").val(data.capacity);
+            $("#editIType").val(data.type);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+});
+
+$("#editInstallationImg").on("click", function() {
+    $("#editInstallationImageInput").change(function() {
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $("#editInstallationImg").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+    $("#editInstallationImageInput").click();
+});
+
+$("#updateInstallationForm").on("submit", function(e) {
+    e.preventDefault();
+    
+    let formData = new FormData();
+
+    const installationId = $("#editInstallationId").val();
+    const name = $("#editIName").val();
+    const facultyId = $("#editIFaculty").val();
+    const capacity = $("#editICapacity").val();
+    const type = $("#editIType").val();
+
+    formData.append("installationId", installationId);
+    formData.append("image", $("#editInstallationImageInput")[0].files[0]);
+    formData.append("name", name);
+    formData.append("faculty", facultyId);
+    formData.append("capacity",  capacity);
+    formData.append("type", type);
+
+    $.ajax({
+        type: "POST",
+        url: "/installations/update",
+        data: formData,
+        headers: {
+            "X-CSRF-TOKEN": $("#csrfToken").val()
+        },
+        processData: false,
+        contentType: false,
+        success: function () {
+            $("#toastMsg").html("Success: Installation modified.");
+            toast.show();
+
+            $(`#instRow-${installationId}`).replaceWith(createInstallationRow({id: installationId, name, facultyId, capacity, type}));
+
+            $("#installationSettingsModal").modal("hide"); // Close the modal
+        },
+        error: function (jqXHR) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
 });

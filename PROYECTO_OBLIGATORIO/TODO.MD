@@ -1,8 +1,7 @@
 # TODO
 
 ## /admin
-- [ ] Search installations
-- [ ] Modify installation
+- [X] Modify installation
 - [ ] Definir availability
 - [ ] Org settings
 

@@ -1,7 +1,6 @@
 "use strict";
 
 $(document).ready(function () {
-  getInstallations();
   getFaculties();
 });
 
@@ -26,15 +25,15 @@ function getInstallations() {
 }
 
 function createInstallationCard(inst) {
+
   return `<div class="col">
                 <div class="card h-100 w-100">
                     <!-- Img row -->
                     <a href="#">
                         <div class="rounded">
                             <!-- hace falta guardar el formato tambien!-->
-                            <img src="installations/image/${
-                              inst.id
-                            }" class="rounded d-block w-100 zoom-on-hover" alt="Installation Image">
+                            <img src="installations/image/${inst.id
+    }" class="rounded d-block w-100 zoom-on-hover" alt="Installation Image">
                         </div>
                     </a>
                     <!-- Card Body -->
@@ -46,7 +45,7 @@ function createInstallationCard(inst) {
                             ${getFacultyNameFromId(inst.facultyId)}
                         </h6>
                         <p class="card-text just">
-                            Type: ${inst.type}
+                            Type: ${inst.type === 0 ? "Collective" : "Individual"}
                             <br>
                             Capacity: ${inst.capacity}
                         </p>
@@ -66,7 +65,7 @@ function getFacultyNameFromId(id) {
 }
 
 function getButtonFromAvailability(availability, id) {
-  if (availability === "Available")
+  if (availability === "available")
     return `<button id="${id}" class="btn btn-primary pill-rounded" data-bs-toggle="modal" data-bs-target="#reservationModal">Book now!</button>`;
   else
     return '<button class="btn btn-secondary pill-rounded disabled">Unavailable</button>';
@@ -83,10 +82,14 @@ function getFaculties() {
                                                 ${faculty.name}
                                             </option>`);
       }
+
+      getInstallations();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $("#toastMsg").html(jqXHR.responseText);
       toast.show();
+
+      getInstallations();
     },
   });
 }
@@ -131,31 +134,59 @@ function performSearch() {
     });
   }
 }
-$('#calendar').attr("value", "");
-$('#calendar').daterangepicker({
-    singleDatePicker: true, 
-    timePicker: true, 
-    timePickerIncrement: 60, // Set the time increment to 60 minutes
-    timePicker24Hour: true, // Set to true for 24-hour format
-    autoUpdateInput: false,
-    locale: {
-        cancelLabel: 'Clear'
-    },
-    "minDate": new Date(),
-}, function (start, end) {
-    const startDate = start.format('YYYY-MM-DD HH:mm');
-    const endDate = start.clone().add(1, 'hour').format('YYYY-MM-DD HH:mm'); 
-    
-    $('#calendar').attr("placeholder", start.format('DD-MM-YYYY HH:mm')); 
-    $('#calendar').attr("value", start.format('DD-MM-YYYY HH:mm'));
-    $('#startDate').attr("value", startDate);
-    $('#endDate').attr("value", endDate);
-});
+
 $("#searchForm").on("submit", (event) => {
   event.preventDefault();
   performSearch();
 });
-function newReservation(){
+
+$('#calendar').daterangepicker({
+  singleDatePicker: true,
+  autoUpdateInput: false,
+  isInvalidDate: function(date){
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + 7);
+    if(date < today || date > maxDate)
+      return true;
+    else {
+      return false;
+    }
+  },
+  "minDate": new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000),
+}, function (start) {
+  const startDate = start.format('YYYY-MM-DD');
+
+  $('#calendar').attr("placeholder", start.format('DD-MM-YYYY'));
+  $('#calendar').attr("value", start.format('DD-MM-YYYY'));
+  $('#startDate').attr("value", startDate);
+  // $('#endDate').attr("value", endDate);
+});
+
+
+
+
+$("#calendar").on('apply.daterangepicker', function (e, picker) {
+  //get day of picker
+  let checkDate = picker.getDate.format('YYYY-MM-DD');
+  //ajax call to check available hours:
+  $.ajax({
+    method: "GET",
+    url: `/reservations/check/${$('#installationId').val()}/${checkDate}`,
+    async: false,
+    success: function (data) {
+      //data.foreach
+      $('#reservationModal').append();
+    },
+    error: function (jqXHR) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
+});
+
+
+function newReservation() {
   const _csrf = $("#_csrf").val();
   const installationId = $('#installationId').val();
   const startDate = $('#startDate').val();
@@ -169,13 +200,12 @@ function newReservation(){
       endDate,
       _csrf,
     },
-    cache: false, // Disable cache
+   // cache: false, // Disable cache PARA QUE ME FUNCIONE LA PETICION DE LAS NARICES
     success: function (data) {
-      console.log("tuve exito!: ", data);
       $("#toastMsg").html(data);
       toast.show();
       $('#reservationModal').modal('hide');
-       // $('#reservationForm').trigger("reset");
+      // $('#reservationForm').trigger("reset");
     },
     error: function (jqXHR) {
       $("#toastMsg").html(jqXHR.responseText);
@@ -183,11 +213,15 @@ function newReservation(){
     },
   });
 }
-$('#reservationModal').on('show.bs.modal', function (event) {
-    var buttonId = event.relatedTarget.id;
-    $('#installationId').attr("value", buttonId);
+
+$('#reservationModal').on('show.bs.modal', event => {
+  $('#calendar').attr("value", "");
+
+  const buttonId = event.relatedTarget.id;
+  $('#installationId').attr("value", buttonId);
 });
-$('#reservationForm').on('submit', function (e) {
-    e.preventDefault();
-    newReservation();
+
+$('#reservationForm').on('submit', e => {
+  e.preventDefault();
+  newReservation();
 });

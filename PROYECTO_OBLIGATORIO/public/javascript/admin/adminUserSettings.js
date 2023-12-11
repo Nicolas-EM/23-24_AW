@@ -31,10 +31,14 @@ function createFacultyFilters() {
                                                 ${faculty.name}
                                             </option>`);
             }
+
+            getUsers();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#toastMsg").html(jqXHR.responseText);
             toast.show();
+
+            getUsers();
         }
     });
 }
@@ -73,7 +77,7 @@ $("#userSearchForm").on("submit", e => {
     const facultyId = $("#facultyFilter").val();
 
     // Get the CSRF token value
-    const _csrf = $("input[name='_csrf']").val();
+    const _csrf = $("#csrfToken").val();
     // Make an AJAX request to the server
     $.ajax({
         method: "POST",

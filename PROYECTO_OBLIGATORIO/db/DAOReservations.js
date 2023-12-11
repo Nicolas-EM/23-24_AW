@@ -74,7 +74,7 @@ class DAOReservations {
     }
     checkReservation(day, instid, callback) {
         this.pool.query(
-            "SELECT CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS `Time Slot`,COUNT(*) AS `Number of Reservations`FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = '?' AND instid = '?' GROUP BY HOUR(dateini) ORDER BY HOUR(dateini);",
+            "SELECT CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS `Time Slot`,COUNT(*) AS `numReservations`FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = '?' AND instid = '?' GROUP BY HOUR(dateini) ORDER BY HOUR(dateini);",
             [day, instid],(err, rows) => {
                 if (err) {
                     callback(err);
@@ -83,6 +83,22 @@ class DAOReservations {
                 }
             }
         );
+    }
+    getNumReservasInDay(day, instid,callback){
+        this.pool.query("SELECT COUNT(*) AS reservation_count FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = ? AND instid = ?;",[day,instid],(err,rows)=>{
+            if(err){
+                callback(err);
+            }
+            else{
+                if (rows.length === 1) {
+                    callback(null,rows[0]);
+                }
+                else{
+                    //ha habido un error
+                    callback("error: numero incorrecto para query getNumReservasInDay");
+                }
+            }
+        });
     }
 
     updateReservation(reservation, callback) {

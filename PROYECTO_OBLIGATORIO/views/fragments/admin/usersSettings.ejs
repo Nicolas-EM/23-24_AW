@@ -4,54 +4,53 @@
 
     <!-- Search bar -->
     <form id="userSearchForm" class="m-3">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <div class="input-group justify-content-center">
-              <input type="text" class="form-control" id="userSearchQuery" name="userSearchQuery" placeholder="Search users">
+      <div class="input-group justify-content-center">
+        <input type="text" class="form-control" id="userSearchQuery" name="userSearchQuery" placeholder="Search users">
 
-              <!-- Search -->
-              <div class="btn-group">
-                <!-- Search Btn -->
-                <button class="btn btn-primary ml-2" type="submit">
-                  <span class="material-symbols-outlined">search</span>
-                </button>
-                <!-- Filter Button -->
-                <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
-                  <span class="material-symbols-outlined">tune</span>
-                </button>
-              </div>
-            </div>
+        <!-- Search -->
+        <div class="btn-group">
+          <!-- Search Btn -->
+          <button class="btn btn-primary ml-2" type="submit">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <!-- Filter Button -->
+          <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
+            <span class="material-symbols-outlined">tune</span>
+          </button>
+        </div>
+      </div>
 
-            <!-- Search filters -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 mt-3 collapse align-items-center" id="searchFilters">
-              <div class="col col-sm-4 col-md-2 col-lg-1">
-                <label for="roleFilter" class="form-label">Role:</label>
-              </div>
-              <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
-                <select id="roleFilter" class="form-select" aria-label="role filter">
-                  <option value="" selected>Any</option>
-                  <option value="0">User</option>
-                  <option value="1">Admin</option>
-                </select>
-              </div>
-              <div class="col col-sm-4 col-md-2 col-lg-1">
-                <label for="validatedFilter" class="form-label">Validated:</label>
-              </div>
-              <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
-                <select id="validatedFilter" class="form-select" aria-label="validated filter">
-                  <option value="" selected>Any</option>
-                  <option value="0">No</option>
-                  <option value="1">Yes</option>
-                </select>
-              </div>
-              <div class="col col-sm-4 col-md-2 col-lg-1">
-                <label for="facultyFilter" class="form-label">Faculty:</label>
-              </div>
-              <div class="col col-sm-8 col-md-4 col-lg-3">
-                <select id="facultyFilter" class="form-select" aria-label="faculty filter">
-                  <option value="" selected>Any</option>
-                </select>
-              </div>
-            </div>
+      <!-- Search filters -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 mt-3 collapse align-items-center" id="searchFilters">
+        <div class="col col-sm-4 col-md-2 col-lg-1">
+          <label for="roleFilter" class="form-label">Role:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
+          <select id="roleFilter" class="form-select" aria-label="role filter">
+            <option value="" selected>Any</option>
+            <option value="0">User</option>
+            <option value="1">Admin</option>
+          </select>
+        </div>
+        <div class="col col-sm-4 col-md-2 col-lg-1">
+          <label for="validatedFilter" class="form-label">Validated:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
+          <select id="validatedFilter" class="form-select" aria-label="validated filter">
+            <option value="" selected>Any</option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+          </select>
+        </div>
+        <div class="col col-sm-4 col-md-2 col-lg-1">
+          <label for="facultyFilter" class="form-label">Faculty:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 col-lg-3">
+          <select id="facultyFilter" class="form-select" aria-label="faculty filter">
+            <option value="" selected>Any</option>
+          </select>
+        </div>
+      </div>
     </form>
 
     <div class="overflow-x-auto">
@@ -68,7 +67,7 @@
           </tr>
         </thead>
         <tbody id="userList">
-  
+
         </tbody>
       </table>
     </div>
@@ -88,7 +87,6 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <form id="updateUser">
-        <input id="csrfToken" type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input class="d-none" id="userId" value="">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="userSettingsModalLabel">Settings</h1>

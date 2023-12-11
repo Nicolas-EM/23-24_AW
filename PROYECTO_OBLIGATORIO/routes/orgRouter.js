@@ -1,23 +1,21 @@
 "use strict";
 
-const { check, validationResult } = require("express-validator"); //para validar los datos de los formularios
-const pool = require("../db/pool");
+const { check } = require("express-validator"); //para validar los datos de los formularios
+const multer = require("multer");
+const multerFactory = multer({ storage: multer.memoryStorage() });
+const requireAdmin = require('../middleware/requireAdmin');
+
+const orgController = require('../controllers/orgController');
+const controller = new orgController();
+
 let orgRouter = require('express').Router();
-const daoF = require('../db/DAOFaculties');
-const daoFaculties = new daoF(pool);
 
-orgRouter.get("/", (req, res, next) => {
-    daoFaculties.getFaculties((err, faculties) => {
-        if (err) {
-            next(err);
-        } else {
-            res.render("admin", { csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, faculties: faculties });
-        }
-    });
-});
+orgRouter.get("/", controller.getFaculties);
 
-orgRouter.post("/update", (req, res, next) => {
-    // TODO: update org
-});
+orgRouter.get("/picture", controller.getPicture);
+
+orgRouter.post("/picture", multerFactory.single("avatar"), controller.updatePicture);
+
+orgRouter.post("/update", requireAdmin, controller.update);
 
 module.exports = orgRouter;

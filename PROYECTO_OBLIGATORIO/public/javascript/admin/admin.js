@@ -23,7 +23,6 @@ $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     console.log(event.target.id);
 
     if(event.target.id === "pills-users-tab"){
-        getUsers();
         createFacultyFilters();
     }
     else if (event.target.id === "pills-installations-tab") {

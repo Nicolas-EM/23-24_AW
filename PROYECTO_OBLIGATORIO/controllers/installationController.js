@@ -19,6 +19,45 @@ class installationController {
     });
   }
 
+  getSingleInstallation(req, res, next) {
+    const installationId = req.params.id;
+
+    daoInstallations.getInstallationById(installationId, (err, installation) => {
+      if (err)
+        next(err);
+      else
+        return res.send(installation);
+    });
+  }
+
+  update(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() }); //422 Unprocessable Entity
+    }
+
+    const { installationId, name, capacity, type, faculty } = req.body;
+    const image = req.file;
+
+    let availability = "available";
+    daoInstallations.updateInstallation(
+      installationId,
+      name,
+      availability,
+      type,
+      capacity,
+      image.buffer,
+      faculty,
+      (err, result) => {
+        if (err) {
+          next(err);
+        } else {
+          res.send("OK");
+        }
+      }
+    );
+  }
+
   search(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -41,14 +80,16 @@ class installationController {
       }
     );
   }
+
   createInstallation(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() }); //422 Unprocessable Entity
     }
 
-    const {name, capacity, type, faculty } = req.body;
+    const { name, capacity, type, faculty } = req.body;
     const image = req.file;
+
     daoFaculties.getFacultyById(faculty, (err, facultyObj) => {
       if (err) {
         next(err);
@@ -62,11 +103,11 @@ class installationController {
             capacity,
             image.buffer,
             faculty,
-            (err, result) => {
+            (err, id) => {
               if (err) {
                 next(err);
               } else {
-                res.send("OK");
+                res.json(id);
               }
             }
           );
@@ -76,6 +117,7 @@ class installationController {
       }
     });
   }
+
   getImage(req, res, next) {
     const installationId = req.params.id;
 

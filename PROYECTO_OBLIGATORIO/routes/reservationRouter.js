@@ -31,6 +31,9 @@ reservationRouter.post('/delete', (req, res, next) => {
     
 });
 
+//check for a given installation what dates are available
+reservationRouter.get('/check/:id/:date', ctrl.checkDate);
+
 reservationRouter.get('/byUser/:id', requireAdmin, ctrl.getReservationsByUser);
 
 reservationRouter.get('/byFaculty/:id', requireAdmin, ctrl.getReservationsByFaculty);

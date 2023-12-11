@@ -23,6 +23,7 @@ class DAOInstallations {
       }
     );
   }
+
   getAllInstallations(callback) {
     this.pool.query(
       "SELECT * FROM ucm_aw_riu_ins_installations",
@@ -64,21 +65,34 @@ class DAOInstallations {
     );
   }
 
-  createInstallation(name, availability, type, capacity, image, faculty, callback) {
-    console.log("dao", name, availability, type, capacity, faculty, image);
+  updateInstallation(installationId, name, availability, type, capacity, image, faculty, callback) {
     this.pool.query(
-      "INSERT INTO ucm_aw_riu_ins_installations (name, availabity, type, capacity, image, facultyId) VALUES (?, ?, ?, ?, ?, ?)",
-      [name,availability,type, capacity, image, faculty],
+      "UPDATE ucm_aw_riu_ins_installations SET name = ?, availabity = ?, type = ?, capacity = ?, image = ?, facultyId = ? WHERE id = ?",
+      [name, availability, type, capacity, image, faculty, installationId],
       (err) => {
         if (err) {
-          console.log(err);
           callback(err);
         } else {
-          console.log("no hay error");
           callback(null);
         }
       }
     );
   }
+
+  createInstallation(name, availability, type, capacity, image, faculty, callback) {
+    this.pool.query(
+      "INSERT INTO ucm_aw_riu_ins_installations (name, availabity, type, capacity, image, facultyId) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, availability, type, capacity, image, faculty],
+      (err, okPacket) => {
+        if (err) {
+          console.log(err);
+          callback(err);
+        } else {
+          callback(null, okPacket.insertId);
+        }
+      }
+    );
+  }
 }
+
 module.exports = DAOInstallations;

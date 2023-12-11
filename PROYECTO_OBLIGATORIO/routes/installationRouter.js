@@ -8,19 +8,25 @@ let installationRouter = require("express").Router();
 const installationCtrl = new installationController();
 const multer = require("multer");
 const uploadDir = multer({ storage: multer.memoryStorage() });
+
 installationRouter.get("/", installationCtrl.getInstallations);
 
-installationRouter.post("/create", requireAdmin, uploadDir.single("image"), (req, res, next) => {
-    // Check if the request body contains the required fields
-  check("name").notEmpty().withMessage("Name is required");
-  check("faculty").notEmpty().withMessage("Faculty is required");
-  check("capacity").notEmpty().withMessage("Capacity is required").isInt({ min: 1 }).withMessage("Capacity must be greater than 0");
-  check("type").notEmpty().withMessage("Type is required");
-//   console.log(req.body, req.file);
-  installationCtrl.createInstallation(req, res, next);
-});
+installationRouter.get("/:id", installationCtrl.getSingleInstallation);
 
-installationRouter.post("/update", requireAdmin);
+installationRouter.post("/create", requireAdmin, uploadDir.single("image"),
+  check("name").notEmpty().withMessage("Name is required"),
+  check("faculty").notEmpty().withMessage("Faculty is required"),
+  check("capacity").notEmpty().withMessage("Capacity is required").isInt({ min: 1 }).withMessage("Capacity must be greater than 0"),
+  check("type").notEmpty().withMessage("Type is required"),
+  installationCtrl.createInstallation);
+
+installationRouter.post("/update", requireAdmin, uploadDir.single("image"),
+  check("installationId").notEmpty().withMessage("InstallationId is required").isInt({min: 1}).withMessage("InstallationId must be greater than 0"),
+  check("name").notEmpty().withMessage("Name is required"),
+  check("faculty").notEmpty().withMessage("Faculty is required"),
+  check("capacity").notEmpty().withMessage("Capacity is required").isInt({ min: 1 }).withMessage("Capacity must be greater than 0"),
+  check("type").notEmpty().withMessage("Type is required"),
+  installationCtrl.update);
 
 installationRouter.post("/delete", requireAdmin);
 
