@@ -81,6 +81,14 @@ $("#registerForm").on("submit", (e) => {
     const grade = $("#gradeInput").val();
     const group = $("#groupInput").val();
     const email = $("#emailInput2").val();
+
+    if(!email.endsWith('@ucm.es')){
+        $("#emailInput2")[0].setCustomValidity("Only @ucm.es allowed");
+        $("#registerForm")[0].reportValidity();
+        $("#emailInput2")[0].setCustomValidity("");
+        return;
+    }
+
     const password = $("#registrationPassword").val();
     const passwordConfirm = $("#registrationPasswordConfirm").val();
     const _csrf = $("#_csrf").val();
@@ -98,6 +106,7 @@ $("#registerForm").on("submit", (e) => {
     formData.append("grade", grade);
     formData.append("group", group);
     formData.append("email", email);
+
     formData.append("password", password);
     formData.append("passwordConfirm", passwordConfirm);
 

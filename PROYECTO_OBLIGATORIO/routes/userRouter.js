@@ -15,23 +15,15 @@ const userCtrl = new userController();
 userRouter.get("/", requireLogin, userCtrl.getAllUsers);
 
 userRouter.get("/:id", requireLogin, userCtrl.getUserById);
-userRouter.post(
-  "/create",
-
-  multerFactory.single("picture"),
-  (req, res, next) => {
-    // Check if the request body contains the required fields
-    check("name").notEmpty().withMessage("Name is required");
-    check("surname").notEmpty().withMessage("Surname is required");
-    check("faculty").notEmpty().withMessage("Faculty is required");
-    check("grade").notEmpty().withMessage("Grade is required");
-    check("group").notEmpty().withMessage("Group is required");
-    check("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Invalid email");
-    check("password").notEmpty().withMessage("Password is required");
-    check("passwordConfirm").notEmpty().withMessage("Password confirmation is required");
-
-    userCtrl.register(req, res, next);
-  }
+userRouter.post("/create", multerFactory.single("picture"),
+  check("name").notEmpty().withMessage("Name is required"),
+    check("surname").notEmpty().withMessage("Surname is required"),
+    check("faculty").notEmpty().withMessage("Faculty is required"),
+    check("grade").notEmpty().withMessage("Grade is required"),
+    check("group").notEmpty().withMessage("Group is required"),
+    check("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Invalid email"),
+    check("password").notEmpty().withMessage("Password is required"),
+    userCtrl.register
 );
 
 userRouter.post(
