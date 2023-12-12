@@ -27,7 +27,7 @@ class reservationsController {
         if (err) {
           next(err);
         } else {
-          res.status(201).json(result);
+          res.send("Reservation created successfully");
         }
       });
     }
@@ -70,10 +70,12 @@ class reservationsController {
             }
             else{
               if(timeSlots){
+                console.log(timeSlots);
                 let availabletimes = {};
                 //colectivo
                 if(installation.type === 0){
                   for (var i = 0; i < timeSlots.length; i++) {
+                    console.log(availabletimes);
                     var slot = timeSlots[i];
                     var timeSlotKey = slot['Time Slot'];
                 
@@ -82,13 +84,15 @@ class reservationsController {
                 }
                 else{
                   for (var i = 0; i < timeSlots.length; i++) {
+                    console.log(availabletimes);
                     var slot = timeSlots[i];
                     var timeSlotKey = slot['Time Slot'];
                 
                     availabletimes[timeSlotKey] = slot['numReservations'] >= installation.capacity;
                   }
                 }
-                res.json(availableTimes);
+                console.log(availabletimes);
+                res.json(availabletimes);
               }
               else{
                 res.json({});

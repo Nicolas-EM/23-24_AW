@@ -65,7 +65,8 @@ function getFacultyNameFromId(id) {
 }
 
 function getButtonFromAvailability(availability, id) {
-  if (availability === "available")
+  //console.log(availability,id);
+  if (availability === "Available")
     return `<button id="${id}" class="btn btn-primary pill-rounded" data-bs-toggle="modal" data-bs-target="#reservationModal">Book now!</button>`;
   else
     return '<button class="btn btn-secondary pill-rounded disabled">Unavailable</button>';
@@ -157,8 +158,8 @@ $('#calendar').daterangepicker({
 }, function (start) {
   const startDate = start.format('YYYY-MM-DD');
 
-  $('#calendar').attr("placeholder", start.format('DD-MM-YYYY'));
-  $('#calendar').attr("value", start.format('DD-MM-YYYY'));
+  $('#calendar').attr("placeholder", start.format('YYYY-MM-DD'));
+  $('#calendar').attr("value", start.format('YYYY-MM-DD'));
   $('#startDate').attr("value", startDate);
   // $('#endDate').attr("value", endDate);
 });
@@ -166,17 +167,43 @@ $('#calendar').daterangepicker({
 
 
 
-$("#calendar").on('apply.daterangepicker', function (e, picker) {
+$("#calendar").on('apply.daterangepicker', function (ev, picker) {
+  
+  ev.preventDefault();
+  $('#hourBtns').empty();
   //get day of picker
-  let checkDate = picker.getDate.format('YYYY-MM-DD');
+  console.log(picker.startDate.format('YYYY-MM-DD'));
+  let checkDate = picker.startDate.format('YYYY-MM-DD');
+  console.log("this is check date: ",checkDate);
   //ajax call to check available hours:
   $.ajax({
     method: "GET",
     url: `/reservations/check/${$('#installationId').val()}/${checkDate}`,
     async: false,
     success: function (data) {
-      //data.foreach
-      $('#reservationModal').append();
+      if (data) {
+        console.log("los datos para el dia: ", checkDate,"son : ", data);
+        let hours = ["9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+
+          for (let i = 0; i < hours.length - 1; i += 4) {
+            const row = $('<div class="row g-3 mb-3"></div>');
+            for (let j = 0; j < 4; j++) {
+              let startHour = hours[i + j];
+              let endHour = hours[i + j + 1];
+              if(endHour === undefined){endHour = 21;}
+              const button = $('<button class="btn btn-primary" type="button"></button>').text(`${startHour}-${endHour}`);
+              if (data[`${startHour}-${endHour}`]) {
+                button.prop('disabled', true);
+                button.removeClass("btn-primary");
+              }
+              button.attr("value", startHour); // Set the start date as the val attribute
+              const col = $('<div class="col"></div>').append(button);
+              row.append(col);
+            }
+            $('#hourBtns').append(row);
+          }
+        
+      }
     },
     error: function (jqXHR) {
       $("#toastMsg").html(jqXHR.responseText);
@@ -185,12 +212,22 @@ $("#calendar").on('apply.daterangepicker', function (e, picker) {
   });
 });
 
-
+$('#hourBtns').on('click', 'button', function () {
+  console.log($(this).val());
+  const selectedTime = $(this).val(); // Assign the value of the clicked button to selectedTime
+  const calendarPlaceholder = $('#calendar').attr("placeholder");
+  const startDate = calendarPlaceholder + ' ' + selectedTime.split('-')[0] + ':00';
+  const endDate = moment(startDate).add(1, 'hour').format('YYYY-MM-DD HH:mm');
+  $('#calendar').attr("value", startDate + ' to ' + endDate);
+  $('#startDate').attr("value", startDate);
+  $('#endDate').attr("value", endDate);
+});
 function newReservation() {
   const _csrf = $("#_csrf").val();
   const installationId = $('#installationId').val();
   const startDate = $('#startDate').val();
   const endDate = $('#endDate').val();
+  console.log("intentando reserva con datos: ", installationId, startDate, endDate, _csrf);
   $.ajax({
     method: "POST",
     url: "/reservations/create",
@@ -204,8 +241,8 @@ function newReservation() {
     success: function (data) {
       $("#toastMsg").html(data);
       toast.show();
+      // Close the modal
       $('#reservationModal').modal('hide');
-      // $('#reservationForm').trigger("reset");
     },
     error: function (jqXHR) {
       $("#toastMsg").html(jqXHR.responseText);
@@ -216,6 +253,8 @@ function newReservation() {
 
 $('#reservationModal').on('show.bs.modal', event => {
   $('#calendar').attr("value", "");
+  $('#calendar').attr("placeholder", "Select a date");
+  $('#hourBtns').empty();
 
   const buttonId = event.relatedTarget.id;
   $('#installationId').attr("value", buttonId);

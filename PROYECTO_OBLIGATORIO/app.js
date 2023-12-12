@@ -73,7 +73,6 @@ app.use("/reservations", requireLogin, reservationRouter);
 app.use("/installations", requireLogin, installationRouter);
 app.use("/faculties", facultyRouter);
 app.use("/messages", requireLogin, messageRouter);
-
 const pool = require("./db/pool");
 const DAOFaculties = require("./db/DAOFaculties");
 const DAOUsers = require("./db/DAOUsers");
