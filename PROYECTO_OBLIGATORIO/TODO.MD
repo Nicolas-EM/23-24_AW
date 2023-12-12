@@ -1,8 +1,6 @@
 # TODO
 
 ## SQL
-- [ ] Actualizar faculties
-- [ ] Actualizar installations (y añadir más)
 - [ ] Añadir reservas (a fecha de la semana que viene para que sean reales)
 
 ## Mensajes
@@ -14,6 +12,7 @@
     - [ ] Crear middleware (al iniciar sesion o registrar ponemos req.session.isValidated)
 - [ ] Enviar mensaje al validar (Envío de correo de validación de usuario)
 - [ ] añadir icono al tab
+- [ ] filter by type and capacity (DASHBOARD)
 
 ## /admin
 - [ ] Listado usuario: mostrar grupo + curso
