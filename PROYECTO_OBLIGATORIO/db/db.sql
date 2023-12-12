@@ -54,7 +54,16 @@ CREATE TABLE `ucm_aw_riu_res_reservations` (
   FOREIGN KEY (`userid`) REFERENCES `ucm_aw_riu_usu_users` (`id`),
   FOREIGN KEY (`instid`) REFERENCES `ucm_aw_riu_ins_installations` (`id`)
 );
-
+CREATE TABLE `ucm_aw_riu_queue` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `dateini` datetime NOT NULL,
+  `dateend` datetime NOT NULL,
+  `datecreation` datetime NOT NULL,
+  `userid` INT NOT NULL,
+  `instid` INT NOT NULL,
+  FOREIGN KEY (`userid`) REFERENCES `ucm_aw_riu_usu_users` (`id`),
+  FOREIGN KEY (`instid`) REFERENCES `ucm_aw_riu_ins_installations` (`id`)
+);
 CREATE TABLE `ucm_aw_riu_messages` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `sender_id` INT NOT NULL,

@@ -193,8 +193,8 @@ $("#calendar").on('apply.daterangepicker', function (ev, picker) {
               if(endHour === undefined){endHour = 21;}
               const button = $('<button class="btn btn-primary" type="button"></button>').text(`${startHour}-${endHour}`);
               if (data[`${startHour}-${endHour}`]) {
-                button.prop('disabled', true);
                 button.removeClass("btn-primary");
+                button.addClass("btn-secondary");
               }
               button.attr("value", startHour); // Set the start date as the val attribute
               const col = $('<div class="col"></div>').append(button);
@@ -213,14 +213,37 @@ $("#calendar").on('apply.daterangepicker', function (ev, picker) {
 });
 
 $('#hourBtns').on('click', 'button', function () {
-  console.log($(this).val());
-  const selectedTime = $(this).val(); // Assign the value of the clicked button to selectedTime
-  const calendarPlaceholder = $('#calendar').attr("placeholder");
-  const startDate = calendarPlaceholder + ' ' + selectedTime.split('-')[0] + ':00';
-  const endDate = moment(startDate).add(1, 'hour').format('YYYY-MM-DD HH:mm');
-  $('#calendar').attr("value", startDate + ' to ' + endDate);
-  $('#startDate').attr("value", startDate);
-  $('#endDate').attr("value", endDate);
+  const selectedTime = $(this).val();
+    const calendarPlaceholder = $('#calendar').attr("placeholder");
+    const startDate = calendarPlaceholder + ' ' + selectedTime.split('-')[0] + ':00';
+    const endDate = moment(startDate).add(1, 'hour').format('YYYY-MM-DD HH:mm');
+    $('#startDate').attr("value", startDate);
+    $('#endDate').attr("value", endDate);
+  if ($(this).hasClass("btn-secondary")) {
+    $.ajax({
+      method: "POST",
+      url: "/reservations/addToQueue",
+      data: {
+        installationId: $('#installationId').val(),
+        startDate: $('#startDate').val(),
+        endDate: $('#endDate').val(),
+        _csrf: $("#_csrf").val(),
+      },
+      success: function (data) {
+        $("#toastMsg").html(data);
+        toast.show();
+        $('#reservationModal').modal('hide');
+      },
+      error: function (jqXHR) {
+        $("#toastMsg").html(jqXHR.responseText);
+        toast.show();
+      },
+    });
+  }else {
+    
+    $('#calendar').attr("value", startDate + ' to ' + endDate);
+   
+  }
 });
 function newReservation() {
   const _csrf = $("#_csrf").val();

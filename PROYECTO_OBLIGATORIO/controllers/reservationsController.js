@@ -10,7 +10,6 @@ class reservationsController {
 
 
   createReservation(req, res, next) {
-    console.log("createReservation from controller!");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).send(errors.array());
@@ -23,11 +22,22 @@ class reservationsController {
         datecreation: new Date(),
       };
 
-      daoReservations.createReservation(reservation, (err, result) => {
+      daoReservations.checkUserReservation(reservation, (err, result) => {
         if (err) {
           next(err);
         } else {
-          res.send("Reservation created successfully");
+          if (!result) {
+            daoReservations.createReservation(reservation, (err) => {
+              if (err) {
+                next(err);
+              } else {
+                res.send("You have successfully reserved this installation.");
+              }
+            });
+          }
+          else {
+            res.send("You have already reserved this installation.");
+          }
         }
       });
     }
@@ -43,6 +53,50 @@ class reservationsController {
     });
   }
 
+
+  addToQueue(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).send(errors.array());
+    } else {
+      const reservation = {
+        dateini: req.body.startDate,
+        dateend: req.body.endDate,
+        datecreation: new Date(),
+        userid: req.session.userId,
+        instid: req.body.installationId,
+      };
+     daoReservations.checkUserReservation(reservation, (err, result) => {
+        if (err) {
+          next(err);
+        } else {
+          if (!result) {
+            daoReservations.checkUserQueue(reservation, (err, result) => {
+              if (err) {
+                next(err);
+              } else {
+                if (!result) {
+                  daoReservations.addToQueue(reservation, (err) => {
+                    if (err) {
+                      next(err);
+                    } else {
+                      res.send("You have successfully added to the queue.");
+                    }
+                  });
+                }
+                else {
+                  res.send("You are already in the queue for this installation.");
+                }
+              }
+            });
+          }
+          else {
+            res.send("You have already reserved this installation.");
+          }
+        }
+      });
+    }
+  }
   getReservationsByFaculty(req, res, next) {
 
   }
