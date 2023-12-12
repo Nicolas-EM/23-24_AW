@@ -5,7 +5,6 @@
 
 ## Mensajes
 - [ ] Enviar mensaje al salir de la cola
-- [ ] Mejorar modal mensajes
 
 ## Otros
 - [ ] Comprobar user isValidated en TODO
@@ -27,6 +26,7 @@
 ## Prioridad baja
 - [ ] Crear tabla grupo / curso y poder crear/modificar en /admin
 - [ ] Mostrar grupo / curso en usuarios en /admin
+- [ ] newMessageModal: Testear msg a usuario y facultad 
 
 
 ### Ultimas cosas

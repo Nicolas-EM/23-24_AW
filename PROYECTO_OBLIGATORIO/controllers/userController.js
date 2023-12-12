@@ -25,13 +25,12 @@ class userController {
             if (err)
                 next(err);
             else
-            
-                console.log("jaja lol hola", users);
                 res.json(users);
         })
     }
 
     register(req, res, next) {
+        // TODO: revisar esto
         //express validator
         // const errors = validationResult(req);
         // console.log("errores: ", errors);
@@ -132,7 +131,6 @@ class userController {
 
     updateUser(req, res, next) {
         const { userId, role } = req.body;
-        console.log(userId, role);
 
         daoUser.updateUser({ id: userId, isAdmin: role}, (err) => {
             if(err)

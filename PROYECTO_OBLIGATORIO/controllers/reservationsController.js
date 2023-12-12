@@ -73,6 +73,7 @@ class reservationsController {
                             next(err);
                           } else {
                             daoReservations.createReservation(result, (err) => {
+                              // TODO: revisar
                               console.log(result);
                             });
                           }

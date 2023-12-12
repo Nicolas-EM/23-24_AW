@@ -35,7 +35,6 @@ class DAOUsers {
           if (rows.length === 0) {
             callback({err: 400, message: "Error: User does not exist, please register."}); // No user found with the given email
           } else {
-            console.log(rows[0]);
             callback(null, rows[0]);
           }
         }

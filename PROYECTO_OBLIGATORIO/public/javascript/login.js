@@ -63,7 +63,6 @@ $("#loginForm").on("submit", (e) => {
             _csrf
         },
         success: (response) => {
-            console.log(response);
             window.location.href = "/";
         },
         error: function (xhr, status, error) {

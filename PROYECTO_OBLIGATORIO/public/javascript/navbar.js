@@ -11,9 +11,7 @@ $("#mailModal").on("show.bs.modal", e => {
         url: "/messages/chats",
         method: "GET",
         success: (chats) => {
-            console.log(chats);
-
-            $("#recipientsCol").empty();
+            $("#recipientsRow").empty();
             if (chats.length !== 0) {
                 $("#noMessages").addClass("d-none");
                 $("#selectChat").removeClass("d-none");
@@ -45,7 +43,7 @@ function createTabsEventListener() {
 
 function createChat(chat) {
     // Create recipient
-    $("#recipientsCol").prepend(`<div role="presentation" class="border border-start-0">
+    $("#recipientsRow").prepend(`<div role="presentation" class="border-bottom rounded">
                                     <button class="nav-link w-100 p-2" id="sender-${chat.sender_id}" data-bs-toggle="pill" data-bs-target="#msgTab-${chat.sender_id}" type="button" role="tab" aria-controls="msgTab-${chat.sender_id}" aria-selected="false" tabindex="-1">
                                         <div class="row">
                                             <h4>${chat.sender_name} ${chat.sender_surname}</h4>
@@ -61,26 +59,35 @@ function getChatMessages(chat) {
     $.ajax({
         url: `/messages/chats/${chat.sender_id}`,
         method: "GET",
-        success: (messages) => {
-            console.log(messages);
+        success: (data) => {
+            const messages = data.messages;
+            
             // Create messages tab
             if ($(`#msgTab-${chat.sender_id}`)) {
                 $(`#msgTab-${chat.sender_id}`).remove();
             }
 
-            let messageCols = '';
+            let messagesCol = '';
             for (let x in messages) {
                 const msg = messages[x];
-                messageCols += `<div class="col">${msg.sender_name}: ${msg.message}</div>`
+                messagesCol += `<span class="mb-2"><b>${msg.sender_id === data.sessionId ? "You" : msg.sender_name}</b>: ${msg.message}</span><br>`
             }
 
-            $("#chats-tabContent").append(`<div class="tab-pane fade p-2" id="msgTab-${chat.sender_id}" role="tabpanel" aria-labelledby="sender-${chat.sender_id}" tabindex="0">
-                                                <div class="container">
-                                                    <div class="row row-cols-1 g-2">
-                                                        ${messageCols}
+            $("#chats-tabContent").append(`<div class="tab-pane fade p-2 h-100" id="msgTab-${chat.sender_id}" role="tabpanel" aria-labelledby="sender-${chat.sender_id}" tabindex="0">
+                                                <div class="container h-100">
+                                                    <div class="row row-cols-1 g-2 h-100">
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <h4>${chat.sender_name} ${chat.sender_surname}</h4>
+                                                            </div>
+                                                            <div class="row" id="messagesRow-${chat.sender_id}">
+                                                                ${messagesCol}
+                                                            </div>
+                                                        </div>
                                                         <div class="col align-self-end">
-                                                            <form>
+                                                            <form id="sendMsgForm${chat.sender_id}">
                                                                 <div class="input-group justify-content-center">
+                                                                    <input type="number" class="d-none" value="${chat.sender_id}" name="recipientId">
                                                                     <input type="text" class="form-control" id="query" name="query" placeholder="Message">
                                                                     
                                                                     <!-- Send Btn -->
@@ -101,11 +108,47 @@ function getChatMessages(chat) {
     });
 }
 
+$(document).on("submit", "[id^='sendMsgForm']", e => {
+    e.preventDefault();
+
+    // get form
+    const form = $(`#${e.currentTarget.id}`);
+
+    // get recipientId
+    const recipientId = form.find("input[name='recipientId']").val();
+
+    // get message
+    const msgInput = form.find("input[name='query']");
+    const message = msgInput.val();
+
+    if(message){
+        $.ajax({
+            url: '/messages/send/user',
+            method: "POST",
+            data: {
+                _csrf: $("#messageCSRF").val(),
+                recipientId,
+                message
+            },
+            success: () => {
+                msgInput.val("");
+                $("#toastMsg").html("Message sent");
+                toast.show();
+
+                $(`#messagesRow-${recipientId}`).append(`<span class="mb-2">You: ${message}</span><br>`)
+            },
+            error: function (xhr, status, error) {
+                $("#toastMsg").html(xhr.responseText);
+                toast.show();
+            }
+        });
+    }
+})
+
 $("#newMessageModal").on("show.bs.modal", e => {
     $("#recipientsDataList").empty();
 
     const isAdmin = $("#recipientsDataList").attr('data-isadmin') === "true";
-    console.log(isAdmin === "false");
 
     // TODO: this should not be constant
     const facultyId = 1;
@@ -163,6 +206,12 @@ $("#newMessageModal").on("show.bs.modal", e => {
     }
 });
 
+$("#newMessageModal").on("hide.bs.modal", e => {
+    // clear modal
+    $("#recipient").val("");
+    $("#message").val("");
+});
+
 $("#newMessageForm").on("submit", e => {
     e.preventDefault();
 
@@ -178,6 +227,9 @@ $("#newMessageForm").on("submit", e => {
                 message
             },
             success: () => {
+                const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
+                newMessageModal.hide();
+
                 $("#toastMsg").html("Message sent");
                 toast.show();
             },
@@ -218,4 +270,4 @@ $("#newMessageForm").on("submit", e => {
             $('#recipient')[0].setCustomValidity('');
         }
     }
-})
+});

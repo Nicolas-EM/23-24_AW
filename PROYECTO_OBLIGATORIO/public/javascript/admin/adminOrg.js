@@ -2,8 +2,6 @@ $("#orgImgUpload").on("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
     let fileType = file.type;
-    
-    console.log($("#csrfToken").val());
 
     if (fileType.startsWith("image/")) {
         const formData = new FormData();
@@ -54,9 +52,7 @@ $("#updateOrgForm").on("submit", e => {
     const orgName = $("#orgName").val();
     const orgDir = $("#orgAddress").val();
     const _csrf = $("#csrfToken").val();
-
-    console.log(orgName, orgDir, _csrf);
-
+    
     $.ajax({
         method: "POST",
         url: "/org/update",

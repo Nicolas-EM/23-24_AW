@@ -112,7 +112,6 @@ app.get("/login", (req, res) => {
                 console.error(err);
                 res.status(500).send("Internal Server Error");
               } else {
-                console.log(faculties, grades, groups);
                 res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups });
               }
             });

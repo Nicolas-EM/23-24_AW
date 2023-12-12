@@ -29,7 +29,6 @@ class orgController {
             if(err)
                 next(err);
             else
-                console.log(picture);
                 res.end(picture);
         })
     };
@@ -39,8 +38,6 @@ class orgController {
         if (!file) {
             return res.status(400).send('Error: No file uploaded');
         }
-
-        console.log(file.buffer);
 
         daoOrg.setPicture(file.buffer, (err) => {
             if(err)

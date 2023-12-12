@@ -85,7 +85,6 @@ class DAOInstallations {
       [name, availability, type, capacity, image, faculty],
       (err, okPacket) => {
         if (err) {
-          console.log(err);
           callback(err);
         } else {
           callback(null, okPacket.insertId);

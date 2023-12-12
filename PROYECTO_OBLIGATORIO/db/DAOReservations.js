@@ -136,7 +136,6 @@ class DAOReservations {
         if (err) {
           callback(err);
         } else {
-          console.log("se añadio corrrrrrrecisimamente a la cola");
           callback(null, result.insertId);
         }
       }
@@ -182,7 +181,6 @@ class DAOReservations {
   }
 
   checkReservation(day, instid, callback) {
-    console.log(day, instid);
     this.pool.query(
       "SELECT CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS `Time Slot`,COUNT(*) AS `numReservations`FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = ? AND instid = ? GROUP BY HOUR(dateini) ORDER BY HOUR(dateini);",
       [day, instid],

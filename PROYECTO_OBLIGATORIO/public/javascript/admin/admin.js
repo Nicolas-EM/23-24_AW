@@ -17,11 +17,6 @@ $(".collapse").on('hide.bs.collapse', e => {
 });
 
 $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
-    //   event.target // newly activated tab
-    //   event.relatedTarget // previous active tab
-
-    console.log(event.target.id);
-
     if(event.target.id === "pills-users-tab"){
         createUserFacultyFilters();
     }

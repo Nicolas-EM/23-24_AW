@@ -75,30 +75,23 @@ class messagesController {
             if(err)
                 next(err);
             else{
-                for(let x in users){
-                    const user = users[x];
-                    daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
-                        if(err)
-                            next(err)
-                    });
-                    const createMessagePromises = users.map(user => {
-                        return new Promise((resolve, reject) => {
-                            daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve(msgId);
-                                }
-                            });
+                const createMessagePromises = users.map(user => {
+                    return new Promise((resolve, reject) => {
+                        daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(msgId);
+                            }
                         });
                     });
-        
-                    Promise.all(createMessagePromises).then(() => {
-                        res.send("OK");
-                    }).catch(err => {
-                        next(err);
-                    });
-                }
+                });
+    
+                Promise.all(createMessagePromises).then(() => {
+                    res.send("OK");
+                }).catch(err => {
+                    next(err);
+                });
             }
         })
     }
@@ -118,11 +111,11 @@ class messagesController {
         const userId = req.session.userId;
         const chatUserId = req.params.id;
 
-        daoMessages.getChatMessages(userId, chatUserId, (err, chats) => {
+        daoMessages.getChatMessages(userId, chatUserId, (err, messages) => {
             if(err)
                 next(err);
             else
-                res.json(chats);
+                res.json({sessionId: userId, messages});
         })
     }
 }

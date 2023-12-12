@@ -39,3 +39,7 @@ footer .row {
 .avatar {
     cursor: pointer;
 }
+
+#mailModal .modal-body {
+    min-height: max-content;
+}

@@ -73,8 +73,6 @@ class installationController {
         if (err) {
           next(err);
         } else {
-          //TODO no se que es mejor si json o send
-          console.log(installations);
           res.json(installations);
         }
       }

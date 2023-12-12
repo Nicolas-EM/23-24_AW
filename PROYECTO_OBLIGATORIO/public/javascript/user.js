@@ -81,15 +81,15 @@ $("#cancelModal").on("show.bs.modal", e => {
 
   // Extract info from data-bs-* attributes
   const reservaId = button.getAttribute('data-bs-reservaid');
-  console.log("reservaId", reservaId);
 
   $("#cancelReservaId").attr("value", reservaId);
 });
 
 $("#cancelReservaForm").on("submit", e => {
-  const reservaid= $("#cancelReservaId").val();
-  console.log("reservaid", reservaid);
   e.preventDefault();
+
+  const reservaid= $("#cancelReservaId").val();
+
   $.ajax({
     method: "POST",
     url: "/reservations/delete",
