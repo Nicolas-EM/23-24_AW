@@ -12,6 +12,7 @@
           <tr>
             <th scope="col">Faculty ID</th>
             <th scope="col">Faculty Name</th>
+            <th scope="col">Settings</th>
           </tr>
         </thead>
         <tbody id="facultiesTableRow">
@@ -21,7 +22,6 @@
   </div>
 </div>
 
-<!-- BEGIN: New Faculty Modal -->
 <div class="modal fade" id="newFacultyModal" tabindex="-1" role="dialog" aria-labelledby="newFacultyModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -45,4 +45,27 @@
     </div>
   </div>
 </div>
-<!-- END: New Faculty Modal -->
+
+<div class="modal fade" id="editFacultyModal" tabindex="-1" role="dialog" aria-labelledby="editFacultyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editFacultyModalLabel">Edit Faculty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/faculties/update" id ="editFacultyForm">
+          <input type="number" id="editFacultyId" value="" class="d-none">
+          <div class="mb-3">
+            <label for="editFacultyName" class="form-label">Faculty Name</label>
+            <input type="text" class="form-control" id="editFacultyName" placeholder="Enter faculty name">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

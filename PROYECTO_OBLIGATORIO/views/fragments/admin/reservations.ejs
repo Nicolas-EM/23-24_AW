@@ -1,0 +1,76 @@
+<div class="row mt-2">
+  <div class="container text-center">
+    <h2>Reservations</h2>
+
+    <!-- Search bar -->
+    <form id="reservationsSearchForm" class="m-3">
+      <div class="input-group justify-content-center">
+        <input type="text" class="form-control" id="reservaSearchQuery" name="reservaSearchQuery" placeholder="Search reservations">
+
+        <!-- Search -->
+        <div class="btn-group">
+          <!-- Search Btn -->
+          <button class="btn btn-primary ml-2" type="submit">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <!-- Filter Button -->
+          <button class="btn btn-primary btn-rounded" type="button" data-bs-toggle="collapse" data-bs-target="#searchFilters" aria-expanded="false" aria-controls="searchFilters">
+            <span class="material-symbols-outlined">tune</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search filters -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 mt-3 collapse align-items-center" id="searchFilters">
+        <div class="col col-sm-4 col-md-2">
+          <label for="rInstallationFilter" class="form-label">Installation:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 mb-2">
+          <select id="rInstallationFilter" class="form-select" aria-label="installation filter">
+            <option value="" selected>Any</option>
+          </select>
+        </div>
+        <div class="col col-sm-4 col-md-2">
+          <label for="rFacultyFilter" class="form-label">Faculty:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4">
+          <select id="rFacultyFilter" class="form-select" aria-label="faculty filter">
+            <option value="" selected>Any</option>
+          </select>
+        </div>
+        <div class="col col-sm-4 col-md-2">
+          <label for="startDateFilter" class="form-label">Start:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 mb-2">
+          <input id="startDateFilter" type="date" class="form-control">
+        </div>
+        <div class="col col-sm-4 col-md-2">
+          <label for="endDateFilter" class="form-label">End:</label>
+        </div>
+        <div class="col col-sm-8 col-md-4 mb-2">
+          <input id="endDateFilter" type="date" class="form-control">
+        </div>
+      </div>
+    </form>
+
+    <div class="overflow-x-auto">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Creation Date</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Installation</th>
+            <th>Faculty</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+          </tr>
+        </thead>
+        <tbody id="reservationList">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

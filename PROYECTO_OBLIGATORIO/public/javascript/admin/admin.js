@@ -23,7 +23,7 @@ $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     console.log(event.target.id);
 
     if(event.target.id === "pills-users-tab"){
-        createFacultyFilters();
+        createUserFacultyFilters();
     }
     else if (event.target.id === "pills-installations-tab") {
         getInstallations();
@@ -32,7 +32,7 @@ $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     } else if (event.target.id === "pills-stats-tab") {
         getStatsByFaculty();
         getStatsByUser();
-    } else {
-        console.error("Not implemented");
+    } else if(event.target.id === "pills-reservations-tab") {
+        setReservationsSearch();
     }
 });

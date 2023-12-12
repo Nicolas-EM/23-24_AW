@@ -32,7 +32,19 @@ class FacultyController {
   }
 
   updateFaculty(req, res, next) {
-    // Handle the POST request for '/update'
+    if (!validationResult(req).isEmpty()) {
+      return res.status(400).json({ errors: validationResult(req).array() });
+    }
+    else{
+      const { facultyId, facultyName } = req.body;
+
+      daoF.updateFaculty(facultyId, facultyName, (err) => {
+        if(err)
+          next(err);
+        else
+          res.send("OK");
+      });
+    }
   }
 
   deleteFaculty(req, res, next) {

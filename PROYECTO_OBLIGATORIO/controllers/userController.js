@@ -25,6 +25,8 @@ class userController {
             if (err)
                 next(err);
             else
+            
+                console.log("jaja lol hola", users);
                 res.json(users);
         })
     }

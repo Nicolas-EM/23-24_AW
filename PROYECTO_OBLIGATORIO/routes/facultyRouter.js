@@ -12,10 +12,13 @@ let facultyRouter = require('express').Router();
 facultyRouter.get('/', facultyController.getFaculties);
 
 facultyRouter.post('/create', requireAdmin,
- check('facultyName').notEmpty().withMessage('Nombre de facultad es requerido'),
+ check('facultyName').notEmpty().withMessage('Faculty name is required.'),
  facultyController.createFaculty);
 
-facultyRouter.post('/update', requireAdmin, facultyController.updateFaculty);
+facultyRouter.post('/update', requireAdmin, 
+check('facultyName').notEmpty().withMessage('Faculty name is required.'),
+check('facultyId').notEmpty().withMessage('Faculty ID is required.'),
+facultyController.updateFaculty);
 
 facultyRouter.post('/delete', requireAdmin, facultyController.deleteFaculty);
 

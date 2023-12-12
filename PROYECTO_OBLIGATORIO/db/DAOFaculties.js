@@ -5,6 +5,7 @@ class DAOFaculties {
     constructor(pool) {
         this.pool = pool;
     }
+    
     createFaculty(name, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -21,6 +22,7 @@ class DAOFaculties {
             }
         });
     }
+
     getFacultyById(id, callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -55,6 +57,23 @@ class DAOFaculties {
         });
     }
 
+    updateFaculty(id, name, callback) {
+        this.pool.getConnection(function (err, connection) {
+            if (err) {
+                callback(err);
+            } else {
+                connection.query("UPDATE ucm_aw_riu_ins_faculties SET name = ? WHERE id = ?;", [name, id], function (err, rows) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, rows);
+                    }
+                    connection.release();
+                });
+            }   
+        });
+    }
+
     getGroups(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {
@@ -71,6 +90,7 @@ class DAOFaculties {
             }   
         });
     }
+
     getGrades(callback) {
         this.pool.getConnection(function (err, connection) {
             if (err) {

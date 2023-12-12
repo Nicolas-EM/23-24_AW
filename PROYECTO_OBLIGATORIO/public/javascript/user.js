@@ -74,3 +74,41 @@ $("#updateUserForm").on("submit", (e) => {
     },
   });
 });
+
+$("#cancelModal").on("show.bs.modal", e => {
+
+  const button = e.relatedTarget
+
+  // Extract info from data-bs-* attributes
+  const reservaId = button.getAttribute('data-bs-reservaid');
+  console.log("reservaId", reservaId);
+
+  $("#cancelReservaId").attr("value", reservaId);
+});
+
+$("#cancelReservaForm").on("submit", e => {
+  const reservaid= $("#cancelReservaId").val();
+  console.log("reservaid", reservaid);
+  e.preventDefault();
+  $.ajax({
+    method: "POST",
+    url: "/reservations/delete",
+    data: {
+      _csrf: $("#_csrf").val(),
+      reservaid: reservaid
+    },
+    success: function (data) {
+      $("#toastMsg").html(data);
+      toast.show();
+      // Close the modal
+      $('#cancelModal').modal('hide');
+      // Remove the reservation from the DOM
+
+      $(`#${reservaid}`).remove();
+    },
+    error: function (jqXHR) {
+      $("#toastMsg").html(jqXHR.responseText);
+      toast.show();
+    },
+  });
+})

@@ -178,3 +178,43 @@ $("#updateInstallationForm").on("submit", function(e) {
         }
     });
 });
+
+$("#installationHistoryModal").on("show.bs.modal", e => {
+    const button = e.relatedTarget
+    // Extract info from data-bs-* attributes
+    const installationId = button.getAttribute('data-bs-installationid');
+
+    $.ajax({
+        method: "GET",
+        url: `/reservations/byInstallation/${installationId}`,
+        success: function (data) {
+            let reservations = "";
+            for (let x in data) {
+                const reservation = data[x];
+                reservations += createHistoryRow(reservation);
+            }
+            $("#iHistoryTableRows").html(reservations);
+
+            if (data.length === 0) {
+                $("#iHistoryTable").addClass("d-none");
+                $("#iHistoryNoResults").removeClass("d-none");
+            } else {
+                $("#iHistoryTable").removeClass("d-none");
+                $("#iHistoryNoResults").addClass("d-none");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#toastMsg").html(jqXHR.responseText);
+            toast.show();
+        }
+    });
+});
+
+function createHistoryRow(reservation) {
+    return `<tr>
+                <td>${reservation.userid}</td>
+                <td>${new Date(reservation.dateini).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+                <td>${new Date(reservation.dateend).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+                <td>${new Date(reservation.datecreation).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
+            </tr>`
+}

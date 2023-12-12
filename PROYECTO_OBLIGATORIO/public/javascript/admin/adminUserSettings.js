@@ -10,7 +10,7 @@ function getUsers() {
                 const user = data[x];
                 users += createUserRow(user);
             }
-
+            
             $("#userList").html(users);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -20,12 +20,14 @@ function getUsers() {
     });
 };
 
-function createFacultyFilters() {
+function createUserFacultyFilters() {
     $.ajax({
         method: "GET",
         url: "/faculties/",
         success: function (data) {
             $("#facultyFilter").empty();
+            $("#facultyFilter").append(`<option value="">Any</option>`);
+
             for (let x in data) {
                 const faculty = data[x];
                 $("#facultyFilter").append(`<option value="${faculty.id}">

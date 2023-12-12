@@ -3,3 +3,19 @@
     aspect-ratio: 1 / 1;
     max-height: 275px;
 }
+
+#reservationsUser .badge{
+    background-color: var(--primary-blue);
+}
+
+.userInstClass{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 275px;
+}
+
+#reservationsUser .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }

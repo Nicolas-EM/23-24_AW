@@ -2,43 +2,31 @@
 
 //const { check } = require("express-validator"); //para validar los datos de los formularios
 // middleware login
-const requireAdmin = require('../middleware/requireAdmin');
-const reservationsController = require('../controllers/reservationsController');
+const requireAdmin = require("../middleware/requireAdmin");
+const reservationsController = require("../controllers/reservationsController");
 
-let reservationRouter = require('express').Router();
+let reservationRouter = require("express").Router();
 //const { isAfter, addHours } = require('date-fns');
 const ctrl = new reservationsController();
-reservationRouter.get('/', (req, res, next) => {
+reservationRouter.get("/", requireAdmin, ctrl.getAllReservations);
 
-});
+reservationRouter.post("/create", ctrl.createReservation);
 
-reservationRouter.post('/create', 
-    // check('startDate').isISO8601().toDate(),
-    // check('endDate').isISO8601().toDate(),
-    (req, res, next) => {
-        ctrl.createReservation(req, res, next);
-    }
-);
-reservationRouter.post('/addToQueue', (req, res, next) => {
-    ctrl.addToQueue(req, res, next);
-});
-reservationRouter.post('/update', (req, res, next) => {
-    
-});
+reservationRouter.post("/addToQueue", ctrl.addToQueue);
 
-reservationRouter.post('/delete', (req, res, next) => {
-    
-});
+reservationRouter.post("/delete", ctrl.deleteReservation);
+
+reservationRouter.post("/search", ctrl.searchReservations);
 
 //check for a given installation what dates are available
-reservationRouter.get('/check/:id/:date', ctrl.checkDate);
+reservationRouter.get("/check/:id/:date", ctrl.checkDate);
 
-reservationRouter.get('/byUser/:id', requireAdmin, ctrl.getReservationsByUser);
+reservationRouter.get("/byUser/:id", requireAdmin, ctrl.getReservationsByUser);
 
-reservationRouter.get('/byFaculty/:id', requireAdmin, ctrl.getReservationsByFaculty);
+reservationRouter.get("/byInstallation/:id", requireAdmin, ctrl.getReservationsByInstallation);
 
-reservationRouter.get('/userStats', requireAdmin, ctrl.getStatsByUser);
+reservationRouter.get("/userStats", requireAdmin, ctrl.getStatsByUser);
 
-reservationRouter.get('/facultyStats', requireAdmin, ctrl.getStatsByFaculty);
+reservationRouter.get("/facultyStats", requireAdmin, ctrl.getStatsByFaculty);
 
 module.exports = reservationRouter;

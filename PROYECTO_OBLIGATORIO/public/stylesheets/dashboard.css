@@ -13,9 +13,21 @@
 }
 
 .installations .card:hover {
+  cursor: pointer;
   transform: scale(1.05);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.65);
   transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .fades {
@@ -29,14 +41,3 @@
   /* your desired color */
 }
 
-@keyframes fadeInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}

@@ -28,6 +28,10 @@
             <%- include('fragments/admin/usersSettings.ejs') %>
           </div>
 
+          <div class="tab-pane fade" id="pills-reservations" role="tabpanel" aria-labelledby="pills-reservations-tab" tabindex="0">
+            <%- include('fragments/admin/reservations.ejs') %>
+          </div>
+
           <div class="tab-pane fade" id="pills-installations" role="tabpanel" aria-labelledby="pills-installations-tab" tabindex="0">
             <%- include('fragments/admin/installations.ejs') %>
           </div>
@@ -47,6 +51,7 @@
   <%- include('fragments/footer.ejs') %>
   <script src="/javascript/admin/adminOrg.js"></script>
   <script src="/javascript/admin/adminUserSettings.js"></script>
+  <script src="/javascript/admin/adminReservations.js"></script>
   <script src="/javascript/admin/adminInstallations.js"></script>
   <script src="/javascript/admin/adminFaculties.js"></script>
   <script src="/javascript/admin/adminStats.js"></script>

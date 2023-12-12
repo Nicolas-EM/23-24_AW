@@ -5,8 +5,21 @@ class DAOReservations {
   constructor(pool) {
     this.pool = pool;
   }
+
+  getAllReservations(callback) {
+    this.pool.query(
+      "SELECT r.datecreation, r.dateini, r.dateend, u.name as userName, u.surname as userSurname, u.email as userEmail, i.name as installationName, i.id as installationId, f.name as facultyName, f.id as facultyId FROM ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_usu_users u ON r.userid = u.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id ORDER BY datecreation ASC;",
+      (err, rows) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, rows);
+        }
+      }
+    );
+  }
+
   createReservation(reservation, callback) {
-    console.log(reservation);
     this.pool.query(
       "INSERT INTO ucm_aw_riu_res_reservations (dateini,dateend,datecreation,userid,instid) VALUES (?, ?, ?, ?, ?)",
       [
@@ -25,6 +38,7 @@ class DAOReservations {
       }
     );
   }
+
   checkUserQueue(reservation, callback) {
     this.pool.query(
       "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ?",
@@ -42,6 +56,7 @@ class DAOReservations {
       }
     );
   }
+
   getNextInQueue(instid, callback) {
     this.pool.query(
       "SELECT * FROM ucm_aw_riu_queue WHERE instid = ? ORDER BY datecreation ASC LIMIT 1",
@@ -59,6 +74,7 @@ class DAOReservations {
       }
     );
   }
+
   deleteFromQueue(id, callback) {
     this.pool.query(
       "DELETE FROM ucm_aw_riu_queue WHERE id = ?",
@@ -72,10 +88,26 @@ class DAOReservations {
       }
     );
   }
+
+  searchReservations(query, startDate, endDate, callback) {
+    this.pool.query(
+      "SELECT r.datecreation, r.dateini, r.dateend, u.name as userName, u.surname as userSurname, u.email as userEmail, i.name as installationName, i.id as installationId, f.name as facultyName, f.id as facultyId FROM (ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_usu_users u ON r.userid = u.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id) WHERE (u.name LIKE ? OR u.surname LIKE ? or u.email LIKE ?) AND (r.dateini >= ? AND r.dateend <= ?) ORDER BY datecreation ASC;",
+      [`%${query}%`, `%${query}%`, `%${query}%`, startDate, endDate],
+      (err, rows) => {
+        if (err) {
+          console.log(err);
+          callback(err);
+        } else {
+          callback(null, rows);
+        }
+      }
+    );
+  }
+
   checkUserReservation(reservation, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ?",
-      [reservation.userid, reservation.instid],
+      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ? AND dateini = ? AND dateend = ?",
+      [reservation.userid, reservation.instid, reservation.dateini, reservation.dateend],
       (err, rows) => {
         if (err) {
           callback(err);
@@ -89,8 +121,8 @@ class DAOReservations {
       }
     );
   }
-  addToQueue(reservation, callback) {
 
+  addToQueue(reservation, callback) {
     this.pool.query(
       "INSERT INTO ucm_aw_riu_queue (dateini,dateend,datecreation,userid,instid) VALUES (?, ?, ?, ?, ?)",
       [
@@ -129,19 +161,6 @@ class DAOReservations {
     );
   }
 
-  getAllReservations(callback) {
-    this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations",
-      (err, rows) => {
-        if (err) {
-          callback(err);
-        } else {
-          callback(null, rows);
-        }
-      }
-    );
-  }
-
   createReservation(reservation, callback) {
     this.pool.query(
       "INSERT INTO ucm_aw_riu_res_reservations (userid, instid, dateini, dateend, datecreation) VALUES (?, ?, ?, ?, ?)",
@@ -161,6 +180,7 @@ class DAOReservations {
       }
     );
   }
+
   checkReservation(day, instid, callback) {
     console.log(day, instid);
     this.pool.query(
@@ -175,6 +195,7 @@ class DAOReservations {
       }
     );
   }
+
   getNumReservasInDay(day, instid, callback) {
     this.pool.query(
       "SELECT COUNT(*) AS reservation_count FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = ? AND instid = ?;",
@@ -230,7 +251,7 @@ class DAOReservations {
 
   getReservationsByUser(userid, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ?",
+      "SELECT r.id, r.dateini, r.dateend, r.datecreation, r.userid, r.instid, i.name AS instname, i.facultyId, f.name AS facultyname FROM ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id WHERE r.userid = ? ORDER BY r.dateini DESC",
       [userid],
       (err, rows) => {
         if (err) {

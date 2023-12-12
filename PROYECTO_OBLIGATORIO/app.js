@@ -77,6 +77,7 @@ const pool = require("./db/pool");
 const DAOFaculties = require("./db/DAOFaculties");
 const DAOUsers = require("./db/DAOUsers");
 const DAOOrg = require('./db/DAOOrg');
+const DAOReservations = require('./db/DAOReservations');
 
 const daoOrg = new DAOOrg(pool);
 
@@ -128,11 +129,21 @@ app.get("/user", (req, res, next) => {
       next(err);
     else {
       const daoUsers = new DAOUsers(pool);
+      const daoReservations = new DAOReservations(pool);
       daoUsers.getUserById(req.session.userId, (err, user) => {
         if (err)
           next(err);
-        else
-          res.status(200).render("user", { user, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org });
+        else{
+          daoReservations.getReservationsByUser(req.session.userId, (err, reservations) => {
+            if (err)
+              next(err);
+            else{
+              res.status(200).render("user", { user, reservations, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org,reservations });
+            }
+             
+          });
+        }
+          
       })
     }
   })
