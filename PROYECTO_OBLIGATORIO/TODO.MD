@@ -13,7 +13,7 @@
 - [ ] Comprobar user isValidated en TODO
     - [ ] Crear middleware (al iniciar sesion o registrar ponemos req.session.isValidated)
 - [ ] Enviar mensaje al validar (Envío de correo de validación de usuario)
-- [ ] añadir icono al tab
+- [X] añadir icono al tab
 
 ## /admin
 - [ ] Listado usuario: mostrar grupo + curso

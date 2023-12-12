@@ -29,6 +29,13 @@ $("#orgImgUpload").on("change", (e) => {
                     // get loaded data and render thumbnail.
                     $("#orgImg").attr("src", e.target.result);
                     $("#navbarLogo").attr("src", e.target.result);
+                    const link = document.querySelector("link[rel~='icon']");
+                    if (!link) {
+                        link = document.createElement('link');
+                        link.rel = 'icon';
+                        document.head.appendChild(link);
+                    }
+                    link.href = e.target.result;
                 };
                 // read the image file as a data URL.
                 reader.readAsDataURL(file);
