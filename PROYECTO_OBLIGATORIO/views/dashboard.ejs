@@ -34,15 +34,30 @@
                 </div>
 
                 <!-- Search filters -->
-                <div class="row row-cols-2 g-2 mt-3 collapse align-items-center text-center" id="searchFilters">
-                    <!-- TODO: change filters to faculty -->
-                    <div class="col">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-2 mt-3 collapse align-items-center text-center" id="searchFilters">
+                    <div class="col col-sm-4 col-md-2 col-lg-1">
                         <label for="facultyFilter" class="form-label ">Faculty:</label>
                     </div>
-                    <div class="col">
-                        <select id="facultyFilter" class="form-control form-control-lg">
+                    <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
+                        <select id="facultyFilter" class="form-control">
                             <option value="" selected>All</option>
                         </select>
+                    </div>
+                    <div class="col col-sm-4 col-md-2 col-lg-1">
+                        <label for="typeFilter" class="form-label ">Type:</label>
+                    </div>
+                    <div class="col col-sm-8 col-md-4 col-lg-3 mb-2">
+                        <select id="typeFilter" class="form-control">
+                            <option value="" selected>All</option>
+                            <option value="0">Collective</option>
+                            <option value="1">Individual</option>
+                        </select>
+                    </div>
+                    <div class="col col-sm-4 col-md-2 col-lg-2">
+                        <label for="capacityFiler" class="form-label ">Min. Capacity:</label>
+                    </div>
+                    <div class="col col-sm-8 col-md-4 col-lg-2 mb-2">
+                        <input id="capacityFiler" type="number" min="0" value="0" class="form-control">
                     </div>
                 </div>
             </form>

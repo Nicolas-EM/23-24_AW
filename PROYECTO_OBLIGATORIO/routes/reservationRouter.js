@@ -6,8 +6,8 @@ const requireAdmin = require("../middleware/requireAdmin");
 const reservationsController = require("../controllers/reservationsController");
 
 let reservationRouter = require("express").Router();
-//const { isAfter, addHours } = require('date-fns');
 const ctrl = new reservationsController();
+
 reservationRouter.get("/", requireAdmin, ctrl.getAllReservations);
 
 reservationRouter.post("/create", ctrl.createReservation);

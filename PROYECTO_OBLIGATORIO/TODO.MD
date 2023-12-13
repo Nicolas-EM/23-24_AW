@@ -7,16 +7,15 @@
 - [ ] Enviar mensaje al salir de la cola
 
 ## Otros
-- [ ] Comprobar user isValidated en TODO
-    - [ ] Crear middleware (al iniciar sesion o registrar ponemos req.session.isValidated)
-- [ ] Enviar mensaje al validar (Envío de correo de validación de usuario)
-- [ ] añadir icono al tab
-- [ ] filter by type and capacity (DASHBOARD)
+- [ ] Comprobar user isValidated al crear reserva
+- [X] Enviar mensaje al validar (Envío de correo de validación de usuario)
+- [X] añadir icono al tab
+- [X] filter by type and capacity (DASHBOARD)
 
 ## /admin
 - [ ] Listado usuario: mostrar grupo + curso
-- [ ] Mejorar historial usuario (mostrar nombre instalacion)
-- [ ] Mejorar historial installation (mostrar nombre de usuario)
+- [X] Mejorar historial usuario (mostrar nombre instalacion)
+- [X    ] Mejorar historial installation (mostrar nombre de usuario)
 - [X] Stats --> listado reservas
 
 ## /user

@@ -1,3 +1,5 @@
+const toast = bootstrap.Toast.getOrCreateInstance($("#liveToast")[0]);
+
 $("#logout").on("click", e => {
     $("#logoutForm").trigger("submit");
 })
@@ -212,6 +214,7 @@ $("#newMessageModal").on("hide.bs.modal", e => {
     $("#message").val("");
 });
 
+const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
 $("#newMessageForm").on("submit", e => {
     e.preventDefault();
 
@@ -227,7 +230,6 @@ $("#newMessageForm").on("submit", e => {
                 message
             },
             success: () => {
-                const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
                 newMessageModal.hide();
 
                 $("#toastMsg").html("Message sent");
@@ -256,6 +258,8 @@ $("#newMessageForm").on("submit", e => {
                     message
                 },
                 success: () => {
+                    newMessageModal.hide();
+                    
                     $("#toastMsg").html("Message sent");
                     toast.show();
                 },
