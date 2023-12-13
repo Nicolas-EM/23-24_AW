@@ -93,11 +93,17 @@ function performSearch() {
   // Get the value from the search input
   const query = $("#query").val();
   const faculty = $("#facultyFilter").val();
+  const type = $("#typeFilter").val();
+  const minCapacity = $("#capacityFiler").val();
 
-  if (query === "" && faculty === "") {
+  console.log(query, faculty, type, minCapacity);
+
+  if (query === "" && faculty === "" && type === "" && minCapacity === 0) {
     $("#installations").empty();
     getInstallations();
   } else {
+    
+    $("#noResults").addClass("d-none");
     // Get the CSRF token value
     const _csrf = $("input[name='_csrf']").val();
     // Make an AJAX request to the server
@@ -107,9 +113,12 @@ function performSearch() {
       data: {
         query,
         faculty,
+        type,
+        minCapacity,
         _csrf,
       },
       success: function (data) {
+        console.log(data);
         $("#installations").empty();
         for (let x in data) {
           const inst = data[x];

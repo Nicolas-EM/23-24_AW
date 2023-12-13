@@ -51,10 +51,10 @@ class DAOInstallations {
     );
   }
 
-  searchInstallation(name, faculty, callback) {
+  searchInstallation(name, faculty, type, minCapacity, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_ins_installations WHERE name LIKE ? AND facultyId LIKE ?",
-      [`%${name}%`, `%${faculty}%`],
+      "SELECT * FROM ucm_aw_riu_ins_installations WHERE name LIKE ? AND facultyId LIKE ? AND type LIKE ? AND capacity >= ?",
+      [`%${name}%`, `%${faculty}%`, `%${type}%`, minCapacity],
       (err, rows) => {
         if (err) {
           callback(err);

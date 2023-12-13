@@ -1,6 +1,8 @@
+const toast = bootstrap.Toast.getOrCreateInstance($("#liveToast")[0]);
+
 $("#logout").on("click", e => {
     $("#logoutForm").trigger("submit");
-})
+});
 
 $("#mailModal").on("show.bs.modal", e => {
     $("#noMessages").removeClass("d-none");
@@ -39,7 +41,7 @@ function createTabsEventListener() {
             $("#selectChat").addClass("d-none");
         }
     });
-}
+};
 
 function createChat(chat) {
     // Create recipient
@@ -53,7 +55,7 @@ function createChat(chat) {
                                         </div>
                                     </button>
                                 </div>`);
-}
+};
 
 function getChatMessages(chat) {
     $.ajax({
@@ -106,7 +108,7 @@ function getChatMessages(chat) {
             toast.show();
         }
     });
-}
+};
 
 $(document).on("submit", "[id^='sendMsgForm']", e => {
     e.preventDefault();
@@ -143,7 +145,7 @@ $(document).on("submit", "[id^='sendMsgForm']", e => {
             }
         });
     }
-})
+});
 
 $("#newMessageModal").on("show.bs.modal", e => {
     $("#recipientsDataList").empty();
@@ -189,13 +191,34 @@ $("#newMessageModal").on("show.bs.modal", e => {
             }
         });
     } else {
+        // Add all admins
+        $.ajax({
+            url: "/users/",
+            method: "GET",
+            success: (users) => {
+                for (let x in users) {
+                    const user = users[x];
+                    if(user.isAdmin === 1 && user.id !== 1){
+                        $("#recipientsDataList").append(`<option data-bs-type="user" data-bs-id="${user.id}" value="${user.email}">`);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                $("#toastMsg").html(xhr.responseText);
+                toast.show();
+            }
+        });
+
+        // Add all users from same faculty
         $.ajax({
             url: `/users/byFaculty/${facultyId}`,
             method: "GET",
             success: (users) => {
                 for (let x in users) {
                     const user = users[x];
-                    $("#recipientsDataList").append(`<option data-bs-type="user" data-bs-id="${user.id}" value="${user.email}">`);
+                    if(user.isAdmin !== 1 && user.id !== 1){
+                        $("#recipientsDataList").append(`<option data-bs-type="user" data-bs-id="${user.id}" value="${user.email}">`);
+                    }
                 }
             },
             error: function (xhr, status, error) {
@@ -212,6 +235,7 @@ $("#newMessageModal").on("hide.bs.modal", e => {
     $("#message").val("");
 });
 
+const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
 $("#newMessageForm").on("submit", e => {
     e.preventDefault();
 
@@ -227,7 +251,6 @@ $("#newMessageForm").on("submit", e => {
                 message
             },
             success: () => {
-                const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
                 newMessageModal.hide();
 
                 $("#toastMsg").html("Message sent");
@@ -256,6 +279,8 @@ $("#newMessageForm").on("submit", e => {
                     message
                 },
                 success: () => {
+                    newMessageModal.hide();
+                    
                     $("#toastMsg").html("Message sent");
                     toast.show();
                 },

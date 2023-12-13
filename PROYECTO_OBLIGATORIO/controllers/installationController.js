@@ -64,11 +64,13 @@ class installationController {
       return res.status(422).json({ errors: errors.array() }); //422 Unprocessable Entity
     }
 
-    const { query, faculty } = req.body;
+    const { query, faculty, type, minCapacity } = req.body;
 
     daoInstallations.searchInstallation(
       query,
       faculty,
+      type,
+      minCapacity,
       (err, installations) => {
         if (err) {
           next(err);

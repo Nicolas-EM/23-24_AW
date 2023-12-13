@@ -1,12 +1,14 @@
 "use strict";
 const pool = require("../db/pool");
 const DAOUsers = require('../db/DAOUsers');
+const DAOMessages = require('../db/DAOMessages');
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require("express-validator");
 const path = require('path');
 const fs = require('fs');
 
 const daoUser = new DAOUsers(pool);
+const daoMessages = new DAOMessages(pool);
 
 class userController {
     getUserById(req, res, next) {
@@ -124,8 +126,14 @@ class userController {
         daoUser.validateUser(userId, (err) => {
             if (err)
                 next(err);
-            else
-                res.send("OK");
+            else {
+                daoMessages.createNewMessage(1, userId, "Your account has been validated. You can now create reservations.", (err) => {
+                    if(err)
+                        next(err);
+                    else
+                        res.send("OK");
+                })
+            }
         })
     }
 

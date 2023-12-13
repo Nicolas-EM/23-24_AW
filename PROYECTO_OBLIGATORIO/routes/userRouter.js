@@ -15,6 +15,7 @@ const userCtrl = new userController();
 userRouter.get("/", requireLogin, userCtrl.getAllUsers);
 
 userRouter.get("/:id", requireLogin, userCtrl.getUserById);
+
 userRouter.post("/create", multerFactory.single("picture"),
   check("name").notEmpty().withMessage("Name is required"),
     check("surname").notEmpty().withMessage("Surname is required"),

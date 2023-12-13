@@ -326,7 +326,7 @@ class DAOReservations {
 
   getReservationsByInstallation(faculty, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations WHERE instid = ?",
+      "SELECT r.datecreation, r.dateend, r.dateini, u.name AS userName, u.surname AS userSurname, u.email as userEmail FROM ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_usu_users u ON r.userid = u.id WHERE instid = ?",
       [faculty],
       (err, rows) => {
         if (err) {

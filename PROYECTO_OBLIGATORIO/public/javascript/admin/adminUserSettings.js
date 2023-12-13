@@ -8,7 +8,8 @@ function getUsers() {
             let users = "";
             for (let x in data) {
                 const user = data[x];
-                users += createUserRow(user);
+                if(user.id !== 1)
+                    users += createUserRow(user);
             }
             
             $("#userList").html(users);
@@ -154,7 +155,7 @@ $("#userHistoryModal").on("show.bs.modal", e => {
             let reservations = "";
             for (let x in data) {
                 const reservation = data[x];
-                reservations += createHistoryRow(reservation);
+                reservations += createUserHistoryRow(reservation);
             }
             $("#uHistoryTableRows").html(reservations);
 
@@ -173,9 +174,10 @@ $("#userHistoryModal").on("show.bs.modal", e => {
     });
 });
 
-function createHistoryRow(reservation) {
+function createUserHistoryRow(reservation) {
     return `<tr>
-                <td>${reservation.instid}</td>
+                <td>${reservation.instname}</td>
+                <td>${reservation.facultyname}</td>
                 <td>${new Date(reservation.dateini).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
                 <td>${new Date(reservation.dateend).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
                 <td>${new Date(reservation.datecreation).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>

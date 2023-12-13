@@ -212,7 +212,8 @@ $("#installationHistoryModal").on("show.bs.modal", e => {
 
 function createHistoryRow(reservation) {
     return `<tr>
-                <td>${reservation.userid}</td>
+                <td>${reservation.userName} ${reservation.userSurname}</td>
+                <td>${reservation.userEmail}</td>
                 <td>${new Date(reservation.dateini).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
                 <td>${new Date(reservation.dateend).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
                 <td>${new Date(reservation.datecreation).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
