@@ -26,7 +26,7 @@ function getInstallations() {
 
 function createInstallationCard(inst) {
   return `<div class="col">
-                <div class="card h-100 w-100" data-bs-toggle="modal" data-bs-target="#reservationModal">
+                <div class="card h-100 w-100" data-bs-toggle="modal" data-bs-target="#reservationModal" data-bs-installationid="${inst.id}">
                     <!-- Img row -->
                     <div class="rounded">
                         <!-- hace falta guardar el formato tambien!-->
@@ -53,9 +53,7 @@ function createInstallationCard(inst) {
                     <!-- Card Footer -->
                     <div class="card-footer">
                         <div class="row justify-content-center">
-                          <button id="${
-                            inst.id
-                          }" class="btn btn-primary pill-rounded" data-bs-toggle="modal" data-bs-target="#reservationModal">Book now!</button>
+                          <button data-bs-installationid="${inst.id}" class="btn btn-primary pill-rounded" data-bs-toggle="modal" data-bs-target="#reservationModal">Book now!</button>
                         </div>
                     </div>
                 </div>
@@ -175,7 +173,7 @@ $("#calendar").on("apply.daterangepicker", function (ev, picker) {
     success: function (data) {
       if (data) {
         console.log("los datos para el dia: ", checkDate, "son : ", data);
-        let hours = [
+        const hours = [
           "9",
           "10",
           "11",
@@ -189,25 +187,23 @@ $("#calendar").on("apply.daterangepicker", function (ev, picker) {
           "19",
           "20",
         ];
-
+    
         for (let i = 0; i < hours.length - 1; i += 4) {
-          const row = $(
-            '<div class="row justify-content-center g-3 mb-3"></div>'
-          );
+          const row = $('<div class="row justify-content-center g-3 mb-3"></div>');
           for (let j = 0; j < 4; j++) {
-            let startHour = hours[i + j];
-            let endHour = hours[i + j + 1];
-            if (endHour === undefined) {
-              endHour = 21;
-            }
-            const button = $(
-              '<button class="btn btn-primary" type="button"></button>'
-            ).text(`${startHour.toString().padStart(2, '0')}-${endHour}`);
-            if (data[`${startHour}-${endHour}`]) {
-              console.log("entre a crear un boton amarillo de warning");
+            const startHour = hours[i + j];
+            const endHour = hours[i + j + 1] || 21;
+            const button = $('<button class="btn btn-primary" type="button"></button>').text(`${startHour.toString().padStart(2, '0')}-${endHour}`);
+            
+            if (data[`${startHour}-${endHour}`] === "userReserved") {
+              button.prop("disabled", true);
+              button.addClass("btn-secondary");
+
+            } else if (data[`${startHour}-${endHour}`] === "occupied") {
               button.removeClass("btn-primary");
               button.addClass("btn-warning");
             }
+            
             button.attr("value", startHour); // Set the start date as the val attribute
             const col = $('<div class="col text-center"></div>').append(button);
             row.append(col);
@@ -225,10 +221,17 @@ $("#calendar").on("apply.daterangepicker", function (ev, picker) {
 
 $("#hourBtns").on("click", "button", function () {
   const selectedTime = $(this).val();
-  const startDate =  $('#startDate').val() + " " + selectedTime.split("-")[0] + ":00";
-  const endDate = moment(startDate, "YYYY-MM-DD HH:mm").add(1, "hour").format("YYYY-MM-DD HH:mm");
-  console.log("start date: ", startDate, "end date: ", endDate);
-  $("#startDate").attr("value", startDate);
+  const startDate = $('#startDate').val();
+  let newStartDate;
+
+  if (startDate.includes(":")) {
+    newStartDate = startDate.split(" ")[0] + " " + selectedTime.split("-")[0] + ":00";
+  } else {
+    newStartDate = startDate + " " + selectedTime.split("-")[0] + ":00";
+  }
+  const endDate = moment(newStartDate, "YYYY-MM-DD HH:mm").add(1, "hour").format("YYYY-MM-DD HH:mm");
+  console.log("start date: ", newStartDate, "end date: ", endDate);
+  $("#startDate").attr("value", newStartDate);
   $("#endDate").attr("value", endDate);
   if ($(this).hasClass("btn-secondary")) {
     $.ajax({
@@ -251,7 +254,8 @@ $("#hourBtns").on("click", "button", function () {
       },
     });
   } else {
-    $("#calendar").attr("value", startDate + " to " + endDate);
+    $("#calendar").attr("value", "");
+    $("#calendar").attr("value", newStartDate + " to " + endDate);
   }
 });
 
@@ -296,9 +300,10 @@ $("#reservationModal").on("show.bs.modal", (event) => {
   $("#calendar").attr("placeholder", "Select a date");
   $("#hourBtns").empty();
 
-  const buttonId = event.relatedTarget.id;
-  console.log("el id del boton es: ", buttonId);
-  $("#installationId").attr("value", buttonId);
+  // creo que es esto pero no estoy seguro
+  const installationId = $(event.relatedTarget).data("bs-installationid");
+
+  $("#installationId").attr("value", installationId);
 });
 
 $("#reservationForm").on("submit", (e) => {

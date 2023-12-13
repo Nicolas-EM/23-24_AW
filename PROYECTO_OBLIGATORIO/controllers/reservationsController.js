@@ -2,8 +2,8 @@
 const pool = require("../db/pool");
 const DAOReservations = require("../db/DAOReservations");
 const { validationResult } = require("express-validator");
-const DAOInstallations = require("../db/DAOInstallations");
-const daoInstallations = new DAOInstallations(pool);
+const DAOInstallations = require("../db/DAOInstallations"); // Add this line
+const daoInstallations = new DAOInstallations(pool); // Add this line
 const daoReservations = new DAOReservations(pool);
 
 class reservationsController {
@@ -96,12 +96,18 @@ class reservationsController {
   searchReservations(req, res, next) {
     const { query, startDate, endDate } = req.body;
 
-    daoReservations.searchReservations(query, startDate, endDate, (err, reservations) => {
-      if (err) 
-        next(err);
-      else 
-        res.json(reservations);
-    });
+    daoReservations.searchReservations(
+      query,
+      startDate,
+      endDate,
+      (err, reservations) => {
+        if (err) {
+          next(err);
+        } else {
+          res.json(reservations);
+        }
+      }
+    );
   }
 
   addToQueue(req, res, next) {
@@ -152,8 +158,11 @@ class reservationsController {
     const userId = req.params.id;
 
     daoReservations.getReservationsByUser(userId, (err, reservations) => {
-      if (err) next(err);
-      else res.json(reservations);
+      if (err) {
+        next(err);
+      } else {
+        res.json(reservations);
+      }
     });
   }
 
@@ -163,16 +172,22 @@ class reservationsController {
     daoReservations.getReservationsByInstallation(
       installationId,
       (err, reservations) => {
-        if (err) next(err);
-        else res.json(reservations);
+        if (err) {
+          next(err);
+        } else {
+          res.json(reservations);
+        }
       }
     );
   }
 
   getStatsByUser(req, res, next) {
     daoReservations.getReservationsStatsByUser((err, stats) => {
-      if (err) next(err);
-      else res.json(stats);
+      if (err) {
+        next(err);
+      } else {
+        res.json(stats);
+      }
     });
   }
 
@@ -181,55 +196,71 @@ class reservationsController {
       if (err) {
         next(err);
       } else {
-        if (installation) {
-          // Esto solo puede ser días, no horas, según la documentación
-          let checkingDate = req.params.date;
-          daoReservations.checkReservation(
-            checkingDate,
-            installation.id,
-            (err, timeSlots) => {
-              if (err) {
-                next(err);
-              } else {
-                if (timeSlots) {
-                  console.log(timeSlots);
-                  let availabletimes = {};
-                  //colectivo
-                  if (installation.type === 0) {
-                    console.log(timeSlots);
-                    for (var i = 0; i < timeSlots.length; i++) {
-                      var slot = timeSlots[i];
-                      var timeSlotKey = slot["Time Slot"];
-
-                      availabletimes[timeSlotKey] = slot["numReservations"] > 0;
-                    }
+        // Esto solo puede ser días, no horas, según la documentación
+        let checkingDate = req.params.date;
+        daoReservations.checkReservation(
+          checkingDate,
+          installation.id,
+          (err, timeSlots) => {
+            if (err) {
+              next(err);
+            } else {
+              daoReservations.checkUserTimeSlots(
+                checkingDate,
+                installation.id,
+                req.session.userId,
+                (err, userTimeSlots) => {
+                  if (err) {
+                    next(err);
                   } else {
-                    for (var i = 0; i < timeSlots.length; i++) {
-                      console.log(availabletimes);
-                      var slot = timeSlots[i];
-                      var timeSlotKey = slot["Time Slot"];
-
-                      availabletimes[timeSlotKey] =
-                        slot["numReservations"] >= installation.capacity;
+                    const times = {};
+                    console.log(timeSlots, userTimeSlots);
+                    for (let i = 0; i < timeSlots.length; i++) {
+                      for (let j = 0; j < userTimeSlots.length; j++) {
+                        if (
+                          timeSlots[i].timeSlot === userTimeSlots[j].timeSlot
+                        ) {
+                          if (userTimeSlots[j].userR === 1) {
+                            times[timeSlots[i].timeSlot] = "userReserved";
+                          } else {
+                            if(installation.type === 0){
+                              if (timeSlots[i].numReservations > 0) {
+                                times[timeSlots[i].timeSlot] = "occupied";
+                              } else {
+                                times[timeSlots[i].timeSlot] = "free";
+                              }
+                            }
+                            else{
+                              if (timeSlots[i].numReservations >= installation.capacity) {
+                                times[timeSlots[i].timeSlot] = "occupied";
+                              } else {
+                                times[timeSlots[i].timeSlot] = "free";
+                              }
+                            }
+                            
+                          }
+                          break; // Exit the inner loop once a match is found
+                        }
+                      }
                     }
+                    res.json(times);
                   }
-                  console.log(availabletimes);
-                  res.json(availabletimes);
-                } else {
-                  res.json({});
                 }
-              }
+              );
             }
-          );
-        }
+          }
+        );
       }
     });
   }
 
   getStatsByFaculty(req, res, next) {
     daoReservations.getReservationsStatsByFaculty((err, stats) => {
-      if (err) next(err);
-      else res.json(stats);
+      if (err) {
+        next(err);
+      } else {
+        res.json(stats);
+      }
     });
   }
 }

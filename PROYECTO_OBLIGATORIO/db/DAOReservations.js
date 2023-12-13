@@ -18,6 +18,7 @@ class DAOReservations {
       }
     );
   }
+  
 
   createReservation(reservation, callback) {
     this.pool.query(
@@ -179,19 +180,81 @@ class DAOReservations {
       }
     );
   }
+  checkUserTimeSlots(day, instid, userid, callback) {
+    const query = `
+      SELECT 
+        timeSlots.timeSlot,
+        IF(reservations.userid IS NULL, 0, 1) AS userR
+      FROM (
+        SELECT '9-10' AS timeSlot UNION ALL
+        SELECT '10-11' AS timeSlot UNION ALL
+        SELECT '11-12' AS timeSlot UNION ALL
+        SELECT '12-13' AS timeSlot UNION ALL
+        SELECT '13-14' AS timeSlot UNION ALL
+        SELECT '14-15' AS timeSlot UNION ALL
+        SELECT '15-16' AS timeSlot UNION ALL
+        SELECT '16-17' AS timeSlot UNION ALL
+        SELECT '17-18' AS timeSlot UNION ALL
+        SELECT '18-19' AS timeSlot UNION ALL
+        SELECT '19-20' AS timeSlot UNION ALL
+        SELECT '20-21' AS timeSlot
+      ) AS timeSlots
+      LEFT JOIN (
+        SELECT 
+          CONCAT(HOUR(dateini), '-', HOUR(dateend)) AS timeSlot,
+          userid
+        FROM ucm_aw_riu_res_reservations
+        WHERE DATE(dateini) LIKE ? AND instid = ?
+      ) AS reservations ON timeSlots.timeSlot = reservations.timeSlot AND reservations.userid = ?
+    `;
+    
+    this.pool.query(query, [day, instid, userid], (err, rows) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, rows);
+      }
+    });
+  }
 
   checkReservation(day, instid, callback) {
-    this.pool.query(
-      "SELECT CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS `Time Slot`,COUNT(*) AS `numReservations`FROM ucm_aw_riu_res_reservations WHERE DATE(dateini) = ? AND instid = ? GROUP BY HOUR(dateini) ORDER BY HOUR(dateini);",
-      [day, instid],
-      (err, rows) => {
-        if (err) {
-          callback(err);
-        } else {
-          callback(null, rows);
-        }
+    const query = `
+      SELECT 
+        timeSlots.timeSlot,
+        IFNULL(reservations.numReservations, 0) AS numReservations
+      FROM (
+        SELECT '9-10' AS timeSlot UNION ALL
+        SELECT '10-11' AS timeSlot UNION ALL
+        SELECT '11-12' AS timeSlot UNION ALL
+        SELECT '12-13' AS timeSlot UNION ALL
+        SELECT '13-14' AS timeSlot UNION ALL
+        SELECT '14-15' AS timeSlot UNION ALL
+        SELECT '15-16' AS timeSlot UNION ALL
+        SELECT '16-17' AS timeSlot UNION ALL
+        SELECT '17-18' AS timeSlot UNION ALL
+        SELECT '18-19' AS timeSlot UNION ALL
+        SELECT '19-20' AS timeSlot UNION ALL
+        SELECT '20-21' AS timeSlot
+      ) AS timeSlots
+      LEFT JOIN (
+        SELECT 
+          CONCAT(HOUR(dateini), '-', HOUR(dateini) + 1) AS timeSlot,
+          COUNT(*) AS numReservations
+        FROM ucm_aw_riu_res_reservations
+        WHERE DATE(dateini) LIKE ? AND instid = ?
+        GROUP BY HOUR(dateini)
+        ORDER BY HOUR(dateini) ASC
+      ) AS reservations ON timeSlots.timeSlot = reservations.timeSlot
+      ORDER BY HOUR(timeSlots.timeSlot) ASC;
+    `;
+
+    this.pool.query(query, [day, instid], (err, rows) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, rows);
       }
-    );
+    });
   }
 
   getNumReservasInDay(day, instid, callback) {
