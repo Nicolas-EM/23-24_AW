@@ -69,18 +69,18 @@ class reservationsController {
                   next(err);
                 } else {
                   console.log("reservation deleted");
-                  daoReservations.getNextInQueue(reservation.instid, (err, result) => {
+                  daoReservations.getNextInQueue(reservation.instid, (err, nextInQueue) => {
                     if (err) {
                       next(err);
                     } else {
-                      console.log("result of getNextInQueue: ", result);
-                      if (result) {
-                        daoReservations.deleteFromQueue(result.id, (err) => {
+                      console.log("result of getNextInQueue: ", nextInQueue);
+                      if (nextInQueue) {
+                        daoReservations.deleteFromQueue(nextInQueue.id, (err) => {
                           if (err) {
                             next(err);
                           } else {
-                            daoReservations.createReservation(result, (err) => {
-                              daoMessages.createNewMessage(1, result.id, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
+                            daoReservations.createReservation(nextInQueue, (err) => {
+                              daoMessages.createNewMessage(1, nextInQueue.userid, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
                                 if(err)
                                   next(err);
                                 else

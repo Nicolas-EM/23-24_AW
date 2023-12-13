@@ -18,17 +18,33 @@ userRouter.get("/:id", requireLogin, userCtrl.getUserById);
 
 userRouter.post("/create", multerFactory.single("picture"),
   check("name").notEmpty().withMessage("Name is required"),
-    check("surname").notEmpty().withMessage("Surname is required"),
-    check("faculty").notEmpty().withMessage("Faculty is required"),
-    check("grade").notEmpty().withMessage("Grade is required"),
-    check("group").notEmpty().withMessage("Group is required"),
-    check("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Invalid email"),
-    check("password").notEmpty().withMessage("Password is required"),
-    userCtrl.register
+  check("surname").notEmpty().withMessage("Surname is required"),
+  check("faculty").notEmpty().withMessage("Faculty is required"),
+  check("grade").notEmpty().withMessage("Grade is required"),
+  check("group").notEmpty().withMessage("Group is required"),
+  check("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Invalid email"),
+  check("password").notEmpty().withMessage("Password is required"),
+  userCtrl.register
 );
 
 userRouter.post(
   "/update",
+  check("name")
+    .notEmpty()
+    .withMessage("Name required"),
+  check("surname")
+    .notEmpty()
+    .withMessage("Surname required"),
+  check("email")
+    .notEmpty()
+    .withMessage("Email required"),
+  check("newPassword").optional().trim().isLength({ min: 7 }).withMessage("Password must be at least 7 characters long").matches(/\d/).withMessage("Password must contain at least one digit"),
+  requireLogin,
+  userCtrl.updateUser
+);
+
+userRouter.post(
+  "/role",
   check("userId")
     .notEmpty()
     .withMessage("UserID required")
@@ -39,8 +55,8 @@ userRouter.post(
     .withMessage("Role required")
     .isNumeric()
     .withMessage("Role must be numeric"),
-  requireLogin,
-  userCtrl.updateUser
+  requireAdmin,
+  userCtrl.updateUserRole
 );
 
 userRouter.post(

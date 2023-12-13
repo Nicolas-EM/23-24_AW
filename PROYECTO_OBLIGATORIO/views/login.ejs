@@ -20,11 +20,11 @@
                             <form id="loginForm">
                                 <input id="loginCSRF" type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="mb-4">
-                                    <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email">
+                                    <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email" title="Login Email">
                                 </div>
                                 <div class="mb-4">
                                     <div class="input-group">
-                                        <input type="password" id="passwordInput" class="form-control form-control-lg password-input" placeholder="Password">
+                                        <input type="password" id="passwordInput" class="form-control form-control-lg password-input" placeholder="Password" title="Login Password">
                                         <button class="btn btn-outline-light show-password-btn" type="button">Show</button>
                                     </div>
                                 </div>
@@ -60,15 +60,15 @@
                                         <div class="row row-cols-1 h-100 align-items-center">
                                             <!-- Name -->
                                             <div class="col mb-3">
-                                                <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Name">
+                                                <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Name" title="Name">
                                             </div>
                                             <!-- Surname -->
                                             <div class="col mb-3">
-                                                <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Surname">
+                                                <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Surname" title="Surname">
                                             </div>
                                             <!-- Email -->
                                             <div class="col">
-                                                <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email">
+                                                <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email" title="Email">
                                             </div>
                                         </div>
                                     </div>
@@ -109,14 +109,14 @@
                                 <!-- Img input -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
-                                        <input type="file" id="pictureInput" class="form-control form-control-lg" accept="image/*">
+                                        <input type="file" id="pictureInput" class="form-control form-control-lg" accept="image/*" title="profile picture input">
                                     </div>
                                 </div>
                                 <!-- Password -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <input type="password" id="registrationPassword" class="form-control form-control-lg password-input" placeholder="Password">
+                                            <input type="password" id="registrationPassword" class="form-control form-control-lg password-input" placeholder="Password" title="password">
                                             <button class="btn btn-outline-light show-password-btn" type="button">Show</button>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <input type="password" id="registrationPasswordConfirm" class="form-control form-control-lg password-input" placeholder="Password Confirmation">
+                                            <input type="password" id="registrationPasswordConfirm" class="form-control form-control-lg password-input" placeholder="Password Confirmation" title="Password confirmation">
                                             <button class="btn btn-outline-light show-password-btn" type="button">Show</button>
                                         </div>
                                     </div>

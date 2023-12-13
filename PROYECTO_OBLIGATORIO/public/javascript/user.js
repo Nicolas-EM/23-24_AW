@@ -45,22 +45,20 @@ $("#imageUpload").on("change", (e) => {
 $("#updateUserForm").on("submit", (e) => {
   e.preventDefault();
 
-  const nombre = $("#nombreInput").val();
-  const correo = $("#emailInput").val();
-  const currentPassword = $("#currentPasswordInput").val();
-  const newPassword = $("#newPassword").val();
-  const newPasswordConfirm = $("#newPasswordConfirm").val();
+  const name = $("#nombreInput").val();
+  const surname = $("#surnameInput").val();
+  const email = $("#emailInput").val();
+  const password = $("#newPassword").val();
   
   $.ajax({
     method: "POST",
     url: "/users/update",
     data: {
       _csrf: $("#csrfToken").val(),
-      nombre,
-      correo,
-      currentPassword,
-      newPassword,
-      newPasswordConfirm,
+      name,
+      surname,
+      email,
+      password
     },
     success: function (data) {
       $("#toastMsg").html("Success: User updated");
@@ -109,4 +107,42 @@ $("#cancelReservaForm").on("submit", e => {
       toast.show();
     },
   });
-})
+});
+
+// Validacion contraseña en modificar usuario
+const passwordInput = document.getElementById("newPassword");
+const passwordConfirmInput = document.getElementById("newPasswordConfirm");
+
+passwordInput.addEventListener("input", () => {
+  const password = passwordInput.value;
+
+  if (!passwordIsValid(password)) {
+    passwordInput.style.backgroundColor = "#f08080";
+    passwordInput.setCustomValidity(
+      "Tu contraseña debe tener mínimo 7 y máximo 50 caracteres, una letra y un número"
+    );
+  } else {
+    passwordInput.setCustomValidity("");
+    passwordInput.style.backgroundColor = "inherit";
+    checkPasswordsMatch();
+  }
+});
+
+function passwordIsValid(password) {
+  let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,50}$/;
+  return passwordRegex.test(password);
+}
+
+passwordConfirmInput.addEventListener("input", () => {
+  checkPasswordsMatch();
+});
+
+function checkPasswordsMatch() {
+  if (passwordInput.value !== passwordConfirmInput.value) {
+    passwordConfirmInput.style.backgroundColor = "#f08080";
+    passwordConfirmInput.setCustomValidity("Tus contraseñas no coinciden");
+  } else {
+    passwordConfirmInput.setCustomValidity("");
+    passwordConfirmInput.style.backgroundColor = "inherit";
+  }
+}

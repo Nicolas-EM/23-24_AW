@@ -17,8 +17,10 @@ class userController {
         daoUser.getUserById(userId, (err, user) => {
             if (err)
                 next(err);
-            else
+            else{
+                delete user.password;
                 res.json(user);
+            }
         })
     }
 
@@ -138,9 +140,41 @@ class userController {
     }
 
     updateUser(req, res, next) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const userId = req.session.userId;
+        let { name, surname, email, password } = req.body;
+
+        daoUser.getUserById(userId, (err, user) => {
+            if(err)
+                next(err);
+            else {
+                let hashedPassword;
+                if(!password)
+                    hashedPassword = user.password;
+                else {
+                    const saltRounds = 10;
+                    const salt = bcrypt.genSaltSync(saltRounds);
+                    hashedPassword = bcrypt.hashSync(password, salt);
+                }
+
+                daoUser.updateUser({ id: userId, name, surname, email, password: hashedPassword}, (err) => {
+                    if(err)
+                        next(err);
+                    else
+                        res.send("OK");
+                });
+            }
+        })
+    }
+
+    updateUserRole(req, res, next) {
         const { userId, role } = req.body;
 
-        daoUser.updateUser({ id: userId, isAdmin: role}, (err) => {
+        daoUser.updateUserRole({ id: userId, isAdmin: role}, (err) => {
             if(err)
                 next(err);
             else

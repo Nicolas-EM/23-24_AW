@@ -8,7 +8,7 @@ class DAOUsers {
 
   getUserById(id, callback) {
     this.pool.query(
-      "SELECT `id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `profileImage`, `isAdmin`, `isValidated` FROM ucm_aw_riu_usu_users WHERE id = ?",
+      "SELECT u.id, u.name, u.surname, u.facultyId, u.grade, u.ugroup, u.email, u.profileImage, u.isAdmin, u.isValidated, u.password, f.name AS facultyName FROM ucm_aw_riu_usu_users u JOIN ucm_aw_riu_ins_faculties f ON u.facultyId = f.id WHERE u.id = ?",
       [id],
       (err, rows) => {
         if (err) {
@@ -52,7 +52,7 @@ class DAOUsers {
     });
   }
 
-  updateUser(user, callback) {
+  updateUserRole(user, callback) {
     this.pool.query(
       "UPDATE ucm_aw_riu_usu_users SET isAdmin = ? WHERE id = ?",
       [
@@ -102,33 +102,26 @@ class DAOUsers {
     );
   }
 
-  //se puede actualizar solo algun dato, eso lo separaremos en otra query.
-  // updateUser(user, callback) {
-  //   this.pool.query(
-  //     "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, faculty = ?, grade = ?, ugroup = ?, email = ?, password = ?, profileImageName = ?, profileImageType = ?, isAdmin = ?, isValidated = ? WHERE id = ?",
-  //     [
-  //       user.name,
-  //       user.surname,
-  //       user.faculty,
-  //       user.grade,
-  //       user.ugroup,
-  //       user.email,
-  //       user.password,
-  //       user.profileImageName,
-  //       user.profileImageType,
-  //       user.isAdmin,
-  //       user.isValidated,
-  //       user.id,
-  //     ],
-  //     (err, result) => {
-  //       if (err) {
-  //         callback(err);
-  //       } else {
-  //         callback(null);
-  //       }
-  //     }
-  //   );
-  // }
+  updateUser(user, callback) {
+    console.log(user.password);
+    this.pool.query(
+      "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, email = ?, password = ? WHERE id = ?",
+      [
+        user.name,
+        user.surname,
+        user.email,
+        user.password,
+        user.id,
+      ],
+      (err, result) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null);
+        }
+      }
+    );
+  }
 
   searchUsers(query, isAdmin, isValidated, facultyId, callback) {
     this.pool.query(

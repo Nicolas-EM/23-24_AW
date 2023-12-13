@@ -213,7 +213,7 @@ $("#updateUser").on("submit", e => {
     e.preventDefault();
     $.ajax({
         method: "POST",
-        url: `/users/update`,
+        url: `/users/role`,
         data: {
             _csrf: $("#csrfToken").val(),
             userId: $("#userId").val(),
