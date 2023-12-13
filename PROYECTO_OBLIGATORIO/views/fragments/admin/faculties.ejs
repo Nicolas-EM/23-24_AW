@@ -32,7 +32,7 @@
       <div class="modal-body">
         <form method="post" action="/faculties/create" id ="newFacultyForm">
           <div class="mb-3">
-            <label for="facultyName" class="form-label">Faculty Name</label>
+            <label for="facultyNameInput" class="form-label">Faculty Name</label>
             <input type="text" class="form-control" id="facultyNameInput" placeholder="Enter faculty name">
           </div>
           <!-- Add more form fields here if needed -->
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-body">
         <form method="post" action="/faculties/update" id ="editFacultyForm">
-          <input type="number" id="editFacultyId" value="" class="d-none">
+          <input type="hidden" id="editFacultyId" value="">
           <div class="mb-3">
             <label for="editFacultyName" class="form-label">Faculty Name</label>
             <input type="text" class="form-control" id="editFacultyName" placeholder="Enter faculty name">

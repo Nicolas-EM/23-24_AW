@@ -5,7 +5,7 @@
     <!-- Search bar -->
     <form id="userSearchForm" class="m-3">
       <div class="input-group justify-content-center">
-        <input type="text" class="form-control" id="userSearchQuery" name="userSearchQuery" placeholder="Search users">
+        <input type="text" class="form-control" id="userSearchQuery" name="userSearchQuery" placeholder="Search users" title="Search users">
 
         <!-- Search -->
         <div class="btn-group">
@@ -61,6 +61,8 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Faculty</th>
+            <th>Grade</th>
+            <th>Group</th>
             <th class="d-none">Role</th>
             <th class="d-none">Validated</th>
             <th>Options</th>
@@ -79,7 +81,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <form id="updateUser">
-        <input class="d-none" id="userId" value="">
+        <input type="hidden" id="userId" value="">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="userSettingsModalLabel">Settings</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

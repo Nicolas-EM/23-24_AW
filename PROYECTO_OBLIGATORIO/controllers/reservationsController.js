@@ -1,10 +1,12 @@
 "use strict";
+const { validationResult } = require("express-validator");
 const pool = require("../db/pool");
 const DAOReservations = require("../db/DAOReservations");
-const { validationResult } = require("express-validator");
-const DAOInstallations = require("../db/DAOInstallations"); // Add this line
-const daoInstallations = new DAOInstallations(pool); // Add this line
+const DAOInstallations = require("../db/DAOInstallations");
+const DAOMessages = require('../db/DAOMessages');
+const daoInstallations = new DAOInstallations(pool);
 const daoReservations = new DAOReservations(pool);
+const daoMessages = new DAOMessages(pool);
 
 class reservationsController {
   getAllReservations(req, res, next) {
@@ -52,6 +54,8 @@ class reservationsController {
     if (!errors.isEmpty()) {
       res.status(400).send(errors.array());
     } else {
+      console.log("request body for deletereservation: ", req.body);
+
       daoReservations.getReservationById(
         req.body.reservaid,
         (err, reservation) => {
@@ -59,22 +63,29 @@ class reservationsController {
             next(err);
           } else {
             if (reservation) {
-              daoReservations.deleteReservation(req.body.reservaid, (err) => {
+              console.log("reservation to delete: ", reservation);
+              daoReservations.deleteReservation(reservation.id, (err) => {
                 if (err) {
                   next(err);
                 } else {
-                  daoReservations.getNextInQueue(reservation, (err, result) => {
+                  console.log("reservation deleted");
+                  daoReservations.getNextInQueue(reservation.instid, (err, result) => {
                     if (err) {
                       next(err);
                     } else {
+                      console.log("result of getNextInQueue: ", result);
                       if (result) {
-                        daoReservations.deleteFromQueue(result, (err) => {
+                        daoReservations.deleteFromQueue(result.id, (err) => {
                           if (err) {
                             next(err);
                           } else {
                             daoReservations.createReservation(result, (err) => {
-                              // TODO: revisar
-                              console.log(result);
+                              daoMessages.createNewMessage(1, result.id, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
+                                if(err)
+                                  next(err);
+                                else
+                                  console.log("Message send");
+                              });
                             });
                           }
                         });
@@ -122,6 +133,7 @@ class reservationsController {
         userid: req.session.userId,
         instid: req.body.installationId,
       };
+      console.log("esta es la reserva para poner en cola: ",reservation);
       daoReservations.checkUserReservation(reservation, (err, result) => {
         if (err) {
           next(err);

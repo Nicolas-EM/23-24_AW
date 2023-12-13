@@ -42,7 +42,7 @@ class DAOReservations {
 
   checkUserQueue(reservation, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ?",
+      "SELECT * FROM ucm_aw_riu_queue WHERE userid = ? AND instid = ?",
       [reservation.userid, reservation.instid],
       (err, rows) => {
         if (err) {
@@ -66,6 +66,7 @@ class DAOReservations {
         if (err) {
           callback(err);
         } else {
+          console.log("rows de la bd: ", rows);
           if (rows.length === 0) {
             callback(null, null); // No reservation found with the given id
           } else {
@@ -107,8 +108,8 @@ class DAOReservations {
 
   checkUserReservation(reservation, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ? AND dateini = ? AND dateend = ?",
-      [reservation.userid, reservation.instid, reservation.dateini, reservation.dateend],
+      "SELECT * FROM ucm_aw_riu_res_reservations WHERE userid = ? AND instid = ? AND dateini = ?",
+      [reservation.userid, reservation.instid, reservation.dateini],
       (err, rows) => {
         if (err) {
           callback(err);

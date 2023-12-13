@@ -1,32 +1,22 @@
 # TODO
 
 ## SQL
-- [ ] Añadir reservas (a fecha de la semana que viene para que sean reales)
-
-## Mensajes
-- [ ] Enviar mensaje al salir de la cola
+- [ ] Añadir reservas
+    - [ ] Reservas esta semana (futuro)
+    - [ ] Reservas en pasado
 
 ## Otros
 - [ ] Comprobar user isValidated al crear reserva
-- [X] Enviar mensaje al validar (Envío de correo de validación de usuario)
-- [X] añadir icono al tab
-- [X] filter by type and capacity (DASHBOARD)
-
-## /admin
-- [ ] Listado usuario: mostrar grupo + curso
-- [X] Mejorar historial usuario (mostrar nombre instalacion)
-- [X    ] Mejorar historial installation (mostrar nombre de usuario)
-- [X] Stats --> listado reservas
+- [ ] Comprobar mensaje al salir de lista de espera
 
 ## /user
-- [X] Mostrar reservas
-- [ ] que al cancelar el siguiente de la cola se le asigne (testear)
+- [ ] Comprobar que se puede actualizar un usuario (excepto facultad, grupo y curso)
+- [ ] Mostrar facultad, grupo, curso
+- [ ] Comprobar diferencia entre reservas pasadas, futuras
+- [ ] Mostrar reservas en lista de espera
 
 ## Prioridad baja
 - [ ] Crear tabla grupo / curso y poder crear/modificar en /admin
-- [ ] Mostrar grupo / curso en usuarios en /admin
-- [ ] newMessageModal: Testear msg a usuario y facultad 
-
 
 ### Ultimas cosas
 - [ ] Testear responsive

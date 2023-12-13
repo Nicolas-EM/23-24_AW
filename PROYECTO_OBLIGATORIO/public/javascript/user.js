@@ -50,7 +50,6 @@ $("#updateUserForm").on("submit", (e) => {
   const currentPassword = $("#currentPasswordInput").val();
   const newPassword = $("#newPassword").val();
   const newPasswordConfirm = $("#newPasswordConfirm").val();
-  const userId = $("#userId").val();
   
   $.ajax({
     method: "POST",
@@ -62,11 +61,10 @@ $("#updateUserForm").on("submit", (e) => {
       currentPassword,
       newPassword,
       newPasswordConfirm,
-      userId
     },
     success: function (data) {
-      $("#toastMsg").html("Exito: Usuario actualizado");
-        toast.show();
+      $("#toastMsg").html("Success: User updated");
+      toast.show();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $("#toastMsg").html(jqXHR.responseText);
@@ -104,7 +102,7 @@ $("#cancelReservaForm").on("submit", e => {
       $('#cancelModal').modal('hide');
       // Remove the reservation from the DOM
 
-      $(`#${reservaid}`).remove();
+      $(`#${reservaid}`).closest('.col').remove();
     },
     error: function (jqXHR) {
       $("#toastMsg").html(jqXHR.responseText);

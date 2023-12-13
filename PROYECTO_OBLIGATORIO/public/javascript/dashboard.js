@@ -242,7 +242,7 @@ $("#hourBtns").on("click", "button", function () {
   console.log("start date: ", newStartDate, "end date: ", endDate);
   $("#startDate").attr("value", newStartDate);
   $("#endDate").attr("value", endDate);
-  if ($(this).hasClass("btn-secondary")) {
+  if ($(this).hasClass("btn-warning")) {
     $.ajax({
       method: "POST",
       url: "/reservations/addToQueue",
