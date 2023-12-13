@@ -39,14 +39,9 @@ class messagesController {
             if(err)
                 next(err);
             else{
-                for(let x in users){
-                    const user = users[x];
-                    daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
-                        if(err)
-                            next(err)
-                    });
-                    const createMessagePromises = users.map(user => {
-                        return new Promise((resolve, reject) => {
+                const createMessagePromises = users.map(user => {
+                    return new Promise((resolve, reject) => {
+                        if(senderId !== user.id && user.id !== 1) {
                             daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
                                 if (err) {
                                     reject(err);
@@ -54,15 +49,17 @@ class messagesController {
                                     resolve(msgId);
                                 }
                             });
-                        });
+                        } else {
+                            resolve();
+                        }
                     });
-        
-                    Promise.all(createMessagePromises).then(() => {
-                        res.send("OK");
-                    }).catch(err => {
-                        next(err);
-                    });
-                }
+                });
+    
+                Promise.all(createMessagePromises).then(() => {
+                    res.send("OK");
+                }).catch(err => {
+                    next(err);
+                });
             }
         })
     }
@@ -77,13 +74,17 @@ class messagesController {
             else{
                 const createMessagePromises = users.map(user => {
                     return new Promise((resolve, reject) => {
-                        daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                resolve(msgId);
-                            }
-                        });
+                        if(senderId !== user.id && user.id !== 1) {
+                            daoMessages.createNewMessage(senderId, user.id, message, (err, msgId) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(msgId);
+                                }
+                            });
+                        } else {
+                            resolve();
+                        }
                     });
                 });
     
