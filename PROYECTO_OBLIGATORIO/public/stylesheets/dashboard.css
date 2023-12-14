@@ -2,6 +2,10 @@
   border: 0;
 }
 
+#noResults {
+  min-height: 75vh;
+}
+
 .installations img {
   aspect-ratio: 1.05 / 1;
   max-height: 400px;

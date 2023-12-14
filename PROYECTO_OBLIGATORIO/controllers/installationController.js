@@ -5,16 +5,28 @@ const { validationResult } = require("express-validator");
 const pool = require("../db/pool");
 const DAOInstallations = require("../db/DAOInstallations");
 const DAOFaculties = require("../db/DAOFaculties");
+const DAOUsers = require("../db/DAOUsers");
 const daoInstallations = new DAOInstallations(pool);
 const daoFaculties = new DAOFaculties(pool);
+const daoUsers = new DAOUsers(pool);
 
 class installationController {
   getInstallations(req, res, next) {
-    daoInstallations.getAllInstallations((err, installations) => {
-      if (err) {
+    daoUsers.getUserById(req.session.userId, (err, user) => {
+      if (err)
         next(err);
-      } else {
-        res.json(installations);
+      else {
+        if (user.isValidated) {
+          daoInstallations.getAllInstallations((err, installations) => {
+            if (err) {
+              next(err);
+            } else {
+              res.json(installations);
+            }
+          });
+        } else {
+          res.status(403).send("User is not validated");
+        }
       }
     });
   }

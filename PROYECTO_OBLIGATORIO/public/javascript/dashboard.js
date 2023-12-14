@@ -16,10 +16,16 @@ function getInstallations() {
         const inst = data[x];
         $("#installations").append(createInstallationCard(inst));
       }
+
+      if(data.length == 0){
+        $("#noResults").removeClass("d-none");
+      }
     },
     error: function (jqXHR, textStatus, errorThrown) {
       $("#toastMsg").html(jqXHR.responseText);
       toast.show();
+
+      $("#noResults").removeClass("d-none");
     },
   });
 }

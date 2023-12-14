@@ -89,8 +89,8 @@ function getChatMessages(chat) {
                                                         <div class="col align-self-end">
                                                             <form id="sendMsgForm${chat.sender_id}">
                                                                 <div class="input-group justify-content-center">
-                                                                    <input type="number" class="d-none" value="${chat.sender_id}" name="recipientId">
-                                                                    <input type="text" class="form-control" id="query" name="query" placeholder="Message">
+                                                                    <input type="hidden" value="${chat.sender_id}" name="recipientId">
+                                                                    <input type="text" class="form-control" id="query" name="query" placeholder="Message" title="Message">
                                                                     
                                                                     <!-- Send Btn -->
                                                                     <button class="btn btn-primary ml-2" type="submit">
@@ -137,7 +137,7 @@ $(document).on("submit", "[id^='sendMsgForm']", e => {
                 $("#toastMsg").html("Message sent");
                 toast.show();
 
-                $(`#messagesRow-${recipientId}`).append(`<span class="mb-2">You: ${message}</span><br>`)
+                $(`#messagesRow-${recipientId}`).append(`<span class="mb-2"><b>You</b>: ${message}</span><br>`)
             },
             error: function (xhr, status, error) {
                 $("#toastMsg").html(xhr.responseText);

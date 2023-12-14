@@ -34,19 +34,23 @@ class userController {
     }
 
     register(req, res, next) {
-        // TODO: revisar esto
-        //express validator
-        // const errors = validationResult(req);
-        // console.log("errores: ", errors);
-        // if (!errors.isEmpty()) {
-        //     return res.status(400).json({ errors: errors.array() });
-        // }
+        const errors = validationResult(req);
+        console.log("errores: ", errors);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
         const { name, surname, faculty, grade, group, email, password } = req.body;
-        const img = req.file;
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashedPassword = bcrypt.hashSync(password, salt);
+
+        let img = req.file;
+        if(img === undefined) {
+            img = null;
+        } else {
+            img = img.buffer;
+        }
 
         daoUser.createUser({ 
             name, 
@@ -56,7 +60,7 @@ class userController {
             ugroup: group, 
             email, 
             password: hashedPassword, 
-            profileImage: img.buffer, 
+            profileImage: img, 
             isAdmin: false, 
             isValidated: false 
         }, function (err, userId) {

@@ -7,7 +7,8 @@ const DAOMessages = require('../db/DAOMessages');
 const daoInstallations = new DAOInstallations(pool);
 const daoReservations = new DAOReservations(pool);
 const daoMessages = new DAOMessages(pool);
-
+const DAOUsers = require('../db/DAOUsers');
+const daoUsers = new DAOUsers(pool);
 class reservationsController {
   getAllReservations(req, res, next) {
     daoReservations.getAllReservations((err, reservations) => {
@@ -28,21 +29,31 @@ class reservationsController {
         dateend: req.body.endDate,
         datecreation: new Date(),
       };
-
-      daoReservations.checkUserReservation(reservation, (err, result) => {
+      daoUsers.getUserById(req.session.userId, (err, user) => {
         if (err) {
           next(err);
         } else {
-          if (!result) {
-            daoReservations.createReservation(reservation, (err) => {
+          if (!user.isValidated) {
+            res.status(403).send("User not validated");
+          }
+          else {
+            daoReservations.checkUserReservation(reservation, (err, result) => {
               if (err) {
                 next(err);
               } else {
-                res.send("You have successfully reserved this installation.");
+                if (!result) {
+                  daoReservations.createReservation(reservation, (err) => {
+                    if (err) {
+                      next(err);
+                    } else {
+                      res.send("You have successfully reserved this installation.");
+                    }
+                  });
+                } else {
+                  res.send("You have already reserved this installation.");
+                }
               }
             });
-          } else {
-            res.send("You have already reserved this installation.");
           }
         }
       });
@@ -54,7 +65,7 @@ class reservationsController {
     if (!errors.isEmpty()) {
       res.status(400).send(errors.array());
     } else {
-      if(req.body.type === "queue"){
+      if (req.body.type === "queue") {
         daoReservations.deleteFromQueue(req.body.reservaid, (err) => {
           if (err) {
             next(err);
@@ -88,7 +99,7 @@ class reservationsController {
                             } else {
                               daoReservations.createReservation(nextInQueue, (err) => {
                                 daoMessages.createNewMessage(1, nextInQueue.userid, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
-                                  if(err)
+                                  if (err)
                                     next(err);
                                   else
                                     console.log("Message send");
@@ -141,7 +152,7 @@ class reservationsController {
         userid: req.session.userId,
         instid: req.body.installationId,
       };
-      console.log("esta es la reserva para poner en cola: ",reservation);
+      console.log("esta es la reserva para poner en cola: ", reservation);
       daoReservations.checkUserReservation(reservation, (err, result) => {
         if (err) {
           next(err);
@@ -243,21 +254,21 @@ class reservationsController {
                           if (userTimeSlots[j].userR === 1) {
                             times[timeSlots[i].timeSlot] = "userReserved";
                           } else {
-                            if(installation.type === 0){
+                            if (installation.type === 0) {
                               if (timeSlots[i].numReservations > 0) {
                                 times[timeSlots[i].timeSlot] = "occupied";
                               } else {
                                 times[timeSlots[i].timeSlot] = "free";
                               }
                             }
-                            else{
+                            else {
                               if (timeSlots[i].numReservations >= installation.capacity) {
                                 times[timeSlots[i].timeSlot] = "occupied";
                               } else {
                                 times[timeSlots[i].timeSlot] = "free";
                               }
                             }
-                            
+
                           }
                           break; // Exit the inner loop once a match is found
                         }

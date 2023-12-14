@@ -60,15 +60,15 @@
                                         <div class="row row-cols-1 h-100 align-items-center">
                                             <!-- Name -->
                                             <div class="col mb-3">
-                                                <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Name" title="Name">
+                                                <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Name" title="Name" required>
                                             </div>
                                             <!-- Surname -->
                                             <div class="col mb-3">
-                                                <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Surname" title="Surname">
+                                                <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Surname" title="Surname" required>
                                             </div>
                                             <!-- Email -->
                                             <div class="col">
-                                                <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email" title="Email">
+                                                <input type="email" id="emailInput2" class="form-control form-control-lg" placeholder="Email" title="Email" required>
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +76,7 @@
                                 <!-- ACDM info -->
                                 <div class="row">
                                     <div class="col-md-4  mb-3">
-                                        <select id="facultyInput" class="form-control form-control-lg">
+                                        <select id="facultyInput" class="form-control form-control-lg" required>
                                             <option value="" selected disabled hidden>Faculty</option>
                                             <% faculties.forEach(function(faculty) { %>
                                             <option value="<%= faculty.id %>">
@@ -86,7 +86,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
-                                        <select id="gradeInput" class="form-control form-control-lg">
+                                        <select id="gradeInput" class="form-control form-control-lg" required>
                                             <option value="" selected disabled hidden>Grade</option>
                                             <% grades.forEach(function(grade) { %>
                                             <option value="<%= grade.grade %>">
@@ -96,7 +96,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4  mb-3">
-                                        <select id="groupInput" class="form-control form-control-lg">
+                                        <select id="groupInput" class="form-control form-control-lg" required>
                                             <option value="" selected disabled hidden>Group</option>
                                             <% groups.forEach(function(group) { %>
                                             <option value="<%= group.ugroup %>">
@@ -116,7 +116,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <input type="password" id="registrationPassword" class="form-control form-control-lg password-input" placeholder="Password" title="password">
+                                            <input type="password" id="registrationPassword" class="form-control form-control-lg password-input" placeholder="Password" title="password" required>
                                             <button class="btn btn-outline-light show-password-btn" type="button">Show</button>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <input type="password" id="registrationPasswordConfirm" class="form-control form-control-lg password-input" placeholder="Password Confirmation" title="Password confirmation">
+                                            <input type="password" id="registrationPasswordConfirm" class="form-control form-control-lg password-input" placeholder="Password Confirmation" title="Password confirmation" required>
                                             <button class="btn btn-outline-light show-password-btn" type="button">Show</button>
                                         </div>
                                     </div>
