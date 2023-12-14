@@ -57,6 +57,23 @@ class DAOReservations {
       }
     );
   }
+  getAllUserQueue(userid, callback) {
+    this.pool.query(
+      "SELECT * FROM ucm_aw_riu_queue WHERE userid = ? ORDER BY datecreation ASC",
+      [userid],
+      (err, rows) => {
+        if (err) {
+          callback(err);
+        } else {
+          if (rows.length === 0) {
+            callback(null, []); // No reservation found with the given id
+          } else {
+            callback(null, rows);
+          }
+        }
+      }
+    );
+  }
 
   getNextInQueue(instid, callback) {
     this.pool.query(

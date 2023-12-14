@@ -185,10 +185,31 @@ Proyecto Obligatorio AW
               </div>
             </div>
             <% }); %>
-          </div>
+            <% queue.forEach(q => { %>
+              <div class="col">
+                <div class="card h-100 w-100" id="<%- q.id%>">
+                  <!-- Img row -->
+                  <div class="rounded">
+                    <!-- hace falta guardar el formato tambien!-->
+                    <img src="<%- `installations/image/${q.instid}` %>" class="rounded d-block w-100  zoom-on-hover userInstClass" alt="Installation Image">
+                  </div>
+                  <!-- Card Footer -->
+                  <div class="card-footer">
+                    <div class="row justify-content-center">
+                      <span class="badge badge-warning">QUEUED FOR INSTALLATION</span>
+                      <p class="reservation-date text-center mt-2 mb-0"> <!-- Add the 'text-center' class -->
+                        <%= q.dateini.toLocaleString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' })%>
+                        <%= "- " + (q.dateini.getHours() + 1) + ":" + q.dateini.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2}) %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
         </div>
       </div>
-    </section>
+  </div>
+  </section>
   </div>
 
   <!-- cancel modal-->

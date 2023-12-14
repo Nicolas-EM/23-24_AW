@@ -137,8 +137,14 @@ app.get("/user", (req, res, next) => {
             if (err)
               next(err);
             else{
-              res.status(200).render("user", { user, reservations, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org,reservations });
-            }
+              daoReservations.getAllUserQueue(req.session.userId, (err, queue) => {
+                if (err)
+                  next(err);
+                else
+                
+                  res.render("user", { user, reservations, queue, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org,reservations,queue});
+              });
+             }
              
           });
         }

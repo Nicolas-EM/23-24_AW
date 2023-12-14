@@ -5,7 +5,10 @@
 }
 
 #reservationsUser .badge{
-    background-color: var(--primary-blue);
+    background-color: #fbbc05;
+}
+.badge{
+    height: 26px;
 }
 
 .userInstClass{
