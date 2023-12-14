@@ -140,10 +140,9 @@ app.get("/user", (req, res, next) => {
               daoReservations.getAllUserQueue(req.session.userId, (err, queue) => {
                 if (err)
                   next(err);
-                else
-                
+                else{
                   res.render("user", { user, reservations, queue, csrfToken: req.csrfToken(), isAdmin: req.session.isAdmin, org,reservations,queue});
-              });
+            }});
              }
              
           });

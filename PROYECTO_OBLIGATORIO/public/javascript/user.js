@@ -77,21 +77,25 @@ $("#cancelModal").on("show.bs.modal", e => {
 
   // Extract info from data-bs-* attributes
   const reservaId = button.getAttribute('data-bs-reservaid');
+  const type = button.getAttribute('data-bs-reservaid');
 
   $("#cancelReservaId").attr("value", reservaId);
+  $("#cancelReservaType").attr("value", type);
 });
 
 $("#cancelReservaForm").on("submit", e => {
   e.preventDefault();
 
   const reservaid= $("#cancelReservaId").val();
+  const type = $("#cancelReservaType").val();
 
   $.ajax({
     method: "POST",
     url: "/reservations/delete",
     data: {
       _csrf: $("#_csrf").val(),
-      reservaid: reservaid
+      reservaid,
+      type
     },
     success: function (data) {
       $("#toastMsg").html(data);
@@ -146,3 +150,17 @@ function checkPasswordsMatch() {
     passwordConfirmInput.style.backgroundColor = "inherit";
   }
 }
+
+$("#reservationTypeFilter").on("change", e => {
+  const newVal = $("#reservationTypeFilter").val();
+
+  if(newVal){
+      // Show new value cols
+    $(`#reservationsCards .col.${newVal}`).removeClass("d-none");
+
+    // hide others
+    $(`#reservationsCards .col:not(.${newVal})`).addClass("d-none");
+  } else {
+    $(`#reservationsCards .col`).removeClass("d-none");
+  }
+});

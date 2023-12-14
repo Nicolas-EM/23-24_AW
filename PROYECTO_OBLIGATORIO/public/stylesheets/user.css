@@ -4,8 +4,11 @@
     max-height: 275px;
 }
 
-#reservationsUser .badge{
+#reservationsUser .badge-warning{
     background-color: #fbbc05;
+}
+#reservationsUser .badge-success{
+    background-color: #34a853;
 }
 .badge{
     height: 26px;

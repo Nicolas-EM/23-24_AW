@@ -57,9 +57,10 @@ class DAOReservations {
       }
     );
   }
+  
   getAllUserQueue(userid, callback) {
     this.pool.query(
-      "SELECT * FROM ucm_aw_riu_queue WHERE userid = ? ORDER BY datecreation ASC",
+      "SELECT r.id, r.dateini, r.dateend, r.datecreation, r.userid, r.instid, i.name AS instname, i.capacity, i.facultyId, f.name AS facultyname FROM ucm_aw_riu_queue r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id WHERE r.userid = ? ORDER BY r.dateini ASC;",
       [userid],
       (err, rows) => {
         if (err) {
@@ -330,7 +331,7 @@ class DAOReservations {
 
   getReservationsByUser(userid, callback) {
     this.pool.query(
-      "SELECT r.id, r.dateini, r.dateend, r.datecreation, r.userid, r.instid, i.name AS instname, i.facultyId, f.name AS facultyname FROM ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id WHERE r.userid = ? ORDER BY r.dateini DESC",
+      "SELECT r.id, r.dateini, r.dateend, r.datecreation, r.userid, r.instid, i.name AS instname, i.capacity, i.facultyId, f.name AS facultyname FROM ucm_aw_riu_res_reservations r JOIN ucm_aw_riu_ins_installations i ON r.instid = i.id JOIN ucm_aw_riu_ins_faculties f ON i.facultyId = f.id WHERE r.userid = ? ORDER BY r.dateini DESC",
       [userid],
       (err, rows) => {
         if (err) {

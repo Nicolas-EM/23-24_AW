@@ -54,53 +54,61 @@ class reservationsController {
     if (!errors.isEmpty()) {
       res.status(400).send(errors.array());
     } else {
-      console.log("request body for deletereservation: ", req.body);
-
-      daoReservations.getReservationById(
-        req.body.reservaid,
-        (err, reservation) => {
+      if(req.body.type === "queue"){
+        daoReservations.deleteFromQueue(req.body.reservaid, (err) => {
           if (err) {
             next(err);
           } else {
-            if (reservation) {
-              console.log("reservation to delete: ", reservation);
-              daoReservations.deleteReservation(reservation.id, (err) => {
-                if (err) {
-                  next(err);
-                } else {
-                  console.log("reservation deleted");
-                  daoReservations.getNextInQueue(reservation.instid, (err, nextInQueue) => {
-                    if (err) {
-                      next(err);
-                    } else {
-                      console.log("result of getNextInQueue: ", nextInQueue);
-                      if (nextInQueue) {
-                        daoReservations.deleteFromQueue(nextInQueue.id, (err) => {
-                          if (err) {
-                            next(err);
-                          } else {
-                            daoReservations.createReservation(nextInQueue, (err) => {
-                              daoMessages.createNewMessage(1, nextInQueue.userid, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
-                                if(err)
-                                  next(err);
-                                else
-                                  console.log("Message send");
-                              });
-                            });
-                          }
-                        });
-                      }
-                    }
-                  });
-                  res.send("You have successfully deleted this reservation.");
-                }
-              });
+            res.send("OK");
+          }
+        });
+      } else {
+        daoReservations.getReservationById(
+          req.body.reservaid,
+          (err, reservation) => {
+            if (err) {
+              next(err);
             } else {
-              res.send("This reservation does not exist.");
+              if (reservation) {
+                console.log("reservation to delete: ", reservation);
+                daoReservations.deleteReservation(reservation.id, (err) => {
+                  if (err) {
+                    next(err);
+                  } else {
+                    console.log("reservation deleted");
+                    daoReservations.getNextInQueue(reservation.instid, (err, nextInQueue) => {
+                      if (err) {
+                        next(err);
+                      } else {
+                        console.log("result of getNextInQueue: ", nextInQueue);
+                        if (nextInQueue) {
+                          daoReservations.deleteFromQueue(nextInQueue.id, (err) => {
+                            if (err) {
+                              next(err);
+                            } else {
+                              daoReservations.createReservation(nextInQueue, (err) => {
+                                daoMessages.createNewMessage(1, nextInQueue.userid, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
+                                  if(err)
+                                    next(err);
+                                  else
+                                    console.log("Message send");
+                                });
+                              });
+                            }
+                          });
+                        }
+                      }
+                    });
+                    res.send("You have successfully deleted this reservation.");
+                  }
+                });
+              } else {
+                res.send("This reservation does not exist.");
+              }
             }
           }
-        }
-      );
+        );
+      }
     }
   }
 

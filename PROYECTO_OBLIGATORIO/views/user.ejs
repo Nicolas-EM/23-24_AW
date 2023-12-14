@@ -24,7 +24,7 @@ Proyecto Obligatorio AW
   <div class="container-fluid p-0 mb-3">
     <section class="userBg">
       <input type="file" id="imageUpload" accept="image/*" class="d-none">
-      <div class="container py-5">
+      <div class="container pt-3">
         <div class="row g-2">
           <div class="col-lg-4">
             <div class="card rounded h-100">
@@ -144,7 +144,7 @@ Proyecto Obligatorio AW
   </div>
   <div class="container-fluid p-0" id="reservationsUser">
     <section class="userBg">
-      <div class="container py-5">
+      <div class="container py-3">
         <div class="row g-2">
           <h2 class="text-center"> Reservations: </h2>
           <% if(reservations.length === 0) { %> <!-- If there are no reservations -->
@@ -159,22 +159,66 @@ Proyecto Obligatorio AW
           </div>
           <% } %>
 
-          <div id="reservationsCards" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+          <div class="row row-cols-1 justify-content-center my-2">
+            <div class="col col-sm-4 text-center">
+              <label for="reservationTypeFilter" class="form-label mt-1">Filter Reservations:</label>
+            </div>
+            <div class="col col-sm-4 mb-2">
+                <select id="reservationTypeFilter" class="form-control">
+                    <option value="" selected>All</option>
+                    <option value="future">Future</option>
+                    <option value="queue">Waiting List</option>
+                    <option value="past">Past</option>
+                </select>
+            </div>
+          </div>
+          <div id="reservationsCards" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-2">
+            <% queue.forEach(q => { %>
+              <div class="col queue">
+                <div class="card h-100 w-100" id="<%- q.id%>">
+                  <!-- Img row -->
+                  <div class="rounded">
+                    <!-- hace falta guardar el formato tambien!-->
+                    <img src="<%- `installations/image/${q.instid}` %>" class="rounded d-block w-100  zoom-on-hover userInstClass" alt="Installation Image">
+                  </div>
+                  <div class="card-body pb-1">
+                    <h5><%= q.instname %></h5>
+                    <h6><%= q.facultyname %></h6>
+                    <p class="mb-2">Capacity: <%= q.capacity %></p>
+                  </div>
+                  <!-- Card Footer -->
+                  <div class="card-footer">
+                    <div class="row justify-content-center">
+                      <button class="btn btn-warning" data-bs-reservaid="<%- q.id %>" data-bs-type="queue" data-bs-target="#cancelModal" data-bs-toggle="modal">In Waiting List</button>
+                      <p class="reservation-date text-center mt-2 mb-0"> <!-- Add the 'text-center' class -->
+                        <%= q.dateini.toLocaleString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' })%>
+                        <%= "- " + (q.dateini.getHours() + 1) + ":" + q.dateini.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2}) %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
             <% reservations.forEach(reservation => { %>
-            <div class="col">
+            <div class="col <%= `${(reservation.dateini >= new Date()) ? 'future' : 'past'}`%>">
               <div class="card h-100 w-100" id="<%- reservation.id%>">
                 <!-- Img row -->
                 <div class="rounded">
                   <!-- hace falta guardar el formato tambien!-->
                   <img src="<%- `installations/image/${reservation.instid}` %>" class="rounded d-block w-100  zoom-on-hover userInstClass" alt="Installation Image">
                 </div>
+                <div class="card-body pb-1">
+                  <h5><%= reservation.instname %></h5>
+                  <h6><%= reservation.facultyname %></h6>
+                  <p class="mb-2">Capacity: <%= reservation.capacity %></p>
+                </div>
                 <!-- Card Footer -->
                 <div class="card-footer">
                   <div class="row justify-content-center">
                     <% if (reservation.dateini >= new Date()) { %>
-                    <button class="btn btn-primary" data-bs-reservaid="<%- reservation.id %>" data-bs-target="#cancelModal" data-bs-toggle="modal">PENDING</button>
+                    <button class="btn btn-primary" data-bs-reservaid="<%- reservation.id %>" data-bs-target="#cancelModal" data-bs-toggle="modal">Confirmed</button>
                     <% } else { %>
-                    <span class="badge badge-success">COMPLETED</span>
+                    <button class="btn btn-success" disabled>Completed</button>
                     <% } %>
                     <p class="reservation-date text-center mt-2 mb-0"> <!-- Add the 'text-center' class -->
                       <%= reservation.dateini.toLocaleString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' })%>
@@ -185,27 +229,7 @@ Proyecto Obligatorio AW
               </div>
             </div>
             <% }); %>
-            <% queue.forEach(q => { %>
-              <div class="col">
-                <div class="card h-100 w-100" id="<%- q.id%>">
-                  <!-- Img row -->
-                  <div class="rounded">
-                    <!-- hace falta guardar el formato tambien!-->
-                    <img src="<%- `installations/image/${q.instid}` %>" class="rounded d-block w-100  zoom-on-hover userInstClass" alt="Installation Image">
-                  </div>
-                  <!-- Card Footer -->
-                  <div class="card-footer">
-                    <div class="row justify-content-center">
-                      <span class="badge badge-warning">QUEUED FOR INSTALLATION</span>
-                      <p class="reservation-date text-center mt-2 mb-0"> <!-- Add the 'text-center' class -->
-                        <%= q.dateini.toLocaleString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' })%>
-                        <%= "- " + (q.dateini.getHours() + 1) + ":" + q.dateini.getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2}) %>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <% }); %>
+            
         </div>
       </div>
   </div>
@@ -228,6 +252,7 @@ Proyecto Obligatorio AW
           <form id="cancelReservaForm" method="POST" action="/reservations/delete">
             <input id="_csrf" type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" value="" id="cancelReservaId">
+            <input type="hidden" value="" id="cancelReservaType">
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
         </div>

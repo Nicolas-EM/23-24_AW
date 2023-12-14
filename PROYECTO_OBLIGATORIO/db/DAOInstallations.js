@@ -15,7 +15,7 @@ class DAOInstallations {
           callback(err);
         } else {
           if (rows.length === 0) {
-            callback(null, null); // No installation found with the given id
+            callback(null, []); // No installation found with the given id
           } else {
             callback(null, rows[0]);
           }
