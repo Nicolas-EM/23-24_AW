@@ -22,6 +22,7 @@ function getInstallations() {
     });
 }
 
+// Create installation html
 function createInstallationRow(installation) {
     return `<tr id="instRow-${installation.id}">
                 <td>${installation.name}</td>
@@ -39,6 +40,7 @@ function createInstallationRow(installation) {
             </tr>`;
 }
 
+// Image event listener
 $("#insImage").on("click", function() {
     $("#installationImageInput").change(function() {
         const file = this.files[0];
@@ -51,6 +53,7 @@ $("#insImage").on("click", function() {
     $("#installationImageInput").click();
 });
 
+// AJAX - Create installation 
 function createInstallation() {
     let formData = new FormData();
 
@@ -89,11 +92,13 @@ function createInstallation() {
     });
 }
 
+// New installation event listener
 $("#newInstallationForm").on("submit", function(e) {
     e.preventDefault();
     createInstallation();
 });
 
+// Clear modal on hide
 $("#newInstallationModal").on("hide.bs.modal", e => {
     $("#installationName").val("");
     $("#installationFaculty").val(1);
@@ -101,6 +106,7 @@ $("#newInstallationModal").on("hide.bs.modal", e => {
     $("#installationType").val(0);
 });
 
+// Update shared modal on open
 $("#installationSettingsModal").on("show.bs.modal", e => {
     const button = e.relatedTarget
     // Extract info from data-bs-* attributes
@@ -125,6 +131,7 @@ $("#installationSettingsModal").on("show.bs.modal", e => {
     });
 });
 
+// Edit image event listener
 $("#editInstallationImg").on("click", function() {
     $("#editInstallationImageInput").change(function() {
         const file = this.files[0];
@@ -137,6 +144,7 @@ $("#editInstallationImg").on("click", function() {
     $("#editInstallationImageInput").click();
 });
 
+// AJAX - update installation
 $("#updateInstallationForm").on("submit", function(e) {
     e.preventDefault();
     
@@ -179,6 +187,7 @@ $("#updateInstallationForm").on("submit", function(e) {
     });
 });
 
+// Update shared modal on open
 $("#installationHistoryModal").on("show.bs.modal", e => {
     const button = e.relatedTarget
     // Extract info from data-bs-* attributes
@@ -210,6 +219,7 @@ $("#installationHistoryModal").on("show.bs.modal", e => {
     });
 });
 
+// Create installation history html
 function createHistoryRow(reservation) {
     return `<tr>
                 <td>${reservation.userName} ${reservation.userSurname}</td>

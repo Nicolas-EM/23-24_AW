@@ -1,6 +1,8 @@
 const passwordInput = document.getElementById("registrationPassword");
 const passwordInput2 = document.getElementById("registrationPasswordConfirm");
 
+// START: Swap behaviour controlls
+
 $("#registerBtn").on("click", () => {
     clearSignIn();
     $('#accountImg').attr('src', "/images/person-circle.svg");
@@ -35,6 +37,7 @@ function clearSignIn() {
     $("#emailInput").val("");
     $("#passwordInput").val("");
 }
+// END: Swap behaviour controlls
 
 //ambos passwordfields se ponen en texto plano o se quitan el texto plano
 $(".show-password-btn").on("click", e => {
@@ -160,6 +163,7 @@ function passwordIsValid(password) {
     return passwordRegex.test(password);
 }
 
+// Picture input control
 $("#pictureInput").on("change", function () {
     if (this.files && this.files[0]) {
         const file = this.files[0];

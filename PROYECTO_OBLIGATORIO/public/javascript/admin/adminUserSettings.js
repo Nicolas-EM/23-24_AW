@@ -136,6 +136,8 @@ $("#userSettingsModal").on("show.bs.modal", e => {
 
             if (user.isValidated === 0) {
                 $("#validation").removeClass("d-none");
+            } else {
+                $("#validation").addClass("d-none");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

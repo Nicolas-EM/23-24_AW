@@ -22,6 +22,7 @@ function getFaculties() {
   });
 }
 
+// Create faculty html
 function createFacultyRow(faculty) {
   return `<tr id="fRow-${faculty.id}">
                 <td>${faculty.id}</td>
@@ -34,11 +35,13 @@ function createFacultyRow(faculty) {
             </tr>`;
 }
 
+// Create new faculty event listener
 $("#newFacultyForm").on("submit", (e) => {
   e.preventDefault();
   newFaculty();
 });
 
+// AJAX - create new faculty
 function newFaculty() {
   const facultyName = $("#facultyNameInput").val();
   const _csrf = $("#csrfToken").val();
@@ -65,6 +68,7 @@ function newFaculty() {
   });
 }
 
+// Update shared modal on show
 $("#editFacultyModal").on("show.bs.modal", (e) => {
   const button = e.relatedTarget;
   // Extract info from data-bs-* attributes
@@ -75,6 +79,7 @@ $("#editFacultyModal").on("show.bs.modal", (e) => {
   $("#editFacultyName").attr("value", facultyName);
 });
 
+// AJAX - edit faculty
 $("#editFacultyForm").on("submit", e => {
   e.preventDefault();
 

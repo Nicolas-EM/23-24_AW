@@ -71,6 +71,7 @@ $("#updateUserForm").on("submit", (e) => {
   });
 });
 
+// Update hidden fields on show
 $("#cancelModal").on("show.bs.modal", e => {
 
   const button = e.relatedTarget
@@ -83,6 +84,7 @@ $("#cancelModal").on("show.bs.modal", e => {
   $("#cancelReservaType").attr("value", type);
 });
 
+// AJAX - cancel reserva
 $("#cancelReservaForm").on("submit", e => {
   e.preventDefault();
 
@@ -151,6 +153,7 @@ function checkPasswordsMatch() {
   }
 }
 
+// Reservation filters
 $("#reservationTypeFilter").on("change", e => {
   const newVal = $("#reservationTypeFilter").val();
 

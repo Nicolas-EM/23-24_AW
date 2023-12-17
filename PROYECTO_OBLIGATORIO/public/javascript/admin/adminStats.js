@@ -20,6 +20,7 @@ function getStatsByUser() {
     });
 }
 
+// Load stats
 function getStatsByFaculty() {
     $.ajax({
         method: "GET",
@@ -39,6 +40,7 @@ function getStatsByFaculty() {
     });
 }
 
+// Create html
 function createStatRow(obj){
     return `<tr>
                 <td>${obj.name}</td>

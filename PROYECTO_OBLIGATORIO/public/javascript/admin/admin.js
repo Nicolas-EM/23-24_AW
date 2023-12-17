@@ -16,6 +16,7 @@ $(".collapse").on('hide.bs.collapse', e => {
         .addClass('rotated');
 });
 
+// Update tabs on show
 $('div[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     if(event.target.id === "pills-users-tab"){
         createUserFacultyFilters();

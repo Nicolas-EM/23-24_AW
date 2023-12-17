@@ -1,3 +1,4 @@
+// AJAX - Image upload
 $("#orgImgUpload").on("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -46,6 +47,7 @@ $("#orgImgUpload").on("change", (e) => {
     }
 });
 
+// AJAX - update org details
 $("#updateOrgForm").on("submit", e => {
     e.preventDefault();
 

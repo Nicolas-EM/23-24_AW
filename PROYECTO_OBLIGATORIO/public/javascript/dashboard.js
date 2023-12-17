@@ -1,9 +1,11 @@
 "use strict";
 
-$(document).ready(function () {
+// On load
+$(() => {
   getFaculties();
 });
 
+// AJAX - Called on document load
 function getInstallations() {
   $("#noResults").addClass("d-none");
 
@@ -30,6 +32,7 @@ function getInstallations() {
   });
 }
 
+// Create html tempalte
 function createInstallationCard(inst) {
   return `<div class="col">
                 <div class="card h-100 w-100" data-bs-toggle="modal" data-bs-target="#reservationModal" data-bs-installationid="${inst.id}">
@@ -66,10 +69,12 @@ function createInstallationCard(inst) {
             </div>`;
 }
 
+// numID to String
 function getFacultyNameFromId(id) {
   return $(`#facultyFilter`).find(`[value='${id}']`).text().trim();
 }
 
+// AJAX - Populate filter
 function getFaculties() {
   $.ajax({
     method: "GET",
@@ -93,6 +98,7 @@ function getFaculties() {
   });
 }
 
+// Search button on click
 function performSearch() {
   scroll = false;
 
@@ -143,11 +149,13 @@ function performSearch() {
   }
 }
 
+// Search event listener
 $("#searchForm").on("submit", (event) => {
   event.preventDefault();
   performSearch();
 });
 
+// Reservation calendar - creation
 $("#calendar").daterangepicker(
   {
     singleDatePicker: true,
@@ -173,6 +181,7 @@ $("#calendar").daterangepicker(
   }
 );
 
+// Reservation calendar - on apply date
 $("#calendar").on("apply.daterangepicker", function (ev, picker) {
   ev.preventDefault();
   $("#hourBtns").empty();
@@ -234,6 +243,7 @@ $("#calendar").on("apply.daterangepicker", function (ev, picker) {
   });
 });
 
+// Update selected hours
 $("#hourBtns").on("click", "button", function () {
   const selectedTime = $(this).val();
   const startDate = $('#startDate').val();
@@ -274,6 +284,25 @@ $("#hourBtns").on("click", "button", function () {
   }
 });
 
+// Clear modal
+$("#reservationModal").on("show.bs.modal", (event) => {
+  $("#calendar").attr("value", "");
+  $("#calendar").attr("placeholder", "Select a date");
+  $("#hourBtns").empty();
+
+  // creo que es esto pero no estoy seguro
+  const installationId = $(event.relatedTarget).data("bs-installationid");
+
+  $("#installationId").attr("value", installationId);
+});
+
+// AJAX - new reservation event
+$("#reservationForm").on("submit", (e) => {
+  e.preventDefault();
+  newReservation();
+});
+
+// AJAX - create reservation
 function newReservation() {
   const _csrf = $("#_csrf").val();
   const installationId = $("#installationId").val();
@@ -309,19 +338,3 @@ function newReservation() {
     },
   });
 }
-
-$("#reservationModal").on("show.bs.modal", (event) => {
-  $("#calendar").attr("value", "");
-  $("#calendar").attr("placeholder", "Select a date");
-  $("#hourBtns").empty();
-
-  // creo que es esto pero no estoy seguro
-  const installationId = $(event.relatedTarget).data("bs-installationid");
-
-  $("#installationId").attr("value", installationId);
-});
-
-$("#reservationForm").on("submit", (e) => {
-  e.preventDefault();
-  newReservation();
-});

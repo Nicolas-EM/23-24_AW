@@ -1,9 +1,11 @@
 const toast = bootstrap.Toast.getOrCreateInstance($("#liveToast")[0]);
 
+// Logout control
 $("#logout").on("click", e => {
     $("#logoutForm").trigger("submit");
 });
 
+// Load chats on modal show
 $("#mailModal").on("show.bs.modal", e => {
     $("#noMessages").removeClass("d-none");
     $("#selectChat").addClass("d-none");
@@ -34,7 +36,7 @@ $("#mailModal").on("show.bs.modal", e => {
     });
 });
 
-
+// Create chat tabs event listeners
 function createTabsEventListener() {
     $('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
         if (event.target.id.includes("sender-")) {
@@ -43,6 +45,7 @@ function createTabsEventListener() {
     });
 };
 
+// Create chat html
 function createChat(chat) {
     // Create recipient
     $("#recipientsRow").prepend(`<div role="presentation" class="border-bottom rounded">
@@ -57,6 +60,7 @@ function createChat(chat) {
                                 </div>`);
 };
 
+// AJAX - get message from chatId
 function getChatMessages(chat) {
     $.ajax({
         url: `/messages/chats/${chat.sender_id}`,
@@ -110,6 +114,7 @@ function getChatMessages(chat) {
     });
 };
 
+// New message from chat tab
 $(document).on("submit", "[id^='sendMsgForm']", e => {
     e.preventDefault();
 
@@ -147,6 +152,7 @@ $(document).on("submit", "[id^='sendMsgForm']", e => {
     }
 });
 
+// New message modal - load recipients
 $("#newMessageModal").on("show.bs.modal", e => {
     $("#recipientsDataList").empty();
 
@@ -229,12 +235,14 @@ $("#newMessageModal").on("show.bs.modal", e => {
     }
 });
 
+// New message modal - clear on hide
 $("#newMessageModal").on("hide.bs.modal", e => {
     // clear modal
     $("#recipient").val("");
     $("#message").val("");
 });
 
+// AJAX - new message
 const newMessageModal = bootstrap.Modal.getOrCreateInstance("#newMessageModal");
 $("#newMessageForm").on("submit", e => {
     e.preventDefault();

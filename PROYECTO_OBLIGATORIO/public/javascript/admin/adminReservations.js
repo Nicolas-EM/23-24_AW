@@ -1,11 +1,13 @@
 "use strict";
 
+// Load reservations tab
 function setReservationsSearch() {
   createReservationFacultyFilters();
   createReservationInstallationFilters();
   getAllReservations();
 }
 
+// AJAX - Create faculty search filters
 function createReservationFacultyFilters() {
   $.ajax({
     method: "GET",
@@ -28,6 +30,7 @@ function createReservationFacultyFilters() {
   });
 }
 
+// AJAX - Create installation search filters
 function createReservationInstallationFilters() {
   $.ajax({
     method: "GET",
@@ -50,6 +53,7 @@ function createReservationInstallationFilters() {
   });
 }
 
+// AJAX - get reservations
 function getAllReservations() {
   $.ajax({
     method: "GET",
@@ -71,6 +75,7 @@ function getAllReservations() {
   });
 }
 
+// Create html reservation row
 function createReservationRow(reservation) {
   return `<tr class="inst${reservation.installationId} fac${
     reservation.facultyId
@@ -143,7 +148,7 @@ function filterFaculty() {
   }
 }
 
-// Reserva search
+// AJAX - Reserva search
 $("#reservationsSearchForm").on("submit", (e) => {
   e.preventDefault();
 
