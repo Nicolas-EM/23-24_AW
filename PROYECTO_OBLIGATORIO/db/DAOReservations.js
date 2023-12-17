@@ -84,7 +84,6 @@ class DAOReservations {
         if (err) {
           callback(err);
         } else {
-          console.log("rows de la bd: ", rows);
           if (rows.length === 0) {
             callback(null, null); // No reservation found with the given id
           } else {
@@ -115,7 +114,6 @@ class DAOReservations {
       [`%${query}%`, `%${query}%`, `%${query}%`, startDate, endDate],
       (err, rows) => {
         if (err) {
-          console.log(err);
           callback(err);
         } else {
           callback(null, rows);
@@ -199,6 +197,7 @@ class DAOReservations {
       }
     );
   }
+
   checkUserTimeSlots(day, instid, userid, callback) {
     const query = `
       SELECT 

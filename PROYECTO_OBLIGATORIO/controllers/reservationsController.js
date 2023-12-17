@@ -81,17 +81,14 @@ class reservationsController {
               next(err);
             } else {
               if (reservation) {
-                console.log("reservation to delete: ", reservation);
                 daoReservations.deleteReservation(reservation.id, (err) => {
                   if (err) {
                     next(err);
                   } else {
-                    console.log("reservation deleted");
                     daoReservations.getNextInQueue(reservation.instid, (err, nextInQueue) => {
                       if (err) {
                         next(err);
                       } else {
-                        console.log("result of getNextInQueue: ", nextInQueue);
                         if (nextInQueue) {
                           daoReservations.deleteFromQueue(nextInQueue.id, (err) => {
                             if (err) {
@@ -101,8 +98,6 @@ class reservationsController {
                                 daoMessages.createNewMessage(1, nextInQueue.userid, `Your reservation has been confirmed. You are no longer on the waiting list`, (err) => {
                                   if (err)
                                     next(err);
-                                  else
-                                    console.log("Message send");
                                 });
                               });
                             }
@@ -152,7 +147,6 @@ class reservationsController {
         userid: req.session.userId,
         instid: req.body.installationId,
       };
-      console.log("esta es la reserva para poner en cola: ", reservation);
       daoReservations.checkUserReservation(reservation, (err, result) => {
         if (err) {
           next(err);
@@ -245,7 +239,6 @@ class reservationsController {
                     next(err);
                   } else {
                     const times = {};
-                    console.log(timeSlots, userTimeSlots);
                     for (let i = 0; i < timeSlots.length; i++) {
                       for (let j = 0; j < userTimeSlots.length; j++) {
                         if (

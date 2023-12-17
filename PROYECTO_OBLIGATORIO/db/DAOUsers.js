@@ -103,7 +103,6 @@ class DAOUsers {
   }
 
   updateUser(user, callback) {
-    console.log(user.password);
     this.pool.query(
       "UPDATE ucm_aw_riu_usu_users SET name = ?, surname = ?, email = ?, password = ? WHERE id = ?",
       [

@@ -99,17 +99,14 @@ app.get("/login", (req, res) => {
 
     daoFaculties.getFaculties((err, faculties) => {
       if (err) {
-        console.error(err);
         res.status(500).send("Internal Server Error");
       } else {
         daoFaculties.getGrades((err, grades) => {
           if (err) {
-            console.error(err);
             res.status(500).send("Internal Server Error");
           } else {
             daoFaculties.getGroups((err, groups) => {
               if (err) {
-                console.error(err);
                 res.status(500).send("Internal Server Error");
               } else {
                 res.render("login", { csrfToken: req.csrfToken(), faculties, grades, groups });

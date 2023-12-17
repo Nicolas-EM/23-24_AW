@@ -52,7 +52,6 @@ function getFacultyNameFromId(id) {
 }
 
 function createUserRow(user) {
-    console.log(user);
     return `<tr>
                 <td class="align-middle">${user.name}</td>
                 <td class="align-middle">${user.surname}</td>

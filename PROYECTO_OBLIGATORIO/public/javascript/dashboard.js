@@ -108,8 +108,6 @@ function performSearch() {
   const type = $("#typeFilter").val();
   const minCapacity = $("#capacityFiler").val();
 
-  console.log(query, faculty, type, minCapacity);
-
   if (query === "" && faculty === "" && type === "" && minCapacity === 0) {
     $("#installations").empty();
     getInstallations();
@@ -130,7 +128,6 @@ function performSearch() {
         _csrf,
       },
       success: function (data) {
-        console.log(data);
         $("#installations").empty();
         for (let x in data) {
           const inst = data[x];
@@ -156,30 +153,24 @@ $("#searchForm").on("submit", (event) => {
 });
 
 // Reservation calendar - creation
-$("#calendar").daterangepicker(
-  {
-    singleDatePicker: true,
-    autoUpdateInput: false,
-    isInvalidDate: function (date) {
-      const today = new Date();
-      const maxDate = new Date();
-      maxDate.setDate(maxDate.getDate() + 7);
-      if (date < today || date > maxDate) return true;
-      else {
-        return false;
-      }
-    },
-    minDate: new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000),
-  },
-  function (start) {
-    const startDate = start.format("YYYY-MM-DD");
-
-    $("#calendar").attr("placeholder", start.format("YYYY-MM-DD"));
-    $("#calendar").attr("value", start.format("YYYY-MM-DD"));
-    $("#startDate").attr("value", startDate);
-    // $('#endDate').attr("value", endDate);
-  }
-);
+$(function() {
+  $("#calendar").daterangepicker(
+    {
+      singleDatePicker: true,
+      autoUpdateInput: false,
+      isInvalidDate: function (date) {
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setDate(maxDate.getDate() + 7);
+        if (date < today || date > maxDate) return true;
+        else {
+          return false;
+        }
+      },
+      minDate: new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000),
+    }
+  );
+});
 
 // Reservation calendar - on apply date
 $("#calendar").on("apply.daterangepicker", function (ev, picker) {
@@ -188,15 +179,17 @@ $("#calendar").on("apply.daterangepicker", function (ev, picker) {
 
   //get day of picker
   let checkDate = picker.startDate.format("YYYY-MM-DD");
+
+  $("#calendar").attr("placeholder", checkDate);
+  $("#calendar").attr("value", checkDate);
+  $("#startDate").attr("value", checkDate);
   
   //ajax call to check available hours:
   $.ajax({
     method: "GET",
     url: `/reservations/check/${$("#installationId").val()}/${checkDate}`,
-    async: false,
     success: function (data) {
       if (data) {
-        console.log("los datos para el dia: ", checkDate, "son : ", data);
         const hours = [
           "9",
           "10",
@@ -258,42 +251,28 @@ $("#hourBtns").on("click", "button", function () {
   console.log("start date: ", newStartDate, "end date: ", endDate);
   $("#startDate").attr("value", newStartDate);
   $("#endDate").attr("value", endDate);
-  if ($(this).hasClass("btn-warning")) {
-    $.ajax({
-      method: "POST",
-      url: "/reservations/addToQueue",
-      data: {
-        installationId: $("#installationId").val(),
-        startDate: $("#startDate").val(),
-        endDate: $("#endDate").val(),
-        _csrf: $("#_csrf").val(),
-      },
-      success: function (data) {
-        $("#toastMsg").html(data);
-        toast.show();
-        $("#reservationModal").modal("hide");
-      },
-      error: function (jqXHR) {
-        $("#toastMsg").html(jqXHR.responseText);
-        toast.show();
-      },
-    });
-  } else {
-    $("#calendar").attr("value", "");
-    $("#calendar").attr("value", newStartDate + " to " + endDate);
-  }
+
+  if ($(this).hasClass("btn-warning"))
+    $("#reservationType").attr("value", "wait");
+  else
+    $("#reservationType").attr("value", "new");
+  
+  $("#calendar").attr("value", "");
+  $("#calendar").attr("value", newStartDate + " to " + endDate);
 });
 
-// Clear modal
+// Update shared modal
 $("#reservationModal").on("show.bs.modal", (event) => {
-  $("#calendar").attr("value", "");
-  $("#calendar").attr("placeholder", "Select a date");
-  $("#hourBtns").empty();
-
-  // creo que es esto pero no estoy seguro
   const installationId = $(event.relatedTarget).data("bs-installationid");
 
   $("#installationId").attr("value", installationId);
+});
+
+// Clear modal
+$("#reservationModal").on("hide.bs.modal", (event) => {
+  $("#calendar").attr("value", "");
+  $("#calendar").attr("placeholder", "Select a date");
+  $("#hourBtns").empty();
 });
 
 // AJAX - new reservation event
@@ -308,33 +287,50 @@ function newReservation() {
   const installationId = $("#installationId").val();
   const startDate = $("#startDate").val();
   const endDate = $("#endDate").val();
-  console.log(
-    "intentando reserva con datos: ",
-    installationId,
-    startDate,
-    endDate,
-    _csrf
-  );
-  $.ajax({
-    method: "POST",
-    url: "/reservations/create",
-    data: {
-      installationId,
-      startDate,
-      endDate,
-      _csrf,
-    },
-    // cache: false, // Disable cache PARA QUE ME FUNCIONE LA PETICION DE LAS NARICES
-    success: function (data) {
-      $("#toastMsg").html(data);
-      toast.show();
-      // Close the modal
-      $("#reservationModal").modal("hide");
 
-    },
-    error: function (jqXHR) {
-      $("#toastMsg").html(jqXHR.responseText);
-      toast.show();
-    },
-  });
+  // Add to queue or new reservation
+  if ($("#reservationType").val() === "wait") {
+    $.ajax({
+      method: "POST",
+      url: "/reservations/addToQueue",
+      data: {
+        installationId,
+        startDate,
+        endDate,
+        _csrf
+      },
+      success: function (data) {
+        $("#toastMsg").html(data);
+        toast.show();
+        $("#reservationModal").modal("hide");
+      },
+      error: function (jqXHR) {
+        $("#toastMsg").html(jqXHR.responseText);
+        toast.show();
+      },
+    });
+  } else {
+    $.ajax({
+      method: "POST",
+      url: "/reservations/create",
+      data: {
+        installationId,
+        startDate,
+        endDate,
+        _csrf,
+      },
+      // cache: false, // Disable cache PARA QUE ME FUNCIONE LA PETICION DE LAS NARICES
+      success: function (data) {
+        $("#toastMsg").html(data);
+        toast.show();
+        // Close the modal
+        $("#reservationModal").modal("hide");
+  
+      },
+      error: function (jqXHR) {
+        $("#toastMsg").html(jqXHR.responseText);
+        toast.show();
+      },
+    });
+  }
 }

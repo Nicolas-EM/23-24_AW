@@ -35,7 +35,6 @@ class userController {
 
     register(req, res, next) {
         const errors = validationResult(req);
-        console.log("errores: ", errors);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
