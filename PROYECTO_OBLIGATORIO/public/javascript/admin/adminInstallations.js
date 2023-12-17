@@ -24,7 +24,7 @@ function getInstallations() {
 
 function createInstallationRow(installation) {
     return `<tr id="instRow-${installation.id}">
-                <td scope="row">${installation.name}</td>
+                <td>${installation.name}</td>
                 <td>${installation.facultyId}</td>
                 <td>${installation.capacity}</td>
                 <td>${installation.type === 0 ? "Collective" : "Individual"}</td>

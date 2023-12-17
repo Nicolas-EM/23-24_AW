@@ -32,8 +32,8 @@ Proyecto Obligatorio AW
                 <label for="imageUpload">
                   <img src="<%- user.profileImage !== null ? `users/image/${user.id}` : 'images/avatar.png' %>" alt="avatar" id="userImg" class="avatar rounded-circle img-fluid">
                 </label>
-                <h5 class="my-3">
-                  <p id="nombreUsuarioField"><%= user.name %></p>
+                <h5 id="nombreUsuarioField" class="my-3">
+                  <%= user.name %>
                 </h5>
               </div>
             </div>
@@ -152,13 +152,12 @@ Proyecto Obligatorio AW
             <div class="card h-100 w-100">
               <div class="card-body text-center">
                 <h5 class="my-3">
-                  <p id="nombreUsuarioField">You don't have any reservations yet.</p>
+                  You don't have any reservations yet.
                 </h5>
               </div>
             </div>
           </div>
-          <% } %>
-
+          <% } else { %>
           <div class="row row-cols-1 justify-content-center my-2">
             <div class="col col-sm-4 text-center">
               <label for="reservationTypeFilter" class="form-label mt-1">Filter Reservations:</label>
@@ -172,6 +171,7 @@ Proyecto Obligatorio AW
                 </select>
             </div>
           </div>
+          <% } %>
           <div id="reservationsCards" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-2">
             <% queue.forEach(q => { %>
               <div class="col queue">

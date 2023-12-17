@@ -4,6 +4,7 @@
 
 .sideBarCol .nav-link {
   color: var(--bs-white);
+  cursor: pointer;
 }
 
 .sideBarCol .nav-pills {

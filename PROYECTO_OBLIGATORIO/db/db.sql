@@ -166,9 +166,9 @@ CREATE TABLE `ucm_aw_riu_usu_users` (
 
 INSERT INTO `ucm_aw_riu_usu_users` (`id`, `name`, `surname`, `facultyId`, `grade`, `ugroup`, `email`, `password`, `profileImage`, `isAdmin`, `isValidated`) VALUES
 (1, 'System', '', 1, 'Grade 1', 'Group 1', 'system@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 1, 1),
-(2, 'Normal', 'User', 1, 'Grade 1', 'Group 1', 'user@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 0, 1),
+(2, 'Normal', 'User', 1, 'Grade 1', 'Group 1', 'user@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 0, 0),
 (3, 'Admin', 'User', 2, 'Grade 2', 'Group 2', 'admin@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 1, 1),
-(4, 'Jesus', 'Caceres', 3, 'Grade 3', 'Group 3', 'jefecaceres@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 0, 0),
+(4, 'Jesus', 'Caceres', 3, 'Grade 3', 'Group 3', 'jefecaceres@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 0, 1),
 (5, 'Other', 'User', 1, 'Grade 3', 'Group 3', 'other@ucm.es', '$2b$10$8/kCVjZ8pJsleqFs0Qah4e9eOMPycwOC6Jfvc3k.biMtzvpC5iAnS', NULL, 0, 1);
 
 INSERT INTO `ucm_aw_riu_res_reservations` (`id`, `dateini`, `dateend`, `datecreation`, `userid`, `instid`) VALUES

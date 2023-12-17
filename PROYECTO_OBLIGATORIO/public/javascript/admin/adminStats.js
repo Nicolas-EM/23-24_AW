@@ -41,7 +41,7 @@ function getStatsByFaculty() {
 
 function createStatRow(obj){
     return `<tr>
-                <td scope="row">${obj.name}</td>
+                <td>${obj.name}</td>
                 <td>${obj.ReservationCount}</td>
                 <td>${new Date(obj.EarliestReservation).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' })}</td>
                 <td>${new Date(obj.LatestReservation).toLocaleDateString('es-ES', {year: 'numeric', month: '2-digit', day: '2-digit' })}</td>

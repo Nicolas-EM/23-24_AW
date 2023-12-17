@@ -16,7 +16,7 @@ $(".collapse").on('hide.bs.collapse', e => {
         .addClass('rotated');
 });
 
-$('button[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
+$('div[data-bs-toggle="pill"]').on('shown.bs.tab', event => {
     if(event.target.id === "pills-users-tab"){
         createUserFacultyFilters();
     }

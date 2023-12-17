@@ -24,7 +24,7 @@ function getFaculties() {
 
 function createFacultyRow(faculty) {
   return `<tr id="fRow-${faculty.id}">
-                <td scope="row">${faculty.id}</td>
+                <td>${faculty.id}</td>
                 <td>${faculty.name}</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFacultyModal" data-bs-facultyid="${faculty.id}" data-bs-facultyname="${faculty.name}">
